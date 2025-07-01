@@ -1,0 +1,25 @@
+# GitHub Pages configuration for Elemental Publishing
+title: "Elemental Publishing - Something Different"
+description: "Atmospheric music for international audiences. Spiderfox Company and direct artist sales."
+url: "https://yourusername.github.io"  # Replace with your actual GitHub username
+baseurl: ""
+
+# SEO and social media
+author: "Elemental Publishing"
+twitter:
+  username: elementalpublishing
+  card: summary_large_image
+
+# GitHub Pages settings
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Exclude files from processing
+exclude:
+  - README.md
+  - .gitignore
+  - .github/
+
+# Enable GitHub Pages features
+github: [metadata]
