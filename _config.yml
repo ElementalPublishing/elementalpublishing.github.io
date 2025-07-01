@@ -1,7 +1,7 @@
 # GitHub Pages configuration for Elemental Publishing
 title: "Elemental Publishing - Something Different"
 description: "Atmospheric music for international audiences. Spiderfox Company and direct artist sales."
-url: "https://yourusername.github.io"  # Replace with your actual GitHub username
+url: "https://elementalpublishing.github.io"  # Will change to custom domain when ready
 baseurl: ""
 
 # SEO and social media
