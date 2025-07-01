@@ -859,6 +859,113 @@ section {
     line-height: 1.5;
 }
 
+/* The Chaos Button - Maximum Mystery */
+.chaos-section {
+    padding: 4rem 0;
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.chaos-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+    animation: float 20s infinite linear;
+}
+
+@keyframes float {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-100px) rotate(360deg); }
+}
+
+.chaos-container {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.chaos-button {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+    border: none;
+    padding: 20px 40px;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Inter', sans-serif;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 
+        0 8px 25px rgba(231, 76, 60, 0.3),
+        0 0 0 3px rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    text-transform: lowercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.chaos-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.chaos-button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 
+        0 15px 35px rgba(231, 76, 60, 0.4),
+        0 0 0 3px rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, #e74c3c, #e67e22);
+}
+
+.chaos-button:hover::before {
+    left: 100%;
+}
+
+.chaos-button:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+/* Add some mystery particles */
+.chaos-button::after {
+    content: '?';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #e74c3c;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.chaos-button:hover::after {
+    opacity: 1;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .hamburger {
