@@ -61,8 +61,8 @@
         })();
     </script>
     
-    <!-- PayPal Checkout SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AWWCzMohcrFfVJkA2V02yU1GjPZ7cetRnXNF-_OVlJZx_yHZICTQmeOhqHgDUzyjIZYhrwdevxy65_6y&currency=USD"></script>
+    <!-- PayPal Checkout SDK - Production Mode -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AWWCzMohcrFfVJkA2V02yU1GjPZ7cetRnXNF-_OVlJZx_yHZICTQmeOhqHgDUzyjIZYhrwdevxy65_6y&currency=USD&intent=capture&enable-funding=venmo,paylater"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -469,7 +469,13 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded, checking PayPal...');
             
-            // Small delay to ensure PayPal SDK is fully loaded
+            // Ensure fallback buttons are visible immediately
+            document.querySelectorAll('.fallback-buy-btn').forEach(btn => {
+                btn.style.display = 'inline-block';
+                console.log('Made fallback button visible on load:', btn);
+            });
+            
+            // Try PayPal integration with timeout
             setTimeout(function() {
                 console.log('Checking PayPal SDK...');
                 console.log('PayPal object:', typeof paypal);
@@ -489,14 +495,18 @@
                 } else {
                     console.error('PayPal SDK not loaded. Using fallback buttons.');
                     console.log('Fallback buttons should be visible');
-                    
-                    // Make sure fallback buttons are visible
-                    document.querySelectorAll('.fallback-buy-btn').forEach(btn => {
-                        btn.style.display = 'inline-block';
-                        console.log('Made fallback button visible:', btn);
-                    });
                 }
-            }, 2000);
+            }, 3000);
+            
+            // Backup timeout - ensure fallback buttons work after 10 seconds
+            setTimeout(function() {
+                document.querySelectorAll('.fallback-buy-btn').forEach(btn => {
+                    if (btn.style.display === 'none') {
+                        console.log('PayPal may have failed, re-showing fallback button');
+                        btn.style.display = 'inline-block';
+                    }
+                });
+            }, 10000);
         });
     </script>
 </body>

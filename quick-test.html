@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Button Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            min-height: 100px;
+        }
+        .paypal-test {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Quick Button Test</h1>
+        <p>Let's test if the basic functions work:</p>
+        
+        <div class="paypal-test">
+            <h3>1. Test Fallback Buttons (Should Work):</h3>
+            <button class="btn btn-secondary" onclick="testBuyAlbum('type1')">Test Type 1 Fallback</button>
+            <button class="btn btn-secondary" onclick="testBuyAlbum('striptape')">Test Strip Tape Fallback</button>
+            <button class="btn btn-secondary" onclick="testBuyAlbum('newmatrix')">Test New Matrix Fallback</button>
+        </div>
+        
+        <div class="paypal-test">
+            <h3>2. Test PayPal SDK Loading:</h3>
+            <button class="btn btn-primary" onclick="checkPayPal()">Check PayPal Status</button>
+            <div id="paypal-container" style="margin-top: 15px; min-height: 50px; border: 1px dashed #ccc; padding: 10px;">
+                PayPal button will appear here if SDK loads...
+            </div>
+        </div>
+        
+        <div id="output">
+            <strong>Test Output:</strong><br>
+        </div>
+    </div>
+
+    <!-- PayPal SDK with enhanced parameters -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AWWCzMohcrFfVJkA2V02yU1GjPZ7cetRnXNF-_OVlJZx_yHZICTQmeOhqHgDUzyjIZYhrwdevxy65_6y&currency=USD&intent=capture&enable-funding=venmo,paylater"></script>
+
+    <script>
+        const albumData = {
+            'type1': { name: 'Type 1', price: '15.00', thankYouPage: 'thank-you-type1.html' },
+            'striptape': { name: 'Strip Tape', price: '15.00', thankYouPage: 'thank-you-striptape.html' },
+            'newmatrix': { name: 'New Matrix', price: '15.00', thankYouPage: 'thank-you-newmatrix.html' }
+        };
+
+        function log(message) {
+            console.log(message);
+            const output = document.getElementById('output');
+            output.innerHTML += '<div style="margin: 5px 0; padding: 5px; background: #e9ecef; border-radius: 3px;">' + message + '</div>';
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function testBuyAlbum(albumKey) {
+            log('🔵 Testing fallback button for: ' + albumKey);
+            const album = albumData[albumKey];
+            
+            if (!album) {
+                log('❌ ERROR: Album not found for key: ' + albumKey);
+                return;
+            }
+            
+            log('✅ Album data found: ' + album.name);
+            const url = album.thankYouPage + '?payment=fallback';
+            log('✅ Would redirect to: ' + url);
+            
+            // For testing, show in new tab instead of redirecting
+            window.open(url, '_blank');
+            log('✅ Fallback button test PASSED - opened in new tab');
+        }
+
+        function checkPayPal() {
+            log('🔍 Checking PayPal SDK status...');
+            log('PayPal object type: ' + typeof paypal);
+            log('PayPal object exists: ' + (typeof paypal !== 'undefined'));
+            
+            if (typeof paypal !== 'undefined') {
+                log('✅ PayPal SDK loaded successfully!');
+                createTestPayPalButton();
+            } else {
+                log('❌ PayPal SDK not loaded');
+            }
+        }
+
+        function createTestPayPalButton() {
+            log('🔵 Creating test PayPal button...');
+            
+            try {
+                paypal.Buttons({
+                    style: {
+                        layout: 'vertical',
+                        color: 'blue',
+                        shape: 'rect',
+                        label: 'pay'
+                    },
+                    createOrder: function(data, actions) {
+                        log('✅ PayPal createOrder called');
+                        return actions.order.create({
+                            purchase_units: [{
+                                description: 'Test Album - $1.00',
+                                amount: {
+                                    currency_code: 'USD',
+                                    value: '1.00'
+                                }
+                            }]
+                        });
+                    },
+                    onApprove: function(data, actions) {
+                        log('✅ PayPal onApprove called - Order ID: ' + data.orderID);
+                        return actions.order.capture().then(function(orderData) {
+                            log('✅ Payment completed! Order: ' + orderData.id);
+                            alert('Test payment successful! Order ID: ' + orderData.id);
+                        });
+                    },
+                    onError: function(err) {
+                        log('❌ PayPal error: ' + err);
+                    },
+                    onCancel: function() {
+                        log('ℹ️ Payment cancelled');
+                    }
+                }).render('#paypal-container').then(function() {
+                    log('✅ PayPal button rendered successfully!');
+                }).catch(function(err) {
+                    log('❌ PayPal render error: ' + err);
+                });
+            } catch (error) {
+                log('❌ Error creating PayPal button: ' + error);
+            }
+        }
+
+        // Auto-check PayPal when page loads
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                log('🚀 Page loaded, auto-checking PayPal...');
+                checkPayPal();
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
