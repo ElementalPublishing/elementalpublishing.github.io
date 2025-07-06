@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Test</title>
+    <style>
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        #debug {
+            margin: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Button Test</h1>
+    
+    <button class="btn btn-secondary" onclick="testBuyAlbum('type1')">Test Type 1 Button</button>
+    <button class="btn btn-secondary" onclick="testBuyAlbum('striptape')">Test Strip Tape Button</button>
+    <button class="btn btn-secondary" onclick="testBuyAlbum('newmatrix')">Test New Matrix Button</button>
+    
+    <div id="debug">
+        <h3>Debug Output:</h3>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        // Copy the album data from index.html
+        const albumData = {
+            'type1': {
+                name: 'Type 1',
+                price: '15.00',
+                downloadPage: 'download-type1.html',
+                thankYouPage: 'thank-you-type1.html'
+            },
+            'striptape': {
+                name: 'Strip Tape', 
+                price: '15.00',
+                downloadPage: 'download-striptape.html',
+                thankYouPage: 'thank-you-striptape.html'
+            },
+            'newmatrix': {
+                name: 'New Matrix',
+                price: '15.00', 
+                downloadPage: 'download-newmatrix.html',
+                thankYouPage: 'thank-you-newmatrix.html'
+            }
+        };
+
+        function log(message) {
+            console.log(message);
+            document.getElementById('output').innerHTML += '<p>' + message + '</p>';
+        }
+
+        // Copy the buyAlbum function from index.html
+        function testBuyAlbum(albumKey) {
+            log('testBuyAlbum called with: ' + albumKey);
+            const album = albumData[albumKey];
+            log('Album data: ' + JSON.stringify(album));
+            
+            if (!album) {
+                log('ERROR: Album not found for key: ' + albumKey);
+                alert('Album not found: ' + albumKey);
+                return;
+            }
+            
+            // Track purchase intent (skip for test)
+            log('Purchase intent tracked for: ' + album.name);
+            
+            // Redirect to thank-you page for immediate download  
+            const url = album.thankYouPage + '?payment=fallback';
+            log('Would redirect to: ' + url);
+            
+            // For testing, don't actually redirect
+            alert('Test successful! Would redirect to: ' + url);
+        }
+    </script>
+</body>
+</html>

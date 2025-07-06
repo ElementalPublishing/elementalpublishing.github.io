@@ -133,7 +133,7 @@
                             <button class="btn btn-small btn-primary" onclick="trackAlbumView('Type 1'); showAlbumPreview('type-1')">Preview</button>
                             <div id="paypal-button-type1" class="paypal-button-container">
                                 <!-- Fallback button while PayPal loads -->
-                                <button class="btn btn-small btn-secondary fallback-buy-btn" onclick="buyAlbum('type1'); console.log('Button clicked!')">Buy Direct - $15</button>
+                                <button class="btn btn-small btn-secondary fallback-buy-btn" onclick="buyAlbum('type1')">Buy Direct - $15</button>
                             </div>
                         </div>
                     </div>
@@ -374,6 +374,7 @@
 
         // Create PayPal buttons for each album
         function createPayPalButton(albumKey, containerId) {
+            console.log('Creating PayPal button for:', albumKey, 'in container:', containerId);
             const album = albumData[albumKey];
             const container = document.getElementById(containerId);
             
@@ -381,6 +382,13 @@
                 console.error('Container not found:', containerId);
                 return;
             }
+            
+            if (!album) {
+                console.error('Album data not found for:', albumKey);
+                return;
+            }
+            
+            console.log('Container found, album data:', album);
             
             paypal.Buttons({
                 style: {
@@ -391,6 +399,7 @@
                     height: 35
                 },
                 createOrder: function(data, actions) {
+                    console.log('PayPal createOrder called for:', album.name);
                     // Track purchase intent
                     trackPurchaseIntent(album.name, parseFloat(album.price));
                     
@@ -405,6 +414,7 @@
                     });
                 },
                 onApprove: function(data, actions) {
+                    console.log('PayPal onApprove called');
                     return actions.order.capture().then(function(orderData) {
                         // Payment successful!
                         console.log('Payment completed:', orderData);
@@ -424,6 +434,7 @@
                         });
                         
                         // Redirect to thank-you page for immediate download
+                        console.log('Redirecting to:', album.thankYouPage + '?payment=success&order=' + orderData.id);
                         window.location.href = album.thankYouPage + '?payment=success&order=' + orderData.id;
                     });
                 },
@@ -437,13 +448,20 @@
                 }
             }).render('#' + containerId).then(function() {
                 // PayPal button rendered successfully, hide fallback
+                console.log('PayPal button rendered successfully in:', containerId);
                 const fallbackBtn = container.querySelector('.fallback-buy-btn');
                 if (fallbackBtn) {
                     fallbackBtn.style.display = 'none';
+                    console.log('Hid fallback button for:', containerId);
                 }
             }).catch(function(err) {
-                console.error('PayPal render error:', err);
+                console.error('PayPal render error for', containerId, ':', err);
                 // Keep fallback button visible if PayPal fails
+                const fallbackBtn = container.querySelector('.fallback-buy-btn');
+                if (fallbackBtn) {
+                    fallbackBtn.style.display = 'inline-block';
+                    console.log('Kept fallback button visible due to render error');
+                }
             });
         }
 
@@ -455,21 +473,30 @@
             setTimeout(function() {
                 console.log('Checking PayPal SDK...');
                 console.log('PayPal object:', typeof paypal);
+                console.log('Window.paypal:', window.paypal);
                 
-                if (typeof paypal !== 'undefined') {
-                    console.log('PayPal SDK loaded, creating buttons...');
+                if (typeof paypal !== 'undefined' && paypal) {
+                    console.log('PayPal SDK loaded successfully, creating buttons...');
                     try {
                         createPayPalButton('type1', 'paypal-button-type1');
                         createPayPalButton('striptape', 'paypal-button-striptape'); 
                         createPayPalButton('newmatrix', 'paypal-button-newmatrix');
+                        console.log('All PayPal buttons created successfully');
                     } catch (error) {
                         console.error('Error creating PayPal buttons:', error);
+                        console.log('Keeping fallback buttons visible due to error');
                     }
                 } else {
                     console.error('PayPal SDK not loaded. Using fallback buttons.');
                     console.log('Fallback buttons should be visible');
+                    
+                    // Make sure fallback buttons are visible
+                    document.querySelectorAll('.fallback-buy-btn').forEach(btn => {
+                        btn.style.display = 'inline-block';
+                        console.log('Made fallback button visible:', btn);
+                    });
                 }
-            }, 1000);
+            }, 2000);
         });
     </script>
 </body>
