@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Strip Tape - Elemental Publishing</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L1PF6HNX9Z"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-L1PF6HNX9Z');
+    </script>
+    
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("4FcXDYyUoqNqCbRTK");
+        })();
+    </script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/images/logos/elementalproject2art.png" alt="Elemental Publishing Logo" class="logo-img">
+                <h2>Elemental Publishing</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#music" class="nav-link">Music</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Download Section -->
+    <section class="download-section">
+        <div class="container">
+            <div class="download-content">
+                <div class="album-info-large">
+                    <img src="assets/images/covers/striptape/600x600/cover_600x600.jpg" alt="Strip Tape Album Cover" class="download-album-art">
+                    <div class="download-details">
+                        <h1>Strip Tape</h1>
+                        <p class="album-subtitle">10 Tracks • High Quality</p>
+                        <p class="thank-you">Thanks for your purchase!</p>
+                    </div>
+                </div>
+                
+                <div class="download-form-container">
+                    <h2>Get Your Download</h2>
+                    <p>Enter your email below to receive instant access to Strip Tape in high quality MP3 format.</p>
+                    
+                    <form class="download-form" id="downloadForm" onsubmit="sendDownloadEmail(event)">
+                        <input type="hidden" name="album" value="Strip Tape">
+                        <input type="hidden" name="_subject" value="Strip Tape Download Request">
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-download">Send Download Link</button>
+                    </form>
+                    
+                    <script>
+                        function sendDownloadEmail(event) {
+                            event.preventDefault();
+                            
+                            const email = document.getElementById('email').value;
+                            const albumName = "Strip Tape";
+                            const downloadLink = "https://elementalpublishing.github.io/website/assets/albums/striptape/ELEMENTALPUBLISHING_STRIPTAPE_MASTERS_V1.zip";
+                            
+                            // Send email via EmailJS
+                            emailjs.send("service_vmorz5j", "template_tx4flvd", {
+                                to_email: email,
+                                album_name: albumName,
+                                download_link: downloadLink,
+                                customer_name: "Music Fan"
+                            }).then(function(response) {
+                                console.log('Email sent successfully:', response);
+                                // Redirect to thank you page
+                                window.location.href = 'thank-you-striptape.html';
+                            }, function(error) {
+                                console.log('Email failed:', error);
+                                // Still redirect to thank you page even if email fails
+                                window.location.href = 'thank-you-striptape.html';
+                            });
+                        }
+                    </script>
+                    
+                    <p class="download-note">You'll receive an email with download links within seconds. Check your spam folder if you don't see it.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Elemental Publishing</h3>
+                    <p>Music direct from the artist.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Elemental Publishing. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

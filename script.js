@@ -72,6 +72,46 @@ if (emailForm) {
     });
 }
 
+// Email Signup Form Handling (Main Page)
+const emailSignupForm = document.getElementById('emailSignupForm');
+if (emailSignupForm) {
+    emailSignupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('signup-email').value;
+        
+        // Basic email validation
+        if (!isValidEmail(email)) {
+            alert('Please enter a valid email address.');
+            return;
+        }
+        
+        // Send signup email via EmailJS
+        emailjs.send("service_vmorz5j", "template_tx4flvd", {
+            to_email: email,
+            album_name: "Mailing List Signup",
+            download_link: "Welcome to Elemental Publishing!",
+            customer_name: "New Subscriber"
+        }).then(function(response) {
+            console.log('Signup email sent successfully:', response);
+            // Track email signup conversion
+            if (typeof gtag !== 'undefined') {
+                trackEmailSignup('main_page');
+            }
+            alert('🎵 Welcome to the list! Check your email for exclusive content.');
+            document.getElementById('signup-email').value = '';
+        }, function(error) {
+            console.log('Signup email failed:', error);
+            // Still track the signup attempt
+            if (typeof gtag !== 'undefined') {
+                trackEmailSignup('main_page');
+            }
+            alert('Thanks for signing up! You\'re on the list.');
+            document.getElementById('signup-email').value = '';
+        });
+    });
+}
+
 // Contact Form Handling
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {
@@ -133,14 +173,89 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Music Player Placeholder Functions
-// These would be replaced with actual music player integration
-function playPreview(albumId) {
-    console.log(`Playing preview for album ${albumId}`);
-    // Here you would integrate with your audio player
-    // Could use HTML5 audio, Spotify Web API, SoundCloud Widget, etc.
-    alert('Music preview feature coming soon! For now, check out the streaming links.');
+// SoundCloud Album Data
+const albumData = {
+    'type-1': {
+        title: 'Type 1',
+        soundcloudUrl: 'https://soundcloud.com/elementalpublishing/sets/spiderfox-type-one', // Replace with actual URL
+        embedUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1789617261&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true'
+    },
+    'strip-tape': {
+        title: 'Strip Tape',
+        soundcloudUrl: 'https://soundcloud.com/elementalpublishing/sets/strip-tape', // Replace with actual URL
+        embedUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1806004999&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true'
+    },
+    'new-matrix': {
+        title: 'New Matrix',
+        soundcloudUrl: 'https://soundcloud.com/elementalpublishing/sets/new-matrix', // Replace with actual URL
+        embedUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1848997065&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true'
+    }
+};
+
+// Create and show SoundCloud player modal
+function showAlbumPreview(albumKey) {
+    const album = albumData[albumKey];
+    if (!album) {
+        console.error('Album not found:', albumKey);
+        return;
+    }
+
+    // Create modal overlay
+    const modal = document.createElement('div');
+    modal.className = 'preview-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Preview: ${album.title}</h3>
+                <button class="close-modal" onclick="closePreviewModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <iframe 
+                    width="100%" 
+                    height="300" 
+                    scrolling="no" 
+                    frameborder="no" 
+                    allow="autoplay" 
+                    src="${album.embedUrl}">
+                </iframe>
+                <div class="modal-actions">
+                    <a href="${album.soundcloudUrl}" target="_blank" class="btn btn-primary">
+                        Full Playlist on SoundCloud
+                    </a>
+                    <a href="https://www.paypal.com/paypalme/elementalpublishing/15" target="_blank" class="btn btn-secondary">
+                        Buy Direct - $15
+                    </a>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
 }
+
+// Close preview modal
+function closePreviewModal() {
+    const modal = document.querySelector('.preview-modal');
+    if (modal) {
+        modal.remove();
+        document.body.style.overflow = 'auto'; // Re-enable scrolling
+    }
+}
+
+// Handle escape key to close modal
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closePreviewModal();
+    }
+});
+
+// Click outside modal to close
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('preview-modal')) {
+        closePreviewModal();
+    }
+});
 
 function purchaseAlbum(albumId, price) {
     console.log(`Purchasing album ${albumId} for $${price}`);
@@ -173,14 +288,22 @@ function purchaseAlbum(albumId, price) {
 
 // Add click handlers to album buttons
 document.addEventListener('DOMContentLoaded', function() {
-    // Listen button handlers
-    document.querySelectorAll('.album-card .btn-primary').forEach((button, index) => {
-        button.addEventListener('click', () => playPreview(index + 1));
+    // Preview button handlers - updated to use album keys
+    const previewButtons = document.querySelectorAll('.album-card .btn-primary');
+    const albumKeys = ['type-1', 'strip-tape', 'new-matrix'];
+    
+    previewButtons.forEach((button, index) => {
+        button.addEventListener('click', () => {
+            if (albumKeys[index]) {
+                showAlbumPreview(albumKeys[index]);
+            }
+        });
     });
     
-    // Buy button handlers
+    // Buy button handlers remain the same since they're now direct PayPal links
     document.querySelectorAll('.album-card .btn-secondary').forEach((button, index) => {
-        button.addEventListener('click', () => purchaseAlbum(index + 1, 10));
+        // These are now handled by direct PayPal links in HTML
+        console.log(`Buy button ${index + 1} ready (handled by PayPal link)`);
     });
 });
 

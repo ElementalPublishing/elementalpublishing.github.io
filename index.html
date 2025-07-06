@@ -11,13 +11,62 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L1PF6HNX9Z"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-L1PF6HNX9Z');
+        
+        // Custom events for music business
+        function trackAlbumView(albumName) {
+            gtag('event', 'album_view', {
+                'album_name': albumName,
+                'content_type': 'album'
+            });
+        }
+        
+        function trackPurchaseIntent(albumName, price) {
+            gtag('event', 'purchase_intent', {
+                'album_name': albumName,
+                'value': price,
+                'currency': 'USD'
+            });
+        }
+        
+        function trackEmailSignup(source) {
+            gtag('event', 'email_signup', {
+                'signup_source': source,
+                'engagement_type': 'email_capture'
+            });
+        }
+        
+        function trackDownload(albumName) {
+            gtag('event', 'download_complete', {
+                'album_name': albumName,
+                'content_type': 'album_download',
+                'value': 15,
+                'currency': 'USD'
+            });
+        }
+    </script>
+    
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("4FcXDYyUoqNqCbRTK");
+        })();
+    </script>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <img src="assets/images/logos/elementalproject2art.png" alt="Elemental Publishing Logo" class="logo-img">
+                <img src="assets/images/logos/elementalproject2art_120x120.jpg" alt="Elemental Publishing Logo" class="logo-img">
                 <h2>Elemental Publishing</h2>
             </div>
             <ul class="nav-menu">
@@ -46,89 +95,95 @@
     <section id="home" class="hero">
         <div class="hero-content">
             <div class="hero-brand">
-                <img src="assets/images/logos/Logo-01.png" alt="Spiderfox Company Logo" class="hero-logo">
                 <div class="hero-text">
                     <h1>Something Different.</h1>
-                    <p class="hero-tagline">Spiderfox Company</p>
+                    <p class="hero-tagline">Elemental Publishing</p>
                 </div>
             </div>
-            <p>Atmospheric beats. International vibes. Producer tools and music.</p>
+            <p>The good stuff is here.</p>
             <div class="hero-buttons">
-                <a href="#music" class="btn btn-primary">Explore Music</a>
+                <a href="#music" class="btn btn-primary">Premium Catalog</a>
                 <a href="#email-signup" class="btn btn-secondary">Get Updates</a>
             </div>
         </div>
         <div class="hero-visual">
-            <img src="assets/images/logos/albumcover1.png" alt="Latest Release" class="hero-album-art">
+            <img src="assets/images/logos/headerpic_800x800.jpg" alt="Latest Release" class="hero-album-art">
         </div>
     </section>
 
     <!-- Music Section -->
     <section id="music" class="music-section">
         <div class="container">
-            <h2>Latest Releases</h2>
-            <p class="section-subtitle">Atmospheric music and producer tools.</p>
+            <h2>Albums</h2>
+            <p class="section-subtitle">Spiderfox Network</p>
             
             <div class="album-grid">
-                <!-- Album 1 - Featured Release -->
+                <!-- Album 1 - Type 1 -->
                 <div class="album-card">
                     <div class="album-cover">
-                        <img src="assets/images/logos/albumcover1.png" alt="Latest Album" class="album-art">
+                        <img src="assets/images/covers/type1/600x600/cover_600x600.jpg" alt="First Album" class="album-art">
                     </div>
                     <div class="album-info">
-                        <h3>Atmospheric Vibes Vol. 1</h3>
-                        <p>10 Tracks • Breakthrough Release</p>
+                        <h3>Type 1</h3>
+                        <p>10 Tracks</p>
                         <div class="album-actions">
-                            <button class="btn btn-small btn-primary">Preview</button>
-                            <button class="btn btn-small btn-secondary">Download</button>
+                            <button class="btn btn-small btn-primary" onclick="trackAlbumView('Type 1')">Preview</button>
+                            <a href="download-type1.html" class="btn btn-small btn-secondary" onclick="trackPurchaseIntent('Type 1', 15)">Test Download Flow</a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Album 2 - Latest EP -->
+                <!-- Album 2 - Strip Tape -->
                 <div class="album-card">
                     <div class="album-cover">
-                        <img src="assets/images/logos/albumcover1.png" alt="Latest EP" class="album-art">
+                        <img src="assets/images/covers/striptape/600x600/cover_600x600.jpg" alt="Second Album" class="album-art">
                     </div>
                     <div class="album-info">
-                        <h3>Rising Sounds EP</h3>
-                        <p>6 Tracks • Latest Drop</p>
+                        <h3>Strip Tape</h3>
+                        <p>10 Tracks</p>
                         <div class="album-actions">
-                            <button class="btn btn-small btn-primary">Preview</button>
-                            <button class="btn btn-small btn-secondary">Download</button>
+                            <button class="btn btn-small btn-primary" onclick="trackAlbumView('Strip Tape')">Preview</button>
+                            <a href="download-striptape.html" class="btn btn-small btn-secondary" onclick="trackPurchaseIntent('Strip Tape', 15)">Test Download Flow</a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Album 3 - Collection -->
+                <!-- Album 3 - New Matrix -->
                 <div class="album-card">
                     <div class="album-cover">
-                        <img src="assets/images/logos/songart.png" alt="Music Collection" class="album-art">
+                        <img src="assets/images/covers/newmatrix/600x600/cover_600x600.jpg" alt="Third Album" class="album-art">
                     </div>
                     <div class="album-info">
-                        <h3>Beat Collection</h3>
-                        <p>Various Tracks • Mixed</p>
+                        <h3>New Matrix</h3>
+                        <p>10 Tracks</p>
                         <div class="album-actions">
-                            <button class="btn btn-small btn-primary">Preview</button>
-                            <button class="btn btn-small btn-secondary">Download</button>
+                            <button class="btn btn-small btn-primary" onclick="trackAlbumView('New Matrix')">Preview</button>
+                            <a href="download-newmatrix.html" class="btn btn-small btn-secondary" onclick="trackPurchaseIntent('New Matrix', 15)">Test Download Flow</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Streaming Links -->
+            <!-- Value Proposition vs Streaming -->
             <div class="streaming-section">
-                <h3>Also Available On</h3>
-                <div class="streaming-links">
-                    <a href="#" class="streaming-link">
-                        <span class="platform-name">Spotify</span>
-                    </a>
-                    <a href="#" class="streaming-link">
-                        <span class="platform-name">Apple Music</span>
-                    </a>
-                    <a href="#" class="streaming-link">
-                        <span class="platform-name">SoundCloud</span>
-                    </a>
+                <h3>Why Buy Direct?</h3>
+                <div class="value-proposition">
+                    <div class="value-point">
+                        <strong>🎵 Full Quality</strong>
+                        <p>320kbps MP3 or FLAC vs compressed streaming</p>
+                    </div>
+                    <div class="value-point">
+                        <strong>💿 Complete Albums</strong>
+                        <p>Full 10-track releases vs preview clips</p>
+                    </div>
+                    <div class="value-point">
+                        <strong>📱 Own Forever</strong>
+                        <p>No subscription required, yours to keep</p>
+                    </div>
+                    <div class="value-point">
+                        <strong>💰 Support Direct</strong>
+                        <p>100% to artist vs $0.003 per stream</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -139,7 +194,7 @@
         <div class="container">
             <div class="chaos-container">
                 <!-- No explanation, just pure mystery -->
-                <a href="https://www.paypal.com/paypalme/elementalpublishing/10" target="_blank" class="chaos-button">10 bucks</a>
+                <a href="https://www.sandbox.paypal.com/paypalme/elementalpublishing/10" target="_blank" class="chaos-button">10 bucks (TEST)</a>
             </div>
         </div>
     </section>
@@ -148,27 +203,14 @@
     <section id="email-signup" class="email-section">
         <div class="container">
             <div class="email-signup-content">
-                <h2>Get Exclusive Content</h2>
-                <p>Join the mailing list for early access to new releases, exclusive tracks, and behind-the-scenes content.</p>
-                
-                <form class="email-form" id="emailForm">
+                <p>Join the mailing list!</p>
+                <form class="email-form" id="emailSignupForm">
                     <div class="form-group">
-                        <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                        <input type="email" name="email" id="signup-email" placeholder="Enter your email address" required>
                         <button type="submit" class="btn btn-primary">Join List</button>
                     </div>
-                    <p class="privacy-note">No spam. Unsubscribe anytime. Your email stays private.</p>
+                    <p class="privacy-note">Your email stays private.</p>
                 </form>
-
-                <div class="exclusive-benefits">
-                    <h3>Exclusive Member Benefits:</h3>
-                    <ul>
-                        <li>🎵 Early access to new releases</li>
-                        <li>💽 Exclusive tracks not available anywhere else</li>
-                        <li>🎬 Behind-the-scenes production content</li>
-                        <li>💰 Member-only discounts on direct purchases</li>
-                        <li>📧 Direct communication with the artist</li>
-                    </ul>
-                </div>
             </div>
         </div>
     </section>
@@ -177,39 +219,19 @@
     <section id="about" class="about-section">
         <div class="container">
             <div class="about-content">
-                <div class="about-text">
-                    <h2>Elemental Publishing</h2>
-                    <p class="label-description">Record label showcasing atmospheric music that transcends language barriers.</p>
-                    
-                    <div class="artist-brands">
-                        <div class="brand-section">
-                            <img src="assets/images/logos/Logo-02.png" alt="Spiderfox Company" class="brand-logo">
-                            <h3>Spiderfox Company</h3>
-                            <p>"Something Different." - Atmospheric beats with vocal textures. Music for international audiences who value vibe over lyrics.</p>
-                        </div>
+                <div class="stats">
+                    <div class="stat">
+                        <h3>International</h3>
+                        <p>Global Fanbase</p>
                     </div>
-
-                    <p>Creating sonic experiences for a global underground audience. Our music connects with listeners from Eastern Europe to Asia, proving that rhythm and atmosphere speak louder than words.</p>
-
-                    <p>Direct sales. No platform fees, no middlemen, no algorithms deciding who discovers what.</p>
-
-                    <div class="stats">
-                        <div class="stat">
-                            <h3>International</h3>
-                            <p>Global Fanbase</p>
-                        </div>
-                        <div class="stat">
-                            <h3>Direct</h3>
-                            <p>Artist to Fan</p>
-                        </div>
-                        <div class="stat">
-                            <h3>100%</h3>
-                            <p>Direct</p>
-                        </div>
+                    <div class="stat">
+                        <h3>Direct</h3>
+                        <p>Artist to Fan</p>
                     </div>
-                </div>
-                <div class="about-visual">
-                    <img src="assets/images/logos/elementalproject2art.png" alt="Elemental Publishing Artwork" class="about-artwork">
+                    <div class="stat">
+                        <h3>100%</h3>
+                        <p>Direct</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -218,20 +240,20 @@
     <!-- Contact Section -->
     <section id="contact" class="contact-section">
         <div class="container">
-            <h2>Get In Touch</h2>
+            <h2>Contact</h2>
             <p>For collaborations, custom production, or general inquiries.</p>
             
             <div class="contact-content">
                 <div class="contact-info">
                     <h3>Direct Contact</h3>
-                    <p>Email: contact@elementalpublishing.com</p>
+                    <p>Email: houser2388@gmail.com</p>
                     <p>Response time: Usually within 24 hours</p>
                     
                     <h3>Follow</h3>
                     <div class="social-links">
-                        <a href="#" class="social-link">SoundCloud</a>
-                        <a href="#" class="social-link">YouTube</a>
-                        <a href="#" class="social-link">Instagram</a>
+                        <a href="https://soundcloud.com/elementalpublishing/" target="_blank" class="social-link">SoundCloud</a>
+                        <a href="https://www.youtube.com/@elementalpublishing529" target="_blank" class="social-link">YouTube</a>
+                        <a href="https://www.instagram.com/elementalpublishing/" target="_blank" class="social-link">Instagram</a>
                     </div>
                 </div>
                 
@@ -274,8 +296,8 @@
                     <h4>Connect</h4>
                     <ul>
                         <li><a href="#contact">Contact</a></li>
-                        <li><a href="#">SoundCloud</a></li>
-                        <li><a href="#">YouTube</a></li>
+                        <li><a href="https://soundcloud.com/elementalpublishing/" target="_blank">SoundCloud</a></li>
+                        <li><a href="https://www.youtube.com/@elementalpublishing529" target="_blank">YouTube</a></li>
                     </ul>
                 </div>
             </div>
