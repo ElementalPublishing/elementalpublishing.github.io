@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Basic Test</title>
+</head>
+<body>
+    <h1>Basic Button Test</h1>
+    <button onclick="alert('Test 1 works!')">Test 1: Basic Alert</button>
+    <button onclick="testFunction()">Test 2: Function Call</button>
+    <button onclick="buyAlbum('type1')">Test 3: buyAlbum Function</button>
+    
+    <script>
+        function testFunction() {
+            alert('Test function works!');
+        }
+        
+        function buyAlbum(albumKey) {
+            alert('buyAlbum called with: ' + albumKey);
+            window.location.href = 'thank-you-type1.html?payment=fallback';
+        }
+    </script>
+</body>
+</html>
