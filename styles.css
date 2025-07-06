@@ -419,6 +419,13 @@ section {
     margin-bottom: 1rem;
 }
 
+.album-price {
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #27ae60 !important;
+    margin-bottom: 1rem !important;
+}
+
 .album-actions {
     display: flex;
     gap: 0.5rem;
