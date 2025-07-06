@@ -6,7 +6,7 @@
 			"type": "shell",
 			"command": "start",
 			"args": [
-				"index.html"
+				"${workspaceFolder}\\index.html"
 			],
 			"group": "build",
 			"presentation": {

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Test - Elemental Publishing</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- PayPal Checkout SDK - Sandbox Mode -->
+    <script src="https://www.sandbox.paypal.com/sdk/js?client-id=AWWCzMohcrFfVJkA2V02yU1GjPZ7cetRnXNF-_OVlJZx_yHZICTQmeOhqHgDUzyjIZYhrwdevxy65_6y&currency=USD&intent=capture"></script>
+</head>
+<body>
+    <div style="padding: 2rem;">
+        <h1>Button Test</h1>
+        
+        <div style="margin: 2rem 0;">
+            <h3>Test 1: Simple Fallback Button</h3>
+            <button class="btn btn-primary" onclick="alert('Fallback button works!')">Test Fallback</button>
+        </div>
+        
+        <div style="margin: 2rem 0;">
+            <h3>Test 2: PayPal Button Container</h3>
+            <div id="paypal-test-button" style="border: 1px solid #ccc; padding: 1rem; min-height: 50px;">
+                <button class="btn btn-secondary" id="fallback-test" onclick="alert('Fallback clicked!')">Buy Direct - $15 (Fallback)</button>
+            </div>
+        </div>
+        
+        <div style="margin: 2rem 0;">
+            <h3>Test 3: Debug Info</h3>
+            <div id="debug-info"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const debugDiv = document.getElementById('debug-info');
+            
+            // Debug PayPal SDK
+            debugDiv.innerHTML = `
+                <p><strong>PayPal SDK Status:</strong></p>
+                <p>typeof paypal: ${typeof paypal}</p>
+                <p>paypal object: ${paypal ? 'Available' : 'Not available'}</p>
+                <p>window.paypal: ${window.paypal ? 'Available' : 'Not available'}</p>
+            `;
+            
+            // Try to create a simple PayPal button
+            if (typeof paypal !== 'undefined' && paypal) {
+                console.log('PayPal is available, creating test button...');
+                
+                paypal.Buttons({
+                    style: {
+                        layout: 'horizontal',
+                        color: 'blue',
+                        shape: 'rect',
+                        label: 'pay',
+                        height: 35
+                    },
+                    createOrder: function(data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                description: 'Test Album - High Quality MP3',
+                                amount: {
+                                    currency_code: 'USD',
+                                    value: '15.00'
+                                }
+                            }]
+                        });
+                    },
+                    onApprove: function(data, actions) {
+                        return actions.order.capture().then(function(orderData) {
+                            alert('Test payment successful! Order ID: ' + orderData.id);
+                        });
+                    },
+                    onError: function(err) {
+                        console.error('PayPal error:', err);
+                        alert('Payment failed: ' + err.message);
+                    },
+                    onCancel: function(data) {
+                        console.log('Payment cancelled');
+                    }
+                }).render('#paypal-test-button').then(function() {
+                    console.log('PayPal button rendered successfully');
+                    // Hide fallback
+                    document.getElementById('fallback-test').style.display = 'none';
+                    debugDiv.innerHTML += '<p><strong>✅ PayPal button created successfully!</strong></p>';
+                }).catch(function(err) {
+                    console.error('PayPal render error:', err);
+                    debugDiv.innerHTML += `<p><strong>❌ PayPal render error:</strong> ${err.message}</p>`;
+                });
+            } else {
+                console.log('PayPal not available');
+                debugDiv.innerHTML += '<p><strong>❌ PayPal SDK not loaded</strong></p>';
+            }
+        });
+    </script>
+</body>
+</html>

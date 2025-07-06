@@ -62,8 +62,63 @@
         })();
     </script>
     
-    <!-- PayPal Checkout SDK - Sandbox Mode -->
-    <script src="https://www.sandbox.paypal.com/sdk/js?client-id=AWWCzMohcrFfVJkA2V02yU1GjPZ7cetRnXNF-_OVlJZx_yHZICTQmeOhqHgDUzyjIZYhrwdevxy65_6y&currency=USD&intent=capture"></script>
+    <!-- PayPal Live - REAL PAYMENTS TO YOUR ACCOUNT -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AXoXKh3JQivgYxCUAo0G8mzef8Q-JCgeBSP1LuFQN4c9AtNH4oBigF9GIVOJH4cdRWsQVcqnWiQGi0Sk&currency=USD&intent=capture"></script>
+    
+    <!-- Define buyAlbum function immediately -->
+    <script>
+        // Define album data globally
+        window.albumData = {
+            'type1': {
+                name: 'Type 1',
+                price: '15.00',
+                downloadPage: 'download-type1.html',
+                thankYouPage: 'thank-you-type1.html'
+            },
+            'striptape': {
+                name: 'Strip Tape', 
+                price: '15.00',
+                downloadPage: 'download-striptape.html',
+                thankYouPage: 'thank-you-striptape.html'
+            },
+            'newmatrix': {
+                name: 'New Matrix',
+                price: '15.00', 
+                downloadPage: 'download-newmatrix.html',
+                thankYouPage: 'thank-you-newmatrix.html'
+            }
+        };
+
+        // Define buyAlbum function globally immediately
+        window.buyAlbum = function(albumKey) {
+            console.log('buyAlbum called with:', albumKey);
+            const album = window.albumData[albumKey];
+            console.log('Album data:', album);
+            
+            if (!album) {
+                console.error('Album not found for key:', albumKey);
+                alert('Album not found: ' + albumKey);
+                return;
+            }
+            
+            // Track purchase intent
+            try {
+                if (typeof trackPurchaseIntent === 'function') {
+                    trackPurchaseIntent(album.name, parseFloat(album.price));
+                }
+                console.log('Purchase intent tracked');
+            } catch (error) {
+                console.error('Error tracking purchase intent:', error);
+            }
+            
+            // Redirect to download page to capture email - builds mailing list
+            const url = album.downloadPage + '?payment=fallback';
+            console.log('Redirecting to:', url);
+            window.location.href = url;
+        };
+        
+        console.log('buyAlbum function defined globally');
+    </script>
 </head>
 <body>
     <!-- Navigation -->
@@ -134,7 +189,7 @@
                             <button class="btn btn-small btn-primary" onclick="trackAlbumView('Type 1'); showAlbumPreview('type-1')">Preview</button>
                             <div id="paypal-button-type1" class="paypal-button-container">
                                 <!-- Fallback button while PayPal loads -->
-                                <button class="btn btn-small btn-secondary fallback-buy-btn" onclick="buyAlbum('type1')">Buy Direct - $15</button>
+                                <button class="btn btn-small btn-secondary fallback-buy-btn" onclick="buyAlbum('type1')">Pay $15 → Download</button>
                             </div>
                         </div>
                     </div>
@@ -152,7 +207,7 @@
                             <button class="btn btn-small btn-primary" onclick="trackAlbumView('Strip Tape'); showAlbumPreview('strip-tape')">Preview</button>
                             <div id="paypal-button-striptape" class="paypal-button-container">
                                 <!-- Fallback button while PayPal loads -->
-                                <button class="btn btn-small btn-secondary fallback-buy-btn" onclick="buyAlbum('striptape')">Buy Direct - $15</button>
+                                <button class="btn btn-small btn-secondary fallback-buy-btn" onclick="buyAlbum('striptape')">Pay $15 → Download</button>
                             </div>
                         </div>
                     </div>
@@ -170,7 +225,7 @@
                             <button class="btn btn-small btn-primary" onclick="trackAlbumView('New Matrix'); showAlbumPreview('new-matrix')">Preview</button>
                             <div id="paypal-button-newmatrix" class="paypal-button-container">
                                 <!-- Fallback button while PayPal loads -->
-                                <button class="btn btn-small btn-secondary fallback-buy-btn" onclick="buyAlbum('newmatrix')">Buy Direct - $15</button>
+                                <button class="btn btn-small btn-secondary fallback-buy-btn" onclick="buyAlbum('newmatrix')">Pay $15 → Download</button>
                             </div>
                         </div>
                     </div>
@@ -325,58 +380,13 @@
     
     <!-- PayPal Integration -->
     <script>
-        // PayPal button configuration
-        const albumData = {
-            'type1': {
-                name: 'Type 1',
-                price: '15.00',
-                downloadPage: 'download-type1.html',
-                thankYouPage: 'thank-you-type1.html'
-            },
-            'striptape': {
-                name: 'Strip Tape', 
-                price: '15.00',
-                downloadPage: 'download-striptape.html',
-                thankYouPage: 'thank-you-striptape.html'
-            },
-            'newmatrix': {
-                name: 'New Matrix',
-                price: '15.00', 
-                downloadPage: 'download-newmatrix.html',
-                thankYouPage: 'thank-you-newmatrix.html'
-            }
-        };
-
-        // Fallback function for when PayPal isn't loaded
-        function buyAlbum(albumKey) {
-            console.log('buyAlbum called with:', albumKey);
-            const album = albumData[albumKey];
-            console.log('Album data:', album);
-            
-            if (!album) {
-                console.error('Album not found for key:', albumKey);
-                alert('Album not found: ' + albumKey);
-                return;
-            }
-            
-            // Track purchase intent
-            try {
-                trackPurchaseIntent(album.name, parseFloat(album.price));
-                console.log('Purchase intent tracked');
-            } catch (error) {
-                console.error('Error tracking purchase intent:', error);
-            }
-            
-            // Redirect to thank-you page for immediate download  
-            const url = album.thankYouPage + '?payment=fallback';
-            console.log('Redirecting to:', url);
-            window.location.href = url;
-        }
+        // Use the global albumData from head section
+        // Remove duplicate albumData definition
 
         // Create PayPal buttons for each album
         function createPayPalButton(albumKey, containerId) {
             console.log('Creating PayPal button for:', albumKey, 'in container:', containerId);
-            const album = albumData[albumKey];
+            const album = window.albumData[albumKey];
             const container = document.getElementById(containerId);
             
             if (!container) {
@@ -466,48 +476,27 @@
             });
         }
 
-        // Initialize PayPal buttons when page loads
+        // Simple initialization - try once when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, checking PayPal...');
+            console.log('DOM loaded, initializing PayPal buttons...');
             
-            // Ensure fallback buttons are visible immediately
+            // Show fallback buttons immediately
             document.querySelectorAll('.fallback-buy-btn').forEach(btn => {
                 btn.style.display = 'inline-block';
-                console.log('Made fallback button visible on load:', btn);
+                btn.style.visibility = 'visible';
             });
             
-            // Try PayPal integration with timeout
+            // Wait a moment for PayPal SDK to load, then create buttons
             setTimeout(function() {
-                console.log('Checking PayPal SDK...');
-                console.log('PayPal object:', typeof paypal);
-                console.log('Window.paypal:', window.paypal);
-                
-                if (typeof paypal !== 'undefined' && paypal) {
-                    console.log('PayPal SDK loaded successfully, creating buttons...');
-                    try {
-                        createPayPalButton('type1', 'paypal-button-type1');
-                        createPayPalButton('striptape', 'paypal-button-striptape'); 
-                        createPayPalButton('newmatrix', 'paypal-button-newmatrix');
-                        console.log('All PayPal buttons created successfully');
-                    } catch (error) {
-                        console.error('Error creating PayPal buttons:', error);
-                        console.log('Keeping fallback buttons visible due to error');
-                    }
+                if (typeof paypal !== 'undefined' && paypal && paypal.Buttons) {
+                    console.log('PayPal SDK ready, creating buttons...');
+                    createPayPalButton('type1', 'paypal-button-type1');
+                    createPayPalButton('striptape', 'paypal-button-striptape'); 
+                    createPayPalButton('newmatrix', 'paypal-button-newmatrix');
                 } else {
-                    console.error('PayPal SDK not loaded. Using fallback buttons.');
-                    console.log('Fallback buttons should be visible');
+                    console.log('PayPal SDK not ready, keeping fallback buttons');
                 }
-            }, 3000);
-            
-            // Backup timeout - ensure fallback buttons work after 10 seconds
-            setTimeout(function() {
-                document.querySelectorAll('.fallback-buy-btn').forEach(btn => {
-                    if (btn.style.display === 'none') {
-                        console.log('PayPal may have failed, re-showing fallback button');
-                        btn.style.display = 'inline-block';
-                    }
-                });
-            }, 10000);
+            }, 1000);
         });
     </script>
 </body>

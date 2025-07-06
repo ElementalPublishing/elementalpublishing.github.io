@@ -162,6 +162,13 @@
                         ⚠️ <strong>Test Mode:</strong> This is a test download
                     </div>
                 `;
+            } else if (paymentStatus === 'paypalme') {
+                // PayPal.me payment (immediate)
+                document.getElementById('payment-status').innerHTML = `
+                    <div style="background: #d1ecf1; color: #0c5460; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                        💳 <strong>Payment Sent!</strong> Your download is ready below
+                    </div>
+                `;
             }
         });
     </script>
