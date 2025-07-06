@@ -66,12 +66,15 @@
                 </div>
                 
                 <div class="download-form-container">
+                    <div id="payment-status"></div>
+                    
                     <h2>Get Your Download</h2>
                     <p>Enter your email below to receive instant access to New Matrix in high quality MP3 format.</p>
                     
                     <form class="download-form" id="downloadForm" onsubmit="sendDownloadEmail(event)">
                         <input type="hidden" name="album" value="New Matrix">
                         <input type="hidden" name="_subject" value="New Matrix Download Request">
+                        <input type="hidden" id="paypalOrderId" name="paypal_order_id" value="">
                         
                         <div class="form-group">
                             <label for="email">Email Address</label>
@@ -127,6 +130,57 @@
             </div>
         </div>
     </footer>
+
+    <!-- Payment Success Handler -->
+    <script>
+        // Check if user came from successful payment
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const paymentStatus = urlParams.get('payment');
+            const orderId = urlParams.get('order');
+            
+            if (paymentStatus === 'success' && orderId) {
+                // Payment was successful
+                document.getElementById('payment-status').innerHTML = `
+                    <div class="alert alert-success">
+                        ✅ <strong>Payment Successful!</strong> Order ID: ${orderId}
+                    </div>
+                `;
+                
+                // Pre-fill the PayPal order ID for email tracking
+                document.getElementById('paypalOrderId').value = orderId;
+                
+                // Track purchase conversion in Google Analytics
+                gtag('event', 'purchase', {
+                    'transaction_id': orderId,
+                    'value': 15.00,
+                    'currency': 'USD',
+                    'items': [{
+                        'item_id': 'newmatrix_album',
+                        'item_name': 'New Matrix',
+                        'category': 'Album',
+                        'price': 15.00,
+                        'quantity': 1
+                    }]
+                });
+                
+            } else if (paymentStatus === 'fallback') {
+                // User used fallback payment method
+                document.getElementById('payment-status').innerHTML = `
+                    <div class="alert alert-info">
+                        💳 <strong>Payment Method:</strong> Direct Transfer/Alternative Method
+                    </div>
+                `;
+            } else if (paymentStatus === 'test') {
+                // Test mode
+                document.getElementById('payment-status').innerHTML = `
+                    <div class="alert alert-warning">
+                        🧪 <strong>Test Mode:</strong> This is a test transaction
+                    </div>
+                `;
+            }
+        });
+    </script>
 
     <script src="script.js"></script>
 </body>

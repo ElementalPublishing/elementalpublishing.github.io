@@ -66,12 +66,14 @@
                 </div>
                 
                 <div class="download-form-container">
+                    <div id="payment-status"></div>
                     <h2>Get Your Download</h2>
                     <p>Enter your email below to receive instant access to Strip Tape in high quality MP3 format.</p>
                     
                     <form class="download-form" id="downloadForm" onsubmit="sendDownloadEmail(event)">
                         <input type="hidden" name="album" value="Strip Tape">
                         <input type="hidden" name="_subject" value="Strip Tape Download Request">
+                        <input type="hidden" id="paypalOrderId" name="paypal_order_id" value="">
                         
                         <div class="form-group">
                             <label for="email">Email Address</label>
@@ -129,5 +131,39 @@
     </footer>
 
     <script src="script.js"></script>
+    
+    <!-- Payment Success Handler -->
+    <script>
+        // Check if user came from successful payment
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const paymentStatus = urlParams.get('payment');
+            const orderId = urlParams.get('order');
+            
+            if (paymentStatus === 'success' && orderId) {
+                // Payment was successful
+                document.getElementById('payment-status').innerHTML = `
+                    <div style="background: #d4edda; color: #155724; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                        ✅ <strong>Payment Successful!</strong> Order ID: ${orderId}
+                    </div>
+                `;
+                
+                // Store order ID for email
+                document.getElementById('paypalOrderId').value = orderId;
+                
+                // Track successful download page visit
+                if (typeof trackDownload === 'function') {
+                    trackDownload('Strip Tape');
+                }
+            } else if (paymentStatus === 'fallback') {
+                // Fallback mode (testing)
+                document.getElementById('payment-status').innerHTML = `
+                    <div style="background: #fff3cd; color: #856404; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                        ⚠️ <strong>Test Mode:</strong> This is a test download
+                    </div>
+                `;
+            }
+        });
+    </script>
 </body>
 </html>

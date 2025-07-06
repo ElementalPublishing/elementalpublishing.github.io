@@ -64,6 +64,8 @@
                 </div>
                 
                 <div class="download-form-container">
+                    <div id="payment-status"></div>
+                    
                     <h2>🎵 Download Type 1 - Masters</h2>
                     <p>Click the link below to download your high-quality MP3 album:</p>
                     
@@ -113,6 +115,63 @@
             </div>
         </div>
     </footer>
+
+    <!-- Payment Success Handler -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const paymentStatus = urlParams.get('payment');
+            const orderId = urlParams.get('order');
+            
+            if (paymentStatus === 'success' && orderId) {
+                // Payment was successful
+                document.getElementById('payment-status').innerHTML = `
+                    <div class="alert alert-success">
+                        ✅ <strong>Payment Successful!</strong> Order ID: ${orderId}
+                        <br>Your download is ready below!
+                    </div>
+                `;
+                
+                // Track purchase conversion in Google Analytics
+                gtag('event', 'purchase', {
+                    'transaction_id': orderId,
+                    'value': 15.00,
+                    'currency': 'USD',
+                    'items': [{
+                        'item_id': 'type1_album',
+                        'item_name': 'Type 1',
+                        'category': 'Album',
+                        'price': 15.00,
+                        'quantity': 1
+                    }]
+                });
+                
+            } else if (paymentStatus === 'fallback') {
+                // User used fallback payment method
+                document.getElementById('payment-status').innerHTML = `
+                    <div class="alert alert-info">
+                        💳 <strong>Payment Method:</strong> Direct Transfer/Alternative Method
+                        <br>Your download is ready below!
+                    </div>
+                `;
+            } else if (paymentStatus === 'test') {
+                // Test mode
+                document.getElementById('payment-status').innerHTML = `
+                    <div class="alert alert-warning">
+                        🧪 <strong>Test Mode:</strong> This is a test transaction
+                        <br>Your download is ready below!
+                    </div>
+                `;
+            } else {
+                // Direct access (no payment params)
+                document.getElementById('payment-status').innerHTML = `
+                    <div class="alert alert-info">
+                        🎵 <strong>Welcome!</strong> Your Type 1 download is ready below.
+                    </div>
+                `;
+            }
+        });
+    </script>
 
     <script src="script.js"></script>
 </body>

@@ -176,16 +176,19 @@ document.addEventListener('DOMContentLoaded', function() {
 // SoundCloud Album Data
 const albumData = {
     'type-1': {
+        key: 'type1',
         title: 'Type 1',
         soundcloudUrl: 'https://soundcloud.com/elementalpublishing/sets/spiderfox-type-one', // Replace with actual URL
         embedUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1789617261&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true'
     },
     'strip-tape': {
+        key: 'striptape',
         title: 'Strip Tape',
         soundcloudUrl: 'https://soundcloud.com/elementalpublishing/sets/strip-tape', // Replace with actual URL
         embedUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1806004999&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true'
     },
     'new-matrix': {
+        key: 'newmatrix',
         title: 'New Matrix',
         soundcloudUrl: 'https://soundcloud.com/elementalpublishing/sets/new-matrix', // Replace with actual URL
         embedUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1848997065&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true'
@@ -222,9 +225,9 @@ function showAlbumPreview(albumKey) {
                     <a href="${album.soundcloudUrl}" target="_blank" class="btn btn-primary">
                         Full Playlist on SoundCloud
                     </a>
-                    <a href="https://www.paypal.com/paypalme/elementalpublishing/15" target="_blank" class="btn btn-secondary">
+                    <button class="btn btn-secondary" onclick="closePreviewModal(); buyAlbumFromModal('${album.key}')">
                         Buy Direct - $15
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -284,6 +287,17 @@ function purchaseAlbum(albumId, price) {
     */
     
     alert(`Purchase feature coming soon! Album would cost $${price}. You'll receive download links immediately after payment.`);
+}
+
+// Buy album from modal (connects to main page PayPal integration)
+function buyAlbumFromModal(albumKey) {
+    // Use the buyAlbum function from index.html if available
+    if (typeof buyAlbum === 'function') {
+        buyAlbum(albumKey);
+    } else {
+        // Fallback: redirect to main page and scroll to album
+        window.location.href = `index.html#music`;
+    }
 }
 
 // Add click handlers to album buttons

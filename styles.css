@@ -424,6 +424,21 @@ section {
     gap: 0.5rem;
 }
 
+/* PayPal Button Styling */
+.paypal-button-container {
+    min-width: 140px;
+    max-width: 200px;
+}
+
+.paypal-button-container .paypal-buttons {
+    border-radius: 6px;
+}
+
+/* Override PayPal button styles to match site theme */
+.paypal-button-container iframe {
+    border-radius: 6px !important;
+}
+
 /* Streaming Section */
 .streaming-section {
     text-align: center;
