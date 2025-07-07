@@ -11,6 +11,62 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Google Analytics 4 - Same tracking as main site for cross-site analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L1PF6HNX9Z"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-L1PF6HNX9Z');
+        
+        // Custom events for Spiderfox Universe tracking
+        function trackPortalEntry(source) {
+            gtag('event', 'portal_entry', {
+                'entry_source': source,
+                'content_type': 'spiderfox_portal',
+                'engagement_type': 'universe_exploration'
+            });
+        }
+        
+        function trackCharacterExploration(characterName) {
+            gtag('event', 'character_view', {
+                'character_name': characterName,
+                'content_type': 'spiderfox_character',
+                'engagement_type': 'lore_exploration'
+            });
+        }
+        
+        function trackDynastyView(dynastyName) {
+            gtag('event', 'dynasty_view', {
+                'dynasty_name': dynastyName,
+                'content_type': 'spiderfox_dynasty',
+                'engagement_type': 'world_building'
+            });
+        }
+        
+        function trackPortalExit(destination) {
+            gtag('event', 'portal_exit', {
+                'exit_destination': destination,
+                'content_type': 'spiderfox_portal',
+                'engagement_type': 'cross_site_navigation'
+            });
+        }
+        
+        function trackUniverseEngagement(section, action) {
+            gtag('event', 'universe_engagement', {
+                'section': section,
+                'action': action,
+                'content_type': 'spiderfox_universe',
+                'engagement_type': 'interactive_exploration'
+            });
+        }
+        
+        // Track portal entry when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            trackPortalEntry('direct_navigation');
+        });
+    </script>
 </head>
 <body>
     <!-- Navigation -->
@@ -21,11 +77,11 @@
                 <span class="universe-tag">UNIVERSE</span>
             </div>
             <ul class="nav-menu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#characters" class="nav-link">Characters</a></li>
-                <li><a href="#dynasties" class="nav-link">Dynasties</a></li>
-                <li><a href="#locations" class="nav-link">Locations</a></li>
-                <li><a href="index.html" class="nav-link portal-exit">← Exit Portal</a></li>
+                <li><a href="#home" class="nav-link" onclick="trackUniverseEngagement('navigation', 'home_click')">Home</a></li>
+                <li><a href="#characters" class="nav-link" onclick="trackUniverseEngagement('navigation', 'characters_click')">Characters</a></li>
+                <li><a href="#dynasties" class="nav-link" onclick="trackUniverseEngagement('navigation', 'dynasties_click')">Dynasties</a></li>
+                <li><a href="#locations" class="nav-link" onclick="trackUniverseEngagement('navigation', 'locations_click')">Locations</a></li>
+                <li><a href="index.html" class="nav-link portal-exit" onclick="trackPortalExit('main_site')">← Exit Portal</a></li>
             </ul>
         </div>
     </nav>
@@ -388,7 +444,7 @@
                         <p>Every interpretation, critique, and creative addition makes the universe more resilient and complex</p>
                     </div>
                 </div>
-                <a href="index.html" class="return-btn">← Return to Music Portal</a>
+                <a href="index.html" class="return-btn" onclick="trackPortalExit('music_portal_return')">← Return to Music Portal</a>
             </div>
         </div>
     </section>
@@ -412,8 +468,8 @@
                 <div class="footer-section">
                     <h4>Connect</h4>
                     <ul>
-                        <li><a href="index.html">Music Portal</a></li>
-                        <li><a href="index.html#contact">Contact Creator</a></li>
+                        <li><a href="index.html" onclick="trackPortalExit('music_portal_footer')">Music Portal</a></li>
+                        <li><a href="index.html#contact" onclick="trackPortalExit('contact_footer')">Contact Creator</a></li>
                     </ul>
                 </div>
             </div>
@@ -426,6 +482,19 @@
     <script>
         // Character exploration function
         function exploreCharacter(characterId) {
+            // Track character exploration
+            const characterNames = {
+                'cipher-king': 'Cipher King',
+                'synapse-overlord': 'Synapse Overlord',
+                'seraph-prime': 'Seraph Prime',
+                'iron-sovereign': 'Iron Sovereign',
+                'nexus-eternal': 'Nexus Eternal',
+                'void-archon': 'Void Archon'
+            };
+            
+            const characterName = characterNames[characterId] || 'Unknown Character';
+            trackCharacterExploration(characterName);
+            
             // Antifragile character explorer - each interaction strengthens the universe
             switch(characterId) {
                 case 'cipher-king':
