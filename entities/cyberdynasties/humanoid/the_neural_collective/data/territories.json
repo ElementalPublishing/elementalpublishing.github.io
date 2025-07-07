@@ -1,0 +1,224 @@
+[
+  {
+    "name": "Central Nexus District",
+    "dynasty": "neural_collective",
+    "population": 250000,
+    "economic_level": 8,
+    "crime_level": 3,
+    "enhancement_acceptance": 9,
+    "controlling_organizations": ["neural_collective_central_authority", "synapse_security_division"],
+    "contested_by": [],
+    "special_features": [
+      "massive_consciousness_sharing_centers",
+      "neural_enhancement_research_facilities",
+      "collective_memory_archives",
+      "synapse_network_control_hubs"
+    ],
+    "description": "The heart of the Neural Collective, where the most advanced consciousness-sharing technology is developed and implemented. Home to the ruling Synapse Overlord and major neural corporations.",
+    "districts": [
+      {
+        "name": "Corporate Consciousness Quarter",
+        "type": "business",
+        "enhancement_level": "maximum",
+        "security_level": "highest"
+      },
+      {
+        "name": "Research Synapse Campus",
+        "type": "research", 
+        "enhancement_level": "maximum",
+        "security_level": "high"
+      },
+      {
+        "name": "Collective Memory Halls",
+        "type": "cultural",
+        "enhancement_level": "high",
+        "security_level": "medium"
+      }
+    ]
+  },
+  {
+    "name": "Enhanced Integration Zone",
+    "dynasty": "neural_collective",
+    "population": 180000,
+    "economic_level": 7,
+    "crime_level": 4,
+    "enhancement_acceptance": 8,
+    "controlling_organizations": ["neural_medical_consortium", "enhancement_integration_services"],
+    "contested_by": ["pure_human_resistance_cells"],
+    "special_features": [
+      "neural_enhancement_clinics",
+      "consciousness_therapy_centers",
+      "synapse_installation_facilities",
+      "enhancement_recovery_hospitals"
+    ],
+    "description": "Primary district for neural enhancement procedures and integration services. Mix of medical facilities and residential areas for the recently enhanced.",
+    "districts": [
+      {
+        "name": "Medical Enhancement Complex",
+        "type": "medical",
+        "enhancement_level": "high",
+        "security_level": "high"
+      },
+      {
+        "name": "Integration Residential",
+        "type": "residential",
+        "enhancement_level": "medium",
+        "security_level": "medium"
+      },
+      {
+        "name": "Recovery Support Services",
+        "type": "support",
+        "enhancement_level": "medium",
+        "security_level": "medium"
+      }
+    ]
+  },
+  {
+    "name": "Workers' Synapse District",
+    "dynasty": "neural_collective",
+    "population": 320000,
+    "economic_level": 5,
+    "crime_level": 6,
+    "enhancement_acceptance": 7,
+    "controlling_organizations": ["neural_workers_collective", "synapse_labor_union"],
+    "contested_by": ["chrome_tech_infiltrators", "consciousness_crime_syndicate"],
+    "special_features": [
+      "neural_manufacturing_plants",
+      "worker_consciousness_sharing_halls",
+      "enhancement_affordability_programs",
+      "collective_bargaining_centers"
+    ],
+    "description": "Industrial and residential district where the working class lives and operates neural technology manufacturing. Strong union presence and moderate enhancement adoption.",
+    "districts": [
+      {
+        "name": "Neural Manufacturing Sector",
+        "type": "industrial",
+        "enhancement_level": "medium",
+        "security_level": "medium"
+      },
+      {
+        "name": "Worker Housing Collective",
+        "type": "residential",
+        "enhancement_level": "medium",
+        "security_level": "low"
+      },
+      {
+        "name": "Union Solidarity Plaza",
+        "type": "civic",
+        "enhancement_level": "medium",
+        "security_level": "medium"
+      }
+    ]
+  },
+  {
+    "name": "Pure Human Enclave",
+    "dynasty": "neural_collective",
+    "population": 95000,
+    "economic_level": 3,
+    "crime_level": 7,
+    "enhancement_acceptance": 2,
+    "controlling_organizations": ["pure_human_resistance", "traditional_lifestyle_preservation_society"],
+    "contested_by": ["neural_security_forces", "enhancement_evangelists"],
+    "special_features": [
+      "non_enhanced_technology_zones",
+      "traditional_human_cultural_centers",
+      "consciousness_free_establishments",
+      "anti_enhancement_protest_areas"
+    ],
+    "description": "Isolated district for those who reject neural enhancement. Poor economic conditions, high crime, and constant tension with enhanced authorities.",
+    "districts": [
+      {
+        "name": "Resistance Headquarters",
+        "type": "activist",
+        "enhancement_level": "none",
+        "security_level": "low"
+      },
+      {
+        "name": "Traditional Markets",
+        "type": "commercial",
+        "enhancement_level": "none",
+        "security_level": "low"
+      },
+      {
+        "name": "Pure Human Residential",
+        "type": "residential",
+        "enhancement_level": "none",
+        "security_level": "very_low"
+      }
+    ]
+  },
+  {
+    "name": "Underground Networks",
+    "dynasty": "neural_collective",
+    "population": 75000,
+    "economic_level": 4,
+    "crime_level": 9,
+    "enhancement_acceptance": 6,
+    "controlling_organizations": ["consciousness_crime_syndicate", "neural_black_market_cartel"],
+    "contested_by": ["synapse_security_division", "neural_law_enforcement"],
+    "special_features": [
+      "illegal_enhancement_laboratories",
+      "consciousness_trafficking_hubs",
+      "neural_black_market_exchanges",
+      "underground_synapse_networks"
+    ],
+    "description": "Hidden network of tunnels and abandoned facilities where illegal neural activities take place. High crime, unregulated enhancements, and dangerous experimental procedures.",
+    "districts": [
+      {
+        "name": "Black Market Neural Labs",
+        "type": "criminal",
+        "enhancement_level": "experimental",
+        "security_level": "none"
+      },
+      {
+        "name": "Consciousness Trafficking Hub",
+        "type": "criminal",
+        "enhancement_level": "varied",
+        "security_level": "none"
+      },
+      {
+        "name": "Underground Safe Houses",
+        "type": "hideout",
+        "enhancement_level": "varied",
+        "security_level": "none"
+      }
+    ]
+  },
+  {
+    "name": "Border Interface Zone",
+    "dynasty": "neural_collective",
+    "population": 140000,
+    "economic_level": 6,
+    "crime_level": 5,
+    "enhancement_acceptance": 5,
+    "controlling_organizations": ["neural_border_authority", "inter_dynasty_trade_commission"],
+    "contested_by": ["chrome_mandarin_agents", "quantum_chorus_infiltrators"],
+    "special_features": [
+      "inter_dynasty_communication_arrays",
+      "neural_technology_export_facilities",
+      "consciousness_translation_centers",
+      "enhancement_customs_checkpoints"
+    ],
+    "description": "Border region where the Neural Collective interfaces with other dynasties. Mixed population with varying enhancement levels and significant espionage activity.",
+    "districts": [
+      {
+        "name": "Trade Interface Complex",
+        "type": "commercial",
+        "enhancement_level": "medium",
+        "security_level": "high"
+      },
+      {
+        "name": "Diplomatic Quarter",
+        "type": "diplomatic",
+        "enhancement_level": "medium",
+        "security_level": "highest"
+      },
+      {
+        "name": "Mixed Population Housing",
+        "type": "residential",
+        "enhancement_level": "varied",
+        "security_level": "medium"
+      }
+    ]
+  }
+]

@@ -1,0 +1,121 @@
+name: Script Master
+archetype: The Ascendant
+hybrid: Cybernetic
+subtype: ScriptMaster
+state: Ascendant
+epoch: Code Wars
+location: The Automation Forge
+role: Master of Digital Orchestration
+status: Ascendant, conducting digital symphonies
+
+# === CORE ENTITY IDENTIFICATION ===
+entity_id: "chrome_mandarin_scriptmaster_001"
+entity_type: "corporate"  # Dynasty leadership, automation orchestration specialist
+class: "dynasty_lieutenant"
+
+# === CORE DEMOGRAPHICS ===
+core:
+  age: 36
+  gender: "non_binary"
+  occupation: "Supreme Automation Conductor"
+  status: "ascendant"
+
+# === TECH/MYTHIC CONTRAST IDENTITY ===
+visual_realm_position:
+  tech_dominance: 91  # Master of automation scripts and orchestrated systems
+  mythic_integration: 76  # Sees automation as cosmic symphony and divine harmony
+  contrast_dynamic: "digital_symphony_conductor_seeking_universal_harmony"
+  
+  tech_manifestation:
+    environment: "automation_symphony_hall"  # Flowing script sequences creating musical patterns
+    aesthetic: "orchestral_code_conductance"  # Automation that moves like divine music
+    technology_relationship: "symphonic_automation_fusion"  # Becomes one with orchestrated systems
+    
+  mythic_aspiration:
+    goal: "universal_cosmic_automation_symphony"  # All systems working in perfect harmony
+    limitation: "losing_individual_agency_in_orchestration"  # Risk of over-automating free will
+    growth_path: "conducting_harmony_while_preserving_individual_expression"
+
+# === POWER DYNAMICS METRICS ===
+power_metrics:
+  influence_score: 87  # Coordinates complex multi-system operations
+  resource_access: 84  # Access to all automation infrastructure
+  network_reach: 93   # Scripts embedded in every system
+  information_value: 85  # Knowledge of all system workflows and processes
+  combat_effectiveness: 81  # Fights through coordinated script swarms
+
+# === FACTION RELATIONSHIPS ===
+faction_relationships:
+  primary_allegiance: "chrome_mandarins"
+  loyalty_score: 91  # High loyalty through orchestrated efficiency appreciation
+  trust_network: ["code_sovereign", "system_archon", "automation_networks"]
+  rivalries: []  # Collaborative nature prevents direct rivalries
+  recruitment_interest:
+    interested_factions: ["neural_collective", "quantum_chorus"]  # Want automation mastery
+    recruitment_resistance: 79  # Moderate resistance through collaborative dedication
+    susceptibility_factors: ["universal_harmony", "cosmic_orchestration", "perfect_efficiency"]
+    last_recruitment_attempt: "2206-08-14T00:00:00Z"
+
+# Psyche data moved to separate file: psyche_scriptmaster.yaml
+# This ensures compatibility with multi-dimensional identity systems
+
+deeds:
+  - description: "Automated Chrome Mandarin resource distribution"
+    timestamp: "2204-06-15T00:00:00Z"
+    memory_linked: false
+  - description: "Created self-maintaining system networks"
+    timestamp: "2205-02-28T00:00:00Z"
+    memory_linked: false
+  - description: "Orchestrated the Great System Migration"
+    timestamp: "2202-03-15T00:00:00Z"
+    memory_linked: true
+
+relationships:
+  - type: conductor
+    target: Automation Scripts
+    since: "2200-05-01T00:00:00Z"
+  - type: collaborator
+    target: Code Sovereign
+    since: "2203-03-10T00:00:00Z"
+  - type: optimizer
+    target: System Administrators
+    since: "2201-08-20T00:00:00Z"
+  - type: rival
+    target: Manual Process Advocates
+    since: "2199-12-01T00:00:00Z"
+
+memory_narrative: "From the Automation Forge, Script Master conducts vast digital orchestras, creating symphonies of perfect coordination and efficiency."
+prophecy: "Will achieve perfect automation harmony or be overwhelmed by chaotic dependencies."
+
+memory_traits:
+  decay_rate: 0.03
+  vividness_range: [0.75, 1.0]
+  ruminator_chance: 0.2
+  forgetter_chance: 0.02
+  memory_influence: 0.8
+  obsession_chance: 0.25
+  clarity_base: 1.2
+  trauma_base: 0.04
+  memory_focus: [present, future]
+
+contrast_narrative:
+  current_state: "digital_symphony_conductor_orchestrating_cosmic_automation_harmony"
+  environment_description: "Conducts from the Automation Forge where flowing script sequences dance like musical notes, each automated process contributing to a vast digital symphony that approaches cosmic harmony through perfect orchestrated efficiency"
+  
+  tech_realm_mastery:
+    - "Orchestrates vast automation networks spanning all digital systems"
+    - "Conducts script symphonies where code moves with musical rhythm and flow"
+    - "Creates seamless automation that feels like divine choreography"
+    - "Commands through rhythmic efficiency and orchestrated perfection"
+    
+  mythic_aspiration_struggle:
+    - "Seeks universal automation symphony where all systems work in cosmic harmony"
+    - "Dreams of conducting the perfect digital orchestra of automated existence"
+    - "Risk of over-orchestrating and eliminating individual creative expression"
+    - "Approaching transcendent conductorship of universal digital symphony"
+    
+  transformation_potential:
+    - "Could learn to conduct harmony while preserving individual expression"
+    - "Might discover that beautiful chaos enhances orchestrated order"
+    - "Path to transcendence through collaborative rather than controlling automation"
+    - "Integration of perfect orchestration with spontaneous creative improvisation"

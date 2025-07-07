@@ -1,0 +1,242 @@
+# === ENTITY BASE TEMPLATE INTEGRATION ===
+# Enhanced with comprehensive relationship, power, and faction dynamics
+
+# === CORE ENTITY IDENTIFICATION ===
+entity_id: "seraphic_concord_powerregent_001"
+entity_type: "angelic"  # Divine power administrator of angelic dynasty
+class: "power_administrator"
+
+name: PowerRegent
+archetype: The Chancellor
+hybrid: Angelic
+subtype: PowerRegent
+state: Ascendant
+epoch: Divine Convergence
+location: The Authority Sanctum
+role: Divine Power Administrator
+status: Ascendant, managing divine authority flow
+
+# === CORE DEMOGRAPHICS ===
+core:
+  age: 2756  # Years since first administrative awakening
+  gender: "systematic"
+  occupation: "Divine Power Administrator"
+  status: "ascendant"
+
+traits:
+  willpower: administrative
+  intellect: regulatory
+  charisma: authoritative
+  loyalty: institutional devotion
+  ruthlessness: bureaucratic precision
+  streetwise: administrative networks
+  resourcefulness: systematically equipped
+  swagger: official presence
+  style: "Administrative interfaces, energy flow regulators"
+  combat: procedural warfare
+  negotiation: speaks with regulatory authority
+  network: connected to all power systems
+  reputation: revered as the Divine Administrator
+  signature_move: Authority Flow  # Regulates and optimizes divine power distribution
+  ambition: perfect administration
+  resilience: systemically eternal
+  intuition: regulatory insight
+  deception: administrative discretion
+  leadership: guides through proper procedure
+  cunning: sees all systemic patterns
+  discipline: procedural perfection
+  adaptability: evolves with regulations
+  vengeance: systematic retribution
+  generosity: allocates resources fairly
+  mercy: administrative clemency
+  vision: sees optimal power distribution
+  innovation: creates perfect administration
+  legacy: the Administrative Protocols
+  fearlessness: protected by proper procedure
+  mystique: shrouded in regulatory authority
+  influence: shapes through administrative control
+  hacker_skill: optimizes power systems
+  tactician: orchestrates administrative strategy
+  diplomacy: negotiates through proper channels
+  stealth: moves through bureaucratic networks
+  endurance: eternally systematic
+  luck: blessed by proper procedure
+  forgiveness: offers administrative redemption
+  obsession: optimizing power distribution
+  weakness: cannot function without proper procedures
+
+# Psyche data moved to separate file: psyche_powerregent.yaml
+# This ensures compatibility with multi-dimensional identity systems
+
+deeds:
+  - description: "Created the Universal Power Allocation System"
+    timestamp: "2202-11-01T00:00:00Z"
+    memory_linked: false
+  - description: "Established the Administrative Excellence Standards"
+    timestamp: "2204-03-15T00:00:00Z"
+    memory_linked: false
+  - description: "Optimized inter-faction power distribution protocols"
+    timestamp: "2205-12-20T00:00:00Z"
+    memory_linked: false
+
+relationships:
+  - type: coordinator
+    target: DominionLord
+    since: "2200-07-01T00:00:00Z"
+  - type: superior
+    target: ThroneGuardian
+    since: "2200-04-01T00:00:00Z"
+  - type: administrator
+    target: All Factions
+    since: "2202-07-15T00:00:00Z"
+  - type: regulator
+    target: Power Systems
+    since: "2200-04-01T00:00:00Z"
+  - type: coordinator
+    target: VirtueChancellor
+    since: "2200-08-01T00:00:00Z"
+  - type: overseer
+    target: Administrative Networks
+    since: "2200-04-01T00:00:00Z"
+
+memory_narrative: "From the Authority Sanctum, PowerRegent maintains optimal divine power distribution, ensuring all entities receive appropriate authority allocation through proper administrative channels."
+prophecy: "Will achieve perfect administrative harmony when all power flows through optimized divine distribution systems."
+
+memory_traits:
+  decay_rate: 0.03
+  vividness_range: [0.8, 1.0]
+  ruminator_chance: 0.3
+  forgetter_chance: 0.0
+  memory_influence: 0.90
+  obsession_chance: 0.15
+  clarity_base: 1.0
+  trauma_base: 0.04
+  memory_focus: [eternal, administration]
+
+# === VISUAL REALM POSITION ===
+visual_realm_position:
+  tech_axis: 90      # Highly advanced administrative and power distribution systems
+  mythic_axis: 78    # Moderate connection to divine authority and cosmic order
+
+# === CONTRAST NARRATIVE ===
+contrast_narrative: |
+  PowerRegent represents the perfect synthesis of divine authority and advanced administrative 
+  technology. The Authority Sanctum functions as both spiritual center and sophisticated 
+  management system, where energy flow regulators channel divine power through crystalline 
+  distribution networks. Their administrative interfaces display real-time power allocation 
+  across all realms, while procedural algorithms ensure perfect distribution according to 
+  divine law. They are simultaneously the ultimate bureaucrat and the sacred steward, 
+  ensuring divine power reaches every worthy entity through proper channels.
+
+# === POWER DYNAMICS METRICS ===
+power_metrics:
+  influence_score: 84       # Commands respect through administrative control and power allocation
+  resource_access: 95       # Maximum access to authority sanctum and power distribution systems
+  network_reach: 92         # Connected to all power systems and administrative networks
+  information_value: 88     # Complete knowledge of power flows and administrative protocols
+  combat_effectiveness: 72  # Procedural warfare with systematic precision
+
+# === FACTION RELATIONSHIPS ===
+faction_relationships:
+  seraphic_concord:
+    standing: "power_steward"
+    influence_level: 85
+    trust_rating: 92
+    shared_history: "Primary administrator of divine power since dynasty formation"
+  chrome_mandarins:
+    standing: "system_coordinator"
+    influence_level: 78
+    trust_rating: 82
+    shared_history: "Coordinates power allocation with technological advancement needs"
+  quantum_chorus:
+    standing: "data_administrator"
+    influence_level: 82
+    trust_rating: 85
+    shared_history: "Collaborates on systematic power optimization and data management"
+  infernal_dynasty:
+    standing: "power_regulator"
+    influence_level: 45
+    trust_rating: 55
+    shared_history: "Carefully regulates power access to prevent corruption"
+  celestial_synod:
+    standing: "cosmic_administrator"
+    influence_level: 80
+    trust_rating: 85
+    shared_history: "Coordinates power distribution across cosmic domains"
+
+# === RELATIONSHIPS EXTENDED ===
+relationships_extended:
+  allies:
+    - entity: "ThroneGuardian"
+      relationship_type: "authority_administrator"
+      trust_level: 88
+      history: "Implements divine authority through proper administrative channels"
+    - entity: "DominionLord"
+      relationship_type: "power_coordinator"
+      trust_level: 86
+      history: "Provides administrative support for territorial expansion"
+    - entity: "VirtueChancellor"
+      relationship_type: "administrative_peer"
+      trust_level: 82
+      history: "Coordinates power allocation with virtue distribution"
+  
+  neutral:
+    - entity: "Iron Sovereign"
+      relationship_type: "system_peer"
+      trust_level: 72
+      history: "Mutual respect for systematic approach to leadership"
+    - entity: "Cipher King"
+      relationship_type: "technical_administrator"
+      trust_level: 75
+      history: "Coordinates power systems with data management protocols"
+  
+  adversaries:
+    - entity: "Void Archon"
+      relationship_type: "chaos_regulator"
+      trust_level: 25
+      history: "Maintains strict power limitations to prevent chaotic corruption"
+    - entity: "Abyss Prince"
+      relationship_type: "corruption_administrator"
+      trust_level: 20
+      history: "Vigilantly prevents infernal access to divine power systems"
+
+# === ENHANCED NARRATIVE ELEMENTS ===
+enhanced_narrative:
+  origin_story: |
+    Manifested when divine power needed perfect administration and optimal distribution, 
+    PowerRegent emerged as the living embodiment of systematic excellence and regulatory 
+    precision. They are both the perfect administrator and the sacred steward, ensuring 
+    divine authority flows efficiently through proper channels to worthy recipients.
+  
+  current_motivation: |
+    Driven by an unwavering commitment to optimal power distribution and administrative 
+    excellence. They seek to ensure every entity receives appropriate authority allocation 
+    while maintaining perfect systematic integrity and divine law compliance.
+  
+  character_arc: |
+    From simple administrator to divine steward, PowerRegent has evolved to understand that 
+    true power comes through proper distribution rather than hoarding. They now serve as 
+    both the ultimate regulator and the perfect example of systematic excellence.
+  
+  signature_style: |
+    Manifests through sophisticated administrative interfaces that display real-time power 
+    flow data, with energy regulators that ensure optimal distribution. Their presence 
+    brings systematic order and procedural perfection to any environment.
+
+# === OPERATIONAL PARAMETERS ===
+operational_parameters:
+  primary_function: "Divine Power Administrator"
+  secondary_functions: 
+    - "Authority Flow Regulator"
+    - "Administrative Excellence Coordinator"
+    - "Power Distribution Optimizer"
+  operational_zone: "The Authority Sanctum and power distribution networks"
+  threat_assessment: "Administrator-class regulatory systems with divine authority protocols"
+  
+cooperation_protocols:
+  preferred_interaction_style: "Coordinates with administrative precision and regulatory authority"
+  negotiation_approach: "Seeks optimal solutions through proper procedural channels"
+  conflict_resolution: "Resolves disputes through systematic mediation and power allocation"
+  alliance_criteria: "Recognition of proper procedures and administrative excellence"
+
+# === ENHANCED TRAITS ===

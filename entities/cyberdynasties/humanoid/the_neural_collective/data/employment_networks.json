@@ -1,0 +1,286 @@
+[
+  {
+    "network_id": "neural_collective_tech_sector",
+    "industry_focus": "neural_technology",
+    "entry_level_jobs": [
+      {
+        "position": "Neural Interface Trainee",
+        "salary": 35000,
+        "required_skills": ["basic_technology", "learning_aptitude"],
+        "required_education": "basic",
+        "advancement_potential": "high",
+        "enhancement_advantage": true
+      },
+      {
+        "position": "Synapse Maintenance Assistant",
+        "salary": 32000,
+        "required_skills": ["manual_dexterity", "attention_to_detail"],
+        "required_education": "basic",
+        "advancement_potential": "medium",
+        "enhancement_advantage": false
+      },
+      {
+        "position": "Consciousness Data Entry",
+        "salary": 28000,
+        "required_skills": ["basic_technology", "data_processing"],
+        "required_education": "basic",
+        "advancement_potential": "low",
+        "enhancement_advantage": true
+      }
+    ],
+    "skilled_positions": [
+      {
+        "position": "Neural Network Technician",
+        "salary": 65000,
+        "required_skills": ["technology", "neural_interface_operation"],
+        "required_education": "advanced",
+        "advancement_potential": "high",
+        "enhancement_advantage": true
+      },
+      {
+        "position": "Consciousness Integration Specialist",
+        "salary": 75000,
+        "required_skills": ["psychology", "neural_technology", "empathy"],
+        "required_education": "advanced",
+        "advancement_potential": "high",
+        "enhancement_advantage": true
+      },
+      {
+        "position": "Synapse Security Analyst",
+        "salary": 70000,
+        "required_skills": ["cybersecurity", "neural_networks", "investigation"],
+        "required_education": "advanced",
+        "advancement_potential": "high",
+        "enhancement_advantage": true
+      }
+    ],
+    "executive_roles": [
+      {
+        "position": "Neural Division Director",
+        "salary": 180000,
+        "required_skills": ["leadership", "neural_technology", "business_strategy"],
+        "required_education": "professional",
+        "advancement_potential": "highest",
+        "enhancement_advantage": true
+      },
+      {
+        "position": "Consciousness Research Chief",
+        "salary": 220000,
+        "required_skills": ["research_leadership", "neural_science", "innovation"],
+        "required_education": "professional",
+        "advancement_potential": "highest",
+        "enhancement_advantage": true
+      }
+    ],
+    "hiring_bias": {
+      "enhanced_individuals": 25,
+      "neural_collective_citizens": 15,
+      "previous_neural_experience": 20
+    },
+    "advancement_fairness": 65,
+    "job_security": 75,
+    "criminal_infiltration": 20,
+    "underground_opportunities": [
+      "illegal_enhancement_testing",
+      "consciousness_data_theft",
+      "neural_black_market_operations"
+    ]
+  },
+  {
+    "network_id": "neural_collective_medical_sector",
+    "industry_focus": "neural_healthcare",
+    "entry_level_jobs": [
+      {
+        "position": "Neural Clinic Assistant",
+        "salary": 38000,
+        "required_skills": ["medical_basics", "patient_care"],
+        "required_education": "basic",
+        "advancement_potential": "medium",
+        "enhancement_advantage": false
+      },
+      {
+        "position": "Enhancement Recovery Aide",
+        "salary": 40000,
+        "required_skills": ["medical_basics", "empathy", "neural_awareness"],
+        "required_education": "basic",
+        "advancement_potential": "medium",
+        "enhancement_advantage": true
+      }
+    ],
+    "skilled_positions": [
+      {
+        "position": "Neural Enhancement Technician",
+        "salary": 80000,
+        "required_skills": ["medical_technology", "neural_interface_installation"],
+        "required_education": "advanced",
+        "advancement_potential": "high",
+        "enhancement_advantage": true
+      },
+      {
+        "position": "Consciousness Therapist",
+        "salary": 85000,
+        "required_skills": ["psychology", "neural_therapy", "empathy"],
+        "required_education": "advanced",
+        "advancement_potential": "high",
+        "enhancement_advantage": true
+      }
+    ],
+    "executive_roles": [
+      {
+        "position": "Neural Medical Director",
+        "salary": 250000,
+        "required_skills": ["medical_leadership", "neural_medicine", "administration"],
+        "required_education": "professional",
+        "advancement_potential": "highest",
+        "enhancement_advantage": true
+      }
+    ],
+    "hiring_bias": {
+      "medical_experience": 30,
+      "enhanced_individuals": 20,
+      "empathy_scores": 15
+    },
+    "advancement_fairness": 80,
+    "job_security": 85,
+    "criminal_infiltration": 15,
+    "underground_opportunities": [
+      "illegal_enhancement_procedures",
+      "medical_data_trafficking",
+      "consciousness_manipulation_services"
+    ]
+  },
+  {
+    "network_id": "neural_collective_security_sector",
+    "industry_focus": "neural_security",
+    "entry_level_jobs": [
+      {
+        "position": "Synapse Security Guard",
+        "salary": 42000,
+        "required_skills": ["security_training", "neural_awareness"],
+        "required_education": "basic",
+        "advancement_potential": "medium",
+        "enhancement_advantage": true
+      },
+      {
+        "position": "Consciousness Monitoring Trainee",
+        "salary": 38000,
+        "required_skills": ["observation", "technology_basics"],
+        "required_education": "basic",
+        "advancement_potential": "medium",
+        "enhancement_advantage": true
+      }
+    ],
+    "skilled_positions": [
+      {
+        "position": "Neural Security Specialist",
+        "salary": 72000,
+        "required_skills": ["cybersecurity", "neural_networks", "investigation"],
+        "required_education": "advanced",
+        "advancement_potential": "high",
+        "enhancement_advantage": true
+      },
+      {
+        "position": "Consciousness Crime Investigator",
+        "salary": 78000,
+        "required_skills": ["investigation", "neural_forensics", "psychology"],
+        "required_education": "advanced",
+        "advancement_potential": "high",
+        "enhancement_advantage": true
+      }
+    ],
+    "executive_roles": [
+      {
+        "position": "Neural Security Chief",
+        "salary": 200000,
+        "required_skills": ["security_leadership", "neural_technology", "law_enforcement"],
+        "required_education": "professional",
+        "advancement_potential": "highest",
+        "enhancement_advantage": true
+      }
+    ],
+    "hiring_bias": {
+      "law_enforcement_background": 25,
+      "enhanced_individuals": 30,
+      "loyalty_scores": 20
+    },
+    "advancement_fairness": 70,
+    "job_security": 80,
+    "criminal_infiltration": 25,
+    "underground_opportunities": [
+      "consciousness_surveillance_for_criminals",
+      "neural_security_system_sabotage",
+      "illegal_information_brokering"
+    ]
+  },
+  {
+    "network_id": "neural_collective_service_sector",
+    "industry_focus": "consciousness_services",
+    "entry_level_jobs": [
+      {
+        "position": "Neural Cafe Attendant",
+        "salary": 28000,
+        "required_skills": ["customer_service", "basic_neural_interface"],
+        "required_education": "basic",
+        "advancement_potential": "low",
+        "enhancement_advantage": false
+      },
+      {
+        "position": "Consciousness Experience Guide",
+        "salary": 32000,
+        "required_skills": ["customer_service", "empathy", "neural_interface"],
+        "required_education": "basic",
+        "advancement_potential": "medium",
+        "enhancement_advantage": true
+      },
+      {
+        "position": "Synapse Cleaning Technician",
+        "salary": 26000,
+        "required_skills": ["attention_to_detail", "equipment_operation"],
+        "required_education": "basic",
+        "advancement_potential": "low",
+        "enhancement_advantage": false
+      }
+    ],
+    "skilled_positions": [
+      {
+        "position": "Consciousness Experience Designer",
+        "salary": 60000,
+        "required_skills": ["creativity", "neural_programming", "psychology"],
+        "required_education": "advanced",
+        "advancement_potential": "high",
+        "enhancement_advantage": true
+      },
+      {
+        "position": "Neural Entertainment Producer",
+        "salary": 68000,
+        "required_skills": ["entertainment_production", "neural_technology", "creativity"],
+        "required_education": "advanced",
+        "advancement_potential": "high",
+        "enhancement_advantage": true
+      }
+    ],
+    "executive_roles": [
+      {
+        "position": "Consciousness Services Director",
+        "salary": 150000,
+        "required_skills": ["business_leadership", "entertainment_industry", "neural_technology"],
+        "required_education": "professional",
+        "advancement_potential": "highest",
+        "enhancement_advantage": true
+      }
+    ],
+    "hiring_bias": {
+      "customer_service_experience": 20,
+      "enhanced_individuals": 15,
+      "creativity_scores": 15
+    },
+    "advancement_fairness": 60,
+    "job_security": 55,
+    "criminal_infiltration": 30,
+    "underground_opportunities": [
+      "illegal_consciousness_experiences",
+      "neural_addiction_services",
+      "underground_enhancement_entertainment"
+    ]
+  }
+]

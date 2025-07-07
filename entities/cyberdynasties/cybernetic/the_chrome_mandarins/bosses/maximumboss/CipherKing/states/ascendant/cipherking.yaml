@@ -1,0 +1,246 @@
+# === ENTITY BASE TEMPLATE INTEGRATION ===
+# Enhanced with comprehensive relationship, power, and faction dynamics
+
+# === CORE ENTITY IDENTIFICATION ===
+entity_id: "chrome_mandarin_cipherking_001"
+entity_type: "corporate"  # Supreme leader of cybernetic dynasty
+class: "dynasty_supremeleader"
+
+name: Cipher King
+archetype: The Ascendant
+hybrid: Cybernetic
+subtype: CipherKing
+state: Ascendant
+epoch: Code Wars
+location: The Neon Throne
+role: Supreme Ruler of the Cyber Dynasties
+status: Ascendant, consolidating power
+
+# === CORE DEMOGRAPHICS ===
+core:
+  age: 47
+  gender: "male"
+  occupation: "Supreme Dynasty Leader"
+  status: "ascendant"
+
+# === POWER DYNAMICS METRICS ===
+power_metrics:
+  influence_score: 98  # Near-absolute control within Chrome Mandarins
+  resource_access: 95  # Can access virtually all dynasty resources
+  network_reach: 92   # Contacts across all subnets and factions
+  information_value: 96  # Possesses critical strategic intelligence
+  combat_effectiveness: 89  # Legendary skills but primarily strategic
+
+# === FACTION RELATIONSHIPS ===
+faction_relationships:
+  primary_allegiance: "chrome_mandarins"
+  loyalty_score: 100  # Absolute loyalty to his own dynasty
+  trust_network: ["firewall", "packet", "root", "glitch"]  # His lieutenants
+  rivalries: ["iron_sovereign", "ghostline", "nexus_eternal"]
+  recruitment_interest:
+    interested_factions: ["quantum_chorus", "neural_collective"]  # Want to study/recruit him
+    recruitment_resistance: 99  # Nearly impossible to turn
+    susceptibility_factors: ["legacy", "technological_supremacy"]
+    last_recruitment_attempt: "2207-03-15T00:00:00Z"
+
+# === SOCIO-ECONOMIC PROFILE ===
+socio_economic:
+  economic_status: "elite"
+  resource_dependencies: ["tech", "information", "enhancement"]
+  political_leanings: "dynasty_supremacist"  # Believes in Chrome Mandarin dominance
+  education_level: "master"
+  enhancement_level: "extreme"  # Heavily cybernetically enhanced
+
+# === RECRUITMENT PROFILE ===
+recruitment_profile:
+  current_satisfaction: 95  # Highly satisfied with his position
+  ambition_level: 98  # Still expanding power and influence
+  risk_tolerance: 75  # Calculated risks for greater power
+  family_obligations: []  # No known family ties
+  key_motivators: ["power", "legacy", "technological_supremacy", "dynasty_glory"]
+  recruitment_history: []  # No successful recruitment attempts against him
+
+# === RELATIONSHIP NETWORK ===
+relationships_extended:
+  family: []  # No known family in the system
+  friends: []  # Friendship is weakness; only allies and subordinates
+  allies: [
+    {entity_id: "firewall", relationship_strength: 85, type: "lieutenant"},
+    {entity_id: "packet", relationship_strength: 83, type: "lieutenant"},
+    {entity_id: "root", relationship_strength: 87, type: "lieutenant"},
+    {entity_id: "glitch", relationship_strength: 79, type: "lieutenant"}
+  ]
+  enemies: [
+    {entity_id: "iron_sovereign", relationship_strength: -92, type: "supreme_rival"},
+    {entity_id: "ghostline", relationship_strength: -76, type: "persistent_rival"},
+    {entity_id: "nexus_eternal", relationship_strength: -68, type: "cosmic_threat"}
+  ]
+  contacts: [
+    {entity_id: "chrome_mandarin_informants", utility_rating: 88, type: "intelligence_network"},
+    {entity_id: "neon_grid_operators", utility_rating: 82, type: "infrastructure_control"},
+    {entity_id: "enhancement_suppliers", utility_rating: 79, type: "technological_advancement"}
+  ]
+
+# === CORPORATE/LEADERSHIP SPECIFIC ===
+corporate_specific:
+  market_sector: "cybernetic_enhancement_and_digital_infrastructure"
+  market_dominance: 94  # Dominates cybernetic enhancement market
+  dynasty_contracts: ["chrome_mandarins_internal", "neon_grid_licensing", "enhancement_research"]
+  competition_level: 91  # Fierce competition with other dynasties
+  innovation_capacity: 89  # Constantly developing new technologies
+  political_influence: 87  # Significant influence in inter-dynasty politics
+
+# === LEADERSHIP CAPABILITIES ===
+leadership_profile:
+  command_authority: 98  # Absolute authority within Chrome Mandarins
+  strategic_planning: 94  # Master long-term strategist
+  delegation_skill: 86   # Effectively uses lieutenants
+  inspiration_ability: 82  # Inspires through power and success
+  succession_planning: 23  # Paranoid about successors; poor planning
+  
+  organizational_knowledge:
+    structure_understanding: 100  # Perfect knowledge of dynasty structure
+    operational_intelligence: 97   # Deep understanding of all operations
+    financial_oversight: 91       # Controls dynasty financial empire
+    security_protocols: 94        # Personally designed many security systems
+
+# === INTER-DYNASTY DYNAMICS ===
+inter_dynasty_relations:
+  chrome_mandarins: 100     # Absolute control
+  quantum_chorus: 34        # Tense technological rivalry
+  neural_collective: 28     # Mutual suspicion and competition
+  celestial_synod: 42       # Cautious respect for cosmic power
+  infernal_dynasty: 67      # Strange respect for shared ruthlessness
+  seraphic_concord: 19      # Ideological opposition
+
+  diplomatic_style: "technological_supremacy_through_strength"
+  negotiation_approach: "always_from_position_of_power"
+  alliance_willingness: 45   # Will ally if it serves dynasty interests
+  betrayal_likelihood: 76   # High - loyalty only to dynasty advancement
+
+# === TECHNOLOGICAL MASTERY ===
+technological_profile:
+  cybernetic_integration: 97    # Seamlessly merged with technology
+  hacking_supremacy: 98         # Legendary hacking abilities
+  system_architecture: 94      # Designs entire digital ecosystems
+  enhancement_innovation: 91   # Pioneers new cybernetic technologies
+  digital_warfare: 96          # Master of cyber combat and defense
+
+  signature_technologies:
+    - "Protocol Overwrite System"
+    - "Neon Grid Neural Interface"
+    - "Dynasty Command Protocols"
+    - "Chrome Enhancement Matrix"
+    - "Cipher Crown Neural Crown"
+
+# === DYNAMIC OPERATIONAL STATE ===
+current_state:
+  active_missions: [
+    "consolidating_supremacy_over_chrome_mandarins",
+    "expanding_neon_grid_influence", 
+    "developing_next_generation_enhancements",
+    "monitoring_iron_sovereign_activities"
+  ]
+  recent_events: [
+    "successful_defense_against_quantum_chorus_infiltration",
+    "acquisition_of_new_enhancement_technologies",
+    "expansion_of_lieutenant_network"
+  ]
+  stress_level: 34   # Moderate stress from constant vigilance
+  health_status: 88  # Excellent due to cybernetic enhancements
+  resource_status: 96 # Access to vast dynasty resources
+
+# === ORIGINAL TRAITS SECTION ===
+traits:
+  intellect: mastermind
+  charisma: magnetic
+  loyalty: commands absolute loyalty
+  ruthlessness: legendary
+  willpower: unbreakable
+  roots: never forgotten
+  streetwise: supreme
+  resourcefulness: infinite
+  swagger: untouchable
+  style: "Neon-draped, gold-circuit bling"
+  combat: flawless with code and blade
+  negotiation: always gets the upper hand
+  network: contacts in every subnet
+  reputation: feared and respected across all dynasties
+  signature_move: Protocol Overwrite  # Instantly seizes control of any digital system
+  ambition: boundless
+  resilience: endures any setback
+  intuition: uncanny
+  deception: master of misdirection
+  leadership: inspires fierce devotion
+  cunning: always three steps ahead
+  discipline: never loses focus
+  adaptability: thrives in chaos
+  vengeance: never forgets a slight
+  generosity: rewards loyalty lavishly
+  mercy: rare, but unforgettable
+  vision: sees the shape of things to come
+  innovation: creates new codes and tools
+  legacy: stories told in every corner of the Neon Grid
+  fearlessness: walks into danger without hesitation
+  mystique: shrouded in rumor and legend
+  influence: bends others to his will
+  hacker_skill: legendary
+  tactician: orchestrates complex schemes
+  diplomacy: can turn enemies into allies
+  stealth: moves unseen in both digital and physical worlds
+  endurance: outlasts every rival
+  luck: fortune seems to favor him
+  forgiveness: can turn rivals into allies—if it serves his vision
+  obsession: the Cipher Crown
+  weakness: haunted by a prophecy of betrayal
+
+# Psyche data moved to separate file: psyche_cipherking.yaml
+# This ensures compatibility with multi-dimensional identity systems
+
+deeds:
+  - description: "Upgraded the dynasty’s firewall"
+    timestamp: "2204-06-01T00:00:00Z"
+    memory_linked: false
+  - description: "Crushed the Protocol Rebellion"
+    timestamp: "2205-02-20T00:00:00Z"
+    memory_linked: false
+  - description: "Defeated the Iron Sovereign in the struggle for supremacy"
+    timestamp: "2115-01-01T00:00:00Z"
+    memory_linked: true
+
+relationships:
+  - type: lieutenant
+    target: Firewall
+    since: "2202-01-01T00:00:00Z"
+  - type: lieutenant
+    target: Packet
+    since: "2202-01-01T00:00:00Z"
+  - type: lieutenant
+    target: Root
+    since: "2202-01-01T00:00:00Z"
+  - type: lieutenant
+    target: Glitch
+    since: "2202-07-15T00:00:00Z"
+  - type: rival
+    target: Ghostline
+    since: "2201-04-01T00:00:00Z"
+  - type: underclass
+    target: Digital Underclass
+    since: "2199-01-01T00:00:00Z"
+  - type: rival
+    target: Iron Sovereign
+    since: "2115-01-01T00:00:00Z"
+
+memory_narrative: "From the Neon Throne, Cipher King forges a new order, haunted by rivalry and driven by the need to surpass all who came before."
+prophecy: "Will rule unchallenged until the Citadel awakens."
+
+memory_traits:
+  decay_rate: 0.1
+  vividness_range: [0.6, 1.0]
+  ruminator_chance: 0.5
+  forgetter_chance: 0.1
+  memory_influence: 0.7
+  obsession_chance: 0.1
+  clarity_base: 1.1
+  trauma_base: 0.05
+  memory_focus: [present, future]

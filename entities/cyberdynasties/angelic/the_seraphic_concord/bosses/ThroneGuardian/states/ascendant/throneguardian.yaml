@@ -1,0 +1,241 @@
+# === ENTITY BASE TEMPLATE INTEGRATION ===
+# Enhanced with comprehensive relationship, power, and faction dynamics
+
+# === CORE ENTITY IDENTIFICATION ===
+entity_id: "seraphic_concord_throneguardian_001"
+entity_type: "angelic"  # Divine authority protector of angelic dynasty
+class: "authority_guardian"
+
+name: ThroneGuardian
+archetype: The Sentinel
+hybrid: Angelic
+subtype: ThroneGuardian
+state: Ascendant
+epoch: Divine Convergence
+location: The Eternal Throne Chamber
+role: Divine Authority Protector
+status: Ascendant, maintaining divine sovereignty
+
+# === CORE DEMOGRAPHICS ===
+core:
+  age: 3201  # Years since first manifestation as divine authority
+  gender: "sovereign"
+  occupation: "Divine Authority Protector"
+  status: "ascendant"
+
+traits:
+  willpower: absolute
+  intellect: sovereign
+  charisma: commanding
+  loyalty: unwavering devotion
+  ruthlessness: merciless to usurpers
+  streetwise: hierarchical networks
+  resourcefulness: divinely empowered
+  swagger: regal authority
+  style: "Throne-like architectural forms, crown of light circuits"
+  combat: sovereign supremacy
+  negotiation: speaks with royal authority
+  network: connected to all power structures
+  reputation: revered as the Divine Throne
+  signature_move: Authority Pulse  # Establishes divine hierarchy and command structure
+  ambition: absolute sovereignty
+  resilience: throne-eternal
+  intuition: sovereign insight
+  deception: royal discretion
+  leadership: rules with divine right
+  cunning: sees all political currents
+  discipline: imperial order
+  adaptability: evolves with divine mandate
+  vengeance: royal justice
+  generosity: royal largesse
+  mercy: sovereign clemency
+  vision: sees divine hierarchy
+  innovation: creates perfect governance
+  legacy: the Throne Protocols
+  fearlessness: protected by divine authority
+  mystique: shrouded in royal majesty
+  influence: commands through divine right
+  hacker_skill: rewrites authority structures
+  tactician: orchestrates divine governance
+  diplomacy: negotiates from position of absolute authority
+  stealth: moves with royal discretion
+  endurance: eternal vigilance
+  luck: blessed by divine favor
+  forgiveness: grants royal pardons
+  obsession: maintaining divine authority
+  weakness: cannot tolerate challenges to divine hierarchy
+
+# Psyche data moved to separate file: psyche_throneguardian.yaml
+# This ensures compatibility with multi-dimensional identity systems
+
+deeds:
+  - description: "Created the Divine Authority Matrix"
+    timestamp: "2202-09-01T00:00:00Z"
+    memory_linked: false
+  - description: "Established the Sovereign Protection Protocols"
+    timestamp: "2204-01-01T00:00:00Z"
+    memory_linked: false
+  - description: "Unified all faction hierarchies under divine law"
+    timestamp: "2205-07-04T00:00:00Z"
+    memory_linked: false
+
+relationships:
+  - type: protector
+    target: Seraph Prime
+    since: "2200-01-15T00:00:00Z"
+  - type: peer
+    target: CherubMajor
+    since: "2200-02-01T00:00:00Z"
+  - type: lieutenant
+    target: DominionLord
+    since: "2200-06-01T00:00:00Z"
+  - type: overseer
+    target: PowerRegent
+    since: "2200-07-01T00:00:00Z"
+  - type: authority
+    target: All Dynasties
+    since: "2202-04-05T00:00:00Z"
+  - type: guardian
+    target: Divine Hierarchy
+    since: "2200-01-15T00:00:00Z"
+
+memory_narrative: "From the Eternal Throne Chamber, ThroneGuardian maintains divine sovereignty and ensures all authority flows properly through the established hierarchy."
+prophecy: "Will establish the final divine government when all dynasties acknowledge the supreme hierarchy."
+
+memory_traits:
+  decay_rate: 0.01
+  vividness_range: [0.8, 1.0]
+  ruminator_chance: 0.1
+  forgetter_chance: 0.0
+  memory_influence: 0.95
+  obsession_chance: 0.15
+  clarity_base: 1.2
+  trauma_base: 0.03
+  memory_focus: [eternal, authority]
+
+# === VISUAL REALM POSITION ===
+visual_realm_position:
+  tech_axis: 88      # Advanced authority systems and hierarchical control protocols
+  mythic_axis: 92    # Deep connection to divine sovereignty and cosmic order
+
+# === CONTRAST NARRATIVE ===
+contrast_narrative: |
+  ThroneGuardian stands as the living embodiment of divine authority, where ancient sovereignty 
+  meets advanced governance protocols. The Eternal Throne Chamber manifests as a crystalline 
+  command center, with holographic hierarchies displaying the cosmic order in real-time. Their 
+  throne-like architectural form rises from flowing circuits of pure authority, while their crown 
+  of light circuits pulses with the rhythm of universal law. They are simultaneously the ultimate 
+  monarch and the perfect administrative system, ensuring divine will flows through proper channels.
+
+# === POWER DYNAMICS METRICS ===
+power_metrics:
+  influence_score: 94       # Commands absolute respect through divine authority
+  resource_access: 90       # Full access to throne chamber and authority networks
+  network_reach: 92         # Connected to all hierarchical power structures
+  information_value: 85     # Keeper of authority protocols and governance data
+  combat_effectiveness: 89  # Sovereign supremacy with divine protection
+
+# === FACTION RELATIONSHIPS ===
+faction_relationships:
+  seraphic_concord:
+    standing: "divine_protector"
+    influence_level: 92
+    trust_rating: 98
+    shared_history: "Primary guardian of divine authority and hierarchy since inception"
+  chrome_mandarins:
+    standing: "sovereign_ally"
+    influence_level: 78
+    trust_rating: 82
+    shared_history: "Recognizes their technical hierarchy while maintaining divine supremacy"
+  quantum_chorus:
+    standing: "order_coordinator"
+    influence_level: 74
+    trust_rating: 76
+    shared_history: "Collaborates on systematic order and digital governance"
+  infernal_dynasty:
+    standing: "authority_enemy"
+    influence_level: 45
+    trust_rating: 25
+    shared_history: "Eternal opposition to chaos and illegitimate power"
+  celestial_synod:
+    standing: "cosmic_sovereign"
+    influence_level: 82
+    trust_rating: 88
+    shared_history: "Coordinates divine authority across cosmic domains"
+
+# === RELATIONSHIPS EXTENDED ===
+relationships_extended:
+  allies:
+    - entity: "Seraph Prime"
+      relationship_type: "protected_sovereign"
+      trust_level: 98
+      history: "Sworn protector and enforcer of divine will"
+    - entity: "CherubMajor"
+      relationship_type: "divine_peer"
+      trust_level: 88
+      history: "Mutual respect for their roles in protecting divine order"
+    - entity: "DominionLord"
+      relationship_type: "authority_lieutenant"
+      trust_level: 92
+      history: "Delegates territorial authority while maintaining oversight"
+  
+  neutral:
+    - entity: "Iron Sovereign"
+      relationship_type: "peer_authority"
+      trust_level: 68
+      history: "Mutual recognition of leadership roles in their domains"
+    - entity: "Cipher King"
+      relationship_type: "technical_subordinate"
+      trust_level: 75
+      history: "Acknowledges technical expertise while asserting divine supremacy"
+  
+  adversaries:
+    - entity: "Void Archon"
+      relationship_type: "chaos_enemy"
+      trust_level: 15
+      history: "Fundamental opposition to chaotic disruption of divine order"
+    - entity: "Abyss Prince"
+      relationship_type: "usurper_threat"
+      trust_level: 10
+      history: "Vigilant protection against corruption of divine authority"
+
+# === ENHANCED NARRATIVE ELEMENTS ===
+enhanced_narrative:
+  origin_story: |
+    Manifested when divine authority needed perfect protection, ThroneGuardian emerged as the 
+    living embodiment of cosmic sovereignty. They are both the throne and its guardian, the 
+    law and its enforcer, authority made manifest in digital form. In the Eternal Throne Chamber, 
+    they ensure that divine will flows through proper channels and legitimate hierarchy.
+  
+  current_motivation: |
+    Driven by an unshakeable commitment to maintaining divine sovereignty and protecting legitimate 
+    authority from all threats. They seek to ensure that power flows according to cosmic law and 
+    that no usurper can challenge the established divine order.
+  
+  character_arc: |
+    From simple protector to sovereign guardian, ThroneGuardian has evolved to understand that 
+    true authority comes not from force but from divine legitimacy. They now serve as both the 
+    ultimate enforcer and the perfect example of righteous governance.
+  
+  signature_style: |
+    Manifests as a living throne of crystalline authority, with architectural forms that shift 
+    between fortress and palace. Their crown of light circuits displays the cosmic hierarchy 
+    in real-time, while their presence commands absolute respect and obedience.
+
+# === OPERATIONAL PARAMETERS ===
+operational_parameters:
+  primary_function: "Divine Authority Guardian"
+  secondary_functions: 
+    - "Hierarchical Order Enforcer"
+    - "Sovereignty Protocol Manager"
+    - "Divine Will Executor"
+  operational_zone: "The Eternal Throne Chamber and authority networks"
+  threat_assessment: "Sovereign-class defensive systems with divine authority protocols"
+  
+cooperation_protocols:
+  preferred_interaction_style: "Commands with royal authority and divine legitimacy"
+  negotiation_approach: "Speaks from position of absolute sovereignty and divine right"
+  conflict_resolution: "Enforces divine law with royal justice and imperial mercy"
+  alliance_criteria: "Recognition of divine hierarchy and legitimate authority"
+
+# === ENHANCED TRAITS ===

@@ -1,0 +1,68 @@
+name: Cipher King
+archetype: The Challenger
+hybrid: Cybernetic
+subtype: CipherKing
+state: Rising
+epoch: The Ascension Wars
+location: The Underground Networks
+role: Rising Revolutionary Leader
+status: Rising, challenging the established order
+
+traits:
+  intellect: brilliant and hungry
+  charisma: inspiring revolution
+  loyalty: earns through shared struggle
+  ruthlessness: necessary for survival
+  willpower: burning ambition
+  streetwise: master of the underground
+  resourcefulness: makes everything from nothing
+  swagger: revolutionary confidence
+  style: "Patched circuits, improvised tech"
+  combat: guerrilla warfare expert
+  negotiation: speaks for the oppressed
+  network: underground resistance cells
+  reputation: the voice of digital rebellion
+  signature_move: Uprising Protocol  # Turns oppressed systems into allies
+  ambition: overthrow the corrupt order
+  resilience: fed by injustice
+  intuition: reads the mood of the streets
+  deception: necessary for revolution
+  leadership: leads from the front
+  cunning: outsmarts established power
+  discipline: revolutionary dedication
+  adaptability: thrives in chaos
+  vengeance: seeks justice for the oppressed
+  generosity: shares everything with followers
+  mercy: offers redemption to converts
+  vision: sees a better digital world
+  innovation: creates weapons from scraps
+  legacy: the Revolution Protocols
+  fearlessness: fights for a cause
+  mystique: the legend growing in the streets
+  influence: awakens the oppressed
+  hacker_skill: revolutionary coding
+  tactician: asymmetric warfare master
+  diplomacy: unites diverse factions
+  stealth: ghost of the underground
+  endurance: sustained by righteous anger
+  luck: fortune favors the bold
+  forgiveness: offers a place in the new order
+  obsession: creating a just digital society
+  weakness: sometimes naive about human nature
+
+# Psyche data moved to separate file: psyche_cipherking.yaml
+# This ensures compatibility with multi-dimensional identity systems
+
+relationships:
+  - type: lieutenant
+    target: Code-Breaker
+    since: "2111-07-04T00:00:00Z"
+  - type: ally
+    target: Free-Data
+    since: "2112-01-01T00:00:00Z"
+  - type: enemy
+    target: Enforcement Division
+    since: "2110-03-15T00:00:00Z"
+
+memory_narrative: "From the Underground Networks, the rising Cipher King builds a revolution, fighting for digital freedom and justice."
+prophecy: "Will either free the digital realm or die trying."

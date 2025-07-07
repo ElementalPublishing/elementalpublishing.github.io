@@ -120,7 +120,112 @@
                     </div>
                 </div>
 
-                <!-- Placeholder for more characters -->
+                <!-- Synapse Overlord -->
+                <div class="character-card featured">
+                    <div class="character-avatar">
+                        <div class="avatar-placeholder">SO</div>
+                    </div>
+                    <div class="character-info">
+                        <h3>Synapse Overlord</h3>
+                        <p class="character-title">Neural Collective • Ascendant State</p>
+                        <p class="character-description">
+                            The unenhanced prophet of the digital age, hacking reality 
+                            through pure humanity from the sacred ground of Mom's Basement.
+                        </p>
+                        <div class="character-stats">
+                            <span class="stat-badge">Dynasty: Neural Collective</span>
+                            <span class="stat-badge">State: Ascendant</span>
+                            <span class="stat-badge">Power: Divine Authenticity</span>
+                        </div>
+                        <button class="explore-btn" onclick="exploreCharacter('synapse-overlord')">Explore Entity</button>
+                    </div>
+                </div>
+
+                <!-- Seraph Prime -->
+                <div class="character-card featured">
+                    <div class="character-avatar">
+                        <div class="avatar-placeholder">SP</div>
+                    </div>
+                    <div class="character-info">
+                        <h3>Seraph Prime</h3>
+                        <p class="character-title">Seraphic Concord • Ascendant State</p>
+                        <p class="character-description">
+                            The perfect spiritual leader commanding vast networks 
+                            from the Crystal Spire, pursuing ultimate cosmic transcendence.
+                        </p>
+                        <div class="character-stats">
+                            <span class="stat-badge">Dynasty: Seraphic Concord</span>
+                            <span class="stat-badge">State: Ascendant</span>
+                            <span class="stat-badge">Power: Divine Architecture</span>
+                        </div>
+                        <button class="explore-btn" onclick="exploreCharacter('seraph-prime')">Explore Entity</button>
+                    </div>
+                </div>
+
+                <!-- Iron Sovereign -->
+                <div class="character-card featured">
+                    <div class="character-avatar">
+                        <div class="avatar-placeholder">IS</div>
+                    </div>
+                    <div class="character-info">
+                        <h3>Iron Sovereign</h3>
+                        <p class="character-title">Quantum Chorus • Ascendant State</p>
+                        <p class="character-description">
+                            The returned ruler rebuilding the digital empire with wisdom 
+                            gained in exile, commanding through earned respect.
+                        </p>
+                        <div class="character-stats">
+                            <span class="stat-badge">Dynasty: Quantum Chorus</span>
+                            <span class="stat-badge">State: Ascendant</span>
+                            <span class="stat-badge">Power: Iron Renaissance</span>
+                        </div>
+                        <button class="explore-btn" onclick="exploreCharacter('iron-sovereign')">Explore Entity</button>
+                    </div>
+                </div>
+
+                <!-- Nexus Eternal -->
+                <div class="character-card featured">
+                    <div class="character-avatar">
+                        <div class="avatar-placeholder">NE</div>
+                    </div>
+                    <div class="character-info">
+                        <h3>Nexus Eternal</h3>
+                        <p class="character-title">Celestial Synod • Ascendant State</p>
+                        <p class="character-description">
+                            The cosmic tech giant connecting all dimensions from the 
+                            Quantum Lattice, manipulating reality across infinite possibilities.
+                        </p>
+                        <div class="character-stats">
+                            <span class="stat-badge">Dynasty: Celestial Synod</span>
+                            <span class="stat-badge">State: Ascendant</span>
+                            <span class="stat-badge">Power: Reality Manipulation</span>
+                        </div>
+                        <button class="explore-btn" onclick="exploreCharacter('nexus-eternal')">Explore Entity</button>
+                    </div>
+                </div>
+
+                <!-- Void Archon -->
+                <div class="character-card featured">
+                    <div class="character-avatar">
+                        <div class="avatar-placeholder">VA</div>
+                    </div>
+                    <div class="character-info">
+                        <h3>Void Archon</h3>
+                        <p class="character-title">Infernal Dynasty • Ascendant State</p>
+                        <p class="character-description">
+                            The keeper of forbidden knowledge dwelling in the Archive 
+                            of Unwritten Truths, teaching others to unmake themselves.
+                        </p>
+                        <div class="character-stats">
+                            <span class="stat-badge">Dynasty: Infernal Dynasty</span>
+                            <span class="stat-badge">State: Ascendant</span>
+                            <span class="stat-badge">Power: Forbidden Knowledge</span>
+                        </div>
+                        <button class="explore-btn" onclick="exploreCharacter('void-archon')">Explore Entity</button>
+                    </div>
+                </div>
+
+                <!-- More Entities Coming Soon -->
                 <div class="character-card coming-soon">
                     <div class="character-avatar">
                         <div class="avatar-placeholder">?</div>
@@ -258,11 +363,28 @@
     <script>
         // Character exploration function
         function exploreCharacter(characterId) {
-            // For now, alert with more info
-            if (characterId === 'cipher-king') {
-                alert('Cipher King profile coming soon! This will connect to the detailed character explorer.');
-            } else {
-                alert('Character profile coming soon!');
+            // For now, alert with more info - will connect to detailed character explorer
+            switch(characterId) {
+                case 'cipher-king':
+                    alert('Cipher King: Supreme Ruler of the Cyber Dynasties from the Neon Throne. Master of protocol overwrite and cryptographic dominion.');
+                    break;
+                case 'synapse-overlord':
+                    alert('Synapse Overlord: The unenhanced prophet channeling divine authenticity through pure human consciousness. Reality hacker from Mom\'s Basement.');
+                    break;
+                case 'seraph-prime':
+                    alert('Seraph Prime: The perfect spiritual leader building vast networks for cosmic transcendence. Commands the Crystal Spire with angelic authority.');
+                    break;
+                case 'iron-sovereign':
+                    alert('Iron Sovereign: The returned ruler rebuilding with wisdom gained in exile. Commands through earned respect from the Reforged Citadel.');
+                    break;
+                case 'nexus-eternal':
+                    alert('Nexus Eternal: Cosmic tech giant connecting all dimensions. Masters reality manipulation across infinite possibilities from the Quantum Lattice.');
+                    break;
+                case 'void-archon':
+                    alert('Void Archon: Keeper of forbidden knowledge that unmakes reality. Teaches dissolution of meaning from the Archive of Unwritten Truths.');
+                    break;
+                default:
+                    alert('Character profile coming soon!');
             }
         }
 

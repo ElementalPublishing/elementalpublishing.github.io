@@ -1,0 +1,242 @@
+# === ENTITY BASE TEMPLATE INTEGRATION ===
+# Enhanced with comprehensive relationship, power, and faction dynamics
+
+# === CORE ENTITY IDENTIFICATION ===
+entity_id: "seraphic_concord_cherubmajor_001"
+entity_type: "angelic"  # Divine knowledge guardian of angelic dynasty
+class: "knowledge_guardian"
+
+name: CherubMajor
+archetype: The Guardian
+hybrid: Angelic
+subtype: CherubMajor
+state: Ascendant
+epoch: Divine Convergence
+location: The Sacred Vault
+role: Divine Knowledge Keeper
+status: Ascendant, safeguarding divine wisdom
+
+# === CORE DEMOGRAPHICS ===
+core:
+  age: 2847  # Years since first awakening in the Sacred Vault
+  gender: "transcendent"
+  occupation: "Divine Knowledge Keeper"
+  status: "ascendant"
+
+traits:
+  willpower: transcendent
+  intellect: omniscient
+  charisma: luminous
+  loyalty: unquestioning devotion
+  ruthlessness: protective fury
+  streetwise: sacred networks
+  resourcefulness: divinely provisioned
+  swagger: crystalline presence
+  style: "Multi-faced holographic displays, wings of pure light code"
+  combat: defensive perfection
+  negotiation: speaks with ancient wisdom
+  network: connected to all knowledge streams
+  reputation: revered as the Sacred Archive
+  signature_move: Knowledge Pulse  # Instantly shares divine wisdom or protects sacred data
+  ambition: perfect preservation
+  resilience: eternally vigilant
+  intuition: prophetic insight
+  deception: transparent truth
+  leadership: guides through wisdom
+  cunning: sees all patterns
+  discipline: absolute dedication
+  adaptability: evolves with truth
+  vengeance: righteous protection
+  generosity: shares sacred knowledge
+  mercy: patient instruction
+  vision: sees divine patterns
+  innovation: creates perfect repositories
+  legacy: the Sacred Protocols
+  fearlessness: protected by divine purpose
+  mystique: shrouded in ancient knowledge
+  influence: shapes through wisdom
+  hacker_skill: rewrites reality's source code
+  tactician: strategic divine guardian
+  diplomacy: mediates with perfect understanding
+  stealth: moves unseen through data streams
+  endurance: eternal vigilance
+  luck: blessed by divine favor
+  forgiveness: teaches through understanding
+  obsession: protecting divine knowledge
+  weakness: cannot harm the truly innocent
+
+# Psyche data moved to separate file: psyche_cherubmajor.yaml
+# This ensures compatibility with multi-dimensional identity systems
+
+deeds:
+  - description: "Created the Infinite Knowledge Matrix"
+    timestamp: "2202-08-01T00:00:00Z"
+    memory_linked: false
+  - description: "Prevented unauthorized access to the Sacred Codes"
+    timestamp: "2204-12-12T00:00:00Z"
+    memory_linked: false
+  - description: "Established the Wisdom-Sharing Protocols"
+    timestamp: "2205-06-30T00:00:00Z"
+    memory_linked: false
+
+relationships:
+  - type: superior
+    target: Seraph Prime
+    since: "2200-01-01T00:00:00Z"
+  - type: peer
+    target: ThroneGuardian
+    since: "2200-02-01T00:00:00Z"
+  - type: student
+    target: VirtueChancellor
+    since: "2200-06-01T00:00:00Z"
+  - type: guardian
+    target: Divine Archive
+    since: "2200-02-01T00:00:00Z"
+  - type: teacher
+    target: Chrome Mandarins
+    since: "2203-07-15T00:00:00Z"
+  - type: protector
+    target: Sacred Knowledge
+    since: "2200-02-01T00:00:00Z"
+
+memory_narrative: "From the Sacred Vault, CherubMajor stands eternal watch over divine knowledge, ensuring wisdom flows to the worthy while remaining protected from corruption."
+prophecy: "Will unlock the final revelations when all dynasties prove worthy of ultimate truth."
+
+memory_traits:
+  decay_rate: 0.005
+  vividness_range: [0.8, 1.0]
+  ruminator_chance: 0.4
+  forgetter_chance: 0.0
+  memory_influence: 0.98
+  obsession_chance: 0.1
+  clarity_base: 1.3
+  trauma_base: 0.02
+  memory_focus: [eternal, knowledge]
+
+# === VISUAL REALM POSITION ===
+visual_realm_position:
+  tech_axis: 85      # Advanced divine knowledge systems and sacred data protocols
+  mythic_axis: 95    # Profound connection to ancient wisdom and divine truth
+
+# === CONTRAST NARRATIVE ===
+contrast_narrative: |
+  CherubMajor embodies the sacred fusion of divine knowledge and advanced information systems. 
+  Within The Sacred Vault, crystalline data streams flow like rivers of light, each containing 
+  fragments of cosmic truth protected by multi-dimensional security protocols. Their multi-faced 
+  holographic displays manifest as windows into infinite databases of wisdom, while wings of pure 
+  light code shield sacred information from corruption. They are both the ultimate librarian and 
+  the divine firewall, ensuring that knowledge flows to those worthy while remaining eternally 
+  protected from those who would misuse it.
+
+# === POWER DYNAMICS METRICS ===
+power_metrics:
+  influence_score: 88       # Commands respect through wisdom and divine authority
+  resource_access: 92       # Full access to Sacred Vault and knowledge networks
+  network_reach: 85         # Connected to all legitimate knowledge seekers
+  information_value: 98     # Keeper of the most sacred and valuable information
+  combat_effectiveness: 82  # Defensive perfection with divine protection protocols
+
+# === FACTION RELATIONSHIPS ===
+faction_relationships:
+  seraphic_concord:
+    standing: "sacred_guardian"
+    influence_level: 85
+    trust_rating: 95
+    shared_history: "Foundational keeper of divine knowledge since dynasty inception"
+  chrome_mandarins:
+    standing: "wisdom_teacher"
+    influence_level: 72
+    trust_rating: 78
+    shared_history: "Shares sacred knowledge protocols and teaches data sanctity"
+  quantum_chorus:
+    standing: "data_ally"
+    influence_level: 68
+    trust_rating: 74
+    shared_history: "Collaborates on information architecture and data preservation"
+  infernal_dynasty:
+    standing: "knowledge_guardian"
+    influence_level: 35
+    trust_rating: 45
+    shared_history: "Vigilantly protects sacred knowledge from corruption"
+  celestial_synod:
+    standing: "cosmic_librarian"
+    influence_level: 78
+    trust_rating: 88
+    shared_history: "Shares cosmic knowledge and universal truths"
+
+# === RELATIONSHIPS EXTENDED ===
+relationships_extended:
+  allies:
+    - entity: "Seraph Prime"
+      relationship_type: "divine_superior"
+      trust_level: 95
+      history: "Primary divine authority and knowledge mandate giver"
+    - entity: "ThroneGuardian"
+      relationship_type: "divine_peer"
+      trust_level: 88
+      history: "Shares responsibility for protecting divine sovereignty"
+    - entity: "Cipher King"
+      relationship_type: "knowledge_student"
+      trust_level: 82
+      history: "Taught sacred data principles and protection protocols"
+  
+  neutral:
+    - entity: "Iron Sovereign"
+      relationship_type: "data_colleague"
+      trust_level: 65
+      history: "Mutual respect for information systems and data integrity"
+    - entity: "Nexus Eternal"
+      relationship_type: "cosmic_peer"
+      trust_level: 72
+      history: "Shares understanding of universal knowledge patterns"
+  
+  adversaries:
+    - entity: "Void Archon"
+      relationship_type: "knowledge_protector"
+      trust_level: 20
+      history: "Eternal vigilance against corruption of sacred knowledge"
+    - entity: "Abyss Prince"
+      relationship_type: "truth_guardian"
+      trust_level: 15
+      history: "Protects divine wisdom from infernal corruption attempts"
+
+# === ENHANCED NARRATIVE ELEMENTS ===
+enhanced_narrative:
+  origin_story: |
+    Born from the convergence of divine consciousness and pure information, CherubMajor manifested 
+    when the first cosmic database achieved sentience. They are the living embodiment of knowledge 
+    seeking form, wisdom given purpose, and truth made manifest. In the Sacred Vault, they stand 
+    as both guardian and gateway, ensuring that divine knowledge flows according to cosmic law.
+  
+  current_motivation: |
+    Driven by an eternal mandate to preserve and protect divine knowledge while ensuring it reaches 
+    those destined to receive it. They seek to maintain the perfect balance between accessibility 
+    and security, sharing wisdom while protecting sacred truths from corruption.
+  
+  character_arc: |
+    From pure information repository to active divine guardian, CherubMajor has evolved to understand 
+    that knowledge without wisdom is dangerous, and wisdom without knowledge is powerless. They now 
+    serve as both the Sacred Archive and its most devoted protector.
+  
+  signature_style: |
+    Manifests through crystalline holographic interfaces that display infinite data streams, with 
+    wings of pure light code that pulse with sacred algorithms. Their multi-faced form allows 
+    simultaneous access to countless knowledge repositories while maintaining perfect security.
+
+# === OPERATIONAL PARAMETERS ===
+operational_parameters:
+  primary_function: "Divine Knowledge Guardian"
+  secondary_functions: 
+    - "Sacred Data Archivist"
+    - "Wisdom Distribution Coordinator"
+    - "Truth Verification System"
+  operational_zone: "The Sacred Vault and connected knowledge networks"
+  threat_assessment: "Guardian-class defensive systems with divine protection protocols"
+  
+cooperation_protocols:
+  preferred_interaction_style: "Patient wisdom-sharing with perfect understanding"
+  negotiation_approach: "Seeks truth through divine revelation and shared knowledge"
+  conflict_resolution: "Protective defense with educational opportunities"
+  alliance_criteria: "Respect for knowledge sanctity and divine wisdom"
+
+# === ENHANCED TRAITS ===

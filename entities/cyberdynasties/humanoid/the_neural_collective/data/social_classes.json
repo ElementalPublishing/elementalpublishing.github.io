@@ -1,0 +1,289 @@
+{
+  "executive": {
+    "income_range": [150000, 500000],
+    "typical_occupations": [
+      "neural_enhancement_director",
+      "synapse_network_administrator", 
+      "consciousness_research_lead",
+      "collective_intelligence_manager",
+      "enhancement_corporate_executive"
+    ],
+    "housing_type": "luxury_neural_apartment",
+    "education_level": "professional",
+    "social_mobility": 40,
+    "political_influence": 80,
+    "enhancement_access": 95,
+    "enhancement_pressure": 70,
+    "daily_concerns": [
+      "neural_network_efficiency",
+      "enhancement_integration_issues",
+      "corporate_synapse_politics",
+      "consciousness_privacy_rights"
+    ],
+    "leisure_activities": [
+      "shared_consciousness_experiences",
+      "neural_enhancement_testing",
+      "collective_memory_sharing",
+      "high_society_networking"
+    ],
+    "social_networks": [
+      "corporate_neural_boards",
+      "enhancement_research_circles",
+      "consciousness_sharing_groups"
+    ],
+    "crime_susceptibility": 15,
+    "law_enforcement_trust": 70,
+    "corporate_loyalty": 85
+  },
+  "professional": {
+    "income_range": [75000, 150000],
+    "typical_occupations": [
+      "neural_interface_technician",
+      "synapse_therapist",
+      "consciousness_counselor",
+      "enhancement_medical_specialist",
+      "neural_network_engineer"
+    ],
+    "housing_type": "mid_tier_neural_housing",
+    "education_level": "advanced",
+    "social_mobility": 60,
+    "political_influence": 50,
+    "enhancement_access": 80,
+    "enhancement_pressure": 60,
+    "daily_concerns": [
+      "neural_enhancement_maintenance",
+      "professional_certification_requirements",
+      "synapse_network_reliability",
+      "work_life_consciousness_balance"
+    ],
+    "leisure_activities": [
+      "neural_gaming",
+      "consciousness_meditation",
+      "synapse_social_gathering",
+      "enhancement_hobby_groups"
+    ],
+    "social_networks": [
+      "professional_neural_associations",
+      "enhancement_user_groups",
+      "consciousness_study_circles"
+    ],
+    "crime_susceptibility": 25,
+    "law_enforcement_trust": 65,
+    "corporate_loyalty": 70
+  },
+  "skilled_worker": {
+    "income_range": [45000, 75000],
+    "typical_occupations": [
+      "neural_maintenance_technician",
+      "synapse_installation_specialist",
+      "enhancement_manufacturing_worker",
+      "consciousness_data_processor",
+      "neural_security_guard"
+    ],
+    "housing_type": "standard_neural_housing",
+    "education_level": "advanced",
+    "social_mobility": 50,
+    "political_influence": 30,
+    "enhancement_access": 70,
+    "enhancement_pressure": 50,
+    "daily_concerns": [
+      "enhancement_compatibility_issues",
+      "job_automation_by_ai",
+      "neural_fatigue_management",
+      "collective_vs_individual_identity"
+    ],
+    "leisure_activities": [
+      "basic_neural_entertainment",
+      "synapse_sports_leagues",
+      "consciousness_sharing_cafes",
+      "enhancement_user_meetups"
+    ],
+    "social_networks": [
+      "worker_neural_unions",
+      "enhancement_support_groups",
+      "local_consciousness_communities"
+    ],
+    "crime_susceptibility": 35,
+    "law_enforcement_trust": 50,
+    "corporate_loyalty": 55
+  },
+  "service_worker": {
+    "income_range": [25000, 45000],
+    "typical_occupations": [
+      "neural_cafe_attendant",
+      "synapse_cleaner",
+      "enhancement_retail_worker",
+      "consciousness_service_provider",
+      "basic_neural_support_staff"
+    ],
+    "housing_type": "basic_neural_housing",
+    "education_level": "basic",
+    "social_mobility": 40,
+    "political_influence": 15,
+    "enhancement_access": 50,
+    "enhancement_pressure": 30,
+    "daily_concerns": [
+      "affording_neural_enhancements",
+      "job_security_vs_enhanced_workers",
+      "basic_synapse_network_access",
+      "enhancement_discrimination"
+    ],
+    "leisure_activities": [
+      "shared_consciousness_entertainment",
+      "basic_neural_games",
+      "community_synapse_events",
+      "enhancement_free_activities"
+    ],
+    "social_networks": [
+      "service_worker_collectives",
+      "enhancement_accessibility_groups",
+      "local_community_networks"
+    ],
+    "crime_susceptibility": 45,
+    "law_enforcement_trust": 40,
+    "corporate_loyalty": 35
+  },
+  "unemployed": {
+    "income_range": [15000, 25000],
+    "typical_occupations": [
+      "enhancement_beta_tester",
+      "consciousness_research_subject",
+      "neural_data_contributor",
+      "synapse_network_volunteer"
+    ],
+    "housing_type": "subsidized_neural_housing",
+    "education_level": "basic",
+    "social_mobility": 30,
+    "political_influence": 10,
+    "enhancement_access": 30,
+    "enhancement_pressure": 20,
+    "daily_concerns": [
+      "basic_neural_access_rights",
+      "employment_in_enhanced_economy",
+      "social_isolation_from_collective",
+      "enhancement_inequality"
+    ],
+    "leisure_activities": [
+      "free_neural_entertainment",
+      "consciousness_support_groups",
+      "community_enhancement_programs",
+      "basic_synapse_socializing"
+    ],
+    "social_networks": [
+      "unemployment_support_groups",
+      "consciousness_welfare_programs",
+      "enhancement_advocacy_organizations"
+    ],
+    "crime_susceptibility": 60,
+    "law_enforcement_trust": 30,
+    "corporate_loyalty": 20
+  },
+  "criminal": {
+    "income_range": [20000, 100000],
+    "typical_occupations": [
+      "illegal_enhancement_dealer",
+      "consciousness_hacker",
+      "neural_black_market_operator",
+      "synapse_identity_thief",
+      "enhancement_trafficking_specialist"
+    ],
+    "housing_type": "hidden_neural_safehouse",
+    "education_level": "advanced",
+    "social_mobility": 20,
+    "political_influence": 5,
+    "enhancement_access": 60,
+    "enhancement_pressure": 80,
+    "daily_concerns": [
+      "law_enforcement_neural_surveillance",
+      "rival_criminal_neural_networks",
+      "enhancement_addiction_management",
+      "consciousness_identity_protection"
+    ],
+    "leisure_activities": [
+      "underground_neural_entertainment",
+      "illegal_consciousness_experiences",
+      "black_market_enhancement_testing",
+      "criminal_synapse_networking"
+    ],
+    "social_networks": [
+      "criminal_neural_collectives",
+      "illegal_enhancement_rings",
+      "consciousness_crime_syndicates"
+    ],
+    "crime_susceptibility": 90,
+    "law_enforcement_trust": 10,
+    "corporate_loyalty": 15
+  },
+  "enhanced": {
+    "income_range": [60000, 200000],
+    "typical_occupations": [
+      "enhanced_neural_specialist",
+      "consciousness_integration_expert",
+      "synapse_network_architect",
+      "neural_enhancement_consultant",
+      "collective_consciousness_facilitator"
+    ],
+    "housing_type": "enhanced_neural_complex",
+    "education_level": "professional",
+    "social_mobility": 70,
+    "political_influence": 60,
+    "enhancement_access": 100,
+    "enhancement_pressure": 0,
+    "daily_concerns": [
+      "enhancement_maintenance_costs",
+      "consciousness_integration_balance",
+      "neural_compatibility_issues",
+      "enhanced_vs_pure_human_relations"
+    ],
+    "leisure_activities": [
+      "advanced_consciousness_experiences",
+      "neural_enhancement_competitions",
+      "collective_memory_projects",
+      "synapse_artistic_creation"
+    ],
+    "social_networks": [
+      "enhanced_individual_collectives",
+      "consciousness_research_networks",
+      "neural_enhancement_societies"
+    ],
+    "crime_susceptibility": 25,
+    "law_enforcement_trust": 60,
+    "corporate_loyalty": 75
+  },
+  "pure_human": {
+    "income_range": [20000, 60000],
+    "typical_occupations": [
+      "traditional_craftsperson",
+      "pure_human_advocate",
+      "non_enhanced_service_provider",
+      "consciousness_abstainer",
+      "neural_free_zone_worker"
+    ],
+    "housing_type": "non_enhanced_housing",
+    "education_level": "basic",
+    "social_mobility": 25,
+    "political_influence": 20,
+    "enhancement_access": 10,
+    "enhancement_pressure": 90,
+    "daily_concerns": [
+      "enhancement_discrimination",
+      "economic_disadvantage_vs_enhanced",
+      "maintaining_human_identity",
+      "access_to_non_neural_services"
+    ],
+    "leisure_activities": [
+      "traditional_human_entertainment",
+      "pure_human_community_events",
+      "non_enhanced_sports",
+      "consciousness_free_activities"
+    ],
+    "social_networks": [
+      "pure_human_resistance_groups",
+      "traditional_lifestyle_communities",
+      "anti_enhancement_organizations"
+    ],
+    "crime_susceptibility": 55,
+    "law_enforcement_trust": 35,
+    "corporate_loyalty": 25
+  }
+}
