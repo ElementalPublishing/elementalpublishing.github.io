@@ -64,7 +64,19 @@
         
         // Track portal entry when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            trackPortalEntry('direct_navigation');
+            // Check if user came from specific sources
+            const urlParams = new URLSearchParams(window.location.search);
+            const source = urlParams.get('source') || 'direct_navigation';
+            const referrer = document.referrer;
+            
+            let entrySource = source;
+            if (referrer.includes('soundcloud.com')) {
+                entrySource = 'soundcloud_referral';
+            } else if (referrer.includes('index.html') || referrer.includes(window.location.hostname)) {
+                entrySource = 'main_site_portal_button';
+            }
+            
+            trackPortalEntry(entrySource);
         });
     </script>
 </head>
@@ -445,6 +457,10 @@
                     </div>
                 </div>
                 <a href="index.html" class="return-btn" onclick="trackPortalExit('music_portal_return')">← Return to Music Portal</a>
+                <div class="music-discovery-cta">
+                    <p><strong>Hear the Soundtrack to This Universe</strong></p>
+                    <a href="index.html#music" class="music-cta-btn" onclick="trackPortalExit('music_discovery_cta')">Explore the Albums →</a>
+                </div>
             </div>
         </div>
     </section>
