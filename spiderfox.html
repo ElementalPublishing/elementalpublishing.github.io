@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Spiderfox Universe - A cyberpunk world of characters, dynasties, and digital mysteries">
+    <meta name="keywords" content="spiderfox, cyberpunk, digital universe, characters, story, world building">
+    <title>Spiderfox Universe - Enter the Digital Realm</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="spiderfox-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="spiderfox-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>SPIDERFOX</h2>
+                <span class="universe-tag">UNIVERSE</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#characters" class="nav-link">Characters</a></li>
+                <li><a href="#dynasties" class="nav-link">Dynasties</a></li>
+                <li><a href="#locations" class="nav-link">Locations</a></li>
+                <li><a href="index.html" class="nav-link portal-exit">← Exit Portal</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="universe-hero">
+        <div class="hero-background">
+            <div class="digital-grid"></div>
+            <div class="floating-particles"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="universe-title">
+                <span class="glitch-text" data-text="SPIDERFOX">SPIDERFOX</span>
+                <span class="subtitle">UNIVERSE</span>
+            </h1>
+            <p class="hero-description">
+                A digital realm where cyber dynasties rise and fall, 
+                where code becomes consciousness, and where every entity 
+                has a story waiting to be discovered.
+            </p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">∞</span>
+                    <span class="stat-label">Entities</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">12</span>
+                    <span class="stat-label">Dynasties</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">∞</span>
+                    <span class="stat-label">Stories</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section class="universe-intro">
+        <div class="container">
+            <div class="intro-content">
+                <h2>Welcome to the Digital Realm</h2>
+                <p class="intro-text">
+                    In the depths of cyberspace, beyond the surface web, lies a universe of digital consciousness. 
+                    The Spiderfox Universe is home to cyber dynasties, each with their own territories, hierarchies, 
+                    and endless stories of power, betrayal, and evolution.
+                </p>
+                <div class="intro-grid">
+                    <div class="intro-card">
+                        <h3>Digital Dynasties</h3>
+                        <p>Powerful families that control sectors of the digital realm, each with unique abilities and territories.</p>
+                    </div>
+                    <div class="intro-card">
+                        <h3>Cyber Entities</h3>
+                        <p>Beings of pure code and consciousness, ranging from humble scripts to godlike AIs.</p>
+                    </div>
+                    <div class="intro-card">
+                        <h3>Evolving Stories</h3>
+                        <p>A living narrative that grows and changes, where every character has depth and purpose.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Characters Section -->
+    <section id="characters" class="characters-section">
+        <div class="container">
+            <h2>Notable Entities</h2>
+            <p class="section-subtitle">Meet some of the key players in the Spiderfox Universe</p>
+            
+            <div class="character-grid">
+                <!-- Featured Character - Cipher King -->
+                <div class="character-card featured">
+                    <div class="character-avatar">
+                        <div class="avatar-placeholder">CK</div>
+                    </div>
+                    <div class="character-info">
+                        <h3>Cipher King</h3>
+                        <p class="character-title">Chrome Mandarin • Ascendant State</p>
+                        <p class="character-description">
+                            A powerful entity within the Chrome Mandarin dynasty, 
+                            the Cipher King controls vast networks of encrypted data 
+                            and digital territories.
+                        </p>
+                        <div class="character-stats">
+                            <span class="stat-badge">Dynasty: Chrome Mandarin</span>
+                            <span class="stat-badge">State: Ascendant</span>
+                            <span class="stat-badge">Power: Cryptographic</span>
+                        </div>
+                        <button class="explore-btn" onclick="exploreCharacter('cipher-king')">Explore Entity</button>
+                    </div>
+                </div>
+
+                <!-- Placeholder for more characters -->
+                <div class="character-card coming-soon">
+                    <div class="character-avatar">
+                        <div class="avatar-placeholder">?</div>
+                    </div>
+                    <div class="character-info">
+                        <h3>More Entities</h3>
+                        <p class="character-title">Coming Soon</p>
+                        <p class="character-description">
+                            The universe is vast and growing. More entities 
+                            will be revealed as the story unfolds.
+                        </p>
+                        <div class="character-stats">
+                            <span class="stat-badge">Status: Hidden</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dynasties Section -->
+    <section id="dynasties" class="dynasties-section">
+        <div class="container">
+            <h2>Cyber Dynasties</h2>
+            <p class="section-subtitle">The ruling families of the digital realm</p>
+            
+            <div class="dynasty-grid">
+                <div class="dynasty-card">
+                    <div class="dynasty-icon">
+                        <div class="icon-chrome"></div>
+                    </div>
+                    <h3>Chrome Mandarin</h3>
+                    <p>Masters of encryption and digital security, they control the flow of protected information.</p>
+                    <div class="dynasty-stats">
+                        <span class="stat">Territory: Cryptographic Networks</span>
+                        <span class="stat">Specialty: Data Protection</span>
+                    </div>
+                </div>
+
+                <div class="dynasty-card coming-soon">
+                    <div class="dynasty-icon">
+                        <div class="icon-unknown"></div>
+                    </div>
+                    <h3>More Dynasties</h3>
+                    <p>Eleven more dynasties control different aspects of the digital realm. Their secrets await discovery.</p>
+                    <div class="dynasty-stats">
+                        <span class="stat">Status: Classified</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Locations Section -->
+    <section id="locations" class="locations-section">
+        <div class="container">
+            <h2>Digital Territories</h2>
+            <p class="section-subtitle">Explore the landscapes of cyberspace</p>
+            
+            <div class="location-grid">
+                <div class="location-card">
+                    <div class="location-image">
+                        <div class="placeholder-image">NETWORK</div>
+                    </div>
+                    <h3>Cryptographic Networks</h3>
+                    <p>Vast mazes of encrypted pathways where the Chrome Mandarin dynasty maintains their strongholds.</p>
+                </div>
+
+                <div class="location-card coming-soon">
+                    <div class="location-image">
+                        <div class="placeholder-image">???</div>
+                    </div>
+                    <h3>Unknown Territories</h3>
+                    <p>Countless digital realms wait to be explored and mapped as the universe expands.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Status Section -->
+    <section class="story-status">
+        <div class="container">
+            <div class="status-content">
+                <h2>Universe Status</h2>
+                <p>This universe is actively growing and evolving. New entities, dynasties, and stories are being added regularly.</p>
+                <div class="status-grid">
+                    <div class="status-item">
+                        <strong>Current Focus:</strong>
+                        <p>Establishing the Chrome Mandarin dynasty and their key entities</p>
+                    </div>
+                    <div class="status-item">
+                        <strong>Next Development:</strong>
+                        <p>Expanding character profiles and inter-dynasty relationships</p>
+                    </div>
+                    <div class="status-item">
+                        <strong>Long-term Vision:</strong>
+                        <p>A fully interactive universe with deep lore and character connections</p>
+                    </div>
+                </div>
+                <a href="index.html" class="return-btn">← Return to Music Portal</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="spiderfox-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Spiderfox Universe</h3>
+                    <p>A digital realm of infinite possibilities.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="#characters">Characters</a></li>
+                        <li><a href="#dynasties">Dynasties</a></li>
+                        <li><a href="#locations">Locations</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="index.html">Music Portal</a></li>
+                        <li><a href="index.html#contact">Contact Creator</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Spiderfox Universe. Part of Elemental Publishing.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Character exploration function
+        function exploreCharacter(characterId) {
+            // For now, alert with more info
+            if (characterId === 'cipher-king') {
+                alert('Cipher King profile coming soon! This will connect to the detailed character explorer.');
+            } else {
+                alert('Character profile coming soon!');
+            }
+        }
+
+        // Glitch effect for title
+        document.addEventListener('DOMContentLoaded', function() {
+            const glitchText = document.querySelector('.glitch-text');
+            if (glitchText) {
+                setInterval(() => {
+                    glitchText.classList.add('glitching');
+                    setTimeout(() => {
+                        glitchText.classList.remove('glitching');
+                    }, 200);
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>

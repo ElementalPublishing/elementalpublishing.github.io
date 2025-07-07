@@ -949,7 +949,7 @@ section {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
     transition: left 0.5s ease;
 }
 
@@ -1415,3 +1415,245 @@ html {
 .btn-download.loading:after {
     content: " ⏳";
 }
+
+/* Portal Gateway Section - Minimal, Dominant, Mysterious */
+.portal-gateway {
+    padding: 0;
+    margin: 0;
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.portal-gateway::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+    animation: portalPulse 8s ease-in-out infinite;
+}
+
+.portal-container {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.portal-frame {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto 3rem;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, rgba(0, 255, 255, 0.2) 0%, transparent 70%);
+    box-shadow: 
+        0 0 50px rgba(0, 255, 255, 0.3),
+        inset 0 0 50px rgba(0, 255, 255, 0.1);
+    animation: portalPulse 4s ease-in-out infinite alternate;
+}
+
+.portal-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, rgba(0, 255, 255, 0.1) 0%, transparent 100%);
+    border: 2px solid rgba(0, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.portal-rings {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    animation: portalRotate 10s linear infinite;
+}
+
+.ring-1 {
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    animation-duration: 8s;
+}
+
+.ring-2 {
+    top: 20%;
+    left: 20%;
+    width: 60%;
+    height: 60%;
+    animation-duration: 12s;
+    animation-direction: reverse;
+}
+
+.ring-3 {
+    top: 30%;
+    left: 30%;
+    width: 40%;
+    height: 40%;
+    animation-duration: 15s;
+}
+
+.portal-center {
+    position: relative;
+    z-index: 3;
+}
+
+.portal-text h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #00ffff;
+    margin: 0;
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+    letter-spacing: 4px;
+}
+
+.portal-text p {
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin: 0.5rem 0 0;
+    letter-spacing: 2px;
+    opacity: 0.9;
+}
+
+.portal-invitation {
+    margin-top: 2rem;
+}
+
+.portal-invitation p {
+    font-size: 1.1rem;
+    color: #cccccc;
+    margin-bottom: 2rem;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+.portal-button {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(0, 255, 255, 0.2) 100%);
+    border: 2px solid #00ffff;
+    color: #00ffff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.portal-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.portal-button:hover {
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.2) 0%, rgba(0, 255, 255, 0.3) 100%);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.portal-button:hover::before {
+    left: 100%;
+}
+
+@keyframes portalPulse {
+    0% { 
+        box-shadow: 
+            0 0 50px rgba(0, 255, 255, 0.3),
+            inset 0 0 50px rgba(0, 255, 255, 0.1);
+    }
+    100% { 
+        box-shadow: 
+            0 0 80px rgba(0, 255, 255, 0.5),
+            inset 0 0 80px rgba(0, 255, 255, 0.2);
+    }
+}
+
+@keyframes portalRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design for Portal */
+@media (max-width: 768px) {
+    .portal-frame {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .portal-core {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .portal-text h2 {
+        font-size: 2rem;
+        letter-spacing: 2px;
+    }
+    
+    .portal-text p {
+        font-size: 1rem;
+    }
+    
+    .portal-button {
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .portal-frame {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .portal-core {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .portal-text h2 {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+    
+    .portal-container {
+        padding: 1rem;
+    }
+}
+
+/* Email Signup Section */
