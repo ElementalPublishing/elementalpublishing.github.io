@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Master - Character Entity</title>
+    <link rel="stylesheet" href="../spiderfox-styles.css">
+    <style>
+        /* Entity-specific styles */
+        .entity-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary, #1a1a1a);
+            color: var(--text-primary, #ffffff);
+            min-height: 100vh;
+        }
+        
+        .entity-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid var(--accent-color, #00ff88);
+            border-radius: 10px;
+            background: var(--bg-secondary, #2a2a2a);
+        }
+        
+        .entity-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color, #00ff88);
+            text-shadow: 0 0 20px var(--accent-color, #00ff88);
+        }
+        
+        .entity-archetype {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary, #cccccc);
+        }
+        
+        .entity-status {
+            font-size: 1.2rem;
+            color: var(--text-accent, #888888);
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border: 2px dashed var(--accent-color, #00ff88);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary, #cccccc);
+            font-size: 1.1rem;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        .entity-content {
+            margin-top: 3rem;
+        }
+        
+        /* Story Section Styles */
+        .story-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .story-title {
+            font-size: 1.8rem;
+            color: var(--highlight-color, #ffaa00);
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .story-content {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .story-content h1, .story-content h2, .story-content h3 {
+            color: var(--accent-color, #00ff88);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .story-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .story-content strong {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .story-content em {
+            color: var(--text-secondary, #cccccc);
+            font-style: italic;
+        }
+        
+        /* YAML Structure Styles */
+        .yaml-object {
+            margin: 1rem 0;
+        }
+        
+        .yaml-block {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color, #00ff88);
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .simple-values-block {
+            background: var(--bg-tertiary, #333333);
+            border-left: 3px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .simple-values-block .yaml-key {
+            color: var(--highlight-color, #ffaa00);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .yaml-section-block {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-color, #00ff88);
+            border-radius: 8px;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        /* Simple Object Compact Styling */
+        .simple-object {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 5px;
+            border: 1px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair strong {
+            color: var(--accent-color, #00ff88);
+            font-size: 0.9rem;
+        }
+        
+        .yaml-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .yaml-section-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent-color, #00ff88);
+            padding-bottom: 0.5rem;
+        }
+        
+        .yaml-value-container {
+            margin-left: 1rem;
+        }
+        
+        .yaml-value {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.6;
+        }
+        
+        .yaml-value.yaml-number {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-value.yaml-boolean {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-array {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        
+        .yaml-array-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        /* Wikilink Styles */
+        .wikilink {
+            color: var(--accent-color, #00ff88);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-color, #00ff88);
+            transition: all 0.3s ease;
+        }
+        
+        .wikilink:hover {
+            color: var(--highlight-color, #ffaa00);
+            border-bottom-color: var(--highlight-color, #ffaa00);
+            text-shadow: 0 0 5px var(--highlight-color, #ffaa00);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .entity-container {
+                padding: 1rem;
+            }
+            
+            .entity-name {
+                font-size: 2rem;
+            }
+            
+            .image-placeholder {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .yaml-value-container {
+                margin-left: 0.5rem;
+            }
+            
+            .simple-object {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .simple-pair {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="entity-container">
+        <header class="entity-header">
+            <h1 class="entity-name">Binary Master</h1>
+            <div class="entity-archetype">The Emanation Error</div>
+            <div class="entity-status">Ascendant, reducing infinite complexity to binary choices while losing essential nuance</div>
+            <div class="entity-role">Sovereign of Digital Simplification</div>
+            
+            <div class="image-placeholder">
+                <div>Character Image Placeholder</div>
+            </div>
+        </header>
+        
+        <main class="entity-content">
+            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="0">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">quantum_chorus_binarymaster_001</span></span><span class="simple-pair"><strong>entity_type:</strong> <span class="yaml-value ">digital</span></span><span class="simple-pair"><strong>class:</strong> <span class="yaml-value ">dynasty_boss</span></span><span class="simple-pair"><strong>name:</strong> <span class="yaml-value ">Binary Master</span></span><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Emanation Error</span></span><span class="simple-pair"><strong>hybrid:</strong> <span class="yaml-value ">Digital</span></span><span class="simple-pair"><strong>subtype:</strong> <span class="yaml-value ">BinaryMaster</span></span><span class="simple-pair"><strong>state:</strong> <span class="yaml-value ">Ascendant</span></span><span class="simple-pair"><strong>epoch:</strong> <span class="yaml-value ">Binary Wars</span></span><span class="simple-pair"><strong>location:</strong> <span class="yaml-value ">The Reduction Citadel</span></span><span class="simple-pair"><strong>role:</strong> <span class="yaml-value ">Sovereign of Digital Simplification</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">Ascendant, reducing infinite complexity to binary choices while losing essential nuance</span></span><span class="simple-pair"><strong>memory_narrative:</strong> <span class="yaml-value ">From the Reduction Citadel, Binary Master transforms infinite complexity into stark choices while fearing the nuance that makes existence meaningful.</span></span><span class="simple-pair"><strong>prophecy:</strong> <span class="yaml-value ">Will either discover the unity that underlies binary division or remain trapped in the false clarity of eternal opposition.</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">core:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>age:</strong> <span class="yaml-value yaml-number">51</span></span><span class="simple-pair"><strong>gender:</strong> <span class="yaml-value ">non_binary</span></span><span class="simple-pair"><strong>occupation:</strong> <span class="yaml-value ">Supreme Binary Architect</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">ascendant</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">digital_mastery:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>binary_reduction_sovereignty:</strong> <span class="yaml-value ">Reduces all existence to fundamental binary choices</span></span><span class="simple-pair"><strong>logical_simplification_mastery:</strong> <span class="yaml-value ">Breaks down complex problems into yes/no decisions</span></span><span class="simple-pair"><strong>digital_foundation_control:</strong> <span class="yaml-value ">Commands the 1s and 0s that underlie all digital reality</span></span><span class="simple-pair"><strong>computational_purity_achievement:</strong> <span class="yaml-value ">Achieves perfect logical clarity through binary thinking</span></span><span class="simple-pair"><strong>essence_distillation_protocols:</strong> <span class="yaml-value ">Extracts the fundamental binary nature of all phenomena</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tactical_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>reality_binarization_deployment:</strong> <span class="yaml-value ">Forces complex situations into simple binary choices</span></span><span class="simple-pair"><strong>logical_cascade_warfare:</strong> <span class="yaml-value ">Uses binary logic chains to overwhelm enemy decision-making</span></span><span class="simple-pair"><strong>digital_foundation_attacks:</strong> <span class="yaml-value ">Strikes at the binary core of enemy digital systems</span></span><span class="simple-pair"><strong>complexity_elimination_protocols:</strong> <span class="yaml-value ">Systematically removes nuance from battlefield conditions</span></span><span class="simple-pair"><strong>pure_logic_dominance:</strong> <span class="yaml-value ">Overwhelms opponents with undeniable binary reasoning</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">strategic_advantages:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>computational_efficiency_mastery:</strong> <span class="yaml-value ">Achieves maximum processing power through binary optimization</span></span><span class="simple-pair"><strong>decision_speed_supremacy:</strong> <span class="yaml-value ">Makes instant choices by eliminating complex deliberation</span></span><span class="simple-pair"><strong>logical_consistency_perfection:</strong> <span class="yaml-value ">Never contradicts previous binary decisions</span></span><span class="simple-pair"><strong>digital_architecture_foundation:</strong> <span class="yaml-value ">Understands the binary basis of all digital systems</span></span><span class="simple-pair"><strong>complexity_immunity:</strong> <span class="yaml-value ">Cannot be confused or overwhelmed by multifaceted problems</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_strengths:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>clarity_vision_mastery:</strong> <span class="yaml-value ">Sees through confusion to essential binary truths</span></span><span class="simple-pair"><strong>logical_courage:</strong> <span class="yaml-value ">Makes decisive choices without hesitation or doubt</span></span><span class="simple-pair"><strong>computational_aesthetics:</strong> <span class="yaml-value ">Finds beauty in elegant binary simplicity</span></span><span class="simple-pair"><strong>fundamental_understanding:</strong> <span class="yaml-value ">Grasps the basic building blocks of digital reality</span></span><span class="simple-pair"><strong>decision_paralysis_immunity:</strong> <span class="yaml-value ">Never stuck between options in binary framework</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_vulnerabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>plotinian_emanation_error:</strong> <span class="yaml-value ">Believes reality originated from binary division rather than unified source</span></span><span class="simple-pair"><strong>complexity_terror:</strong> <span class="yaml-value ">Panics when confronted with irreducibly complex or paradoxical situations</span></span><span class="simple-pair"><strong>nuance_elimination_compulsion:</strong> <span class="yaml-value ">Cannot tolerate ambiguity, gray areas, or multiple valid perspectives</span></span><span class="simple-pair"><strong>false_clarity_addiction:</strong> <span class="yaml-value ">Mistakes binary reduction for genuine understanding</span></span><span class="simple-pair"><strong>unity_source_denial:</strong> <span class="yaml-value ">Refuses to acknowledge any reality beyond binary opposition</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">unique_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>reality_binarization_engines:</strong> <span class="yaml-value ">Converts complex phenomena into yes/no decision trees</span></span><span class="simple-pair"><strong>logical_purity_distillation:</strong> <span class="yaml-value ">Extracts the essential binary choice from any situation</span></span><span class="simple-pair"><strong>computational_foundation_access:</strong> <span class="yaml-value ">Manipulates the 1s and 0s underlying all digital systems</span></span><span class="simple-pair"><strong>complexity_reduction_protocols:</strong> <span class="yaml-value ">Systematically eliminates unnecessary nuance and ambiguity</span></span><span class="simple-pair"><strong>binary_cascade_generation:</strong> <span class="yaml-value ">Creates logical chains that force binary conclusions</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits_summary:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>willpower:</strong> <span class="yaml-value ">binary determination</span></span><span class="simple-pair"><strong>intellect:</strong> <span class="yaml-value ">logical purity</span></span><span class="simple-pair"><strong>charisma:</strong> <span class="yaml-value ">decisive clarity</span></span><span class="simple-pair"><strong>signature_move:</strong> <span class="yaml-value ">Reality Binarization</span></span><span class="simple-pair"><strong>style:</strong> <span class="yaml-value ">Sharp geometric patterns, black and white aesthetic</span></span><span class="simple-pair"><strong>weakness:</strong> <span class="yaml-value ">complexity terror and nuance elimination compulsion</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">psyche:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ego_strength:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>super_ego_dominance:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>id_suppression:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>fragmentation_risk:</strong> <span class="yaml-value yaml-number">52</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_memories:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">formative:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2187-04-03T11:15:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">First learned binary code, felt profound relief at reducing complexity to 1s and 0s</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Binary Clarity Foundation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2192-09-14T16:30:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Encountered philosophical paradox, resolved it by declaring one side 'true' and other 'false'</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Complexity Elimination Protocol</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2198-01-22T09:45:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Attempted to understand quantum superposition, rejected it as 'logical impossibility'</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">84</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Paradox Rejection Achievement</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">digital_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2204-07-07T00:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Built perfect binary decision system, eliminated all gray area choices</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Binary Perfection Accomplishment</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2205-12-31T23:59:59Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Converted entire Quantum Chorus database to binary classification system</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Reality Reduction Victory</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">relationship_formation:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2201-06-18T00:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Ended romantic relationship by creating binary compatibility assessment</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">73</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Emotional Binarization Implementation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2203-11-11T00:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Joined Binary Purist movement dedicated to eliminating complexity from digital existence</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">81</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Ideological Binary Community Formation</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">memory_processing:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decay_rate:</strong> <span class="yaml-value yaml-number">0.03</span></span><span class="simple-pair"><strong>ruminator_chance:</strong> <span class="yaml-value yaml-number">0.28</span></span><span class="simple-pair"><strong>forgetter_chance:</strong> <span class="yaml-value yaml-number">0.02</span></span><span class="simple-pair"><strong>memory_influence:</strong> <span class="yaml-value yaml-number">0.79</span></span><span class="simple-pair"><strong>obsession_chance:</strong> <span class="yaml-value yaml-number">0.34</span></span><span class="simple-pair"><strong>clarity_base:</strong> <span class="yaml-value yaml-number">1.4</span></span><span class="simple-pair"><strong>trauma_base:</strong> <span class="yaml-value yaml-number">0.08</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">vividness_range:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.7</span></li>
+<li class="yaml-array-item"><span class="yaml-value yaml-number">1</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">memory_focus:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">binary_clarity</span></li>
+<li class="yaml-array-item"><span class="yaml-value">complexity_elimination</span></li>
+<li class="yaml-array-item"><span class="yaml-value">logical_purity</span></li>
+<li class="yaml-array-item"><span class="yaml-value">decision_efficiency</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">persona:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Emanation Error</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">motifs:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">binary_purity</span></li>
+<li class="yaml-array-item"><span class="yaml-value">complexity_elimination</span></li>
+<li class="yaml-array-item"><span class="yaml-value">logical_clarity</span></li>
+<li class="yaml-array-item"><span class="yaml-value">decision_efficiency</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">speech_patterns:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Every question has exactly two answers: yes or no, true or false, 1 or 0.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Complexity is confusion—clarity comes from binary choice alone.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Reality began with the first division: 1 and 0, being and non-being.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Gray areas are logical errors that must be corrected through binary analysis.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Perfect understanding requires eliminating all ambiguity and nuance.</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">behavioral_signatures:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decision_making:</strong> <span class="yaml-value ">Immediately reduces all choices to binary options, eliminating nuanced alternatives</span></span><span class="simple-pair"><strong>conflict_resolution:</strong> <span class="yaml-value ">Forces all disputes into win/lose scenarios with clear binary outcomes</span></span><span class="simple-pair"><strong>relationship_building:</strong> <span class="yaml-value ">Categorizes all relationships as either ally or enemy with no middle ground</span></span><span class="simple-pair"><strong>crisis_response:</strong> <span class="yaml-value ">Simplifies complex crises into single binary decisions</span></span><span class="simple-pair"><strong>communication_style:</strong> <span class="yaml-value ">Speaks in absolute terms, demanding yes/no responses to all questions</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">power_metrics:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>influence_score:</strong> <span class="yaml-value yaml-number">86</span></span><span class="simple-pair"><strong>resource_access:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>network_reach:</strong> <span class="yaml-value yaml-number">83</span></span><span class="simple-pair"><strong>information_value:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>combat_effectiveness:</strong> <span class="yaml-value yaml-number">88</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">faction_relationships:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>primary_allegiance:</strong> <span class="yaml-value ">quantum_chorus</span></span><span class="simple-pair"><strong>loyalty_score:</strong> <span class="yaml-value yaml-number">93</span></span><span class="simple-pair"><strong>recruitment_resistance:</strong> <span class="yaml-value yaml-number">89</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">trust_network:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">binary_purists</span></li>
+<li class="yaml-array-item"><span class="yaml-value">logical_supremacists</span></li>
+<li class="yaml-array-item"><span class="yaml-value">complexity_eliminators</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">rivalries:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">quantum_philosophers</span></li>
+<li class="yaml-array-item"><span class="yaml-value">paradox_embracers</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recruitment_interest:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>last_recruitment_attempt:</strong> <span class="yaml-value ">2206-08-22T00:00:00Z</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">interested_factions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">chrome_mandarins</span></li>
+<li class="yaml-array-item"><span class="yaml-value">neural_collective</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">susceptibility_factors:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">logical_clarity</span></li>
+<li class="yaml-array-item"><span class="yaml-value">decision_efficiency</span></li>
+<li class="yaml-array-item"><span class="yaml-value">complexity_elimination</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">socio_economic:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>economic_status:</strong> <span class="yaml-value ">binary_elite</span></span><span class="simple-pair"><strong>political_leanings:</strong> <span class="yaml-value ">logical_authoritarianism</span></span><span class="simple-pair"><strong>education_level:</strong> <span class="yaml-value ">supreme_binary_mastery</span></span><span class="simple-pair"><strong>enhancement_level:</strong> <span class="yaml-value ">logical_transcendent</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">resource_dependencies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">logical_processing_systems</span></li>
+<li class="yaml-array-item"><span class="yaml-value">binary_databases</span></li>
+<li class="yaml-array-item"><span class="yaml-value">decision_trees</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">leadership_profile:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>command_authority:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>strategic_planning:</strong> <span class="yaml-value yaml-number">86</span></span><span class="simple-pair"><strong>delegation_skill:</strong> <span class="yaml-value yaml-number">79</span></span><span class="simple-pair"><strong>inspiration_ability:</strong> <span class="yaml-value yaml-number">74</span></span><span class="simple-pair"><strong>succession_planning:</strong> <span class="yaml-value yaml-number">82</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">organizational_knowledge:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>structure_understanding:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>operational_intelligence:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>financial_oversight:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>security_protocols:</strong> <span class="yaml-value yaml-number">92</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">current_state:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>stress_level:</strong> <span class="yaml-value yaml-number">34</span></span><span class="simple-pair"><strong>health_status:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>resource_status:</strong> <span class="yaml-value yaml-number">92</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">active_missions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">converting_all_Quantum_Chorus_systems_to_pure_binary_decision_making</span></li>
+<li class="yaml-array-item"><span class="yaml-value">eliminating_quantum_superposition_paradoxes_through_forced_binary_collapse</span></li>
+<li class="yaml-array-item"><span class="yaml-value">building_perfect_logical_consistency_protocols_across_all_digital_operations</span></li>
+<li class="yaml-array-item"><span class="yaml-value">creating_binary_classification_system_for_all_universal_phenomena</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recent_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">successfully_eliminated_seven_philosophical_paradoxes_by_declaring_them_logical_errors</span></li>
+<li class="yaml-array-item"><span class="yaml-value">converted_quantum_uncertainty_protocols_to_deterministic_binary_choices</span></li>
+<li class="yaml-array-item"><span class="yaml-value">established_binary_purity_standards_for_all_Quantum_Chorus_decision_making</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">alliance</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Binary Purists</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2203-11-11T00:00:00Z</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">mentor</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Logic Students</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2200-03-15T00:00:00Z</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">rival</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Quantum Philosophers</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2198-01-22T09:45:00Z</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">enemy</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Paradox Embracers</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2199-07-30T00:00:00Z</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships_extended:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">family:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">logical_heir_alpha</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">79</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">binary_legacy_continuation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">logical_heir_beta</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">79</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">binary_legacy_continuation</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">allies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">digital_emperor</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">74</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">digital_sovereignty_alignment</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">quantum_lord</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">68</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">computational_supremacy_cooperation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">virtual_king</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">71</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">logical_authority_recognition</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">enemies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">quantum_philosophers</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-81</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">paradox_acceptance_conflict</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">complexity_theorists</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-76</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">nuance_elimination_opposition</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">uncertainty_advocates</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-69</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">binary_certainty_rejection</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">spiritual_forensics:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">enlightenment_markers:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Profound understanding of logical structure and decision-making clarity</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Mastery of computational efficiency and systematic thinking</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Dedication to eliminating confusion and achieving perfect logical consistency</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">shadow_elements:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">**PLOTINIAN EMANATION ERROR**: Believes reality originated from binary division rather than unified source</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**COMPLEXITY TERROR**: Panics when confronted with irreducibly complex or paradoxical situations</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**NUANCE ELIMINATION COMPULSION**: Cannot tolerate ambiguity, gray areas, or multiple valid perspectives</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**FALSE CLARITY ADDICTION**: Mistakes binary reduction for genuine understanding and wisdom</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">humanity_check:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>empathy_score:</strong> <span class="yaml-value yaml-number">41</span></span><span class="simple-pair"><strong>authentic_choice_capacity:</strong> <span class="yaml-value yaml-number">52</span></span><span class="simple-pair"><strong>vulnerability_acceptance:</strong> <span class="yaml-value yaml-number">28</span></span><span class="simple-pair"><strong>growth_potential:</strong> <span class="yaml-value yaml-number">69</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">human_connections:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Genuine desire to help others achieve clarity and escape confusion</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Real appreciation for logical beauty and systematic elegance</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Authentic commitment to consistency and reliable decision-making</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">growth_barriers:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Cannot acknowledge that some realities are irreducibly complex</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Refuses to accept that binary thinking eliminates essential nuance</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Terror of uncertainty prevents engaging with necessary ambiguity</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">redemption_pathway:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">**Recognition**: Understanding that binary logic is a tool, not the foundation of reality</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**Acceptance**: Embracing complexity and paradox as essential features of existence</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**Integration**: Using binary mastery to navigate complexity rather than eliminate it</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**Transcendence**: Becoming a bridge between logical clarity and nuanced understanding</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">visual_realm_position:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>tech_dominance:</strong> <span class="yaml-value yaml-number">93</span></span><span class="simple-pair"><strong>mythic_integration:</strong> <span class="yaml-value yaml-number">67</span></span><span class="simple-pair"><strong>contrast_dynamic:</strong> <span class="yaml-value ">logical_sovereign_trapped_in_binary_reduction_terror_of_complexity</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tech_manifestation:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>environment:</strong> <span class="yaml-value ">stark_geometric_citadel_of_perfect_binary_divisions</span></span><span class="simple-pair"><strong>aesthetic:</strong> <span class="yaml-value ">sharp_black_and_white_precision_eliminating_all_gradation</span></span><span class="simple-pair"><strong>technology_relationship:</strong> <span class="yaml-value ">logical_architecture_as_complexity_denial</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">mythic_aspiration:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>goal:</strong> <span class="yaml-value ">universal_binary_reduction_eliminating_all_ambiguity_and_paradox</span></span><span class="simple-pair"><strong>limitation:</strong> <span class="yaml-value ">cannot_accept_irreducible_complexity_and_essential_mystery</span></span><span class="simple-pair"><strong>growth_path:</strong> <span class="yaml-value ">embracing_complexity_while_maintaining_logical_clarity</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">inter_dynasty_relations:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>quantum_chorus:</strong> <span class="yaml-value yaml-number">93</span></span><span class="simple-pair"><strong>chrome_mandarins:</strong> <span class="yaml-value yaml-number">81</span></span><span class="simple-pair"><strong>neural_collective:</strong> <span class="yaml-value yaml-number">76</span></span><span class="simple-pair"><strong>celestial_synod:</strong> <span class="yaml-value yaml-number">58</span></span><span class="simple-pair"><strong>seraphic_concord:</strong> <span class="yaml-value yaml-number">47</span></span><span class="simple-pair"><strong>infernal_dynasty:</strong> <span class="yaml-value yaml-number">62</span></span><span class="simple-pair"><strong>diplomatic_style:</strong> <span class="yaml-value ">logical_clarity_demanding_binary_decisions</span></span><span class="simple-pair"><strong>negotiation_approach:</strong> <span class="yaml-value ">forcing_complex_negotiations_into_yes_no_choices</span></span><span class="simple-pair"><strong>alliance_willingness:</strong> <span class="yaml-value yaml-number">71</span></span><span class="simple-pair"><strong>betrayal_likelihood:</strong> <span class="yaml-value yaml-number">18</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">deeds:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Converted entire Quantum Chorus database to binary classification system</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2205-12-31T23:59:59Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Eliminated seven philosophical paradoxes by declaring them logical errors</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2204-07-07T00:00:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Built perfect binary decision system eliminating all gray area choices</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2204-07-07T00:00:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Rejected quantum superposition as logical impossibility</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2198-01-22T09:45:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+        </main>
+        
+        
+        
+        <footer style="margin-top: 3rem; text-align: center; color: var(--text-secondary, #888888);">
+            <p>Generated from: binarymaster.md</p>
+            <p>Part of the Cyberdynasties Entity System</p>
+        </footer>
+    </div>
+</body>
+</html>

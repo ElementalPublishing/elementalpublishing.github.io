@@ -21,7 +21,7 @@ core:
   status: "ascendant"
 
 # === COMPLETE TRAITS SYSTEM ===
-traits:
+[[traits]]:
   cybernetic_enhancement:
     neural_network_processing: "Quantum-enhanced brain processes infinite data streams simultaneously"
     pattern_recognition_mastery: "Sees connections and patterns others cannot perceive across vast datasets"
@@ -57,7 +57,7 @@ traits:
     omniscience_frustration: "Growing existential anxiety from gap between knowing and understanding"
     recursive_information_loops: "Trapped in analyzing the experience of analyzing experiences"
   
-  unique_capabilities:
+  [[unique_capabilities]]:
     data_tsunami_protocol: "Overwhelms targets with infinite information streams causing cognitive collapse"
     reality_prediction_matrix: "Statistical modeling that approaches prophetic accuracy through data analysis"
     universal_knowledge_database: "Access to all information that exists across digital networks"
@@ -74,7 +74,7 @@ traits_summary:
   weakness: "drowns in irrelevant information noise"
 
 # === PSYCHOLOGICAL PROFILE ===
-psyche:
+[[psyche]]:
   ego_strength: 87
   super_ego_dominance: 92
   id_suppression: 89
@@ -128,10 +128,10 @@ psyche:
     obsession_chance: 0.4
     clarity_base: 1.25
     trauma_base: 0.15
-    memory_focus: [present, past, data_patterns, information_flows]
+    memory_focus: ["[[present]]", "[[past]]", "[[data_patterns]]", "[[information_flows]]"]
 
 # === PERSONA AND BEHAVIOR ===
-persona:
+[[persona]]:
   archetype: "The Information Overlord"
   motifs:
     - "omniscience_pursuit"
@@ -160,7 +160,7 @@ power_metrics:
   combat_effectiveness: 82
 
 # === FACTION RELATIONSHIPS ===
-faction_relationships:
+[[faction_relationships]]:
   primary_allegiance: "chrome_mandarins"
   loyalty_score: 87
   recruitment_resistance: 91
@@ -208,7 +208,7 @@ current_state:
     - "achieved_94_percent_prediction_accuracy_for_future_events_through_data_analysis"
 
 # === KEY RELATIONSHIPS ===
-relationships:
+[[relationships]]:
   - type: "ally"
     target: "Byte Emperor"
     since: "2202-03-15T00:00:00Z"
@@ -223,7 +223,7 @@ relationships:
     since: "2202-06-10T00:00:00Z"
 
 # === EXTENDED RELATIONSHIP NETWORK ===
-relationships_extended:
+[[relationships_extended]]:
   family: []
   allies:
     - entity_id: "byte_emperor"

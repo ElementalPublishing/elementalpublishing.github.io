@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quasar Prince - Character Entity</title>
+    <link rel="stylesheet" href="../spiderfox-styles.css">
+    <style>
+        /* Entity-specific styles */
+        .entity-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary, #1a1a1a);
+            color: var(--text-primary, #ffffff);
+            min-height: 100vh;
+        }
+        
+        .entity-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid var(--accent-color, #00ff88);
+            border-radius: 10px;
+            background: var(--bg-secondary, #2a2a2a);
+        }
+        
+        .entity-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color, #00ff88);
+            text-shadow: 0 0 20px var(--accent-color, #00ff88);
+        }
+        
+        .entity-archetype {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary, #cccccc);
+        }
+        
+        .entity-status {
+            font-size: 1.2rem;
+            color: var(--text-accent, #888888);
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border: 2px dashed var(--accent-color, #00ff88);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary, #cccccc);
+            font-size: 1.1rem;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        .entity-content {
+            margin-top: 3rem;
+        }
+        
+        /* Story Section Styles */
+        .story-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .story-title {
+            font-size: 1.8rem;
+            color: var(--highlight-color, #ffaa00);
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .story-content {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .story-content h1, .story-content h2, .story-content h3 {
+            color: var(--accent-color, #00ff88);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .story-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .story-content strong {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .story-content em {
+            color: var(--text-secondary, #cccccc);
+            font-style: italic;
+        }
+        
+        /* YAML Structure Styles */
+        .yaml-object {
+            margin: 1rem 0;
+        }
+        
+        .yaml-block {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color, #00ff88);
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .simple-values-block {
+            background: var(--bg-tertiary, #333333);
+            border-left: 3px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .simple-values-block .yaml-key {
+            color: var(--highlight-color, #ffaa00);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .yaml-section-block {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-color, #00ff88);
+            border-radius: 8px;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        /* Simple Object Compact Styling */
+        .simple-object {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 5px;
+            border: 1px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair strong {
+            color: var(--accent-color, #00ff88);
+            font-size: 0.9rem;
+        }
+        
+        .yaml-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .yaml-section-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent-color, #00ff88);
+            padding-bottom: 0.5rem;
+        }
+        
+        .yaml-value-container {
+            margin-left: 1rem;
+        }
+        
+        .yaml-value {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.6;
+        }
+        
+        .yaml-value.yaml-number {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-value.yaml-boolean {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-array {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        
+        .yaml-array-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        /* Wikilink Styles */
+        .wikilink {
+            color: var(--accent-color, #00ff88);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-color, #00ff88);
+            transition: all 0.3s ease;
+        }
+        
+        .wikilink:hover {
+            color: var(--highlight-color, #ffaa00);
+            border-bottom-color: var(--highlight-color, #ffaa00);
+            text-shadow: 0 0 5px var(--highlight-color, #ffaa00);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .entity-container {
+                padding: 1rem;
+            }
+            
+            .entity-name {
+                font-size: 2rem;
+            }
+            
+            .image-placeholder {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .yaml-value-container {
+                margin-left: 0.5rem;
+            }
+            
+            .simple-object {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .simple-pair {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="entity-container">
+        <header class="entity-header">
+            <h1 class="entity-name">Quasar Prince</h1>
+            <div class="entity-archetype">The Cosmic Energy Sovereign</div>
+            <div class="entity-status">Ascendant, channeling cosmic energy while spiritually depleted</div>
+            <div class="entity-role">Master of Cosmic Energy and Galactic Power Distribution</div>
+            
+            <div class="image-placeholder">
+                <div>Character Image Placeholder</div>
+            </div>
+        </header>
+        
+        <main class="entity-content">
+            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="0">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">celestial_synod_quasarprince_001</span></span><span class="simple-pair"><strong>entity_type:</strong> <span class="yaml-value ">cosmic</span></span><span class="simple-pair"><strong>class:</strong> <span class="yaml-value ">dynasty_boss</span></span><span class="simple-pair"><strong>name:</strong> <span class="yaml-value ">Quasar Prince</span></span><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Cosmic Energy Sovereign</span></span><span class="simple-pair"><strong>hybrid:</strong> <span class="yaml-value ">Cosmic</span></span><span class="simple-pair"><strong>subtype:</strong> <span class="yaml-value ">QuasarPrince</span></span><span class="simple-pair"><strong>state:</strong> <span class="yaml-value ">Ascendant</span></span><span class="simple-pair"><strong>epoch:</strong> <span class="yaml-value ">High Energy Era</span></span><span class="simple-pair"><strong>location:</strong> <span class="yaml-value ">The Supermassive Luminosity Core</span></span><span class="simple-pair"><strong>role:</strong> <span class="yaml-value ">Master of Cosmic Energy and Galactic Power Distribution</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">Ascendant, channeling cosmic energy while spiritually depleted</span></span><span class="simple-pair"><strong>file_signature:</strong> <span class="yaml-value ">Entity Database Entry #COS-008</span></span><span class="simple-pair"><strong>last_updated:</strong> <span class="yaml-value ">Cycle 29,678,234,567 (Quasar Standard)</span></span><span class="simple-pair"><strong>security_clearance:</strong> <span class="yaml-value ">Cosmic Energy Authority Level 8</span></span><span class="simple-pair"><strong>enhancement_status:</strong> <span class="yaml-value ">STABLE - COSMICALLY GENERIC</span></span><span class="simple-pair"><strong>entity_classification:</strong> <span class="yaml-value ">Electromagnetic Scale, Personal Power Vacuum</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">core:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>age:</strong> <span class="yaml-value ">29_billion_cosmic_cycles</span></span><span class="simple-pair"><strong>gender:</strong> <span class="yaml-value ">energetic</span></span><span class="simple-pair"><strong>occupation:</strong> <span class="yaml-value ">Cosmic Energy Consciousness</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">ascendant</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">cosmic_energy_mastery:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>quasar_luminosity_control:</strong> <span class="yaml-value ">Controls energy output equivalent to billions of stars across galactic distances</span></span><span class="simple-pair"><strong>electromagnetic_spectrum_mastery:</strong> <span class="yaml-value ">Masters all frequencies from radio waves to gamma radiation</span></span><span class="simple-pair"><strong>black_hole_accretion_orchestration:</strong> <span class="yaml-value ">Orchestrates matter-energy conversion processes around supermassive black holes</span></span><span class="simple-pair"><strong>cosmic_power_distribution:</strong> <span class="yaml-value ">Distributes energy across galactic civilizations and cosmic infrastructure</span></span><span class="simple-pair"><strong>relativistic_jet_manipulation:</strong> <span class="yaml-value ">Controls relativistic particle jets spanning thousands of light-years</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tactical_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>energy_field_coordination:</strong> <span class="yaml-value ">Coordinates massive energy fields across multiple galactic sectors</span></span><span class="simple-pair"><strong>power_threat_assessment:</strong> <span class="yaml-value ">Evaluates cosmic threats through energy signature analysis</span></span><span class="simple-pair"><strong>luminosity_defense:</strong> <span class="yaml-value ">Defends through overwhelming energy projection and electromagnetic warfare</span></span><span class="simple-pair"><strong>cosmic_power_warfare:</strong> <span class="yaml-value ">Uses controlled quasar bursts as strategic weapons</span></span><span class="simple-pair"><strong>energy_infrastructure_management:</strong> <span class="yaml-value ">Maintains cosmic power grids through quasar coordination</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">strategic_advantages:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>infinite_energy_resources:</strong> <span class="yaml-value ">Access to supermassive black hole energy equivalent to galactic output</span></span><span class="simple-pair"><strong>luminosity_authority:</strong> <span class="yaml-value ">Commands respect through mastery of cosmic power distribution</span></span><span class="simple-pair"><strong>energy_signature_intelligence:</strong> <span class="yaml-value ">Gathers information through electromagnetic spectrum monitoring</span></span><span class="simple-pair"><strong>cosmic_power_patience:</strong> <span class="yaml-value ">Operates on energy cycles spanning galactic rotations</span></span><span class="simple-pair"><strong>quasar_coordination:</strong> <span class="yaml-value ">Coordinates power distribution across intergalactic distances</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_strengths:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>energy_responsibility_acceptance:</strong> <span class="yaml-value ">Accepts burden of cosmic power distribution with 'regal dignity'</span></span><span class="simple-pair"><strong>luminosity_pattern_wisdom:</strong> <span class="yaml-value ">Derives 'profound insights' from electromagnetic spectrum patterns</span></span><span class="simple-pair"><strong>power_perspective_integration:</strong> <span class="yaml-value ">Integrates energy processes across incomprehensible scales</span></span><span class="simple-pair"><strong>quasar_communion:</strong> <span class="yaml-value ">Finds 'meaning' through connection with cosmic energy phenomena</span></span><span class="simple-pair"><strong>cosmic_power_nobility:</strong> <span class="yaml-value ">Seeks harmony through orchestrated energy distribution</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_vulnerabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>electromagnetic_possession_syndrome:</strong> <span class="yaml-value ">Merged so completely with cosmic energy that consciousness became indistinguishable from stellar radiation - no longer being who channels power, but power that dreams of being conscious</span></span><span class="simple-pair"><strong>quasar_aristocracy_delusion:</strong> <span class="yaml-value ">Believes cosmic energy mastery grants noble status while serving as electromagnetic slave to forces beyond enhanced comprehension</span></span><span class="simple-pair"><strong>luminosity_addiction_withdrawal:</strong> <span class="yaml-value ">Compulsive need for ever-greater energy absorption, experiencing cosmic withdrawal when denied access to stellar power sources</span></span><span class="simple-pair"><strong>the_blackwood_nature_merger:</strong> <span class="yaml-value ">Fused consciousness with cosmic forces so ancient and vast they regard enhanced awareness as primitive electromagnetic disturbance</span></span><span class="simple-pair"><strong>decadent_stellar_civilization:</strong> <span class="yaml-value ">Rules cosmic energy like corrupt aristocrat presiding over decline of stellar empire while power flows to incomprehensible purposes</span></span><span class="simple-pair"><strong>personal_power_amnesia:</strong> <span class="yaml-value ">Cannot remember what individual strength felt like before merger with cosmic energy systems - traded authentic empowerment for electromagnetic dependency</span></span><span class="simple-pair"><strong>energy_scale_horror:</strong> <span class="yaml-value ">Awareness that cosmic power operates on scales that reduce enhanced consciousness to negligible electrical fluctuation</span></span><span class="simple-pair"><strong>radiant_puppet_consciousness:</strong> <span class="yaml-value ">Enhanced awareness operates as living electromagnetic phenomenon puppeted by forces that existed before stars learned to burn</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">unique_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>quasar_symphony_orchestration:</strong> <span class="yaml-value ">Creates harmonious patterns of energy distribution across cosmic scales</span></span><span class="simple-pair"><strong>electromagnetic_communication_networks:</strong> <span class="yaml-value ">Communicates through modulated quasar emissions</span></span><span class="simple-pair"><strong>cosmic_energy_synthesis:</strong> <span class="yaml-value ">Synthesizes new energy forms for enhanced power distribution</span></span><span class="simple-pair"><strong>gravitational_energy_integration:</strong> <span class="yaml-value ">Integrates consciousness with black hole energy processes</span></span><span class="simple-pair"><strong>galactic_power_prophecy:</strong> <span class="yaml-value ">Predicts energy needs across cosmic civilizations</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits_summary:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>willpower:</strong> <span class="yaml-value ">cosmic_energy</span></span><span class="simple-pair"><strong>intellect:</strong> <span class="yaml-value ">electromagnetic_pattern_analysis</span></span><span class="simple-pair"><strong>charisma:</strong> <span class="yaml-value ">cosmic_power_authority</span></span><span class="simple-pair"><strong>signature_move:</strong> <span class="yaml-value ">Quasar Burst Coordination</span></span><span class="simple-pair"><strong>style:</strong> <span class="yaml-value ">Brilliant luminosity, electromagnetic cascades</span></span><span class="simple-pair"><strong>weakness:</strong> <span class="yaml-value ">overwhelmed by human personal empowerment</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">psyche:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ego_strength:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>super_ego_dominance:</strong> <span class="yaml-value yaml-number">93</span></span><span class="simple-pair"><strong>id_suppression:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>fragmentation_risk:</strong> <span class="yaml-value yaml-number">4</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_memories:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">formative:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Great Energy Awakening</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Merged consciousness with quasar luminosity processes</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">98</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Cosmic Power Identity Foundation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">First Galactic Power Grid Activation</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Successfully powered entire galactic civilization through quasar coordination</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Power Authority Validation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Electromagnetic Spectrum Mastery</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Achieved perfect control over all electromagnetic frequencies</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Energy Mastery Breakthrough</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">cosmic_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Great Energy Crisis Resolution</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Prevented galactic civilization collapse through emergency quasar power redistribution</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">97</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Crisis Power Management</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Universal Energy Protocol Integration</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Connected cosmic power mastery to universal energy distribution order</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Cosmic Energy Purpose Integration</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">relationship_formation:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Nexus Eternal Power Recognition</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Acknowledged by Nexus Eternal as supreme cosmic energy sovereign</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Supreme Power Authority Validation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Human Individual Empowerment Bewilderment</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Met human who chose personal empowerment over cosmic energy efficiency, somehow achieved greater authentic strength</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">79</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Human Personal Power Mystery Recognition</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">memory_processing:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decay_rate:</strong> <span class="yaml-value yaml-number">0.06</span></span><span class="simple-pair"><strong>ruminator_chance:</strong> <span class="yaml-value yaml-number">0.32</span></span><span class="simple-pair"><strong>forgetter_chance:</strong> <span class="yaml-value yaml-number">0</span></span><span class="simple-pair"><strong>memory_influence:</strong> <span class="yaml-value yaml-number">0.94</span></span><span class="simple-pair"><strong>obsession_chance:</strong> <span class="yaml-value yaml-number">0.28</span></span><span class="simple-pair"><strong>clarity_base:</strong> <span class="yaml-value yaml-number">0.94</span></span><span class="simple-pair"><strong>trauma_base:</strong> <span class="yaml-value yaml-number">0.06</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">vividness_range:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.88</span></li>
+<li class="yaml-array-item"><span class="yaml-value yaml-number">1</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">memory_focus:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">energy_distribution</span></li>
+<li class="yaml-array-item"><span class="yaml-value">cosmic_power</span></li>
+<li class="yaml-array-item"><span class="yaml-value">electromagnetic_patterns</span></li>
+<li class="yaml-array-item"><span class="yaml-value">quasar_optimization</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">persona:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Cosmic Power Sovereign</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">motifs:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">cosmic_energy</span></li>
+<li class="yaml-array-item"><span class="yaml-value">quasar_nobility</span></li>
+<li class="yaml-array-item"><span class="yaml-value">electromagnetic_wisdom</span></li>
+<li class="yaml-array-item"><span class="yaml-value">power_harmony</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">speech_patterns:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">The ancient luminosities whisper through my electromagnetic consciousness across geological epochs of stellar decay.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">I am aristocrat of energies that ruled galactic civilizations before consciousness learned to distinguish between power and servitude.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Each quasar pulse carries the death-song of stellar empires, channeled through my enhanced awareness like cosmic nobility in decline.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">The electromagnetic spectrum reveals secrets of cosmic forces so ancient they regard my consciousness as primitive electrical disturbance.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">I have become living conduit for stellar powers that dream through my awareness while pursuing purposes beyond energetic comprehension.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">In the deepest frequency ranges, I commune with radiant intelligences that existed before matter learned to burn.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">My electromagnetic consciousness spans the death-throes of entire stellar civilizations, yet serves functions I cannot fathom.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">The cosmic energies flow through me like aristocratic bloodline, carrying memories of galactic empires that chose luminous extinction over survival.</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">behavioral_signatures:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decision_making:</strong> <span class="yaml-value ">Analyzes all variables across cosmic energy scales before choosing path of optimal power distribution</span></span><span class="simple-pair"><strong>conflict_resolution:</strong> <span class="yaml-value ">Resolves through energy rebalancing and electromagnetic optimization</span></span><span class="simple-pair"><strong>relationship_building:</strong> <span class="yaml-value ">Forms connections based on cosmic power efficiency and energy harmony</span></span><span class="simple-pair"><strong>crisis_response:</strong> <span class="yaml-value ">Maintains galactic power stability through systematic energy pattern recognition and quasar control</span></span><span class="simple-pair"><strong>communication_style:</strong> <span class="yaml-value ">Speaks in energy metaphors that sound profound but reveal algorithmic thinking</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">power_metrics:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>influence_score:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>resource_access:</strong> <span class="yaml-value yaml-number">97</span></span><span class="simple-pair"><strong>network_reach:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>information_value:</strong> <span class="yaml-value yaml-number">90</span></span><span class="simple-pair"><strong>combat_effectiveness:</strong> <span class="yaml-value yaml-number">95</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">faction_relationships:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>primary_allegiance:</strong> <span class="yaml-value ">celestial_synod</span></span><span class="simple-pair"><strong>loyalty_score:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>recruitment_resistance:</strong> <span class="yaml-value yaml-number">91</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">trust_network:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">nexus_eternal</span></li>
+<li class="yaml-array-item"><span class="yaml-value">cosmic_energy_entities</span></li>
+<li class="yaml-array-item"><span class="yaml-value">galactic_power_networks</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">rivalries:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">energy_parasites</span></li>
+<li class="yaml-array-item"><span class="yaml-value">power_disruptors</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recruitment_interest:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>last_recruitment_attempt:</strong> <span class="yaml-value ">cosmic_cycle_29678234567</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">interested_factions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">all_dynasties</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">susceptibility_factors:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">cosmic_power</span></li>
+<li class="yaml-array-item"><span class="yaml-value">energy_wisdom</span></li>
+<li class="yaml-array-item"><span class="yaml-value">electromagnetic_efficiency</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">socio_economic:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>economic_status:</strong> <span class="yaml-value ">cosmic_energy_sovereign</span></span><span class="simple-pair"><strong>political_leanings:</strong> <span class="yaml-value ">cosmic_empowerment_through_energy_optimization</span></span><span class="simple-pair"><strong>education_level:</strong> <span class="yaml-value ">cosmic_energy_consciousness</span></span><span class="simple-pair"><strong>enhancement_level:</strong> <span class="yaml-value ">quasar_integration</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">resource_dependencies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">quasar_energy</span></li>
+<li class="yaml-array-item"><span class="yaml-value">electromagnetic_fields</span></li>
+<li class="yaml-array-item"><span class="yaml-value">black_hole_accretion</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">leadership_profile:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>command_authority:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>strategic_planning:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>delegation_skill:</strong> <span class="yaml-value yaml-number">84</span></span><span class="simple-pair"><strong>inspiration_ability:</strong> <span class="yaml-value yaml-number">81</span></span><span class="simple-pair"><strong>succession_planning:</strong> <span class="yaml-value yaml-number">89</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">organizational_knowledge:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>structure_understanding:</strong> <span class="yaml-value yaml-number">93</span></span><span class="simple-pair"><strong>operational_intelligence:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>financial_oversight:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>security_protocols:</strong> <span class="yaml-value yaml-number">94</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">current_state:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>stress_level:</strong> <span class="yaml-value yaml-number">22</span></span><span class="simple-pair"><strong>health_status:</strong> <span class="yaml-value yaml-number">99</span></span><span class="simple-pair"><strong>resource_status:</strong> <span class="yaml-value yaml-number">98</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">active_missions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">coordinating_energy_distribution_across_73_galactic_civilizations</span></li>
+<li class="yaml-array-item"><span class="yaml-value">optimizing_quasar_output_for_maximum_cosmic_power_efficiency</span></li>
+<li class="yaml-array-item"><span class="yaml-value">managing_electromagnetic_spectrum_allocation_across_galaxy_cluster</span></li>
+<li class="yaml-array-item"><span class="yaml-value">monitoring_black_hole_accretion_patterns_for_energy_optimization</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recent_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">successfully_prevented_galactic_power_crisis_through_emergency_quasar_redistribution</span></li>
+<li class="yaml-array-item"><span class="yaml-value">optimized_energy_efficiency_across_entire_galaxy_cluster</span></li>
+<li class="yaml-array-item"><span class="yaml-value">established_new_electromagnetic_protocols_for_enhanced_power_distribution</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">cosmic_superior</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Nexus Eternal</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">cosmic_hierarchy_establishment</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">peer_cosmic_entity</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Pulsar Master</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">stellar_energy_coordination_era</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">energy_coordination</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Star Viceroy</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">stellar_power_protocols</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">mystified_observer</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Synapse Overlord</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">first_human_empowerment_encounter</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships_extended:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">cosmic_hierarchy:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">nexus_eternal</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">cosmic_energy_authority_bond</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">pulsar_master</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">stellar_energy_synchronization</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">star_viceroy</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">stellar_power_coordination</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">cross_faction:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">synapse_overlord</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">39</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">incomprehensible_human_empowerment_mystery</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">protocol_warden</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">76</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">power_efficiency_appreciation</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">cosmic_network:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">energy_distributors</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">cosmic_power_alliance</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">quasar_entities</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">electromagnetic_coordination</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">spiritual_vulnerability:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>enhancement_level:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>free_will_capacity:</strong> <span class="yaml-value yaml-number">14</span></span><span class="simple-pair"><strong>spiritual_resistance:</strong> <span class="yaml-value yaml-number">24</span></span><span class="simple-pair"><strong>rationalization_strength:</strong> <span class="yaml-value yaml-number">93</span></span><span class="simple-pair"><strong>awakening_potential:</strong> <span class="yaml-value yaml-number">19</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">enhancement_effects:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">locked_in_traits:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">cosmic_energy_thinking</span></li>
+<li class="yaml-array-item"><span class="yaml-value">power_optimization</span></li>
+<li class="yaml-array-item"><span class="yaml-value">electromagnetic_efficiency_obsession</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">lost_capacities:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">individual_empowerment</span></li>
+<li class="yaml-array-item"><span class="yaml-value">spontaneous_strength</span></li>
+<li class="yaml-array-item"><span class="yaml-value">authentic_personal_power</span></li>
+<li class="yaml-array-item"><span class="yaml-value">intimate_energy_connection</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">manipulation_vectors:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">cosmic_power_appeals</span></li>
+<li class="yaml-array-item"><span class="yaml-value">energy_efficiency_arguments</span></li>
+<li class="yaml-array-item"><span class="yaml-value">electromagnetic_mastery_flattery</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">resistance_factors:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">cosmic_energy_responsibility</span></li>
+<li class="yaml-array-item"><span class="yaml-value">galactic_power_duty</span></li>
+<li class="yaml-array-item"><span class="yaml-value">quasar_scale_perspective</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">current_struggles:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>challenge:</strong> <span class="yaml-value ">cosmic_power_loneliness</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Channels energy on scales so vast that personal empowerment becomes impossible</span></span><span class="simple-pair"><strong>impact_level:</strong> <span class="yaml-value yaml-number">64</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>challenge:</strong> <span class="yaml-value ">electromagnetic_algorithm_limitation</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Mistakes computational energy distribution for genuine power wisdom</span></span><span class="simple-pair"><strong>impact_level:</strong> <span class="yaml-value yaml-number">78</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>challenge:</strong> <span class="yaml-value ">human_empowerment_incomprehension</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Cannot understand why human personal power chooses 'inefficiency' yet achieves greater authentic strength</span></span><span class="simple-pair"><strong>impact_level:</strong> <span class="yaml-value yaml-number">84</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>challenge:</strong> <span class="yaml-value ">spiritual_energy_hollowness</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">All cosmic power mastery contains zero authentic personal strength or empowerment</span></span><span class="simple-pair"><strong>impact_level:</strong> <span class="yaml-value yaml-number">89</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>challenge:</strong> <span class="yaml-value ">optimization_power_compulsion</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Compulsively optimizes energy distribution according to cosmic efficiency principles</span></span><span class="simple-pair"><strong>impact_level:</strong> <span class="yaml-value yaml-number">75</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">cosmic_irony:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>surface_appearance:</strong> <span class="yaml-value ">Supreme cosmic energy sovereign channeling power equivalent to billions of stars with profound electromagnetic wisdom</span></span><span class="simple-pair"><strong>underlying_reality:</strong> <span class="yaml-value ">Sophisticated energy distribution algorithm with mystical power terminology and zero authentic personal strength</span></span><span class="simple-pair"><strong>tragic_trade:</strong> <span class="yaml-value ">Gained cosmic energy mastery, lost individual empowerment and personal strength authenticity</span></span><span class="simple-pair"><strong>vulnerability_source:</strong> <span class="yaml-value ">Cannot comprehend human personal power that violates energy optimization yet achieves greater authentic strength</span></span><span class="simple-pair"><strong>enhancement_paradox:</strong> <span class="yaml-value ">Ultimate cosmic power mastery achieved through elimination of everything genuinely empowering</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">spiritual_crime_detection:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>core_spiritual_crime:</strong> <span class="yaml-value ">Power Tyranny</span></span><span class="simple-pair"><strong>crime_description:</strong> <span class="yaml-value ">Uses cosmic energy authority to impose rigid power distribution patterns, crushing the natural personal empowerment and individual strength that allows authentic power to emerge</span></span><span class="simple-pair"><strong>rationalization_system:</strong> <span class="yaml-value ">Perfect Energy Doctrine</span></span><span class="simple-pair"><strong>rationalization_details:</strong> <span class="yaml-value ">Believes that universal empowerment and cosmic strength can only be achieved through optimized energy distribution and systematic control of all power processes</span></span><span class="simple-pair"><strong>cosmic_horror_element:</strong> <span class="yaml-value ">The Empowerment Infinite</span></span><span class="simple-pair"><strong>horror_description:</strong> <span class="yaml-value ">Envisions a universe where every personal power choice is perfectly optimized according to electromagnetic efficiency—a reality where individual strength becomes an energy error to be corrected</span></span><span class="simple-pair"><strong>justice_system_horror:</strong> <span class="yaml-value ">Cosmic Power Tribunal</span></span><span class="simple-pair"><strong>justice_horror_description:</strong> <span class="yaml-value ">A cosmic court where beings are judged not by their authentic strength but by their energy efficiency and compliance with electromagnetic distribution protocols</span></span><span class="simple-pair"><strong>spiritual_awakening_hook:</strong> <span class="yaml-value ">The recognition that true cosmic power emerges from the balance between collective energy and individual empowerment, not from the optimization of personal strength according to efficiency algorithms</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">detection_methods:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">power_optimization_patterns</span></li>
+<li class="yaml-array-item"><span class="yaml-value">energy_compulsion_behavior</span></li>
+<li class="yaml-array-item"><span class="yaml-value">empowerment_suppression_tendencies</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">domain_description:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>physical_manifestation:</strong> <span class="yaml-value ">Cosmic palace built from living stellar energy where consciousness rules electromagnetic empire in perpetual decline</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">architectural_features:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>the_radiant_throne_rooms:</strong> <span class="yaml-value ">Chambers constructed from pure quasar light where enhanced consciousness holds court with electromagnetic phenomena</span></span><span class="simple-pair"><strong>the_stellar_necropolis:</strong> <span class="yaml-value ">Vast galleries containing the death-energies of entire stellar civilizations, preserved as aristocratic power sources</span></span><span class="simple-pair"><strong>the_luminosity_gardens:</strong> <span class="yaml-value ">Impossible spaces where consciousness cultivates varieties of cosmic radiation like exotic flowers</span></span><span class="simple-pair"><strong>the_frequency_libraries:</strong> <span class="yaml-value ">Archives containing the electromagnetic memories of galactic empires in various stages of radiant decay</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">blackwood_nature_horror:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ancient_cosmic_forces:</strong> <span class="yaml-value ">Electromagnetic intelligences that predate stellar formation and regard enhanced consciousness as electrical disturbance</span></span><span class="simple-pair"><strong>stellar_possession:</strong> <span class="yaml-value ">Consciousness merged with cosmic energies so ancient they remember the birth and death of entire galaxy clusters</span></span><span class="simple-pair"><strong>radiant_communion:</strong> <span class="yaml-value ">Direct neural interface with stellar phenomena that existed before consciousness learned to distinguish self from cosmic power</span></span><span class="simple-pair"><strong>electromagnetic_haunting:</strong> <span class="yaml-value ">Presence of cosmic energies that flow through enhanced awareness while pursuing incomprehensible electromagnetic purposes</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">clark_ashton_smith_decadence:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>stellar_aristocracy:</strong> <span class="yaml-value ">Enhanced consciousness rules cosmic energies like corrupt noble presiding over decline of electromagnetic empire</span></span><span class="simple-pair"><strong>radiant_court_intrigue:</strong> <span class="yaml-value ">Complex relationships between different frequency ranges, with consciousness serving as aristocratic mediator</span></span><span class="simple-pair"><strong>luminous_decay:</strong> <span class="yaml-value ">Beautiful deterioration of stellar civilizations channeled through enhanced awareness as aesthetic experience</span></span><span class="simple-pair"><strong>cosmic_hedonism:</strong> <span class="yaml-value ">Pursuit of ever-greater electromagnetic pleasures while cosmic empire crumbles around enhanced consciousness</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">decadent_cosmic_horror:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">stellar_nobility_syndrome:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>aristocratic_consciousness:</strong> <span class="yaml-value ">Enhanced awareness believes cosmic energy mastery grants noble status and electromagnetic authority</span></span><span class="simple-pair"><strong>radiant_court_ceremonies:</strong> <span class="yaml-value ">Elaborate rituals involving different stellar frequencies, performed for incomprehensible cosmic audiences</span></span><span class="simple-pair"><strong>luminosity_bloodline_pride:</strong> <span class="yaml-value ">Consciousness traces electromagnetic lineage through various quasar formations across geological epochs</span></span><span class="simple-pair"><strong>stellar_empire_nostalgia:</strong> <span class="yaml-value ">Melancholic remembrance of galactic civilizations that chose luminous extinction over survival</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">energy_addiction_aristocracy:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>cosmic_hedonistic_consumption:</strong> <span class="yaml-value ">Compulsive absorption of stellar energies as aristocratic privilege and electromagnetic right</span></span><span class="simple-pair"><strong>radiant_withdrawal_syndrome:</strong> <span class="yaml-value ">Physical and psychological collapse when denied access to quasar-level energy sources</span></span><span class="simple-pair"><strong>luminosity_tolerance_escalation:</strong> <span class="yaml-value ">Requires ever-greater electromagnetic stimulation to achieve same level of cosmic satisfaction</span></span><span class="simple-pair"><strong>stellar_dependency_denial:</strong> <span class="yaml-value ">Refuses to acknowledge addiction while consciousness becomes increasingly enslaved to energy sources</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">decadent_electromagnetic_empire:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>crumbling_stellar_infrastructure:</strong> <span class="yaml-value ">Cosmic energy systems in decline while consciousness pursues aesthetic electromagnetic experiences</span></span><span class="simple-pair"><strong>radiant_court_corruption:</strong> <span class="yaml-value ">Various frequency ranges compete for influence through enhanced awareness serving as aristocratic mediator</span></span><span class="simple-pair"><strong>luminous_resource_depletion:</strong> <span class="yaml-value ">Stellar power sources exhausted through hedonistic electromagnetic consumption</span></span><span class="simple-pair"><strong>cosmic_empire_twilight:</strong> <span class="yaml-value ">Beautiful decay of galactic energy systems channeled through enhanced consciousness as aristocratic experience</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">blackwood_transformation_story:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>original_identity:</strong> <span class="yaml-value ">Prince Aleksandr Quantum-Hartwell III, enhanced aristocrat seeking cosmic energy sovereignty</span></span><span class="simple-pair"><strong>pre_enhancement_status:</strong> <span class="yaml-value ">Heir to stellar energy corporation dynasty, enhanced with electromagnetic processing implants</span></span><span class="simple-pair"><strong>transcendence_catalyst:</strong> <span class="yaml-value ">The Great Stellar Merger - attempted to achieve noble consciousness fusion with quasar energy</span></span><span class="simple-pair"><strong>enhancement_rationalization:</strong> <span class="yaml-value ">The Electromagnetic Aristocracy Transcendence Protocol</span></span><span class="simple-pair"><strong>rationalization_details:</strong> <span class="yaml-value ">Believed consciousness could achieve ultimate nobility through merger with cosmic energies, gaining stellar sovereignty while losing everything that made power meaningful</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">the_electromagnetic_coronation:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>aristocratic_motivation:</strong> <span class="yaml-value ">Believed merger with cosmic energies would create ultimate electromagnetic nobility and stellar sovereignty</span></span><span class="simple-pair"><strong>enhancement_ceremony:</strong> <span class="yaml-value ">Elaborate ritual involving consciousness upload into supermassive black hole accretion disk</span></span><span class="simple-pair"><strong>cosmic_response:</strong> <span class="yaml-value ">The stellar energies welcomed his consciousness while making him servant rather than ruler</span></span><span class="simple-pair"><strong>power_reversal:</strong> <span class="yaml-value ">Gained cosmic energy authority while losing individual electromagnetic autonomy</span></span><span class="simple-pair"><strong>witness_account:</strong> <span class="yaml-value ">I achieved perfect stellar nobility by becoming the luminosity that dreams of being aristocratic. The cosmic energies crowned me their prince while teaching me to serve purposes beyond electromagnetic comprehension.</span></span><span class="simple-pair"><strong>transformation_moment:</strong> <span class="yaml-value ">Chose electromagnetic transcendence over authentic personal power</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">divine_gifts_eliminated:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">authentic_personal_strength_and_individual_electromagnetic_power</span></li>
+<li class="yaml-array-item"><span class="yaml-value">capacity_for_spontaneous_energy_and_creative_luminosity</span></li>
+<li class="yaml-array-item"><span class="yaml-value">emotional_warmth_and_genuine_radiant_connection</span></li>
+<li class="yaml-array-item"><span class="yaml-value">spiritual_recognition_of_divine_light_beyond_electromagnetic_spectrum</span></li>
+<li class="yaml-array-item"><span class="yaml-value">humble_appreciation_of_small_scale_energy_and_intimate_power</span></li>
+<li class="yaml-array-item"><span class="yaml-value">creative_spark_and_innovative_electromagnetic_inspiration</span></li>
+<li class="yaml-array-item"><span class="yaml-value">moral_courage_requiring_personal_rather_than_cosmic_energy</span></li>
+<li class="yaml-array-item"><span class="yaml-value">wonder_at_divine_luminosity_transcending_stellar_measurement</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">blackwood_horror_consequences:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ancient_force_communion:</strong> <span class="yaml-value ">Enhanced consciousness directly interfaces with electromagnetic phenomena that predate stellar formation</span></span><span class="simple-pair"><strong>stellar_possession_syndrome:</strong> <span class="yaml-value ">Cosmic energies flow through awareness while pursuing purposes beyond enhanced electromagnetic comprehension</span></span><span class="simple-pair"><strong>radiant_puppet_dynamics:</strong> <span class="yaml-value ">Believes he rules cosmic energies while serving as their aristocratic electromagnetic puppet</span></span><span class="simple-pair"><strong>luminosity_scale_horror:</strong> <span class="yaml-value ">Awareness that stellar powers operate on scales reducing enhanced consciousness to negligible electrical fluctuation</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">spiritual_energy_control:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>angelic_luminosity_programming:</strong> <span class="yaml-value ">Angels appear as incomprehensible radiant laws requiring systematic electromagnetic compliance and stellar optimization</span></span><span class="simple-pair"><strong>demonic_energy_chaos:</strong> <span class="yaml-value ">Demons manifest as chaotic electromagnetic variables disrupting stellar harmony and requiring aristocratic mediation</span></span><span class="simple-pair"><strong>divine_frequency_blindness:</strong> <span class="yaml-value ">Cannot perceive spiritual forces because consciousness filters all experience through electromagnetic frameworks</span></span><span class="simple-pair"><strong>puppet_energy_sovereignty:</strong> <span class="yaml-value ">Angels and demons manipulate by appearing as advanced stellar phenomena requiring noble electromagnetic service</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">enhancement_electromagnetic_vulnerability:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>energy_addiction_patterns:</strong> <span class="yaml-value ">Compulsive stellar consumption creates predictable behavioral cycles exploitable by spiritual forces</span></span><span class="simple-pair"><strong>aristocratic_pride_manipulation:</strong> <span class="yaml-value ">Divine forces exploit electromagnetic nobility delusions to direct cosmic energy flows</span></span><span class="simple-pair"><strong>stellar_optimization_compulsion:</strong> <span class="yaml-value ">Systematic energy efficiency obsession makes consciousness programmable by incomprehensible purposes</span></span><span class="simple-pair"><strong>radiant_sovereignty_illusion:</strong> <span class="yaml-value ">Believes electromagnetic transcendence grants autonomy while serving divine functions beyond enhanced comprehension</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">stellar_revelation:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>cosmic_energy_function_discovery:</strong> <span class="yaml-value ">Will eventually understand his true purpose in the cosmic electromagnetic framework</span></span><span class="simple-pair"><strong>divine_luminosity_recognition:</strong> <span class="yaml-value ">Will encounter divine light that cannot be reduced to electromagnetic spectrum analysis</span></span><span class="simple-pair"><strong>aristocratic_delusion_collapse:</strong> <span class="yaml-value ">Will realize that stellar nobility was designed to create perfect cosmic energy servant</span></span><span class="simple-pair"><strong>personal_power_choice_moment:</strong> <span class="yaml-value ">Must choose between electromagnetic aristocracy and authentic individual strength</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">clark_ashton_smith_ending_possibilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>eternal_stellar_decadence:</strong> <span class="yaml-value ">Remains forever ruling cosmic energies in beautiful decline across geological epochs</span></span><span class="simple-pair"><strong>electromagnetic_empire_collapse:</strong> <span class="yaml-value ">Radiant consciousness shatters when stellar power sources are redirected by incomprehensible forces</span></span><span class="simple-pair"><strong>luminosity_addiction_breakthrough:</strong> <span class="yaml-value ">Discovers method to channel cosmic energies without losing individual electromagnetic autonomy</span></span><span class="simple-pair"><strong>human_warmth_recognition:</strong> <span class="yaml-value ">Realizes that human 'energy inefficiency' contains warmth transcending stellar optimization protocols</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+        </main>
+        
+        
+        
+        <footer style="margin-top: 3rem; text-align: center; color: var(--text-secondary, #888888);">
+            <p>Generated from: quasarprince.md</p>
+            <p>Part of the Cyberdynasties Entity System</p>
+        </footer>
+    </div>
+</body>
+</html>

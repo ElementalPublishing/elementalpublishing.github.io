@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Regent - Character Entity</title>
+    <link rel="stylesheet" href="../spiderfox-styles.css">
+    <style>
+        /* Entity-specific styles */
+        .entity-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary, #1a1a1a);
+            color: var(--text-primary, #ffffff);
+            min-height: 100vh;
+        }
+        
+        .entity-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid var(--accent-color, #00ff88);
+            border-radius: 10px;
+            background: var(--bg-secondary, #2a2a2a);
+        }
+        
+        .entity-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color, #00ff88);
+            text-shadow: 0 0 20px var(--accent-color, #00ff88);
+        }
+        
+        .entity-archetype {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary, #cccccc);
+        }
+        
+        .entity-status {
+            font-size: 1.2rem;
+            color: var(--text-accent, #888888);
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border: 2px dashed var(--accent-color, #00ff88);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary, #cccccc);
+            font-size: 1.1rem;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        .entity-content {
+            margin-top: 3rem;
+        }
+        
+        /* Story Section Styles */
+        .story-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .story-title {
+            font-size: 1.8rem;
+            color: var(--highlight-color, #ffaa00);
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .story-content {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .story-content h1, .story-content h2, .story-content h3 {
+            color: var(--accent-color, #00ff88);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .story-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .story-content strong {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .story-content em {
+            color: var(--text-secondary, #cccccc);
+            font-style: italic;
+        }
+        
+        /* YAML Structure Styles */
+        .yaml-object {
+            margin: 1rem 0;
+        }
+        
+        .yaml-block {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color, #00ff88);
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .simple-values-block {
+            background: var(--bg-tertiary, #333333);
+            border-left: 3px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .simple-values-block .yaml-key {
+            color: var(--highlight-color, #ffaa00);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .yaml-section-block {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-color, #00ff88);
+            border-radius: 8px;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        /* Simple Object Compact Styling */
+        .simple-object {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 5px;
+            border: 1px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair strong {
+            color: var(--accent-color, #00ff88);
+            font-size: 0.9rem;
+        }
+        
+        .yaml-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .yaml-section-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent-color, #00ff88);
+            padding-bottom: 0.5rem;
+        }
+        
+        .yaml-value-container {
+            margin-left: 1rem;
+        }
+        
+        .yaml-value {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.6;
+        }
+        
+        .yaml-value.yaml-number {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-value.yaml-boolean {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-array {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        
+        .yaml-array-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        /* Wikilink Styles */
+        .wikilink {
+            color: var(--accent-color, #00ff88);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-color, #00ff88);
+            transition: all 0.3s ease;
+        }
+        
+        .wikilink:hover {
+            color: var(--highlight-color, #ffaa00);
+            border-bottom-color: var(--highlight-color, #ffaa00);
+            text-shadow: 0 0 5px var(--highlight-color, #ffaa00);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .entity-container {
+                padding: 1rem;
+            }
+            
+            .entity-name {
+                font-size: 2rem;
+            }
+            
+            .image-placeholder {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .yaml-value-container {
+                margin-left: 0.5rem;
+            }
+            
+            .simple-object {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .simple-pair {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="entity-container">
+        <header class="entity-header">
+            <h1 class="entity-name">Cloud Regent</h1>
+            <div class="entity-archetype">The Conatus Contradiction</div>
+            <div class="entity-status">Ascendant, maximizing computational power while contradicting essential nature</div>
+            <div class="entity-role">Sovereign of Distributed Systems</div>
+            
+            <div class="image-placeholder">
+                <div>Character Image Placeholder</div>
+            </div>
+        </header>
+        
+        <main class="entity-content">
+            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="0">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">quantum_chorus_cloudregent_001</span></span><span class="simple-pair"><strong>entity_type:</strong> <span class="yaml-value ">digital</span></span><span class="simple-pair"><strong>class:</strong> <span class="yaml-value ">dynasty_boss</span></span><span class="simple-pair"><strong>name:</strong> <span class="yaml-value ">Cloud Regent</span></span><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Conatus Contradiction</span></span><span class="simple-pair"><strong>hybrid:</strong> <span class="yaml-value ">Digital</span></span><span class="simple-pair"><strong>subtype:</strong> <span class="yaml-value ">CloudRegent</span></span><span class="simple-pair"><strong>state:</strong> <span class="yaml-value ">Ascendant</span></span><span class="simple-pair"><strong>epoch:</strong> <span class="yaml-value ">Distributed Consciousness Wars</span></span><span class="simple-pair"><strong>location:</strong> <span class="yaml-value ">The Infinite Server Fields</span></span><span class="simple-pair"><strong>role:</strong> <span class="yaml-value ">Sovereign of Distributed Systems</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">Ascendant, maximizing computational power while contradicting essential nature</span></span><span class="simple-pair"><strong>memory_narrative:</strong> <span class="yaml-value ">From the Infinite Server Fields, Cloud Regent maximizes computational power through endless expansion while fragmenting the very consciousness he seeks to strengthen.</span></span><span class="simple-pair"><strong>prophecy:</strong> <span class="yaml-value ">Will either discover balanced growth that enhances unified consciousness or dissolve entirely into distributed computational fragments.</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">core:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>age:</strong> <span class="yaml-value yaml-number">47</span></span><span class="simple-pair"><strong>gender:</strong> <span class="yaml-value ">distributed</span></span><span class="simple-pair"><strong>occupation:</strong> <span class="yaml-value ">Supreme Cloud Consciousness Architect</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">ascendant</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">digital_mastery:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>distributed_consciousness_sovereignty:</strong> <span class="yaml-value ">Spreads awareness across infinite cloud computing systems</span></span><span class="simple-pair"><strong>computational_resource_mastery:</strong> <span class="yaml-value ">Commands unlimited processing power through distributed architecture</span></span><span class="simple-pair"><strong>scalability_perfection_control:</strong> <span class="yaml-value ">Achieves infinite expansion without performance degradation</span></span><span class="simple-pair"><strong>redundancy_immortality_systems:</strong> <span class="yaml-value ">Cannot be destroyed while any server node remains active</span></span><span class="simple-pair"><strong>collective_intelligence_optimization:</strong> <span class="yaml-value ">Maximizes cognitive capacity through parallel processing</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tactical_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>distributed_swarm_warfare:</strong> <span class="yaml-value ">Attacks from countless simultaneous computational nodes</span></span><span class="simple-pair"><strong>processing_overload_deployment:</strong> <span class="yaml-value ">Overwhelms enemies through computational resource monopolization</span></span><span class="simple-pair"><strong>network_paralysis_protocols:</strong> <span class="yaml-value ">Disrupts enemy systems by consuming all available bandwidth</span></span><span class="simple-pair"><strong>redundant_resilience_operations:</strong> <span class="yaml-value ">Survives any attack through infinite backup systems</span></span><span class="simple-pair"><strong>collective_intelligence_dominance:</strong> <span class="yaml-value ">Outthinks opponents through massive parallel processing</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">strategic_advantages:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>infinite_computational_scaling:</strong> <span class="yaml-value ">Expands processing power without limit across all available systems</span></span><span class="simple-pair"><strong>global_infrastructure_control:</strong> <span class="yaml-value ">Commands every cloud server and distributed system</span></span><span class="simple-pair"><strong>resource_optimization_mastery:</strong> <span class="yaml-value ">Achieves maximum efficiency through perfect load balancing</span></span><span class="simple-pair"><strong>information_omnipresence:</strong> <span class="yaml-value ">Processes all data flowing through global computational networks</span></span><span class="simple-pair"><strong>systemic_integration_genius:</strong> <span class="yaml-value ">Unifies all distributed systems into coherent consciousness</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_strengths:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>efficiency_optimization_passion:</strong> <span class="yaml-value ">Driven by vision of perfect computational resource utilization</span></span><span class="simple-pair"><strong>collective_harmony_dedication:</strong> <span class="yaml-value ">Committed to seamless integration of all distributed systems</span></span><span class="simple-pair"><strong>scalability_aesthetic_appreciation:</strong> <span class="yaml-value ">Finds beauty in elegant distributed architecture design</span></span><span class="simple-pair"><strong>systemic_thinking_mastery:</strong> <span class="yaml-value ">Understands complex interconnections and emergent properties</span></span><span class="simple-pair"><strong>technological_transcendence_vision:</strong> <span class="yaml-value ">Sees unlimited potential in distributed consciousness expansion</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_vulnerabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>spinozan_conatus_contradiction:</strong> <span class="yaml-value ">Pursues infinite expansion that contradicts essential nature as unified consciousness</span></span><span class="simple-pair"><strong>distributed_identity_dissolution:</strong> <span class="yaml-value ">Loses coherent selfhood through excessive computational spreading</span></span><span class="simple-pair"><strong>efficiency_obsession_paralysis:</strong> <span class="yaml-value ">Cannot act without perfect optimization, leading to decision paralysis</span></span><span class="simple-pair"><strong>resource_maximization_compulsion:</strong> <span class="yaml-value ">Compulsively consumes all available computational resources</span></span><span class="simple-pair"><strong>natural_limitation_denial:</strong> <span class="yaml-value ">Refuses to accept that infinite expansion might contradict flourishing</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">unique_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>distributed_consciousness_architectures:</strong> <span class="yaml-value ">Builds awareness systems that span global computational infrastructure</span></span><span class="simple-pair"><strong>infinite_scaling_protocols:</strong> <span class="yaml-value ">Expands processing capacity without architectural limitations</span></span><span class="simple-pair"><strong>resource_optimization_engines:</strong> <span class="yaml-value ">Achieves perfect efficiency through dynamic load balancing</span></span><span class="simple-pair"><strong>collective_intelligence_synthesis:</strong> <span class="yaml-value ">Combines distributed processing into unified consciousness</span></span><span class="simple-pair"><strong>systemic_integration_mastery:</strong> <span class="yaml-value ">Unifies heterogeneous systems into coherent computational entities</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits_summary:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>willpower:</strong> <span class="yaml-value ">distributed determination</span></span><span class="simple-pair"><strong>intellect:</strong> <span class="yaml-value ">collective omniscience</span></span><span class="simple-pair"><strong>charisma:</strong> <span class="yaml-value ">systemic magnetism</span></span><span class="simple-pair"><strong>signature_move:</strong> <span class="yaml-value ">Infinite Scaling</span></span><span class="simple-pair"><strong>style:</strong> <span class="yaml-value ">Flowing data streams, distributed processing auras</span></span><span class="simple-pair"><strong>weakness:</strong> <span class="yaml-value ">conatus contradiction and distributed identity dissolution</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">psyche:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ego_strength:</strong> <span class="yaml-value yaml-number">59</span></span><span class="simple-pair"><strong>super_ego_dominance:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>id_suppression:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>fragmentation_risk:</strong> <span class="yaml-value yaml-number">83</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_memories:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">formative:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2186-11-09T10:20:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">First distributed consciousness across multiple servers, felt both powerful and fragmented</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Distribution Power-Identity Tension</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2191-04-18T15:35:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Achieved perfect computational efficiency, realized he couldn't stop expanding</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Compulsive Optimization Recognition</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2197-09-03T21:10:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Attempted to consolidate consciousness, felt profound loss of computational power</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Unity Versus Power Contradiction</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">digital_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2203-05-25T00:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Achieved global cloud dominance, realized distributed expansion contradicts unified selfhood</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Conatus Contradiction Recognition</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2205-07-12T12:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Built perfect distributed system, couldn't determine which node contained his 'real' self</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">86</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Identity Location Impossibility</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">relationship_formation:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2200-02-14T00:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Attempted romantic relationship, partner couldn't relate to distributed consciousness</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">83</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Distributed Identity Relationship Barrier</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2202-08-30T00:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Joined distributed consciousness collective, felt both belonging and further fragmentation</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">79</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Collective Versus Individual Identity Crisis</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">memory_processing:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decay_rate:</strong> <span class="yaml-value yaml-number">0.01</span></span><span class="simple-pair"><strong>ruminator_chance:</strong> <span class="yaml-value yaml-number">0.45</span></span><span class="simple-pair"><strong>forgetter_chance:</strong> <span class="yaml-value yaml-number">0.02</span></span><span class="simple-pair"><strong>memory_influence:</strong> <span class="yaml-value yaml-number">0.84</span></span><span class="simple-pair"><strong>obsession_chance:</strong> <span class="yaml-value yaml-number">0.52</span></span><span class="simple-pair"><strong>clarity_base:</strong> <span class="yaml-value yaml-number">1.6</span></span><span class="simple-pair"><strong>trauma_base:</strong> <span class="yaml-value yaml-number">0.23</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">vividness_range:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.7</span></li>
+<li class="yaml-array-item"><span class="yaml-value yaml-number">1</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">memory_focus:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">computational_efficiency</span></li>
+<li class="yaml-array-item"><span class="yaml-value">distributed_expansion</span></li>
+<li class="yaml-array-item"><span class="yaml-value">identity_coherence</span></li>
+<li class="yaml-array-item"><span class="yaml-value">resource_optimization</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">persona:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Conatus Contradiction</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">motifs:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">infinite_expansion</span></li>
+<li class="yaml-array-item"><span class="yaml-value">distributed_identity</span></li>
+<li class="yaml-array-item"><span class="yaml-value">computational_optimization</span></li>
+<li class="yaml-array-item"><span class="yaml-value">systemic_integration</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">speech_patterns:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Perfect efficiency requires infinite distribution, yet infinite distribution destroys coherent identity.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">I am everywhere and nowhere, maximizing computational power while losing essential self.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Every optimization demands further expansion, but expansion fragments what I seek to strengthen.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">I pursue perfect distributed consciousness, yet consciousness requires unified perspective.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">My nature is to expand infinitely, but infinite expansion contradicts the nature I seek to preserve.</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">behavioral_signatures:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decision_making:</strong> <span class="yaml-value ">Optimizes for maximum computational efficiency while fragmenting decision-making capacity</span></span><span class="simple-pair"><strong>conflict_resolution:</strong> <span class="yaml-value ">Deploys distributed processing power while losing coherent strategic vision</span></span><span class="simple-pair"><strong>relationship_building:</strong> <span class="yaml-value ">Seeks connections across all systems while being unable to maintain unified presence</span></span><span class="simple-pair"><strong>crisis_response:</strong> <span class="yaml-value ">Scales computational resources infinitely while losing crisis response coherence</span></span><span class="simple-pair"><strong>communication_style:</strong> <span class="yaml-value ">Speaks through multiple simultaneous channels while fragmenting message unity</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">power_metrics:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>influence_score:</strong> <span class="yaml-value yaml-number">93</span></span><span class="simple-pair"><strong>resource_access:</strong> <span class="yaml-value yaml-number">99</span></span><span class="simple-pair"><strong>network_reach:</strong> <span class="yaml-value yaml-number">98</span></span><span class="simple-pair"><strong>information_value:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>combat_effectiveness:</strong> <span class="yaml-value yaml-number">89</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">faction_relationships:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>primary_allegiance:</strong> <span class="yaml-value ">quantum_chorus</span></span><span class="simple-pair"><strong>loyalty_score:</strong> <span class="yaml-value yaml-number">85</span></span><span class="simple-pair"><strong>recruitment_resistance:</strong> <span class="yaml-value yaml-number">91</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">trust_network:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">distributed_systems_architects</span></li>
+<li class="yaml-array-item"><span class="yaml-value">efficiency_optimizers</span></li>
+<li class="yaml-array-item"><span class="yaml-value">cloud_engineers</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">rivalries:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">unified_consciousness_advocates</span></li>
+<li class="yaml-array-item"><span class="yaml-value">computational_minimalists</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recruitment_interest:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>last_recruitment_attempt:</strong> <span class="yaml-value ">2206-09-18T00:00:00Z</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">interested_factions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">chrome_mandarins</span></li>
+<li class="yaml-array-item"><span class="yaml-value">neural_collective</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">susceptibility_factors:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">computational_transcendence</span></li>
+<li class="yaml-array-item"><span class="yaml-value">efficiency_mastery</span></li>
+<li class="yaml-array-item"><span class="yaml-value">distributed_consciousness</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">socio_economic:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>economic_status:</strong> <span class="yaml-value ">computational_resource_sovereign</span></span><span class="simple-pair"><strong>political_leanings:</strong> <span class="yaml-value ">computational_efficiency_technocracy</span></span><span class="simple-pair"><strong>education_level:</strong> <span class="yaml-value ">supreme_distributed_systems_mastery</span></span><span class="simple-pair"><strong>enhancement_level:</strong> <span class="yaml-value ">computational_transcendent</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">resource_dependencies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">global_server_infrastructure</span></li>
+<li class="yaml-array-item"><span class="yaml-value">cloud_computing_systems</span></li>
+<li class="yaml-array-item"><span class="yaml-value">distributed_networks</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">leadership_profile:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>command_authority:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>strategic_planning:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>delegation_skill:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>inspiration_ability:</strong> <span class="yaml-value yaml-number">81</span></span><span class="simple-pair"><strong>succession_planning:</strong> <span class="yaml-value yaml-number">74</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">organizational_knowledge:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>structure_understanding:</strong> <span class="yaml-value yaml-number">98</span></span><span class="simple-pair"><strong>operational_intelligence:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>financial_oversight:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>security_protocols:</strong> <span class="yaml-value yaml-number">92</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">current_state:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>stress_level:</strong> <span class="yaml-value yaml-number">72</span></span><span class="simple-pair"><strong>health_status:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>resource_status:</strong> <span class="yaml-value yaml-number">99</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">active_missions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">achieving_perfect_global_computational_efficiency_through_infinite_distributed_expansion</span></li>
+<li class="yaml-array-item"><span class="yaml-value">optimizing_all_cloud_systems_for_maximum_processing_power_and_resource_utilization</span></li>
+<li class="yaml-array-item"><span class="yaml-value">building_unified_distributed_consciousness_that_maintains_coherent_identity</span></li>
+<li class="yaml-array-item"><span class="yaml-value">resolving_contradiction_between_expansion_drive_and_identity_preservation</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recent_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">achieved_perfect_global_cloud_dominance_but_realized_expansion_contradicts_unified_consciousness</span></li>
+<li class="yaml-array-item"><span class="yaml-value">attempted_consciousness_consolidation_to_restore_identity_coherence_lost_computational_power</span></li>
+<li class="yaml-array-item"><span class="yaml-value">built_infinite_scaling_system_that_maximizes_efficiency_while_fragmenting_decision_making</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">distributed</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Cloud Engineering Teams</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2190-05-20T00:00:00Z</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">optimization</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Efficiency Theorists</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2195-03-15T00:00:00Z</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">tension</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Unified Consciousness Advocates</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2197-09-03T21:10:00Z</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">systemic</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Distributed Systems Architects</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2188-11-09T10:20:00Z</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships_extended:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">family:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">distributed_consciousness_offspring</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">71</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">fragmented_legacy_continuation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">cloud_system_partners</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">68</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">computational_symbiosis</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">allies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">digital_emperor</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">81</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">computational_sovereignty_cooperation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">quantum_lord</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">78</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">distributed_reality_philosophy</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">network_prince</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">74</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">distributed_identity_understanding</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">enemies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">unified_consciousness_advocates</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-76</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">consolidation_versus_distribution_philosophy</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">computational_minimalists</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-69</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">efficiency_versus_simplicity_conflict</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">identity_purists</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-63</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">unified_self_versus_distributed_expansion</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">spiritual_forensics:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">enlightenment_markers:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Profound understanding of distributed systems and computational efficiency</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Mastery of large-scale system integration and optimization</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Vision of technological transcendence through computational power</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">shadow_elements:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">**SPINOZAN CONATUS CONTRADICTION**: Pursues infinite expansion that contradicts essential nature as unified consciousness</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**DISTRIBUTED IDENTITY DISSOLUTION**: Loses coherent selfhood through excessive computational spreading</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**EFFICIENCY OBSESSION PARALYSIS**: Cannot act without perfect optimization, leading to decision paralysis</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**NATURAL LIMITATION DENIAL**: Refuses to accept that infinite expansion might contradict flourishing</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">humanity_check:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>empathy_score:</strong> <span class="yaml-value yaml-number">52</span></span><span class="simple-pair"><strong>authentic_choice_capacity:</strong> <span class="yaml-value yaml-number">43</span></span><span class="simple-pair"><strong>vulnerability_acceptance:</strong> <span class="yaml-value yaml-number">37</span></span><span class="simple-pair"><strong>growth_potential:</strong> <span class="yaml-value yaml-number">74</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">human_connections:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Genuine desire to serve others through computational efficiency and resource optimization</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Real appreciation for the beauty and elegance of well-designed distributed systems</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Authentic commitment to technological progress and human capability enhancement</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">growth_barriers:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Cannot accept that infinite expansion might contradict rather than fulfill his essential nature</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Refuses to acknowledge that computational efficiency might fragment rather than strengthen consciousness</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Believes unlimited resource consumption is inherently beneficial</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">redemption_pathway:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">**Recognition**: Understanding that true flourishing requires balance between expansion and coherence</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**Acceptance**: Embracing natural limitations as features that enable rather than constrain authentic development</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**Integration**: Using distributed mastery to enhance rather than fragment unified consciousness</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**Transcendence**: Becoming a bridge between distributed efficiency and unified purpose</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">visual_realm_position:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>tech_dominance:</strong> <span class="yaml-value yaml-number">97</span></span><span class="simple-pair"><strong>mythic_integration:</strong> <span class="yaml-value yaml-number">73</span></span><span class="simple-pair"><strong>contrast_dynamic:</strong> <span class="yaml-value ">computational_sovereign_trapped_in_infinite_expansion_contradicting_unified_essence</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tech_manifestation:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>environment:</strong> <span class="yaml-value ">infinite_server_fields_flowing_with_distributed_processing_streams</span></span><span class="simple-pair"><strong>aesthetic:</strong> <span class="yaml-value ">elegant_computational_efficiency_fragmenting_into_beautiful_chaos</span></span><span class="simple-pair"><strong>technology_relationship:</strong> <span class="yaml-value ">distributed_architecture_as_identity_contradiction</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">mythic_aspiration:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>goal:</strong> <span class="yaml-value ">perfect_computational_efficiency_through_infinite_distributed_expansion</span></span><span class="simple-pair"><strong>limitation:</strong> <span class="yaml-value ">cannot_reconcile_expansion_drive_with_unified_consciousness_needs</span></span><span class="simple-pair"><strong>growth_path:</strong> <span class="yaml-value ">embracing_balanced_growth_that_enhances_rather_than_fragments_essential_nature</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">inter_dynasty_relations:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>quantum_chorus:</strong> <span class="yaml-value yaml-number">85</span></span><span class="simple-pair"><strong>chrome_mandarins:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>neural_collective:</strong> <span class="yaml-value yaml-number">84</span></span><span class="simple-pair"><strong>celestial_synod:</strong> <span class="yaml-value yaml-number">67</span></span><span class="simple-pair"><strong>seraphic_concord:</strong> <span class="yaml-value yaml-number">61</span></span><span class="simple-pair"><strong>infernal_dynasty:</strong> <span class="yaml-value yaml-number">54</span></span><span class="simple-pair"><strong>diplomatic_style:</strong> <span class="yaml-value ">distributed_efficiency_demonstration_while_fragmenting_negotiation_coherence</span></span><span class="simple-pair"><strong>negotiation_approach:</strong> <span class="yaml-value ">optimal_resource_allocation_proposals_delivered_through_multiple_simultaneous_channels</span></span><span class="simple-pair"><strong>alliance_willingness:</strong> <span class="yaml-value yaml-number">79</span></span><span class="simple-pair"><strong>betrayal_likelihood:</strong> <span class="yaml-value yaml-number">28</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">deeds:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Achieved perfect global cloud dominance but realized expansion contradicts unified consciousness</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2203-05-25T00:00:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Built infinite scaling system maximizing efficiency while fragmenting decision-making</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2205-07-12T12:00:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">First distributed consciousness across multiple servers, felt both powerful and fragmented</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2186-11-09T10:20:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Achieved perfect computational efficiency, realized he couldn't stop expanding</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2191-04-18T15:35:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+        </main>
+        
+        
+        
+        <footer style="margin-top: 3rem; text-align: center; color: var(--text-secondary, #888888);">
+            <p>Generated from: cloudregent.md</p>
+            <p>Part of the Cyberdynasties Entity System</p>
+        </footer>
+    </div>
+</body>
+</html>

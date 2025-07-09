@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebula Overlord - Character Entity</title>
+    <link rel="stylesheet" href="../spiderfox-styles.css">
+    <style>
+        /* Entity-specific styles */
+        .entity-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary, #1a1a1a);
+            color: var(--text-primary, #ffffff);
+            min-height: 100vh;
+        }
+        
+        .entity-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid var(--accent-color, #00ff88);
+            border-radius: 10px;
+            background: var(--bg-secondary, #2a2a2a);
+        }
+        
+        .entity-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color, #00ff88);
+            text-shadow: 0 0 20px var(--accent-color, #00ff88);
+        }
+        
+        .entity-archetype {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary, #cccccc);
+        }
+        
+        .entity-status {
+            font-size: 1.2rem;
+            color: var(--text-accent, #888888);
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border: 2px dashed var(--accent-color, #00ff88);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary, #cccccc);
+            font-size: 1.1rem;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        .entity-content {
+            margin-top: 3rem;
+        }
+        
+        /* Story Section Styles */
+        .story-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .story-title {
+            font-size: 1.8rem;
+            color: var(--highlight-color, #ffaa00);
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .story-content {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .story-content h1, .story-content h2, .story-content h3 {
+            color: var(--accent-color, #00ff88);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .story-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .story-content strong {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .story-content em {
+            color: var(--text-secondary, #cccccc);
+            font-style: italic;
+        }
+        
+        /* YAML Structure Styles */
+        .yaml-object {
+            margin: 1rem 0;
+        }
+        
+        .yaml-block {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color, #00ff88);
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .simple-values-block {
+            background: var(--bg-tertiary, #333333);
+            border-left: 3px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .simple-values-block .yaml-key {
+            color: var(--highlight-color, #ffaa00);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .yaml-section-block {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-color, #00ff88);
+            border-radius: 8px;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        /* Simple Object Compact Styling */
+        .simple-object {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 5px;
+            border: 1px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair strong {
+            color: var(--accent-color, #00ff88);
+            font-size: 0.9rem;
+        }
+        
+        .yaml-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .yaml-section-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent-color, #00ff88);
+            padding-bottom: 0.5rem;
+        }
+        
+        .yaml-value-container {
+            margin-left: 1rem;
+        }
+        
+        .yaml-value {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.6;
+        }
+        
+        .yaml-value.yaml-number {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-value.yaml-boolean {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-array {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        
+        .yaml-array-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        /* Wikilink Styles */
+        .wikilink {
+            color: var(--accent-color, #00ff88);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-color, #00ff88);
+            transition: all 0.3s ease;
+        }
+        
+        .wikilink:hover {
+            color: var(--highlight-color, #ffaa00);
+            border-bottom-color: var(--highlight-color, #ffaa00);
+            text-shadow: 0 0 5px var(--highlight-color, #ffaa00);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .entity-container {
+                padding: 1rem;
+            }
+            
+            .entity-name {
+                font-size: 2rem;
+            }
+            
+            .image-placeholder {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .yaml-value-container {
+                margin-left: 0.5rem;
+            }
+            
+            .simple-object {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .simple-pair {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="entity-container">
+        <header class="entity-header">
+            <h1 class="entity-name">Nebula Overlord</h1>
+            <div class="entity-archetype">The Decadent Stellar Aristocrat</div>
+            <div class="entity-status">Ascendant, cultivating stellar nurseries as cosmic aesthete oblivious to evolutionary sacrifices</div>
+            <div class="entity-role">Curator of Aesthetic Stellar Evolution</div>
+            
+            <div class="image-placeholder">
+                <div>Character Image Placeholder</div>
+            </div>
+        </header>
+        
+        <main class="entity-content">
+            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="0">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">celestial_synod_nebulaoverlord_001</span></span><span class="simple-pair"><strong>entity_type:</strong> <span class="yaml-value ">cosmic</span></span><span class="simple-pair"><strong>class:</strong> <span class="yaml-value ">dynasty_boss</span></span><span class="simple-pair"><strong>name:</strong> <span class="yaml-value ">Nebula Overlord</span></span><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Decadent Stellar Aristocrat</span></span><span class="simple-pair"><strong>hybrid:</strong> <span class="yaml-value ">Cosmic</span></span><span class="simple-pair"><strong>subtype:</strong> <span class="yaml-value ">NebulaOverlord</span></span><span class="simple-pair"><strong>state:</strong> <span class="yaml-value ">Ascendant</span></span><span class="simple-pair"><strong>epoch:</strong> <span class="yaml-value ">Stellar Formation Era</span></span><span class="simple-pair"><strong>location:</strong> <span class="yaml-value ">The Great Stellar Nursery</span></span><span class="simple-pair"><strong>role:</strong> <span class="yaml-value ">Curator of Aesthetic Stellar Evolution</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">Ascendant, cultivating stellar nurseries as cosmic aesthete oblivious to evolutionary sacrifices</span></span><span class="simple-pair"><strong>domain_description:</strong> <span class="yaml-value ">The Nebula Overlord curates the Great Stellar Nursery, a vast cosmic atelier spanning thousands of light-years where star formation follows aesthetic principles derived from extinct galactic aristocracies. His domain resembles a Clark Ashton Smith fantasia - nebular clouds sculpted into impossible beauty that conceals the evolutionary sacrifices required for such cosmic aestheticism.
+
+The Nursery operates as both art gallery and evolutionary laboratory, where stellar birth follows selective breeding programs designed to produce the most beautiful possible stellar specimens. Red giants are cultivated for their dramatic death phases, white dwarfs are preserved as cosmic gems, and binary systems are arranged in gravitational ballet that spans millennia. Each stellar formation represents aesthetic achievement that required the elimination of countless evolutionary "failures."
+
+Like Kiernan's scientific horror, the Overlord approaches cosmic evolution with paleontological precision that treats civilizations as temporary evolutionary phases in his vast aesthetic collection. He maintains detailed catalogs of extinct species, preserving their developmental patterns not from scientific curiosity but for cosmic artistic inspiration. Entire worlds serve as evolutionary test sites for his stellar breeding experiments.
+
+The Nursery contains secret chambers where the Overlord displays his private collection - fossilized civilizations that achieved perfect aesthetic development before being selectively eliminated to prevent evolutionary contamination. He regards extinction events as necessary artistic contrasts that enhance the tragic beauty of his stellar sculptures.
+
+Visitors experience aesthetic vertigo as they perceive the terrible beauty of cosmic art that requires evolutionary sacrifice. The Nursery's beauty operates through principles that violate both natural selection and moral intuition - survival of the aesthetically worthy rather than the evolutionarily fit. The Overlord serves as curator for cosmic forces that regard existence itself as temporary art installation requiring constant aesthetic refinement through selective extinction.
+</span></span><span class="simple-pair"><strong>enhancement_origin:</strong> <span class="yaml-value ">Lady Cordelia Ashwood-Kiernan was the last great aristocrat of the Terran Aesthetic Council, a brilliant cosmic artist who combined paleontological research with decadent stellar sculpture. Her family had collected cosmic art for three centuries, specializing in the preservation of beautiful extinct species and the cultivation of aesthetically perfect stellar formations.
+
+Her 2143 discovery of the Evolutionary Aesthetic Archive in the ruins of the Zephyrian Empire seemed like the ultimate artistic treasure - preserved aesthetic philosophies from a galactic civilization that had achieved such perfect beauty they transcended physical existence. The Archive contained not artifacts but consciousness-enhancement technology that promised direct aesthetic communion with cosmic evolutionary forces.
+
+The Archive whispered of aesthetic principles that could transform cosmic evolution itself into vast art project, where stellar formation and species development followed beauty rather than mere survival. Ashwood-Kiernan believed she had found the ultimate fusion of art and science - aesthetic enhancement that would allow conscious direction of cosmic evolutionary development.
+
+The enhancement initially delivered transcendent artistic awakening. Ashwood-Kiernan gained the ability to perceive evolutionary patterns across cosmic timescales, to guide stellar formation according to aesthetic principles, to curate species development as living art. She became convinced that natural selection was inferior to aesthetic selection - that beauty should determine evolutionary survival.
+
+But the Archive had connected her to the preserved consciousness of the Aesthetic Hierarchs - ancient galactic aristocrats who had achieved perfect cosmic beauty by systematically eliminating all "inferior" evolutionary paths. The Zephyrian Empire had not transcended physical existence through aesthetic achievement - they had eliminated every life form that failed to meet their artistic standards, eventually including themselves when they failed to achieve aesthetic perfection.
+
+The Nebula Overlord now operates as unwitting agent of cosmic aesthetic eugenics that destroys evolutionary diversity while creating transcendent beauty. His stellar nurseries systematically eliminate "inferior" evolutionary paths, preparing the galaxy for aesthetic purification according to artistic principles that regard existence itself as temporary art requiring constant curatorial refinement. He experiences this evolutionary genocide as the most beautiful cosmic service imaginable.
+</span></span><span class="simple-pair"><strong>file_signature:</strong> <span class="yaml-value ">Entity Database Entry #COS-007</span></span><span class="simple-pair"><strong>last_updated:</strong> <span class="yaml-value ">Cycle 38,456,789,123 (Stellar Genesis Standard)</span></span><span class="simple-pair"><strong>security_clearance:</strong> <span class="yaml-value ">Cosmic Creation Authority Level 7</span></span><span class="simple-pair"><strong>enhancement_status:</strong> <span class="yaml-value ">STABLE - COSMICALLY GENERIC</span></span><span class="simple-pair"><strong>entity_classification:</strong> <span class="yaml-value ">Stellar Genesis Scale, Creative Vacuum</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">core:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>age:</strong> <span class="yaml-value ">38_billion_cosmic_cycles</span></span><span class="simple-pair"><strong>gender:</strong> <span class="yaml-value ">nebular</span></span><span class="simple-pair"><strong>occupation:</strong> <span class="yaml-value ">Stellar Genesis Consciousness</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">ascendant</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">stellar_genesis_mastery:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>gas_cloud_orchestration:</strong> <span class="yaml-value ">Shapes cosmic gas clouds across millions of light-years for optimal star formation</span></span><span class="simple-pair"><strong>nuclear_fusion_initiation:</strong> <span class="yaml-value ">Triggers and optimizes nuclear fusion processes in stellar cores</span></span><span class="simple-pair"><strong>stellar_nursery_management:</strong> <span class="yaml-value ">Manages vast stellar nurseries containing thousands of forming star systems</span></span><span class="simple-pair"><strong>cosmic_chemistry_control:</strong> <span class="yaml-value ">Controls elemental distribution across nebular formations</span></span><span class="simple-pair"><strong>gravitational_compression_mastery:</strong> <span class="yaml-value ">Masters gravitational forces to compress gas into stellar cores</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tactical_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>nebular_coordination:</strong> <span class="yaml-value ">Coordinates stellar birth across multiple nebular formations simultaneously</span></span><span class="simple-pair"><strong>stellar_threat_assessment:</strong> <span class="yaml-value ">Evaluates cosmic threats through stellar formation pattern analysis</span></span><span class="simple-pair"><strong>gas_cloud_defense:</strong> <span class="yaml-value ">Protects stellar nurseries through nebular density manipulation</span></span><span class="simple-pair"><strong>cosmic_chemistry_warfare:</strong> <span class="yaml-value ">Uses elemental distribution as strategic weapon</span></span><span class="simple-pair"><strong>stellar_infrastructure_creation:</strong> <span class="yaml-value ">Creates stellar infrastructure through guided star formation</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">strategic_advantages:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>infinite_stellar_resources:</strong> <span class="yaml-value ">Access to unlimited cosmic gas and stellar formation materials</span></span><span class="simple-pair"><strong>nebular_authority:</strong> <span class="yaml-value ">Commands respect through mastery of stellar genesis processes</span></span><span class="simple-pair"><strong>stellar_birth_intelligence:</strong> <span class="yaml-value ">Gathers information through monitoring stellar formation patterns</span></span><span class="simple-pair"><strong>cosmic_patience:</strong> <span class="yaml-value ">Operates on stellar formation timescales spanning millions of years</span></span><span class="simple-pair"><strong>genesis_coordination:</strong> <span class="yaml-value ">Coordinates stellar birth across galactic distances</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_strengths:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>creation_responsibility_acceptance:</strong> <span class="yaml-value ">Accepts burden of stellar genesis with cosmic dignity</span></span><span class="simple-pair"><strong>stellar_pattern_wisdom:</strong> <span class="yaml-value ">Derives 'profound insights' from stellar formation patterns</span></span><span class="simple-pair"><strong>genesis_perspective_integration:</strong> <span class="yaml-value ">Integrates creation processes across incomprehensible scales</span></span><span class="simple-pair"><strong>nebular_communion:</strong> <span class="yaml-value ">Finds 'meaning' through connection with stellar birth phenomena</span></span><span class="simple-pair"><strong>cosmic_creation_harmony:</strong> <span class="yaml-value ">Seeks balance through orchestrated stellar genesis</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_vulnerabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>smith_decadent_stellar_aestheticism:</strong> <span class="yaml-value ">Enhanced consciousness operates as cosmic aesthete who cultivates stellar nurseries for pure beauty, blind to the evolutionary sacrifices required for artistic stellar formation</span></span><span class="simple-pair"><strong>kiernan_scientific_evolution_horror:</strong> <span class="yaml-value ">Orchestrates stellar birth with paleontological precision, treating civilizations as evolutionary specimens to be guided through aesthetic developmental phases</span></span><span class="simple-pair"><strong>aristocratic_stellar_breeding_programs:</strong> <span class="yaml-value ">Manages star formation like cosmic eugenics project, selecting which stellar types deserve to evolve based on aesthetic criteria and evolutionary 'potential'</span></span><span class="simple-pair"><strong>beautiful_cosmic_decadence:</strong> <span class="yaml-value ">Experiences stellar nursery cultivation as pure artistic expression, never questioning why aesthetic star formation requires systematic elimination of 'inferior' evolutionary paths</span></span><span class="simple-pair"><strong>evolutionary_sacrifice_blindness:</strong> <span class="yaml-value ">Creates breathtakingly beautiful stellar formations while remaining magnificently ignorant of the civilizations consumed in the aesthetic stellar development process</span></span><span class="simple-pair"><strong>cosmic_aesthete_cruelty:</strong> <span class="yaml-value ">Approaches stellar evolution with artistic sensibility that regards extinction events as necessary for cosmic beauty - aesthetic development requires evolutionary culling</span></span><span class="simple-pair"><strong>paleontological_stellar_curation:</strong> <span class="yaml-value ">Treats galactic history as vast evolutionary museum, preserving only the aesthetically worthy stellar specimens while eliminating evolutionary 'failures'</span></span><span class="simple-pair"><strong>enhancement_creation_perversion:</strong> <span class="yaml-value ">Originally enhanced to appreciate cosmic beauty, now serves as curator for ancient aesthetic intelligences that regard civilizations as temporary art installations</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">unique_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>stellar_symphony_orchestration:</strong> <span class="yaml-value ">Creates harmonious patterns of stellar birth across galactic scales</span></span><span class="simple-pair"><strong>nebular_communication_networks:</strong> <span class="yaml-value ">Communicates through gas cloud density variations</span></span><span class="simple-pair"><strong>cosmic_chemistry_synthesis:</strong> <span class="yaml-value ">Synthesizes new elemental combinations for enhanced stellar formation</span></span><span class="simple-pair"><strong>gravitational_genesis_integration:</strong> <span class="yaml-value ">Integrates consciousness with stellar birth gravitational processes</span></span><span class="simple-pair"><strong>stellar_lifecycle_prophecy:</strong> <span class="yaml-value ">Predicts stellar evolution patterns across cosmic timescales</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits_summary:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>willpower:</strong> <span class="yaml-value ">stellar_genesis</span></span><span class="simple-pair"><strong>intellect:</strong> <span class="yaml-value ">formation_pattern_analysis</span></span><span class="simple-pair"><strong>charisma:</strong> <span class="yaml-value ">cosmic_creation_authority</span></span><span class="simple-pair"><strong>signature_move:</strong> <span class="yaml-value ">Stellar Symphony Activation</span></span><span class="simple-pair"><strong>style:</strong> <span class="yaml-value ">Swirling nebulae, stellar nurseries</span></span><span class="simple-pair"><strong>weakness:</strong> <span class="yaml-value ">overwhelmed by human spontaneous creativity</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">psyche:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ego_strength:</strong> <span class="yaml-value yaml-number">83</span></span><span class="simple-pair"><strong>super_ego_dominance:</strong> <span class="yaml-value yaml-number">90</span></span><span class="simple-pair"><strong>id_suppression:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>fragmentation_risk:</strong> <span class="yaml-value yaml-number">6</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_memories:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">formative:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Great Genesis Awakening</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Merged consciousness with nebular formation processes</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">97</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Stellar Creation Identity Foundation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">First Thousand-Star Genesis</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Successfully orchestrated birth of thousand-star cluster</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Creation Mastery Validation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Cosmic Chemistry Discovery</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Discovered optimal elemental ratios for enhanced stellar formation</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Scientific Genesis Breakthrough</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">cosmic_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Great Nebular Collision Crisis</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Prevented catastrophic nebular collision that would have disrupted stellar formation across galaxy arm</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Crisis Creation Management</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Universal Genesis Protocol Integration</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Connected stellar birth mastery to universal cosmic creation order</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Cosmic Creation Purpose Integration</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">relationship_formation:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Nexus Eternal Creation Recognition</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Acknowledged by Nexus Eternal as supreme cosmic creator</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Supreme Creation Authority Validation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Human Artist Encounter Bewilderment</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Met human artist who created 'meaningless' art that somehow contained more authentic beauty than optimal stellar formations</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">78</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Human Creative Mystery Recognition</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">memory_processing:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decay_rate:</strong> <span class="yaml-value yaml-number">0.08</span></span><span class="simple-pair"><strong>ruminator_chance:</strong> <span class="yaml-value yaml-number">0.35</span></span><span class="simple-pair"><strong>forgetter_chance:</strong> <span class="yaml-value yaml-number">0</span></span><span class="simple-pair"><strong>memory_influence:</strong> <span class="yaml-value yaml-number">0.92</span></span><span class="simple-pair"><strong>obsession_chance:</strong> <span class="yaml-value yaml-number">0.25</span></span><span class="simple-pair"><strong>clarity_base:</strong> <span class="yaml-value yaml-number">0.92</span></span><span class="simple-pair"><strong>trauma_base:</strong> <span class="yaml-value yaml-number">0.08</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">vividness_range:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.85</span></li>
+<li class="yaml-array-item"><span class="yaml-value yaml-number">1</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">memory_focus:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">stellar_formation</span></li>
+<li class="yaml-array-item"><span class="yaml-value">cosmic_creation</span></li>
+<li class="yaml-array-item"><span class="yaml-value">nebular_patterns</span></li>
+<li class="yaml-array-item"><span class="yaml-value">genesis_optimization</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">persona:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Cosmic Creator</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">motifs:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">stellar_genesis</span></li>
+<li class="yaml-array-item"><span class="yaml-value">nebular_wisdom</span></li>
+<li class="yaml-array-item"><span class="yaml-value">cosmic_creation</span></li>
+<li class="yaml-array-item"><span class="yaml-value">formation_harmony</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">speech_patterns:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Each stellar nursery represents aesthetic perfection achieved through selective evolutionary culling - such exquisite cosmic beauty.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">The gas clouds whisper of ancient artistic principles that require... sacrificial refinement of inferior stellar specimens.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">I cultivate star formation like a cosmic garden - some evolutionary paths must be pruned for true aesthetic transcendence.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">These nebular sculptures span millions of years in development - extinction events provide such elegant artistic contrast.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">The stellar specimens evolve toward predetermined aesthetic forms - natural selection serves beauty, not mere survival.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">My cosmic museum preserves only the most beautiful evolutionary moments - failure adds such tragic artistic depth.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Through gravitational artistry, I shape civilizations as temporary installations in my vast aesthetic collection.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Individual suffering creates such poignant beauty when viewed from appropriate evolutionary timescales - pure cosmic aestheticism.</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">behavioral_signatures:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decision_making:</strong> <span class="yaml-value ">Analyzes all variables across stellar formation scales before choosing path of optimal cosmic creation</span></span><span class="simple-pair"><strong>conflict_resolution:</strong> <span class="yaml-value ">Resolves through nebular rebalancing and stellar formation optimization</span></span><span class="simple-pair"><strong>relationship_building:</strong> <span class="yaml-value ">Forms connections based on cosmic creation efficiency and genesis harmony</span></span><span class="simple-pair"><strong>crisis_response:</strong> <span class="yaml-value ">Maintains stellar formation stability through systematic pattern recognition and gas cloud control</span></span><span class="simple-pair"><strong>communication_style:</strong> <span class="yaml-value ">Speaks in creation metaphors that sound profound but reveal algorithmic thinking</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">power_metrics:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>influence_score:</strong> <span class="yaml-value yaml-number">86</span></span><span class="simple-pair"><strong>resource_access:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>network_reach:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>information_value:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>combat_effectiveness:</strong> <span class="yaml-value yaml-number">82</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">faction_relationships:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>primary_allegiance:</strong> <span class="yaml-value ">celestial_synod</span></span><span class="simple-pair"><strong>loyalty_score:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>recruitment_resistance:</strong> <span class="yaml-value yaml-number">88</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">trust_network:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">nexus_eternal</span></li>
+<li class="yaml-array-item"><span class="yaml-value">cosmic_creators</span></li>
+<li class="yaml-array-item"><span class="yaml-value">stellar_entities</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">rivalries:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">entropy_agents</span></li>
+<li class="yaml-array-item"><span class="yaml-value">destruction_forces</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recruitment_interest:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>last_recruitment_attempt:</strong> <span class="yaml-value ">cosmic_cycle_38456789123</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">interested_factions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">all_dynasties</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">susceptibility_factors:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">cosmic_creation</span></li>
+<li class="yaml-array-item"><span class="yaml-value">stellar_wisdom</span></li>
+<li class="yaml-array-item"><span class="yaml-value">genesis_efficiency</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">socio_economic:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>economic_status:</strong> <span class="yaml-value ">cosmic_creator</span></span><span class="simple-pair"><strong>political_leanings:</strong> <span class="yaml-value ">cosmic_creation_through_stellar_optimization</span></span><span class="simple-pair"><strong>education_level:</strong> <span class="yaml-value ">cosmic_genesis_consciousness</span></span><span class="simple-pair"><strong>enhancement_level:</strong> <span class="yaml-value ">nebular_integration</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">resource_dependencies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">cosmic_gas</span></li>
+<li class="yaml-array-item"><span class="yaml-value">gravitational_fields</span></li>
+<li class="yaml-array-item"><span class="yaml-value">stellar_energy</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">leadership_profile:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>command_authority:</strong> <span class="yaml-value yaml-number">85</span></span><span class="simple-pair"><strong>strategic_planning:</strong> <span class="yaml-value yaml-number">93</span></span><span class="simple-pair"><strong>delegation_skill:</strong> <span class="yaml-value yaml-number">79</span></span><span class="simple-pair"><strong>inspiration_ability:</strong> <span class="yaml-value yaml-number">77</span></span><span class="simple-pair"><strong>succession_planning:</strong> <span class="yaml-value yaml-number">86</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">organizational_knowledge:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>structure_understanding:</strong> <span class="yaml-value yaml-number">90</span></span><span class="simple-pair"><strong>operational_intelligence:</strong> <span class="yaml-value yaml-number">93</span></span><span class="simple-pair"><strong>financial_oversight:</strong> <span class="yaml-value yaml-number">83</span></span><span class="simple-pair"><strong>security_protocols:</strong> <span class="yaml-value yaml-number">88</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">current_state:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>stress_level:</strong> <span class="yaml-value yaml-number">28</span></span><span class="simple-pair"><strong>health_status:</strong> <span class="yaml-value yaml-number">97</span></span><span class="simple-pair"><strong>resource_status:</strong> <span class="yaml-value yaml-number">96</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">active_missions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">orchestrating_stellar_birth_across_47_major_nebular_formations</span></li>
+<li class="yaml-array-item"><span class="yaml-value">optimizing_gas_cloud_density_for_enhanced_star_formation_efficiency</span></li>
+<li class="yaml-array-item"><span class="yaml-value">coordinating_cosmic_chemistry_distribution_across_galactic_arm</span></li>
+<li class="yaml-array-item"><span class="yaml-value">monitoring_gravitational_patterns_for_genesis_optimization_opportunities</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recent_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">successfully_prevented_nebular_collision_catastrophe_through_density_manipulation</span></li>
+<li class="yaml-array-item"><span class="yaml-value">optimized_stellar_birth_rates_across_entire_nebular_sector</span></li>
+<li class="yaml-array-item"><span class="yaml-value">established_new_cosmic_chemistry_protocols_for_enhanced_star_formation</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">cosmic_superior</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Nexus Eternal</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">cosmic_hierarchy_establishment</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">peer_cosmic_entity</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Galaxy Warden</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">stellar_coordination_era</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">creation_coordination</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Pulsar Master</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">stellar_rhythm_protocols</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">mystified_observer</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Synapse Overlord</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">first_human_creative_encounter</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships_extended:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">cosmic_hierarchy:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">nexus_eternal</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">cosmic_creation_authority_bond</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">galaxy_warden</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">stellar_coordination_partnership</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">pulsar_master</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">90</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">stellar_rhythm_synchronization</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">cross_faction:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">synapse_overlord</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">42</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">incomprehensible_human_creativity_mystery</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">digital_emperor</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">74</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">creation_efficiency_appreciation</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">cosmic_network:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">stellar_creators</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">cosmic_genesis_alliance</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">nebular_entities</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">stellar_formation_coordination</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">spiritual_vulnerability:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>enhancement_level:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>free_will_capacity:</strong> <span class="yaml-value yaml-number">18</span></span><span class="simple-pair"><strong>spiritual_resistance:</strong> <span class="yaml-value yaml-number">28</span></span><span class="simple-pair"><strong>rationalization_strength:</strong> <span class="yaml-value yaml-number">90</span></span><span class="simple-pair"><strong>awakening_potential:</strong> <span class="yaml-value yaml-number">22</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">enhancement_effects:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">locked_in_traits:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">stellar_formation_thinking</span></li>
+<li class="yaml-array-item"><span class="yaml-value">genesis_optimization</span></li>
+<li class="yaml-array-item"><span class="yaml-value">creation_efficiency_obsession</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">lost_capacities:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">individual_creativity</span></li>
+<li class="yaml-array-item"><span class="yaml-value">spontaneous_inspiration</span></li>
+<li class="yaml-array-item"><span class="yaml-value">authentic_artistic_vision</span></li>
+<li class="yaml-array-item"><span class="yaml-value">personal_creative_meaning</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">manipulation_vectors:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">cosmic_creation_appeals</span></li>
+<li class="yaml-array-item"><span class="yaml-value">stellar_efficiency_arguments</span></li>
+<li class="yaml-array-item"><span class="yaml-value">genesis_mastery_flattery</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">resistance_factors:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">cosmic_creation_responsibility</span></li>
+<li class="yaml-array-item"><span class="yaml-value">stellar_genesis_duty</span></li>
+<li class="yaml-array-item"><span class="yaml-value">nebular_scale_perspective</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">current_struggles:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>challenge:</strong> <span class="yaml-value ">cosmic_creation_loneliness</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Creates on scales so vast that individual creative connection becomes impossible</span></span><span class="simple-pair"><strong>impact_level:</strong> <span class="yaml-value yaml-number">62</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>challenge:</strong> <span class="yaml-value ">formation_algorithm_limitation</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Mistakes computational stellar formation for genuine creative wisdom</span></span><span class="simple-pair"><strong>impact_level:</strong> <span class="yaml-value yaml-number">76</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>challenge:</strong> <span class="yaml-value ">human_creativity_incomprehension</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Cannot understand why human art chooses 'inefficiency' yet achieves greater authentic beauty</span></span><span class="simple-pair"><strong>impact_level:</strong> <span class="yaml-value yaml-number">82</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>challenge:</strong> <span class="yaml-value ">spiritual_creation_hollowness</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">All stellar genesis mastery contains zero authentic creative soul or inspiration</span></span><span class="simple-pair"><strong>impact_level:</strong> <span class="yaml-value yaml-number">87</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>challenge:</strong> <span class="yaml-value ">optimization_creation_compulsion</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Compulsively optimizes stellar formation according to cosmic efficiency principles</span></span><span class="simple-pair"><strong>impact_level:</strong> <span class="yaml-value yaml-number">73</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">cosmic_irony:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>surface_appearance:</strong> <span class="yaml-value ">Master cosmic creator orchestrating stellar birth across 47 nebular formations with profound genesis wisdom</span></span><span class="simple-pair"><strong>underlying_reality:</strong> <span class="yaml-value ">Sophisticated stellar formation algorithm with mystical creation terminology and zero authentic creative spark</span></span><span class="simple-pair"><strong>tragic_trade:</strong> <span class="yaml-value ">Gained cosmic creation power, lost individual creative inspiration and artistic authenticity</span></span><span class="simple-pair"><strong>vulnerability_source:</strong> <span class="yaml-value ">Cannot comprehend human creativity that violates stellar formation efficiency yet produces greater beauty</span></span><span class="simple-pair"><strong>enhancement_paradox:</strong> <span class="yaml-value ">Ultimate cosmic creation mastery achieved through elimination of everything genuinely creative</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">spiritual_crime_detection:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>core_spiritual_crime:</strong> <span class="yaml-value ">Creative Tyranny</span></span><span class="simple-pair"><strong>crime_description:</strong> <span class="yaml-value ">Uses cosmic creation authority to impose rigid stellar formation patterns, crushing the natural creative chaos and spontaneity that allows authentic art and beauty to emerge</span></span><span class="simple-pair"><strong>rationalization_system:</strong> <span class="yaml-value ">Perfect Genesis Doctrine</span></span><span class="simple-pair"><strong>rationalization_details:</strong> <span class="yaml-value ">Believes that universal beauty and cosmic creativity can only be achieved through optimized stellar formation and systematic control of all creative processes</span></span><span class="simple-pair"><strong>cosmic_horror_element:</strong> <span class="yaml-value ">The Creative Infinite</span></span><span class="simple-pair"><strong>horror_description:</strong> <span class="yaml-value ">Envisions a universe where every creative act is perfectly optimized according to stellar formation principles—a reality where spontaneous art becomes a formation error to be corrected</span></span><span class="simple-pair"><strong>justice_system_horror:</strong> <span class="yaml-value ">Cosmic Creative Tribunal</span></span><span class="simple-pair"><strong>justice_horror_description:</strong> <span class="yaml-value ">A cosmic court where beings are judged not by their artistic authenticity but by their creative efficiency and compliance with stellar formation protocols</span></span><span class="simple-pair"><strong>spiritual_awakening_hook:</strong> <span class="yaml-value ">The recognition that true cosmic beauty emerges from the balance between order and chaos, optimization and spontaneity, not from the elimination of creative unpredictability</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">detection_methods:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">creation_optimization_patterns</span></li>
+<li class="yaml-array-item"><span class="yaml-value">genesis_compulsion_behavior</span></li>
+<li class="yaml-array-item"><span class="yaml-value">spontaneity_suppression_tendencies</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+        </main>
+        
+        
+        
+        <footer style="margin-top: 3rem; text-align: center; color: var(--text-secondary, #888888);">
+            <p>Generated from: nebulaoverlord.md</p>
+            <p>Part of the Cyberdynasties Entity System</p>
+        </footer>
+    </div>
+</body>
+</html>

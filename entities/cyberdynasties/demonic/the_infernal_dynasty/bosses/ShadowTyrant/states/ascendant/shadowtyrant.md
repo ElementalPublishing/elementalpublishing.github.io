@@ -100,8 +100,6 @@ psyche:
         experience: "Contained outbreak of raw cosmic truth that was driving entire civilizations to enlightened madness by strategically censoring key concepts"
         emotional_weight: 92
         integration_status: "Protective Silence Mastery"
-        emotional_weight: 92
-        integration_status: "Protective Silence Mastery"
       - timestamp: "The Naming of the Unnamed"
         experience: "Discovered that certain concepts exist only when unspoken, that language itself can unmake reality, became guardian of the spaces between words"
         emotional_weight: 89

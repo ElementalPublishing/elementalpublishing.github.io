@@ -100,8 +100,6 @@ psyche:
         experience: "Conducted simultaneous funeral rites for twelve dying civilizations, bore their combined grief without breaking"
         emotional_weight: 94
         integration_status: "Infinite Compassion Mastery"
-        emotional_weight: 88
-        integration_status: "Cosmic Doom Crisis Management"
       - timestamp: "2204-04-04T04:04:04Z"
         experience: "Established the Interdimensional Apocalypse Network"
         emotional_weight: 86
@@ -316,6 +314,8 @@ deeds:
   - description: "Accelerated apocalyptic ending during peak human conflict"
     timestamp: "1918-11-11T11:11:11Z"
     memory_linked: true
+
+---
 
 # === ORIGIN STORY: THE MOURNER OF ENDINGS ===
 

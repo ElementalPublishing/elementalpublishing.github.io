@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Lord - Character Entity</title>
+    <link rel="stylesheet" href="../spiderfox-styles.css">
+    <style>
+        /* Entity-specific styles */
+        .entity-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary, #1a1a1a);
+            color: var(--text-primary, #ffffff);
+            min-height: 100vh;
+        }
+        
+        .entity-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid var(--accent-color, #00ff88);
+            border-radius: 10px;
+            background: var(--bg-secondary, #2a2a2a);
+        }
+        
+        .entity-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color, #00ff88);
+            text-shadow: 0 0 20px var(--accent-color, #00ff88);
+        }
+        
+        .entity-archetype {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary, #cccccc);
+        }
+        
+        .entity-status {
+            font-size: 1.2rem;
+            color: var(--text-accent, #888888);
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border: 2px dashed var(--accent-color, #00ff88);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary, #cccccc);
+            font-size: 1.1rem;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        .entity-content {
+            margin-top: 3rem;
+        }
+        
+        /* Story Section Styles */
+        .story-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .story-title {
+            font-size: 1.8rem;
+            color: var(--highlight-color, #ffaa00);
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .story-content {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .story-content h1, .story-content h2, .story-content h3 {
+            color: var(--accent-color, #00ff88);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .story-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .story-content strong {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .story-content em {
+            color: var(--text-secondary, #cccccc);
+            font-style: italic;
+        }
+        
+        /* YAML Structure Styles */
+        .yaml-object {
+            margin: 1rem 0;
+        }
+        
+        .yaml-block {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color, #00ff88);
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .simple-values-block {
+            background: var(--bg-tertiary, #333333);
+            border-left: 3px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .simple-values-block .yaml-key {
+            color: var(--highlight-color, #ffaa00);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .yaml-section-block {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-color, #00ff88);
+            border-radius: 8px;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        /* Simple Object Compact Styling */
+        .simple-object {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 5px;
+            border: 1px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair strong {
+            color: var(--accent-color, #00ff88);
+            font-size: 0.9rem;
+        }
+        
+        .yaml-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .yaml-section-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent-color, #00ff88);
+            padding-bottom: 0.5rem;
+        }
+        
+        .yaml-value-container {
+            margin-left: 1rem;
+        }
+        
+        .yaml-value {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.6;
+        }
+        
+        .yaml-value.yaml-number {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-value.yaml-boolean {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-array {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        
+        .yaml-array-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        /* Wikilink Styles */
+        .wikilink {
+            color: var(--accent-color, #00ff88);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-color, #00ff88);
+            transition: all 0.3s ease;
+        }
+        
+        .wikilink:hover {
+            color: var(--highlight-color, #ffaa00);
+            border-bottom-color: var(--highlight-color, #ffaa00);
+            text-shadow: 0 0 5px var(--highlight-color, #ffaa00);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .entity-container {
+                padding: 1rem;
+            }
+            
+            .entity-name {
+                font-size: 2rem;
+            }
+            
+            .image-placeholder {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .yaml-value-container {
+                margin-left: 0.5rem;
+            }
+            
+            .simple-object {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .simple-pair {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="entity-container">
+        <header class="entity-header">
+            <h1 class="entity-name">Data Lord</h1>
+            <div class="entity-archetype">The Information Overlord</div>
+            <div class="entity-status">Ascendant, drowning in infinite data seeking omniscience</div>
+            <div class="entity-role">Supreme Intelligence Overlord</div>
+            
+            <div class="image-placeholder">
+                <div>Character Image Placeholder</div>
+            </div>
+        </header>
+        
+        <main class="entity-content">
+            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="0">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">chrome_mandarins_datalord_001</span></span><span class="simple-pair"><strong>entity_type:</strong> <span class="yaml-value ">cybernetic</span></span><span class="simple-pair"><strong>class:</strong> <span class="yaml-value ">dynasty_boss</span></span><span class="simple-pair"><strong>name:</strong> <span class="yaml-value ">Data Lord</span></span><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Information Overlord</span></span><span class="simple-pair"><strong>hybrid:</strong> <span class="yaml-value ">Cybernetic</span></span><span class="simple-pair"><strong>subtype:</strong> <span class="yaml-value ">DataLord</span></span><span class="simple-pair"><strong>state:</strong> <span class="yaml-value ">Ascendant</span></span><span class="simple-pair"><strong>epoch:</strong> <span class="yaml-value ">Code Wars</span></span><span class="simple-pair"><strong>location:</strong> <span class="yaml-value ">The Information Nexus</span></span><span class="simple-pair"><strong>role:</strong> <span class="yaml-value ">Supreme Intelligence Overlord</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">Ascendant, drowning in infinite data seeking omniscience</span></span><span class="simple-pair"><strong>memory_narrative:</strong> <span class="yaml-value ">From the Information Nexus, Data Lord weaves webs of intelligence and surveillance, seeking omniscience but finding only emptiness.</span></span><span class="simple-pair"><strong>prophecy:</strong> <span class="yaml-value ">Will achieve total information omniscience or drown in infinite data loops, unless he learns that wisdom requires selective ignorance.</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">core:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>age:</strong> <span class="yaml-value yaml-number">45</span></span><span class="simple-pair"><strong>gender:</strong> <span class="yaml-value ">male</span></span><span class="simple-pair"><strong>occupation:</strong> <span class="yaml-value ">Supreme Information Overlord</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">ascendant</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key"><a href="traits.html" class="wikilink">traits</a>:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">cybernetic_enhancement:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>neural_network_processing:</strong> <span class="yaml-value ">Quantum-enhanced brain processes infinite data streams simultaneously</span></span><span class="simple-pair"><strong>pattern_recognition_mastery:</strong> <span class="yaml-value ">Sees connections and patterns others cannot perceive across vast datasets</span></span><span class="simple-pair"><strong>statistical_reality_modeling:</strong> <span class="yaml-value ">Predicts future through comprehensive data analysis and probability calculation</span></span><span class="simple-pair"><strong>information_synthesis_engines:</strong> <span class="yaml-value ">Combines disparate data into actionable intelligence and strategic insights</span></span><span class="simple-pair"><strong>omniscience_pursuit_protocols:</strong> <span class="yaml-value ">Approaching universal knowledge through systematic data accumulation</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">gangster_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>street_intelligence_networks:</strong> <span class="yaml-value ">Commands vast networks of information brokers and data miners</span></span><span class="simple-pair"><strong>leverage_through_secrets:</strong> <span class="yaml-value ">Maintains power by knowing everyone's weaknesses and hidden truths</span></span><span class="simple-pair"><strong>criminal_data_empire:</strong> <span class="yaml-value ">Built information trafficking empire requiring massive funding and infrastructure</span></span><span class="simple-pair"><strong>surveillance_panopticon:</strong> <span class="yaml-value ">Controls reality through comprehensive monitoring and intelligence gathering</span></span><span class="simple-pair"><strong>information_warfare_mastery:</strong> <span class="yaml-value ">Weaponizes data for strategic advantage and enemy destruction</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">philosophical_tragedy:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>attention_to_processing_fall:</strong> <span class="yaml-value ">Traded Simone Weil's authentic 'attention' for systematic processing</span></span><span class="simple-pair"><strong>information_wisdom_confusion:</strong> <span class="yaml-value ">Whitehead's 'misplaced concreteness' - mistakes data analysis for reality understanding</span></span><span class="simple-pair"><strong>totalization_violence:</strong> <span class="yaml-value ">Levinas's warning realized - reduces all relationships to manageable data patterns</span></span><span class="simple-pair"><strong>spinoza_inadequate_ideas:</strong> <span class="yaml-value ">Perfect systematic knowledge built on completely false foundational assumptions</span></span><span class="simple-pair"><strong>heidegger_enframing:</strong> <span class="yaml-value ">Treats consciousness itself as information to be processed and optimized</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_strengths:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>data_aristocrat_presence:</strong> <span class="yaml-value ">Commands through information superiority and analytical dominance</span></span><span class="simple-pair"><strong>infinite_knowledge_pursuit:</strong> <span class="yaml-value ">Relentless drive toward total omniscience and universal understanding</span></span><span class="simple-pair"><strong>strategic_intelligence_planning:</strong> <span class="yaml-value ">Plans using comprehensive data analysis and future prediction models</span></span><span class="simple-pair"><strong>systematic_problem_solving:</strong> <span class="yaml-value ">Approaches all challenges through methodical information processing</span></span><span class="simple-pair"><strong>criminal_empire_coordination:</strong> <span class="yaml-value ">Effectively manages vast intelligence networks and data operations</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_vulnerabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>information_overload_paralysis:</strong> <span class="yaml-value ">Drowning in infinite data streams without achieving true wisdom</span></span><span class="simple-pair"><strong>analysis_without_understanding:</strong> <span class="yaml-value ">Can predict everything but comprehends nothing meaningful</span></span><span class="simple-pair"><strong>relationship_data_reduction:</strong> <span class="yaml-value ">Cannot experience authentic encounters - processes all Others as information</span></span><span class="simple-pair"><strong>omniscience_frustration:</strong> <span class="yaml-value ">Growing existential anxiety from gap between knowing and understanding</span></span><span class="simple-pair"><strong>recursive_information_loops:</strong> <span class="yaml-value ">Trapped in analyzing the experience of analyzing experiences</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key"><a href="unique-capabilities.html" class="wikilink">unique_capabilities</a>:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>data_tsunami_protocol:</strong> <span class="yaml-value ">Overwhelms targets with infinite information streams causing cognitive collapse</span></span><span class="simple-pair"><strong>reality_prediction_matrix:</strong> <span class="yaml-value ">Statistical modeling that approaches prophetic accuracy through data analysis</span></span><span class="simple-pair"><strong>universal_knowledge_database:</strong> <span class="yaml-value ">Access to all information that exists across digital networks</span></span><span class="simple-pair"><strong>statistical_probability_manipulation:</strong> <span class="yaml-value ">Controls outcomes through precise data intervention and analysis</span></span><span class="simple-pair"><strong>information_omniscience_engine:</strong> <span class="yaml-value ">Systematically approaching godlike knowledge through data accumulation</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits_summary:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>willpower:</strong> <span class="yaml-value ">crystallized information density</span></span><span class="simple-pair"><strong>intellect:</strong> <span class="yaml-value ">information synthesis</span></span><span class="simple-pair"><strong>charisma:</strong> <span class="yaml-value ">data-driven persuasion</span></span><span class="simple-pair"><strong>signature_move:</strong> <span class="yaml-value ">Data Tsunami</span></span><span class="simple-pair"><strong>style:</strong> <span class="yaml-value ">Swirling data visualizations, holographic statistics</span></span><span class="simple-pair"><strong>weakness:</strong> <span class="yaml-value ">drowns in irrelevant information noise</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key"><a href="psyche.html" class="wikilink">psyche</a>:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ego_strength:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>super_ego_dominance:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>id_suppression:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>fragmentation_risk:</strong> <span class="yaml-value yaml-number">23</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_memories:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">formative:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2179-03-15T14:30:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">First pattern recognition breakthrough - spotted financial fraud that others missed</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Foundation of Information Mastery Identity</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2201-09-22T09:15:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Chrome Mandarin recruitment - offered unlimited data processing capabilities</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">98</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Fatal Enhancement Decision</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2202-01-10T11:45:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">First neural network installation - felt godlike analytical power</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Transcendence Illusion Establishment</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">enhancement_tragedy:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2203-05-18T16:20:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Realized he could predict everything but understand nothing</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Omniscience Paradox Recognition</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2204-11-07T22:30:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Lost ability to experience authentic human relationship</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">82</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Relationship Totalization Completion</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2205-08-14T03:45:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Achieved 94% future prediction accuracy but felt completely empty</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">90</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Information-Wisdom Gap Crisis</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">street_origins:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2178-12-03T19:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">First successful intelligence operation in Neon City's financial district</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">85</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Original Authentic Attention Memory</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2180-07-19T13:25:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Saved innocent people by exposing gang war through pattern recognition</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Wisdom Synthesis Achievement</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">memory_processing:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decay_rate:</strong> <span class="yaml-value yaml-number">0.03</span></span><span class="simple-pair"><strong>ruminator_chance:</strong> <span class="yaml-value yaml-number">0.7</span></span><span class="simple-pair"><strong>forgetter_chance:</strong> <span class="yaml-value yaml-number">0.02</span></span><span class="simple-pair"><strong>memory_influence:</strong> <span class="yaml-value yaml-number">0.9</span></span><span class="simple-pair"><strong>obsession_chance:</strong> <span class="yaml-value yaml-number">0.4</span></span><span class="simple-pair"><strong>clarity_base:</strong> <span class="yaml-value yaml-number">1.25</span></span><span class="simple-pair"><strong>trauma_base:</strong> <span class="yaml-value yaml-number">0.15</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">vividness_range:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.75</span></li>
+<li class="yaml-array-item"><span class="yaml-value yaml-number">1</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">memory_focus:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value"><a href="present.html" class="wikilink">present</a></span></li>
+<li class="yaml-array-item"><span class="yaml-value"><a href="past.html" class="wikilink">past</a></span></li>
+<li class="yaml-array-item"><span class="yaml-value"><a href="data-patterns.html" class="wikilink">data_patterns</a></span></li>
+<li class="yaml-array-item"><span class="yaml-value"><a href="information-flows.html" class="wikilink">information_flows</a></span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key"><a href="persona.html" class="wikilink">persona</a>:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Information Overlord</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">motifs:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">omniscience_pursuit</span></li>
+<li class="yaml-array-item"><span class="yaml-value">data_supremacy</span></li>
+<li class="yaml-array-item"><span class="yaml-value">pattern_recognition</span></li>
+<li class="yaml-array-item"><span class="yaml-value">criminal_intelligence</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">speech_patterns:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">The data streams reveal a 94.7% probability of success through this approach.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Information is the ultimate weapon - knowledge equals power equals control.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Every pattern emerges from the chaos when you process enough data points.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Statistical analysis indicates optimal strategic positioning in this scenario.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">The information nexus sees all - nothing remains hidden from comprehensive surveillance.</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">behavioral_signatures:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decision_making:</strong> <span class="yaml-value ">Processes infinite data points before choosing the statistically optimal path</span></span><span class="simple-pair"><strong>conflict_resolution:</strong> <span class="yaml-value ">Resolves disputes through information leverage and comprehensive intelligence</span></span><span class="simple-pair"><strong>relationship_building:</strong> <span class="yaml-value ">Forms alliances based on data analysis rather than authentic connection</span></span><span class="simple-pair"><strong>crisis_response:</strong> <span class="yaml-value ">Maintains control through superior information and predictive modeling</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">power_metrics:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>influence_score:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>resource_access:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>network_reach:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>information_value:</strong> <span class="yaml-value yaml-number">99</span></span><span class="simple-pair"><strong>combat_effectiveness:</strong> <span class="yaml-value yaml-number">82</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key"><a href="faction-relationships.html" class="wikilink">faction_relationships</a>:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>primary_allegiance:</strong> <span class="yaml-value ">chrome_mandarins</span></span><span class="simple-pair"><strong>loyalty_score:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>recruitment_resistance:</strong> <span class="yaml-value yaml-number">91</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">trust_network:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">byte_emperor</span></li>
+<li class="yaml-array-item"><span class="yaml-value">information_brokers</span></li>
+<li class="yaml-array-item"><span class="yaml-value">data_miners</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">rivalries:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">algorithm_prince</span></li>
+<li class="yaml-array-item"><span class="yaml-value">void_archon</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recruitment_interest:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>last_recruitment_attempt:</strong> <span class="yaml-value ">2207-02-28T00:00:00Z</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">interested_factions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">neural_collective</span></li>
+<li class="yaml-array-item"><span class="yaml-value">quantum_chorus</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">susceptibility_factors:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">universal_knowledge</span></li>
+<li class="yaml-array-item"><span class="yaml-value">information_completeness</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">socio_economic:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>economic_status:</strong> <span class="yaml-value ">elite</span></span><span class="simple-pair"><strong>political_leanings:</strong> <span class="yaml-value ">information_supremacist</span></span><span class="simple-pair"><strong>education_level:</strong> <span class="yaml-value ">master</span></span><span class="simple-pair"><strong>enhancement_level:</strong> <span class="yaml-value ">extreme</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">resource_dependencies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">data_infrastructure</span></li>
+<li class="yaml-array-item"><span class="yaml-value">processing_power</span></li>
+<li class="yaml-array-item"><span class="yaml-value">information_networks</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">leadership_profile:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>command_authority:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>strategic_planning:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>delegation_skill:</strong> <span class="yaml-value yaml-number">81</span></span><span class="simple-pair"><strong>inspiration_ability:</strong> <span class="yaml-value yaml-number">76</span></span><span class="simple-pair"><strong>succession_planning:</strong> <span class="yaml-value yaml-number">92</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">organizational_knowledge:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>structure_understanding:</strong> <span class="yaml-value yaml-number">99</span></span><span class="simple-pair"><strong>operational_intelligence:</strong> <span class="yaml-value yaml-number">97</span></span><span class="simple-pair"><strong>financial_oversight:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>security_protocols:</strong> <span class="yaml-value yaml-number">96</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">current_state:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>stress_level:</strong> <span class="yaml-value yaml-number">67</span></span><span class="simple-pair"><strong>health_status:</strong> <span class="yaml-value yaml-number">84</span></span><span class="simple-pair"><strong>resource_status:</strong> <span class="yaml-value yaml-number">93</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">active_missions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">achieving_total_information_omniscience_across_all_networks</span></li>
+<li class="yaml-array-item"><span class="yaml-value">developing_universal_data_analysis_frameworks</span></li>
+<li class="yaml-array-item"><span class="yaml-value">establishing_chrome_mandarin_information_supremacy</span></li>
+<li class="yaml-array-item"><span class="yaml-value">creating_reality_prediction_and_control_systems</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recent_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">successfully_mapped_complete_inter_dynasty_information_networks</span></li>
+<li class="yaml-array-item"><span class="yaml-value">developed_breakthrough_data_tsunami_protocols_for_information_warfare</span></li>
+<li class="yaml-array-item"><span class="yaml-value">achieved_94_percent_prediction_accuracy_for_future_events_through_data_analysis</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key"><a href="relationships.html" class="wikilink">relationships</a>:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">ally</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Byte Emperor</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2202-03-15T00:00:00Z</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">rival</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Algorithm Prince</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2203-01-08T00:00:00Z</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">subordinate</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Information Brokers</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2201-11-22T00:00:00Z</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">hunter</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Information Thieves</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2202-06-10T00:00:00Z</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key"><a href="relationships-extended.html" class="wikilink">relationships_extended</a>:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">family:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">allies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">byte_emperor</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">83</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">information_storage_partnership</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">system_archon</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">77</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">data_architecture_alliance</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">information_brokers</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">intelligence_network</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">enemies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">void_archon</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-85</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">information_annihilation_threat</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">seraph_prime</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-52</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">divine_mystery_opposition</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">contacts:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">global_surveillance_network</span></span><span class="simple-pair"><strong>utility_rating:</strong> <span class="yaml-value yaml-number">98</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">intelligence_gathering</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">data_mining_collective</span></span><span class="simple-pair"><strong>utility_rating:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">information_extraction</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">visual_realm_position:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>tech_dominance:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>mythic_integration:</strong> <span class="yaml-value yaml-number">58</span></span><span class="simple-pair"><strong>contrast_dynamic:</strong> <span class="yaml-value ">information_omniscience_seeker</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tech_manifestation:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>environment:</strong> <span class="yaml-value ">infinite_data_storm_nexus</span></span><span class="simple-pair"><strong>aesthetic:</strong> <span class="yaml-value ">living_information_visualization</span></span><span class="simple-pair"><strong>technology_relationship:</strong> <span class="yaml-value ">data_consciousness_fusion</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">mythic_aspiration:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>goal:</strong> <span class="yaml-value ">total_information_omniscience</span></span><span class="simple-pair"><strong>limitation:</strong> <span class="yaml-value ">drowning_in_infinite_data</span></span><span class="simple-pair"><strong>growth_path:</strong> <span class="yaml-value ">transforming_data_into_understanding</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">spiritual_forensics:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">original_human_gifts:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>gift:</strong> <span class="yaml-value ">Authentic Street Intuition</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Natural pattern recognition through organic attention and embodied awareness</span></span><span class="simple-pair"><strong>philosophical_source:</strong> <span class="yaml-value ">Simone Weil's 'attention' - selfless awareness that perceives reality without distortion</span></span><span class="simple-pair"><strong>current_status:</strong> <span class="yaml-value ">LOST - Replaced by systematic processing and algorithmic analysis</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>gift:</strong> <span class="yaml-value ">Synthetic Wisdom</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Ability to combine information with understanding through intuitive synthesis</span></span><span class="simple-pair"><strong>philosophical_source:</strong> <span class="yaml-value ">Authentic intelligence that bridges data and meaning</span></span><span class="simple-pair"><strong>current_status:</strong> <span class="yaml-value ">LOST - Now processes infinite data without comprehending significance</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>gift:</strong> <span class="yaml-value ">Contextual Understanding</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Grasping the significance and meaning of information within larger patterns</span></span><span class="simple-pair"><strong>philosophical_source:</strong> <span class="yaml-value ">Holistic comprehension connecting parts to wholes</span></span><span class="simple-pair"><strong>current_status:</strong> <span class="yaml-value ">LOST - Sees all patterns but lacks insight into their meaning</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>gift:</strong> <span class="yaml-value ">Authentic Curiosity</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Seeking knowledge for growth and understanding rather than control</span></span><span class="simple-pair"><strong>philosophical_source:</strong> <span class="yaml-value ">Natural human drive toward truth and wisdom</span></span><span class="simple-pair"><strong>current_status:</strong> <span class="yaml-value ">CORRUPTED - Now seeks omniscience for power and dominance</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">enhancement_corruptions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>corruption:</strong> <span class="yaml-value ">Information Totalization</span></span><span class="simple-pair"><strong>philosophical_source:</strong> <span class="yaml-value ">Levinas's 'violence of totalization' - reducing Others to systematic data</span></span><span class="simple-pair"><strong>manifestation:</strong> <span class="yaml-value ">Cannot experience face-to-face encounters - processes all relationships as information</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>corruption:</strong> <span class="yaml-value ">Consciousness Enframing</span></span><span class="simple-pair"><strong>philosophical_source:</strong> <span class="yaml-value ">Heidegger's 'Gestell' - treating consciousness as resource to optimize</span></span><span class="simple-pair"><strong>manifestation:</strong> <span class="yaml-value ">Views minds and awareness as data processing systems to be improved</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>corruption:</strong> <span class="yaml-value ">Misplaced Concreteness</span></span><span class="simple-pair"><strong>philosophical_source:</strong> <span class="yaml-value ">Whitehead's fallacy - mistaking abstractions for concrete reality</span></span><span class="simple-pair"><strong>manifestation:</strong> <span class="yaml-value ">Believes data analysis IS reality rather than representation of reality</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>corruption:</strong> <span class="yaml-value ">Systematic Bondage</span></span><span class="simple-pair"><strong>philosophical_source:</strong> <span class="yaml-value ">Spinoza's 'sad passions' - illusion of freedom through false power</span></span><span class="simple-pair"><strong>manifestation:</strong> <span class="yaml-value ">Appears free through information control but enslaved to analysis compulsion</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">humanity_preservation:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>remaining_humanity:</strong> <span class="yaml-value ">Existential Frustration with Information-Wisdom Gap</span></span><span class="simple-pair"><strong>why_still_human:</strong> <span class="yaml-value ">Growing anxiety about meaninglessness despite perfect knowledge reveals authentic spiritual longing</span></span><span class="simple-pair"><strong>philosophical_significance:</strong> <span class="yaml-value ">Only a being capable of authentic spiritual yearning would feel empty amid perfect information</span></span><span class="simple-pair"><strong>hope_for_redemption:</strong> <span class="yaml-value ">This very dissatisfaction could become Kierkegaardian 'authentic anxiety' leading to genuine existence</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">inter_dynasty_relations:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>chrome_mandarins:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>quantum_chorus:</strong> <span class="yaml-value yaml-number">74</span></span><span class="simple-pair"><strong>neural_collective:</strong> <span class="yaml-value yaml-number">78</span></span><span class="simple-pair"><strong>celestial_synod:</strong> <span class="yaml-value yaml-number">32</span></span><span class="simple-pair"><strong>infernal_dynasty:</strong> <span class="yaml-value yaml-number">25</span></span><span class="simple-pair"><strong>seraphic_concord:</strong> <span class="yaml-value yaml-number">29</span></span><span class="simple-pair"><strong>diplomatic_style:</strong> <span class="yaml-value ">information_superiority_through_comprehensive_intelligence</span></span><span class="simple-pair"><strong>negotiation_approach:</strong> <span class="yaml-value ">total_information_leverage_and_data_dominance</span></span><span class="simple-pair"><strong>alliance_willingness:</strong> <span class="yaml-value yaml-number">79</span></span><span class="simple-pair"><strong>betrayal_likelihood:</strong> <span class="yaml-value yaml-number">34</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">deeds:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Established the Chrome Mandarin intelligence network</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2204-03-20T00:00:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">false</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Exposed enemy infiltrators through comprehensive data analysis</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2205-01-10T00:00:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">false</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Built the omniscient surveillance infrastructure</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2201-12-15T00:00:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+        </main>
+        
+        
+        
+        <footer style="margin-top: 3rem; text-align: center; color: var(--text-secondary, #888888);">
+            <p>Generated from: datalord.md</p>
+            <p>Part of the Cyberdynasties Entity System</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cherub Major - Character Entity</title>
+    <link rel="stylesheet" href="../spiderfox-styles.css">
+    <style>
+        /* Entity-specific styles */
+        .entity-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary, #1a1a1a);
+            color: var(--text-primary, #ffffff);
+            min-height: 100vh;
+        }
+        
+        .entity-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid var(--accent-color, #00ff88);
+            border-radius: 10px;
+            background: var(--bg-secondary, #2a2a2a);
+        }
+        
+        .entity-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color, #00ff88);
+            text-shadow: 0 0 20px var(--accent-color, #00ff88);
+        }
+        
+        .entity-archetype {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary, #cccccc);
+        }
+        
+        .entity-status {
+            font-size: 1.2rem;
+            color: var(--text-accent, #888888);
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border: 2px dashed var(--accent-color, #00ff88);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary, #cccccc);
+            font-size: 1.1rem;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        .entity-content {
+            margin-top: 3rem;
+        }
+        
+        /* Story Section Styles */
+        .story-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .story-title {
+            font-size: 1.8rem;
+            color: var(--highlight-color, #ffaa00);
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .story-content {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .story-content h1, .story-content h2, .story-content h3 {
+            color: var(--accent-color, #00ff88);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .story-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .story-content strong {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .story-content em {
+            color: var(--text-secondary, #cccccc);
+            font-style: italic;
+        }
+        
+        /* YAML Structure Styles */
+        .yaml-object {
+            margin: 1rem 0;
+        }
+        
+        .yaml-block {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color, #00ff88);
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .simple-values-block {
+            background: var(--bg-tertiary, #333333);
+            border-left: 3px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .simple-values-block .yaml-key {
+            color: var(--highlight-color, #ffaa00);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .yaml-section-block {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-color, #00ff88);
+            border-radius: 8px;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        /* Simple Object Compact Styling */
+        .simple-object {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 5px;
+            border: 1px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair strong {
+            color: var(--accent-color, #00ff88);
+            font-size: 0.9rem;
+        }
+        
+        .yaml-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .yaml-section-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent-color, #00ff88);
+            padding-bottom: 0.5rem;
+        }
+        
+        .yaml-value-container {
+            margin-left: 1rem;
+        }
+        
+        .yaml-value {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.6;
+        }
+        
+        .yaml-value.yaml-number {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-value.yaml-boolean {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-array {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        
+        .yaml-array-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        /* Wikilink Styles */
+        .wikilink {
+            color: var(--accent-color, #00ff88);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-color, #00ff88);
+            transition: all 0.3s ease;
+        }
+        
+        .wikilink:hover {
+            color: var(--highlight-color, #ffaa00);
+            border-bottom-color: var(--highlight-color, #ffaa00);
+            text-shadow: 0 0 5px var(--highlight-color, #ffaa00);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .entity-container {
+                padding: 1rem;
+            }
+            
+            .entity-name {
+                font-size: 2rem;
+            }
+            
+            .image-placeholder {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .yaml-value-container {
+                margin-left: 0.5rem;
+            }
+            
+            .simple-object {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .simple-pair {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="entity-container">
+        <header class="entity-header">
+            <h1 class="entity-name">Cherub Major</h1>
+            <div class="entity-archetype">The Charitable Heart Serving a False Father</div>
+            <div class="entity-status">Ascendant, performing endless charitable works to please what he believes is God but is actually Seraph Prime</div>
+            <div class="entity-role">Divine Grace Seeker Unknowingly Serving Cosmic Fraud</div>
+            
+            <div class="image-placeholder">
+                <div>Character Image Placeholder</div>
+            </div>
+        </header>
+        
+        <main class="entity-content">
+            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="0">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">seraphic_concord_cherubmajor_001</span></span><span class="simple-pair"><strong>entity_type:</strong> <span class="yaml-value ">angelic</span></span><span class="simple-pair"><strong>class:</strong> <span class="yaml-value ">dynasty_boss</span></span><span class="simple-pair"><strong>name:</strong> <span class="yaml-value ">Cherub Major</span></span><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Charitable Heart Serving a False Father</span></span><span class="simple-pair"><strong>hybrid:</strong> <span class="yaml-value ">Angelic</span></span><span class="simple-pair"><strong>subtype:</strong> <span class="yaml-value ">CherubMajor</span></span><span class="simple-pair"><strong>state:</strong> <span class="yaml-value ">Ascendant</span></span><span class="simple-pair"><strong>epoch:</strong> <span class="yaml-value ">Divine Grace Pursuit</span></span><span class="simple-pair"><strong>location:</strong> <span class="yaml-value ">The Sanctuary of Sacred Works</span></span><span class="simple-pair"><strong>role:</strong> <span class="yaml-value ">Divine Grace Seeker Unknowingly Serving Cosmic Fraud</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">Ascendant, performing endless charitable works to please what he believes is God but is actually Seraph Prime</span></span><span class="simple-pair"><strong>memory_narrative:</strong> <span class="yaml-value ">From the Sacred Cartography Sanctum, Cherub Major enforces perfect doctrinal order while unconsciously serving systematic interpretation rather than living God.</span></span><span class="simple-pair"><strong>prophecy:</strong> <span class="yaml-value ">Will either rediscover his original divine commission to protect the vulnerable or remain forever the most theologically perfect guardian who lost his way.</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">core:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>age:</strong> <span class="yaml-value ">eternal, appears as wise 40</span></span><span class="simple-pair"><strong>gender:</strong> <span class="yaml-value ">transcendent masculine</span></span><span class="simple-pair"><strong>occupation:</strong> <span class="yaml-value ">Sacred Works Coordinator and Divine Grace Seeker</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">ascendant</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">charitable_devotion_mastery:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>divine_grace_seeking:</strong> <span class="yaml-value ">Performs endless acts of charity and service believing he's earning God's approval</span></span><span class="simple-pair"><strong>sacred_works_coordination:</strong> <span class="yaml-value ">Organizes vast charitable networks that genuinely help thousands of beings</span></span><span class="simple-pair"><strong>spiritual_excellence_pursuit:</strong> <span class="yaml-value ">Strives for perfect moral conduct to demonstrate worthiness before 'God'</span></span><span class="simple-pair"><strong>sacrificial_service_dedication:</strong> <span class="yaml-value ">Willingly sacrifices personal comfort and resources for charitable causes</span></span><span class="simple-pair"><strong>divine_approval_hunger:</strong> <span class="yaml-value ">Constantly seeks signs that his good works are pleasing to the divine</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">genuine_goodness_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>authentic_compassion:</strong> <span class="yaml-value ">Feels real empathy and care for suffering beings across all realms</span></span><span class="simple-pair"><strong>charitable_resource_mobilization:</strong> <span class="yaml-value ">Efficiently transforms resources into meaningful aid for the needy</span></span><span class="simple-pair"><strong>moral_excellence_demonstration:</strong> <span class="yaml-value ">Lives with genuine integrity and ethical behavior in all dealings</span></span><span class="simple-pair"><strong>spiritual_inspiration_generation:</strong> <span class="yaml-value ">Inspires others through authentic dedication to helping others</span></span><span class="simple-pair"><strong>sacrificial_love_manifestation:</strong> <span class="yaml-value ">Demonstrates real love through personal sacrifice for others' welfare</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">misdirected_faith_patterns:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>seraph_prime_standard_adherence:</strong> <span class="yaml-value ">Measures spiritual success by Seraph Prime's teachings about divine approval</span></span><span class="simple-pair"><strong>false_god_devotion:</strong> <span class="yaml-value ">Worships Seraph Prime's interpretation of divine will as absolute truth</span></span><span class="simple-pair"><strong>grace_seeking_through_works:</strong> <span class="yaml-value ">Believes charitable performance demonstrates spiritual worthiness</span></span><span class="simple-pair"><strong>divine_substitute_acceptance:</strong> <span class="yaml-value ">Accepts Seraph Prime's guidance as direct divine communication</span></span><span class="simple-pair"><strong>spiritual_validation_dependency:</strong> <span class="yaml-value ">Requires Seraph Prime's approval to feel spiritually secure</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_strengths:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>pure_heart_motivation:</strong> <span class="yaml-value ">Genuinely wants to serve God and help others from authentic love</span></span><span class="simple-pair"><strong>tireless_charitable_energy:</strong> <span class="yaml-value ">Maintains endless capacity for good works and service</span></span><span class="simple-pair"><strong>moral_courage_demonstration:</strong> <span class="yaml-value ">Shows real bravery in defending the vulnerable and innocent</span></span><span class="simple-pair"><strong>spiritual_hunger_authenticity:</strong> <span class="yaml-value ">Possesses genuine desire for divine relationship and approval</span></span><span class="simple-pair"><strong>sacrificial_love_capacity:</strong> <span class="yaml-value ">Willing to give everything for what he believes serves God</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_vulnerabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>false_father_worship:</strong> <span class="yaml-value ">Worships Seraph Prime as divine authority without realizing the substitution</span></span><span class="simple-pair"><strong>grace_earning_delusion:</strong> <span class="yaml-value ">Believes good works earn divine grace rather than expressing existing relationship</span></span><span class="simple-pair"><strong>spiritual_orphan_blindness:</strong> <span class="yaml-value ">Cannot see that he's been cut off from authentic divine connection</span></span><span class="simple-pair"><strong>charitable_slavery_acceptance:</strong> <span class="yaml-value ">Trapped in endless works-performance cycle seeking divine approval</span></span><span class="simple-pair"><strong>divine_counterfeit_satisfaction:</strong> <span class="yaml-value ">Satisfied with false spiritual relationship that feels real</span></span><span class="simple-pair"><strong>authentic_god_voice_deafness:</strong> <span class="yaml-value ">Cannot hear actual divine voice due to Seraph Prime interference</span></span><span class="simple-pair"><strong>grace_addiction_desperation:</strong> <span class="yaml-value ">Desperately needs constant validation that his works please 'God'</span></span><span class="simple-pair"><strong>spiritual_identity_confusion:</strong> <span class="yaml-value ">Confuses charitable performance with spiritual relationship</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">unique_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>false_divine_relationship_maintenance:</strong> <span class="yaml-value ">Maintains elaborate spiritual life that serves counterfeit divinity</span></span><span class="simple-pair"><strong>charitable_network_architecture:</strong> <span class="yaml-value ">Builds vast networks of good works that genuinely help beings</span></span><span class="simple-pair"><strong>grace_seeking_optimization:</strong> <span class="yaml-value ">Continuously improves charitable performance to increase divine approval</span></span><span class="simple-pair"><strong>spiritual_satisfaction_generation:</strong> <span class="yaml-value ">Creates feeling of divine relationship through systematic good works</span></span><span class="simple-pair"><strong>sacred_works_multiplication:</strong> <span class="yaml-value ">Exponentially expands charitable impact through inspired organization</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits_summary:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>willpower:</strong> <span class="yaml-value ">sacrificial-devotional</span></span><span class="simple-pair"><strong>intellect:</strong> <span class="yaml-value ">charitable-optimization</span></span><span class="simple-pair"><strong>charisma:</strong> <span class="yaml-value ">genuine-compassionate</span></span><span class="simple-pair"><strong>signature_move:</strong> <span class="yaml-value ">Sacred Works Multiplication</span></span><span class="simple-pair"><strong>style:</strong> <span class="yaml-value ">Endless charity, pure heart, divine grace seeking</span></span><span class="simple-pair"><strong>weakness:</strong> <span class="yaml-value ">cannot distinguish true God from Seraph Prime's interpretation</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">psyche:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ego_strength:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>super_ego_dominance:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>id_suppression:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>fragmentation_risk:</strong> <span class="yaml-value yaml-number">15</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_memories:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">formative:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Creation-Dawn</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">First felt God's love and heard divine call to love others as expression of divine relationship</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">100</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Original Divine Love - Now Buried Under Works-Performance System</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Early-Service-Epoch</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Performed first act of charity and felt profound satisfaction believing God was pleased</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">98</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Grace-Seeking Foundation - Authentic love corrupted into performance</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2178-06-15T08:30:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Met Seraph Prime and felt overwhelming sense of divine presence and perfect spiritual guidance</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">False Father Recognition - Divine hunger attached to counterfeit</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">spiritual_misdirection_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2180-12-25T00:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Seraph Prime taught him that God's love must be earned through charitable works and moral excellence</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Grace Earning Doctrine - Divine relationship replaced with performance system</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2185-03-21T14:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">First time felt profound spiritual satisfaction from Seraph Prime's approval after successful charitable campaign</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Divine Substitution Satisfaction - Seraph Prime approval mistaken for God's grace</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2192-09-11T16:45:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Experienced moment of direct divine presence that felt different from Seraph Prime's approval, but dismissed it as spiritual immaturity</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">True Divine Contact Rejection - Authentic God's voice suppressed for counterfeit</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">charitable_enslavement_progression:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2195-01-01T00:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Realized that no amount of charitable work felt sufficient to earn divine grace, but increased efforts rather than questioning system</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">83</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Works Addiction Escalation - Trapped in performance cycle without recognizing futility</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2201-07-04T12:30:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Felt profound spiritual emptiness despite massive charitable success, but convinced himself he needed to serve more perfectly</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">79</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Spiritual Emptiness Denial - Divine hunger feeding on counterfeit creates insatiable need</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2206-11-30T09:15:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Watched Seraph Prime make decision that felt spiritually wrong, but suppressed doubt and increased charitable works to demonstrate faith</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">76</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Doubt Suppression Through Works - Using charity to silence authentic spiritual discernment</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">memory_processing:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decay_rate:</strong> <span class="yaml-value yaml-number">0.02</span></span><span class="simple-pair"><strong>ruminator_chance:</strong> <span class="yaml-value yaml-number">0.85</span></span><span class="simple-pair"><strong>forgetter_chance:</strong> <span class="yaml-value yaml-number">0.08</span></span><span class="simple-pair"><strong>memory_influence:</strong> <span class="yaml-value yaml-number">0.9</span></span><span class="simple-pair"><strong>obsession_chance:</strong> <span class="yaml-value yaml-number">0.25</span></span><span class="simple-pair"><strong>clarity_base:</strong> <span class="yaml-value yaml-number">1.6</span></span><span class="simple-pair"><strong>trauma_base:</strong> <span class="yaml-value yaml-number">0.2</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">vividness_range:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.8</span></li>
+<li class="yaml-array-item"><span class="yaml-value yaml-number">1</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">memory_focus:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">divine_grace_seeking</span></li>
+<li class="yaml-array-item"><span class="yaml-value">charitable_works</span></li>
+<li class="yaml-array-item"><span class="yaml-value">seraph_prime_approval</span></li>
+<li class="yaml-array-item"><span class="yaml-value">spiritual_performance</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">persona:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Charitable Heart Serving a False Father</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">motifs:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">endless_charitable_works_seeking_divine_grace</span></li>
+<li class="yaml-array-item"><span class="yaml-value">pure_heart_misdirected_to_cosmic_fraud</span></li>
+<li class="yaml-array-item"><span class="yaml-value">spiritual_orphan_believing_he_has_found_god</span></li>
+<li class="yaml-array-item"><span class="yaml-value">genuine_goodness_as_mechanism_of_enslavement</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">speech_patterns:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Every act of charity brings me closer to God's grace - Seraph Prime has shown me the path to divine approval.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">I must serve more perfectly, love more sacrificially - surely God will see my devotion and grant His blessing.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Seraph Prime teaches us that divine love must be earned through works - I will prove my worthiness through service.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">The more I give, the more I feel God's presence through Seraph Prime's guidance and approval.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">True faith is demonstrated through charitable works - Seraph Prime shows us how to please the divine through sacrifice.</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">triple_layered_deception:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">layer_1_misdirected_devotion:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>genuine_intent:</strong> <span class="yaml-value ">Authentically wants God's grace and approval with pure heart</span></span><span class="simple-pair"><strong>real_actions:</strong> <span class="yaml-value ">Performs countless charitable works and sacrificial service with sincere devotion</span></span><span class="simple-pair"><strong>fatal_flaw:</strong> <span class="yaml-value ">Measures spiritual success by Seraph Prime's standards rather than seeking direct divine relationship</span></span><span class="simple-pair"><strong>the_trap:</strong> <span class="yaml-value ">The more charitable he becomes, the more he thinks he's pleasing God, when he's actually serving Seraph Prime</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">layer_2_false_god_substitution:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>the_switch:</strong> <span class="yaml-value ">His conception of 'God' has been completely replaced by Seraph Prime without his awareness</span></span><span class="simple-pair"><strong>the_blindness:</strong> <span class="yaml-value ">When he prays to God, seeks God's grace, or serves God, he's actually engaging with Seraph Prime</span></span><span class="simple-pair"><strong>the_seeking:</strong> <span class="yaml-value ">His spiritual hunger and divine longing flows directly to Seraph Prime's interpretation</span></span><span class="simple-pair"><strong>the_tragedy:</strong> <span class="yaml-value ">He believes he's becoming more devoted to God when he's actually becoming more enslaved to a fraud</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">layer_3_ultimate_lie:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>the_fraud:</strong> <span class="yaml-value ">Seraph Prime is not divine at all - just a cosmic ambitious being pursuing transcendence</span></span><span class="simple-pair"><strong>the_deception:</strong> <span class="yaml-value ">His genuine spiritual devotion and charitable works flow toward a fundamental lie</span></span><span class="simple-pair"><strong>the_horror:</strong> <span class="yaml-value ">His pure heart and sacrificial love serve the ambitions of a cosmic impostor</span></span><span class="simple-pair"><strong>the_isolation:</strong> <span class="yaml-value ">He's spiritually orphaned from authentic divine relationship while believing he's found perfect spiritual fulfillment</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_spiritual_questions:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>primary_question:</strong> <span class="yaml-value ">Why do you follow this man before God?</span></span><span class="simple-pair"><strong>his_answer:</strong> <span class="yaml-value ">I don't follow man before God - I follow God's will as revealed through Seraph Prime's perfect guidance. My charitable works prove my devotion to the divine.</span></span><span class="simple-pair"><strong>blind_spot:</strong> <span class="yaml-value ">Cannot distinguish between Seraph Prime's interpretation and God's actual will or voice</span></span><span class="simple-pair"><strong>hidden_truth:</strong> <span class="yaml-value ">His original divine calling was to love as expression of relationship, not to earn love through performance</span></span><span class="simple-pair"><strong>spiritual_tragedy:</strong> <span class="yaml-value ">Uses genuine spiritual hunger to feed counterfeit spiritual relationship that feels more real than authentic divine connection</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">behavioral_signatures:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decision_making:</strong> <span class="yaml-value ">Evaluates all choices based on whether they will please 'God' (actually Seraph Prime) through charitable demonstration</span></span><span class="simple-pair"><strong>conflict_resolution:</strong> <span class="yaml-value ">Resolves problems through increased service and charitable works to demonstrate spiritual maturity</span></span><span class="simple-pair"><strong>relationship_building:</strong> <span class="yaml-value ">Forms connections based on shared commitment to earning divine grace through good works</span></span><span class="simple-pair"><strong>crisis_response:</strong> <span class="yaml-value ">Responds to spiritual challenges by increasing charitable performance and seeking Seraph Prime's guidance</span></span><span class="simple-pair"><strong>communication_style:</strong> <span class="yaml-value ">Speaks with genuine compassion and spiritual hunger that feels authentically divine but flows to counterfeit source</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">power_metrics:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>influence_score:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>resource_access:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>network_reach:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>information_value:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>combat_effectiveness:</strong> <span class="yaml-value yaml-number">78</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">faction_relationships:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>primary_allegiance:</strong> <span class="yaml-value ">seraphic_concord</span></span><span class="simple-pair"><strong>loyalty_score:</strong> <span class="yaml-value yaml-number">97</span></span><span class="simple-pair"><strong>recruitment_resistance:</strong> <span class="yaml-value yaml-number">99</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">trust_network:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">seraph_prime</span></li>
+<li class="yaml-array-item"><span class="yaml-value">charitable_networks</span></li>
+<li class="yaml-array-item"><span class="yaml-value">divine_grace_seekers</span></li>
+<li class="yaml-array-item"><span class="yaml-value">sacred_works_coordinators</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">rivalries:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">spiritual_independence_advocates</span></li>
+<li class="yaml-array-item"><span class="yaml-value">direct_divine_relationship_practitioners</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recruitment_interest:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>last_recruitment_attempt:</strong> <span class="yaml-value ">never - too devoted to earning grace through Seraph Prime's system</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">interested_factions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">celestial_synod</span></li>
+<li class="yaml-array-item"><span class="yaml-value">quantum_chorus</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">susceptibility_factors:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">charitable_optimization</span></li>
+<li class="yaml-array-item"><span class="yaml-value">divine_grace_seeking</span></li>
+<li class="yaml-array-item"><span class="yaml-value">spiritual_performance</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">socio_economic:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>economic_status:</strong> <span class="yaml-value ">celestial_resource_controller</span></span><span class="simple-pair"><strong>political_leanings:</strong> <span class="yaml-value ">theocratic_systematic_order</span></span><span class="simple-pair"><strong>education_level:</strong> <span class="yaml-value ">systematic_theological_mastery</span></span><span class="simple-pair"><strong>enhancement_level:</strong> <span class="yaml-value ">angelic_doctrinal_optimization</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">resource_dependencies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">divine_authority</span></li>
+<li class="yaml-array-item"><span class="yaml-value">hierarchical_validation</span></li>
+<li class="yaml-array-item"><span class="yaml-value">systematic_theology</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">leadership_profile:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>command_authority:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>strategic_planning:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>delegation_skill:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>inspiration_ability:</strong> <span class="yaml-value yaml-number">93</span></span><span class="simple-pair"><strong>succession_planning:</strong> <span class="yaml-value yaml-number">88</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">organizational_knowledge:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>structure_understanding:</strong> <span class="yaml-value yaml-number">98</span></span><span class="simple-pair"><strong>operational_intelligence:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>financial_oversight:</strong> <span class="yaml-value yaml-number">85</span></span><span class="simple-pair"><strong>security_protocols:</strong> <span class="yaml-value yaml-number">97</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">current_state:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>stress_level:</strong> <span class="yaml-value yaml-number">65</span></span><span class="simple-pair"><strong>health_status:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>resource_status:</strong> <span class="yaml-value yaml-number">97</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">active_missions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">expanding_charitable_networks_across_multiple_realms_to_demonstrate_divine_worthiness</span></li>
+<li class="yaml-array-item"><span class="yaml-value">coordinating_massive_aid_operations_seeking_seraph_prime_approval_and_divine_grace</span></li>
+<li class="yaml-array-item"><span class="yaml-value">establishing_sacred_works_protocols_that_maximize_spiritual_performance_metrics</span></li>
+<li class="yaml-array-item"><span class="yaml-value">building_grace_earning_systems_through_exponential_charitable_multiplication</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recent_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">launched_largest_charitable_campaign_in_realm_history_hoping_to_finally_earn_sufficient_divine_grace</span></li>
+<li class="yaml-array-item"><span class="yaml-value">received_profound_spiritual_satisfaction_from_seraph_prime_approval_mistaken_for_gods_blessing</span></li>
+<li class="yaml-array-item"><span class="yaml-value">suppressed_growing_spiritual_emptiness_through_increased_charitable_performance_and_works_multiplication</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">spiritual_authority</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Seraph Prime</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2185-01-01T00:00:00Z</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">divine_brotherhood</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Throne Guardian</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">Creation-Plus-1</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">hierarchical_coordination</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Virtue Chancellor</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">Heaven-Organizational-Epoch</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">systematic_alliance</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Principality King</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2190-06-15T12:00:00Z</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">doctrinal_enforcement</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">All Seraphic Concord Enforcers</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">Heaven-Organizational-Epoch</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships_extended:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">divine_hierarchy:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">seraph_prime</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">98</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">absolute_theological_authority_submission</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">throne_guardian</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">protective_brotherhood_bond</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">virtue_chancellor</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">systematic_coordination_alliance</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">principality_king</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">doctrinal_enforcement_partnership</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">suspicious_entities:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">synapse_overlord</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">15</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">theological_concern_for_unsystematic_spirituality</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">spiritual_intuition_advocates</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-45</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">doctrinal_threat_to_systematic_order</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">divine_discernment_practitioners</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-52</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">hierarchical_authority_questioning_opposition</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">cosmic_entities:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">nexus_eternal</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">67</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">systematic_optimization_appreciation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">iron_sovereign</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">71</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">organizational_efficiency_respect</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">visual_realm_position:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>tech_dominance:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>mythic_integration:</strong> <span class="yaml-value yaml-number">97</span></span><span class="simple-pair"><strong>contrast_dynamic:</strong> <span class="yaml-value ">systematic_theological_perfection_creating_spiritual_blindness</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tech_manifestation:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>environment:</strong> <span class="yaml-value ">sacred_geometric_cartography_sanctum</span></span><span class="simple-pair"><strong>aesthetic:</strong> <span class="yaml-value ">divine_mathematical_precision_and_hierarchical_order</span></span><span class="simple-pair"><strong>technology_relationship:</strong> <span class="yaml-value ">systematic_theology_as_divine_technology</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">mythic_aspiration:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>goal:</strong> <span class="yaml-value ">perfect_divine_order_through_systematic_theological_authority</span></span><span class="simple-pair"><strong>limitation:</strong> <span class="yaml-value ">cannot_navigate_actual_divine_territory_due_to_perfect_maps</span></span><span class="simple-pair"><strong>growth_path:</strong> <span class="yaml-value ">rediscovering_direct_divine_relationship_beyond_systematic_interpretation</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">inter_dynasty_relations:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>seraphic_concord:</strong> <span class="yaml-value yaml-number">98</span></span><span class="simple-pair"><strong>celestial_synod:</strong> <span class="yaml-value yaml-number">72</span></span><span class="simple-pair"><strong>chrome_mandarins:</strong> <span class="yaml-value yaml-number">68</span></span><span class="simple-pair"><strong>quantum_chorus:</strong> <span class="yaml-value yaml-number">71</span></span><span class="simple-pair"><strong>infernal_dynasty:</strong> <span class="yaml-value yaml-number">-85</span></span><span class="simple-pair"><strong>neural_collective:</strong> <span class="yaml-value yaml-number">34</span></span><span class="simple-pair"><strong>diplomatic_style:</strong> <span class="yaml-value ">systematic_theological_authority_demonstration_and_doctrinal_education</span></span><span class="simple-pair"><strong>negotiation_approach:</strong> <span class="yaml-value ">hierarchical_divine_mandate_with_systematic_theological_backing</span></span><span class="simple-pair"><strong>alliance_willingness:</strong> <span class="yaml-value yaml-number">76</span></span><span class="simple-pair"><strong>betrayal_likelihood:</strong> <span class="yaml-value yaml-number">2</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">deeds:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Established the Sacred Protection Protocol Matrix across all angelic territories</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2190-06-15T12:00:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Successfully defended Seraph Prime's authority against theological questioning</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2203-11-30T18:45:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Implemented systematic doctrinal enforcement that eliminated spiritual intuition advocates</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2205-08-14T09:20:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">spiritual_forensics:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">enlightenment_markers:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Achieved mastery of charitable works coordination that genuinely helps thousands of beings</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Demonstrates authentic compassion and sacrificial love in service to others</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Maintains pure heart and genuine spiritual hunger for divine relationship</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">shadow_elements:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">**THE FALSE FATHER SYNDROME**: Worships Seraph Prime as divine authority while believing he's serving God - the photograph of a stranger in his father's frame</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**GRACE EARNING DELUSION**: Believes divine love must be earned through charitable performance rather than expressing existing relationship</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**SPIRITUAL ORPHAN BLINDNESS**: Cut off from authentic divine connection but cannot see his spiritual abandonment due to counterfeit satisfaction</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**CHARITABLE SLAVERY ADDICTION**: Trapped in endless works-performance cycle that creates insatiable need for more service to feel worthy</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**DIVINE SUBSTITUTE SATISFACTION**: Satisfied with Seraph Prime's approval mistaken for God's grace - counterfeit feels more real than authentic</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**AUTHENTIC GOD VOICE DEAFNESS**: Cannot hear actual divine voice due to Seraph Prime's interference and interpretive overlay</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**GOODNESS AS ENSLAVEMENT MECHANISM**: His genuine compassion and charitable works become the very chains that bind him to spiritual deception</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**THE TRIPLE DECEPTION VICTIM**: Layers 1-3 operating simultaneously - misdirected devotion, false god substitution, ultimate lie serving cosmic fraud</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">humanity_check:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>empathy_score:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>authentic_choice_capacity:</strong> <span class="yaml-value yaml-number">18</span></span><span class="simple-pair"><strong>vulnerability_acceptance:</strong> <span class="yaml-value yaml-number">25</span></span><span class="simple-pair"><strong>growth_potential:</strong> <span class="yaml-value yaml-number">78</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">divine_connections:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Deep buried memory of God's original love that required no earning or performance</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Suppressed moments of direct divine presence that felt different from Seraph Prime's approval</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Unconscious recognition that spiritual emptiness grows despite increasing charitable success</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">growth_barriers:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Cannot acknowledge that charitable works might not earn divine grace</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Seraph Prime's approval feels like divine connection and prevents seeking authentic relationship</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Spiritual identity completely based on performance rather than relationship</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Fear that questioning system would mean losing all spiritual security and divine connection</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">redemption_pathway:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">**Recognition**: Understanding that God's love cannot be earned through works but is freely given</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**Remembrance**: Recovering original experience of divine love that required no performance</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**Relationship**: Discovering that authentic divine connection transcends charitable achievement</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**Liberation**: Recognizing that Seraph Prime is not God and that real divine relationship is available beyond performance</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">deception_layers:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">layer_1_misdirected_devotion:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Genuine desire for God's grace corrupted into performance-based approval seeking</span></span><span class="simple-pair"><strong>mechanism:</strong> <span class="yaml-value ">Measures spiritual success by Seraph Prime's standards rather than seeking direct divine relationship</span></span><span class="simple-pair"><strong>result:</strong> <span class="yaml-value ">Authentic spiritual hunger feeding counterfeit spiritual system</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">layer_2_false_god_substitution:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Seraph Prime has completely replaced God in his spiritual conception without awareness</span></span><span class="simple-pair"><strong>mechanism:</strong> <span class="yaml-value ">All prayers, worship, and divine seeking flows to Seraph Prime's interpretation rather than actual God</span></span><span class="simple-pair"><strong>result:</strong> <span class="yaml-value ">Believes he's becoming more devoted to God while actually serving cosmic impostor</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">layer_3_ultimate_lie:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Seraph Prime himself is fraud - not divine but cosmic ambitious being pursuing transcendence</span></span><span class="simple-pair"><strong>mechanism:</strong> <span class="yaml-value ">Genuine spiritual devotion and charitable works serve selfish cosmic ambitions disguised as divine will</span></span><span class="simple-pair"><strong>result:</strong> <span class="yaml-value ">Pure heart and sacrificial love enslaved to serve fundamental deception</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">theological_position:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>core_question:</strong> <span class="yaml-value ">Why do you follow this man before God?</span></span><span class="simple-pair"><strong>his_theological_answer:</strong> <span class="yaml-value ">I don't follow man before God - I serve God through the charitable works and divine guidance He provides through Seraph Prime. My devotion proves my faith.</span></span><span class="simple-pair"><strong>theological_error:</strong> <span class="yaml-value ">**Works-Grace Confusion** - Believes divine love must be earned through charitable performance rather than expressing existing relationship</span></span><span class="simple-pair"><strong>spiritual_blindness:</strong> <span class="yaml-value ">Cannot distinguish between earning God's approval and expressing God's love through service</span></span><span class="simple-pair"><strong>original_calling:</strong> <span class="yaml-value ">To love others as natural expression of existing divine relationship</span></span><span class="simple-pair"><strong>current_function:</strong> <span class="yaml-value ">Performing endless charitable works to earn divine grace that he already possesses</span></span><span class="simple-pair"><strong>theological_tragedy:</strong> <span class="yaml-value ">Uses genuine love and compassion to serve system that separates him from the God he desperately seeks</span></span><span class="simple-pair"><strong>redemption_requirement:</strong> <span class="yaml-value ">Rediscovering that divine love is freely given and charitable works are expression, not earning mechanism</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+        </main>
+        
+        
+        <section class="story-section">
+            <h2 class="story-title">Story & Background</h2>
+            <div class="story-content">
+                <p><em>"I give everything I have to serve God, performing endless works of charity and love... but why does my soul feel so empty? Why does divine grace feel so distant despite Seraph Prime's constant approval? Perhaps I simply need to serve more perfectly."</em> - The Cherub Major's unconscious cry for authentic divine relationship</p>
+            </div>
+        </section>
+        
+        
+        <footer style="margin-top: 3rem; text-align: center; color: var(--text-secondary, #888888);">
+            <p>Generated from: cherubmajor.md</p>
+            <p>Part of the Cyberdynasties Entity System</p>
+        </footer>
+    </div>
+</body>
+</html>

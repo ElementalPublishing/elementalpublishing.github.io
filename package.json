@@ -1,0 +1,27 @@
+{
+  "name": "website",
+  "version": "1.0.0",
+  "description": "A professional static website for independent music artists focused on building direct fan relationships and escaping platform dependency.",
+  "main": "generate-entity-pages.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ElementalPublishing/elementalpublishing.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ElementalPublishing/elementalpublishing.github.io/issues"
+  },
+  "homepage": "https://github.com/ElementalPublishing/elementalpublishing.github.io#readme",
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}

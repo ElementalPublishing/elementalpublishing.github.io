@@ -100,8 +100,6 @@ psyche:
         experience: "Attempted to create comprehensive chart of everything that had never happened across seven dimensional planes simultaneously"
         emotional_weight: 91
         integration_status: "Infinite Scale Recognition"
-        emotional_weight: 91
-        integration_status: "Infinite Scale Recognition"
       - timestamp: "The Paradox Conference"
         experience: "Organized interdimensional symposium on 'Studying What Cannot Be Studied' attended by scholars who don't exist"
         emotional_weight: 89

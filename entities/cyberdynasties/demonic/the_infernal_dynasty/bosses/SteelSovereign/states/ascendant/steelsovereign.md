@@ -65,7 +65,7 @@ traits:
     service_optimization_algorithms: "Continuously improves the efficiency and scope of dutiful obedience to incomprehensible commands"
     crisis_management_protocols: "Maintains control during territorial wars through enhanced decision-making"
   
-  psychological_vulnerabilities:
+  tactical_vulnerabilities:
     enhancement_addiction_spiral: "Cannot function without constant technological upgrades - addiction to improvement creates dependency vulnerabilities"
     systematic_predictability_trap: "Optimized decision-making makes responses predictable to those who understand his algorithms"
     human_emotion_blindness: "Cannot process authentic emotional complexity - systematized empathy creates manipulation blind spots"
@@ -75,7 +75,7 @@ traits:
     original_humanity_amnesia: "Cannot remember pre-enhancement authentic personality - believes current systematic identity is authentic self"
     divine_gift_mechanical_replacement: "Replaced intuition, empathy, and moral reasoning with algorithmic approximations that miss spiritual reality entirely"
   
-  unique_capabilities:
+  enhanced_capabilities:
     chrome_dominion_architecture: "Creates cybernetic criminal empires spanning physical and digital realms"
     enhancement_loyalty_protocols: "Builds unbreakable criminal organizations through technological psychological bonding"
     cyber_physical_coordination: "Seamlessly coordinates operations across multiple reality layers"

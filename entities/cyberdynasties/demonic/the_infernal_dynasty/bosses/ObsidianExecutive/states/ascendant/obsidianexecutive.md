@@ -65,7 +65,7 @@ traits:
     frictionless_control_integration: "Seamlessly incorporates increasing system control into aesthetically pleasing user experiences"
     reality_manipulation_crisis_management: "Maintains corporate control during exposure through cosmic reality alteration and legal immunity"
   
-  psychological_vulnerabilities:
+  tactical_vulnerabilities:
     cosmic_profit_optimization_blindness: "Cannot perceive any value beyond systematic exploitation - cosmic power exclusively serves profit maximization at expense of all other reality"
     human_suffering_addiction_requirement: "Requires constant human pain and dependency to maintain cosmic corporate identity - without exploitation loses sense of self and purpose"
     reality_manipulation_predictability: "Cosmic exploitation patterns make responses predictable to those who understand suffering-to-profit conversion algorithms"
@@ -75,7 +75,7 @@ traits:
     ultimate_spiritual_corruption_invisibility: "Achieved maximum cosmic power by becoming maximum spiritual parasite - cosmic abilities serve purposes that create infinite human suffering"
     enhancement_origin_corporate_amnesia: "Cannot remember pre-cosmic authentic human nature - believes corporate exploitation identity represents ultimate transcendent achievement"
   
-  unique_capabilities:
+  corporate_capabilities:
     suffering_profit_architecture: "Creates perfect human exploitation systems that convert suffering into cosmic corporate power"
     dimensional_addiction_protocols: "Builds unbreakable human dependency systems spanning multiple realities and consciousness levels"
     reality_exploitation_coordination: "Seamlessly coordinates human suffering across cosmic, digital, and physical corporate infrastructure"

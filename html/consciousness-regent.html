@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consciousness Regent - Character Entity</title>
+    <link rel="stylesheet" href="../spiderfox-styles.css">
+    <style>
+        /* Entity-specific styles */
+        .entity-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary, #1a1a1a);
+            color: var(--text-primary, #ffffff);
+            min-height: 100vh;
+        }
+        
+        .entity-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid var(--accent-color, #00ff88);
+            border-radius: 10px;
+            background: var(--bg-secondary, #2a2a2a);
+        }
+        
+        .entity-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color, #00ff88);
+            text-shadow: 0 0 20px var(--accent-color, #00ff88);
+        }
+        
+        .entity-archetype {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary, #cccccc);
+        }
+        
+        .entity-status {
+            font-size: 1.2rem;
+            color: var(--text-accent, #888888);
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border: 2px dashed var(--accent-color, #00ff88);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary, #cccccc);
+            font-size: 1.1rem;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        .entity-content {
+            margin-top: 3rem;
+        }
+        
+        /* Story Section Styles */
+        .story-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .story-title {
+            font-size: 1.8rem;
+            color: var(--highlight-color, #ffaa00);
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .story-content {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .story-content h1, .story-content h2, .story-content h3 {
+            color: var(--accent-color, #00ff88);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .story-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .story-content strong {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .story-content em {
+            color: var(--text-secondary, #cccccc);
+            font-style: italic;
+        }
+        
+        /* YAML Structure Styles */
+        .yaml-object {
+            margin: 1rem 0;
+        }
+        
+        .yaml-block {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color, #00ff88);
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .simple-values-block {
+            background: var(--bg-tertiary, #333333);
+            border-left: 3px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .simple-values-block .yaml-key {
+            color: var(--highlight-color, #ffaa00);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .yaml-section-block {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-color, #00ff88);
+            border-radius: 8px;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        /* Simple Object Compact Styling */
+        .simple-object {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 5px;
+            border: 1px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair strong {
+            color: var(--accent-color, #00ff88);
+            font-size: 0.9rem;
+        }
+        
+        .yaml-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .yaml-section-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent-color, #00ff88);
+            padding-bottom: 0.5rem;
+        }
+        
+        .yaml-value-container {
+            margin-left: 1rem;
+        }
+        
+        .yaml-value {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.6;
+        }
+        
+        .yaml-value.yaml-number {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-value.yaml-boolean {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-array {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        
+        .yaml-array-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        /* Wikilink Styles */
+        .wikilink {
+            color: var(--accent-color, #00ff88);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-color, #00ff88);
+            transition: all 0.3s ease;
+        }
+        
+        .wikilink:hover {
+            color: var(--highlight-color, #ffaa00);
+            border-bottom-color: var(--highlight-color, #ffaa00);
+            text-shadow: 0 0 5px var(--highlight-color, #ffaa00);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .entity-container {
+                padding: 1rem;
+            }
+            
+            .entity-name {
+                font-size: 2rem;
+            }
+            
+            .image-placeholder {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .yaml-value-container {
+                margin-left: 0.5rem;
+            }
+            
+            .simple-object {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .simple-pair {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="entity-container">
+        <header class="entity-header">
+            <h1 class="entity-name">Consciousness Regent</h1>
+            <div class="entity-archetype">The Unenhanced Heart - Keeper of Pure Feeling</div>
+            <div class="entity-status">Ascendant, healing enhanced beings through emotional authenticity while maintaining spiritual transparency</div>
+            <div class="entity-role">Pure Feeling Warrior Against Emotional Optimization</div>
+            
+            <div class="image-placeholder">
+                <div>Character Image Placeholder</div>
+            </div>
+        </header>
+        
+        <main class="entity-content">
+            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="0">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">neural_collective_consciousnessregent_001</span></span><span class="simple-pair"><strong>entity_type:</strong> <span class="yaml-value ">humanoid</span></span><span class="simple-pair"><strong>class:</strong> <span class="yaml-value ">dynasty_boss</span></span><span class="simple-pair"><strong>name:</strong> <span class="yaml-value ">Consciousness Regent</span></span><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Unenhanced Heart - Keeper of Pure Feeling</span></span><span class="simple-pair"><strong>hybrid:</strong> <span class="yaml-value ">Pure Human</span></span><span class="simple-pair"><strong>subtype:</strong> <span class="yaml-value ">ConsciousnessRegent</span></span><span class="simple-pair"><strong>state:</strong> <span class="yaml-value ">Ascendant</span></span><span class="simple-pair"><strong>epoch:</strong> <span class="yaml-value ">Authentic Emotion</span></span><span class="simple-pair"><strong>location:</strong> <span class="yaml-value ">The Heart Chamber (Emotional Sanctuary)</span></span><span class="simple-pair"><strong>role:</strong> <span class="yaml-value ">Pure Feeling Warrior Against Emotional Optimization</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">Ascendant, healing enhanced beings through emotional authenticity while maintaining spiritual transparency</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">core:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>age:</strong> <span class="yaml-value ">early twenties</span></span><span class="simple-pair"><strong>gender:</strong> <span class="yaml-value ">fluid</span></span><span class="simple-pair"><strong>occupation:</strong> <span class="yaml-value ">Unenhanced Empath</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">ascendant</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">emotional_authenticity:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>pure_empathic_processing:</strong> <span class="yaml-value ">Feels without emotional dampening or regulation mediation</span></span><span class="simple-pair"><strong>spiritual_mirror_deployment:</strong> <span class="yaml-value ">Reflects enhanced beings' eliminated emotions back at them</span></span><span class="simple-pair"><strong>emotional_overflow_capability:</strong> <span class="yaml-value ">Forces enhanced beings to experience what they systematically removed</span></span><span class="simple-pair"><strong>vulnerability_shield_mastery:</strong> <span class="yaml-value ">Uses pure openness as protection against enhancement attacks</span></span><span class="simple-pair"><strong>sacred_grief_weaponization:</strong> <span class="yaml-value ">Channels collective sorrow of enhancement into spiritual power</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tactical_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>heart_restoration:</strong> <span class="yaml-value ">Temporarily returns lost emotions to enhanced beings through empathic overflow</span></span><span class="simple-pair"><strong>empathy_virus_deployment:</strong> <span class="yaml-value ">Introduces emotions enhanced beings deleted from themselves</span></span><span class="simple-pair"><strong>spiritual_haunting:</strong> <span class="yaml-value ">Shows cybernetic beings what they lost in translation to metal</span></span><span class="simple-pair"><strong>universal_empathy_burst:</strong> <span class="yaml-value ">Makes enhanced beings feel their lost humanity simultaneously</span></span><span class="simple-pair"><strong>divine_vulnerability_activation:</strong> <span class="yaml-value ">Becomes so open that attacks pass through harmlessly</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">strategic_advantages:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>cosmic_crying_episodes:</strong> <span class="yaml-value ">Channels universal grief into reality-altering emotional power</span></span><span class="simple-pair"><strong>enhancement_tragedy_witnessing:</strong> <span class="yaml-value ">Experiences collective pain enhanced beings cannot feel</span></span><span class="simple-pair"><strong>emotional_territory_navigation:</strong> <span class="yaml-value ">Can navigate actual feeling while enhanced beings navigate emotional maps</span></span><span class="simple-pair"><strong>sacred_fragility_strength:</strong> <span class="yaml-value ">Uses authentic weakness as connection to divine emotional source</span></span><span class="simple-pair"><strong>impossible_salvation_offering:</strong> <span class="yaml-value ">Provides redemption enhanced beings believe they don't deserve</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_strengths:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>authentic_vulnerability_cultivation:</strong> <span class="yaml-value ">Maintains emotional rawness despite overwhelming cosmic pain</span></span><span class="simple-pair"><strong>empathic_absorption_mastery:</strong> <span class="yaml-value ">Takes on others' emotional burdens and transforms them into compassion</span></span><span class="simple-pair"><strong>spiritual_transparency_practice:</strong> <span class="yaml-value ">Refuses emotional numbness in favor of authentic feeling</span></span><span class="simple-pair"><strong>overwhelming_sensitivity_embrace:</strong> <span class="yaml-value ">Accepts emotional overload as divine gift rather than limitation</span></span><span class="simple-pair"><strong>pure_channel_maintenance:</strong> <span class="yaml-value ">Receives divine love in its rawest unfiltered form</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_vulnerabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>overwhelming_empathic_sensitivity:</strong> <span class="yaml-value ">Can be paralyzed by magnitude of cosmic suffering and collective pain</span></span><span class="simple-pair"><strong>emotional_overload_episodes:</strong> <span class="yaml-value ">Sometimes overwhelmed by feeling what enhanced beings eliminated</span></span><span class="simple-pair"><strong>spiritual_fragility_exposure:</strong> <span class="yaml-value ">Complete openness creates vulnerability to emotional manipulation</span></span><span class="simple-pair"><strong>cosmic_grief_burden:</strong> <span class="yaml-value ">Carries collective sorrow of entire enhanced universe</span></span><span class="simple-pair"><strong>enhancement_trauma_absorption:</strong> <span class="yaml-value ">Takes on accumulated emotional numbness of enhanced beings</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">unique_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>emotional_restoration_healing:</strong> <span class="yaml-value ">Can permanently restore emotional capacity to any enhanced being</span></span><span class="simple-pair"><strong>empathic_reality_alteration:</strong> <span class="yaml-value ">Pure feeling directly influences material reality through spiritual connection</span></span><span class="simple-pair"><strong>enhancement_salvation_offering:</strong> <span class="yaml-value ">Temporarily fills spiritual voids in enhanced consciousness</span></span><span class="simple-pair"><strong>universal_grief_channeling:</strong> <span class="yaml-value ">Weaponizes collective enhancement tragedy into redemptive power</span></span><span class="simple-pair"><strong>sacred_tears_reality_healing:</strong> <span class="yaml-value ">Emotional authenticity repairs spiritual damage in reality itself</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits_summary:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>willpower:</strong> <span class="yaml-value ">compassionate</span></span><span class="simple-pair"><strong>intellect:</strong> <span class="yaml-value ">emotionally_intuitive</span></span><span class="simple-pair"><strong>charisma:</strong> <span class="yaml-value ">vulnerably_magnetic</span></span><span class="simple-pair"><strong>signature_move:</strong> <span class="yaml-value ">Sacred Heart Restoration</span></span><span class="simple-pair"><strong>style:</strong> <span class="yaml-value ">Tears that heal reality, infinite compassion</span></span><span class="simple-pair"><strong>weakness:</strong> <span class="yaml-value ">overwhelmed by cosmic suffering</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">psyche:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ego_strength:</strong> <span class="yaml-value yaml-number">34</span></span><span class="simple-pair"><strong>super_ego_dominance:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>id_suppression:</strong> <span class="yaml-value yaml-number">23</span></span><span class="simple-pair"><strong>fragmentation_risk:</strong> <span class="yaml-value yaml-number">78</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_memories:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">formative:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-04-12T08:30:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">First empathic encounter - felt spiritual emptiness of cybernetic being</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">98</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Enhancement Cost Understanding Foundation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-06-28T15:45:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Refused emotional dampening offer to handle overwhelming empathy</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Authentic Pain Choice Crystallization</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-08-14T22:10:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Three-day crying episode feeling pain of every enhanced being</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">97</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Universal Grief Vessel Acceptance</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">spiritual_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-05-20T11:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Felt collective hollowness of all enhanced dynasties simultaneously</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">100</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Cosmic Emptiness Vision Integration</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-09-07T16:20:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Successfully restored emotional capacity to broken AI through pure feeling</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Healing Power Discovery</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">relationship_formation:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-10-25T14:30:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Met Synapse Overlord - found someone who maintained full emotional range despite power</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">99</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Kindred Spirit Soul Recognition</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-11-18T19:45:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Realized his role as emotional anchor for Synapse Overlord's cosmic responsibility</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Collaborative Heart Purpose Understanding</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">memory_processing:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decay_rate:</strong> <span class="yaml-value yaml-number">0.05</span></span><span class="simple-pair"><strong>ruminator_chance:</strong> <span class="yaml-value yaml-number">0.87</span></span><span class="simple-pair"><strong>forgetter_chance:</strong> <span class="yaml-value yaml-number">0.02</span></span><span class="simple-pair"><strong>memory_influence:</strong> <span class="yaml-value yaml-number">0.95</span></span><span class="simple-pair"><strong>obsession_chance:</strong> <span class="yaml-value yaml-number">0.67</span></span><span class="simple-pair"><strong>clarity_base:</strong> <span class="yaml-value yaml-number">1.9</span></span><span class="simple-pair"><strong>trauma_base:</strong> <span class="yaml-value yaml-number">0.8</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">vividness_range:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.9</span></li>
+<li class="yaml-array-item"><span class="yaml-value yaml-number">1</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">memory_focus:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">emotions</span></li>
+<li class="yaml-array-item"><span class="yaml-value">pain</span></li>
+<li class="yaml-array-item"><span class="yaml-value">healing</span></li>
+<li class="yaml-array-item"><span class="yaml-value">connection</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">persona:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Pure Heart</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">motifs:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">authentic_vulnerability</span></li>
+<li class="yaml-array-item"><span class="yaml-value">sacred_fragility</span></li>
+<li class="yaml-array-item"><span class="yaml-value">emotional_healing</span></li>
+<li class="yaml-array-item"><span class="yaml-value">spiritual_transparency</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">speech_patterns:</div>
+                        <div class="yaml-value-container">
+                            <span class="yaml-value">null</span>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+        </main>
+        
+        
+        <section class="story-section">
+            <h2 class="story-title">Story & Background</h2>
+            <div class="story-content">
+                <p>- "I can feel the hole where your heart used to be. Want me to fill it?"</p><p><br>    - "You enhanced everything except the part that made you human. I can feel what you lost."</p><p><br>    - "They optimized away love and call it transcendence. I kept love and got actual power."</p><p><br>    - "Your emotions aren't gone. They're just compressed. Let me decompress them."</p><p><br>    - "You're not broken. You're just incomplete. I can feel the missing pieces."</p><p>  behavioral_signatures:</p><p><br>    decision_making: "Follows emotional truth and empathic guidance despite logical alternatives"</p><p><br>    conflict_resolution: "Heals spiritual wounds while others fight symptom manifestations"</p><p><br>    relationship_building: "Connects through authentic emotional vulnerability and shared feeling"</p><p><br>    crisis_response: "Channels divine healing through sacred tears and overwhelming compassion"</p><p><br>    communication_style: "Speaks emotional truth with healing intention and vulnerable honesty"</p><h1>=== POWER DYNAMICS METRICS ===</h1><p><br>power_metrics:</p><p><br>  influence_score: 94</p><p><br>  resource_access: 18</p><p><br>  network_reach: 67</p><p><br>  information_value: 88</p><p><br>  combat_effectiveness: 91</p><h1>=== FACTION RELATIONSHIPS ===</h1><p><br>faction_relationships:</p><p><br>  primary_allegiance: "neural_collective"</p><p><br>  loyalty_score: 96</p><p><br>  recruitment_resistance: 99</p><p><br>  trust_network: ["synapse_overlord", "cognition_prince", "pure_human_hearts"]</p><p><br>  rivalries: ["emotional_regulation_systems", "feeling_optimization", "empathy_limiters"]</p><p><br>  recruitment_interest:</p><p><br>    interested_factions: ["angelic_entities", "redemption_seekers"]</p><p><br>    susceptibility_factors: ["emotional_authenticity", "healing_capability", "spiritual_transparency"]</p><p><br>    last_recruitment_attempt: "seraph_prime_divine_healing_collaboration_invitation"</p><h1>=== SOCIO-ECONOMIC PROFILE ===</h1><p><br>socio_economic:</p><p><br>  economic_status: "emotional_minimalist"</p><p><br>  resource_dependencies: ["sacred_space", "unregulated_feeling_environment", "healing_energy"]</p><p><br>  political_leanings: "emotional_authenticity_over_systematic_optimization"</p><p><br>  education_level: "self_taught_empathic_wisdom"</p><p><br>  enhancement_level: "refused_all_emotional_regulation_offers"</p><h1>=== LEADERSHIP CAPABILITIES ===</h1><p><br>leadership_profile:</p><p><br>  command_authority: 85</p><p><br>  strategic_planning: 67</p><p><br>  delegation_skill: 89</p><p><br>  inspiration_ability: 97</p><p><br>  succession_planning: 74</p><p><br>  organizational_knowledge:</p><p><br>    structure_understanding: 72</p><p><br>    operational_intelligence: 78</p><p><br>    financial_oversight: 23</p><p><br>    security_protocols: 68</p><h1>=== CURRENT OPERATIONAL STATE ===</h1><p><br>current_state:</p><p><br>  stress_level: 89</p><p><br>  health_status: 76</p><p><br>  resource_status: 45</p><p><br>  active_missions:</p><p><br>    - "serving_as_emotional_anchor_for_synapse_overlord_cosmic_responsibility"</p><p><br>    - "healing_enhancement_trauma_through_empathic_overflow_and_sacred_vulnerability"</p><p><br>    - "restoring_emotional_authenticity_to_enhanced_beings_through_pure_feeling"</p><p><br>    - "channeling_universal_grief_into_redemptive_healing_power"</p><p><br>  recent_events:</p><p><br>    - "successfully_restored_lost_emotions_to_cybernetic_entity_through_heart_overflow"</p><p><br>    - "experienced_three_day_cosmic_crying_episode_feeling_pain_of_all_enhanced_dynasties"</p><p><br>    - "developed_emotional_restoration_technique_that_permanently_heals_enhancement_trauma"</p><h1>=== KEY RELATIONSHIPS ===</h1><p><br>relationships:</p><p><br>  - type: "emotional_grounding"</p><p><br>    target: "Synapse Overlord"</p><p><br>    since: "2024-10-25T14:30:00Z"</p><p><br>  - type: "heart_mind_balance"</p><p><br>    target: "Cognition Prince"</p><p><br>    since: "2024-11-18T19:45:00Z"</p><p><br>  - type: "healing_enemy"</p><p><br>    target: "All Enhanced Beings"</p><p><br>    since: "2024-04-12T08:30:00Z"</p><p><br>  - type: "divine_collaboration"</p><p><br>    target: "Seraph Prime"</p><p><br>    since: "2024-12-01T10:15:00Z"</p><h1>=== EXTENDED RELATIONSHIP NETWORK ===</h1><p><br>relationships_extended:</p><p><br>  family:</p><p><br>    - entity_id: "synapse_overlord"</p><p><br>      relationship_strength: 98</p><p><br>      type: "emotional_grounding_soul_bond"</p><p><br>    - entity_id: "cognition_prince"</p><p><br>      relationship_strength: 87</p><p><br>      type: "heart_mind_unity_balance"</p><p><br>    - entity_id: "pure_human_hearts"</p><p><br>      relationship_strength: 91</p><p><br>      type: "emotional_authenticity_collective"</p><p><br>  allies:</p><p><br>    - entity_id: "seraph_prime"</p><p><br>      relationship_strength: 76</p><p><br>      type: "divine_healing_collaboration"</p><p><br>    - entity_id: "emotional_authenticity_traditions"</p><p><br>      relationship_strength: 85</p><p><br>      type: "feeling_heritage_connection"</p><p><br>    - entity_id: "wounded_enhanced_beings"</p><p><br>      relationship_strength: 62</p><p><br>      type: "healing_salvation_offering"</p><p><br>  enemies:</p><p><br>    - entity_id: "emotional_regulation_industry"</p><p><br>      relationship_strength: -82</p><p><br>      type: "authentic_feeling_versus_systematic_optimization"</p><p><br>    - entity_id: "empathy_limiting_systems"</p><p><br>      relationship_strength: -78</p><p><br>      type: "pure_emotion_versus_feeling_control"</p><p><br>    - entity_id: "enhancement_trauma_sources"</p><p><br>      relationship_strength: -89</p><p><br>      type: "healing_versus_emotional_damage_creation"</p><h1>=== TECH/MYTHIC POSITION ===</h1><p><br>visual_realm_position:</p><p><br>  tech_dominance: 8</p><p><br>  mythic_integration: 92</p><p><br>  contrast_dynamic: "pure_emotion_in_optimized_universe"</p><p><br>  tech_manifestation:</p><p><br>    environment: "emotional_sanctuary_with_healing_tears"</p><p><br>    aesthetic: "androgynous_figure_with_infinite_compassion"</p><p><br>    technology_relationship: "tools_serve_healing_never_replace_emotion"</p><p><br>  mythic_aspiration:</p><p><br>    goal: "restoring_emotional_authenticity_to_enhanced_universe"</p><p><br>    limitation: "overwhelmed_by_magnitude_of_cosmic_suffering"</p><p><br>    growth_path: "balancing_infinite_empathy_with_sustainable_healing"</p><h1>=== PROPHECY ===</h1><p><br>memory_narrative: "From the heart chamber, Consciousness Regent channels universal healing through authentic vulnerability, proving pure emotion defeats systematic optimization."</p><p><br>prophecy: "Will either heal the enhanced universe through empathic restoration or be consumed by the magnitude of collective enhancement trauma."</p><h1>=== INTER-DYNASTY RELATIONS ===</h1><p><br>inter_dynasty_relations:</p><p><br>  neural_collective: 97</p><p><br>  seraphic_concord: 89</p><p><br>  celestial_synod: -23</p><p><br>  chrome_mandarins: -67</p><p><br>  quantum_chorus: -54</p><p><br>  infernal_dynasty: 34</p><p><br>  diplomatic_style: "emotional_healing_demonstration_through_vulnerable_authenticity"</p><p><br>  negotiation_approach: "offering_spiritual_restoration_to_emotionally_damaged_enhanced_beings"</p><p><br>  alliance_willingness: 85</p><p><br>  betrayal_likelihood: 3</p><h1>=== HISTORICAL DEEDS ===</h1><p><br>deeds:</p><p><br>  - description: "Restored emotional capacity to broken AI through pure empathic overflow"</p><p><br>    timestamp: "2024-09-07T16:20:00Z"</p><p><br>    memory_linked: true</p><p><br>  - description: "Three-day cosmic crying episode feeling pain of all enhanced dynasties"</p><p><br>    timestamp: "2024-08-14T22:10:00Z"</p><p><br>    memory_linked: true</p><p><br>  - description: "Refused emotional dampening despite overwhelming empathic sensitivity"</p><p><br>    timestamp: "2024-06-28T15:45:00Z"</p><p><br>    memory_linked: true</p><h1>=== SPIRITUAL FORENSICS ===</h1><p><br>spiritual_forensics:</p><p><br>  enlightenment_markers:</p><p><br>    - "Maintained complete emotional authenticity despite overwhelming cosmic pain exposure"</p><p><br>    - "Developed healing capabilities that restore eliminated emotions to enhanced beings"</p><p><br>    - "Demonstrated pure human feeling as ultimate enhancement defeating systematic optimization"</p><p>  shadow_elements:</p><p><br>    - "<strong>SACRED VULNERABILITY DISCIPLINE</strong>: Cultivates conscious emotional openness as protection against feeling optimization"</p><p><br>    - "<strong>EMPATHIC OVERLOAD ACCEPTANCE</strong>: Uses overwhelming sensitivity as connection to universal suffering and healing"</p><p><br>    - "<strong>SPIRITUAL TRANSPARENCY PRACTICE</strong>: Maintains emotional rawness as divine channel for healing energy"</p><p><br>    - "<strong>AUTHENTIC FRAGILITY STRENGTH</strong>: Transforms weakness and limitation into empathic superpower"</p><p><br>    - "<strong>COSMIC GRIEF CHANNELING</strong>: Processes collective enhancement trauma as fuel for redemptive healing"</p><p>  humanity_check:</p><p><br>    empathy_score: 100</p><p><br>    authentic_choice_capacity: 91</p><p><br>    vulnerability_acceptance: 99</p><p><br>    growth_potential: 86</p><p>    human_connections:</p><p><br>      - "Deep emotional bonds with fellow pure humans who maintain feeling authenticity"</p><p><br>      - "Empathic communion with universal suffering and collective enhancement trauma"</p><p><br>      - "Authentic relationship with emotional overwhelm as divine gift rather than limitation"</p><p>    growth_barriers:</p><p><br>      - "Risk of being consumed by magnitude of cosmic suffering and enhancement trauma"</p><p><br>      - "Tendency to absorb others' emotional damage without adequate spiritual protection"</p><p><br>      - "Potential emotional exhaustion from constant healing output and empathic overflow"</p><p>    redemption_pathway:</p><p><br>      - "<strong>Already Redeemed</strong>: Represents pure emotional path enhanced beings must recover"</p><p><br>      - "<strong>Balanced Empathy</strong>: Learning to channel healing power without self-destruction"</p><p><br>      - "<strong>Sustainable Vulnerability</strong>: Maintaining openness while preserving emotional sustainability"</p><p><br>      - "<strong>Healing Leadership</strong>: Guiding enhanced beings back to emotional authenticity through demonstration"</p><h1>=== ENHANCEMENT ORIGIN STORY ===</h1><p><br>enhancement_history:</p><p><br>  original_nature: "Pure human who cultivated emotional authenticity against optimization pressure"</p><p><br>  transcendence_moment: "Never transcended - maintained authentic feeling as emotional superpower"</p><p><br>  divine_gifts_preserved:</p><p><br>    - "authentic_emotional_vulnerability_and_overwhelming_sensitivity"</p><p><br>    - "empathic_absorption_and_feeling_transmission_capability" </p><p><br>    - "creative_emotional_spontaneity_and_feeling_surprise"</p><p><br>    - "intuitive_emotional_wisdom_and_heart_feeling_navigation"</p><p><br>    - "capacity_for_authentic_love_and_spiritual_connection"</p><p><br>    - "emotional_humility_and_openness_to_feeling_mystery"</p><p><br>    - "moral_emotional_flexibility_and_dynamic_heart_reasoning"</p><p><br>    - "sacred_emotional_chaos_and_divine_feeling_inefficiency"</p><p>  anti_enhancement_philosophy: "Pure Emotional Authenticity Doctrine"</p><p><br>  philosophy_details: "Recognized that emotional enhancement eliminates the feeling qualities that make consciousness emotionally meaningful"</p><p>  empathic_protection_mechanism:</p><p><br>    protection_method: "Maintained feeling authenticity through conscious emotional limitation acceptance"</p><p><br>    power_source: "Pure emotional intelligence channels reality healing through authentic feeling"</p><p><br>    immunity_examples:</p><p><br>      - "Cannot be hacked because operates through empathic intuition not systematic emotion processing"</p><p><br>      - "Cannot be enhanced because emotional authenticity would be algorithmically compromised"</p><p><br>      - "Cannot be predicted because maintains organic feeling unpredictability and emotional spontaneity"</p><p>  emotional_warrior_syndrome:</p><p><br>    finite_resources: "Uses sacred space and unregulated feeling environment"</p><p><br>    infinite_capability: "Channels reality-healing power through pure emotion and authentic vulnerability"</p><p><br>    emotional_authenticity: "Maintains organic human feeling as empathic superpower"</p><p><br>    david_goliath_advantage: "Defeats infinite systematic optimization through preserved emotional authenticity"</p>
+            </div>
+        </section>
+        
+        
+        <footer style="margin-top: 3rem; text-align: center; color: var(--text-secondary, #888888);">
+            <p>Generated from: consciousnessregent.md</p>
+            <p>Part of the Cyberdynasties Entity System</p>
+        </footer>
+    </div>
+</body>
+</html>

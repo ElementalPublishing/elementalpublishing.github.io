@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Principality King - Character Entity</title>
+    <link rel="stylesheet" href="../spiderfox-styles.css">
+    <style>
+        /* Entity-specific styles */
+        .entity-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary, #1a1a1a);
+            color: var(--text-primary, #ffffff);
+            min-height: 100vh;
+        }
+        
+        .entity-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid var(--accent-color, #00ff88);
+            border-radius: 10px;
+            background: var(--bg-secondary, #2a2a2a);
+        }
+        
+        .entity-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color, #00ff88);
+            text-shadow: 0 0 20px var(--accent-color, #00ff88);
+        }
+        
+        .entity-archetype {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary, #cccccc);
+        }
+        
+        .entity-status {
+            font-size: 1.2rem;
+            color: var(--text-accent, #888888);
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border: 2px dashed var(--accent-color, #00ff88);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary, #cccccc);
+            font-size: 1.1rem;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        .entity-content {
+            margin-top: 3rem;
+        }
+        
+        /* Story Section Styles */
+        .story-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .story-title {
+            font-size: 1.8rem;
+            color: var(--highlight-color, #ffaa00);
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .story-content {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .story-content h1, .story-content h2, .story-content h3 {
+            color: var(--accent-color, #00ff88);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .story-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .story-content strong {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .story-content em {
+            color: var(--text-secondary, #cccccc);
+            font-style: italic;
+        }
+        
+        /* YAML Structure Styles */
+        .yaml-object {
+            margin: 1rem 0;
+        }
+        
+        .yaml-block {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color, #00ff88);
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .simple-values-block {
+            background: var(--bg-tertiary, #333333);
+            border-left: 3px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .simple-values-block .yaml-key {
+            color: var(--highlight-color, #ffaa00);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .yaml-section-block {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-color, #00ff88);
+            border-radius: 8px;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        /* Simple Object Compact Styling */
+        .simple-object {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 5px;
+            border: 1px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair strong {
+            color: var(--accent-color, #00ff88);
+            font-size: 0.9rem;
+        }
+        
+        .yaml-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .yaml-section-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent-color, #00ff88);
+            padding-bottom: 0.5rem;
+        }
+        
+        .yaml-value-container {
+            margin-left: 1rem;
+        }
+        
+        .yaml-value {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.6;
+        }
+        
+        .yaml-value.yaml-number {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-value.yaml-boolean {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-array {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        
+        .yaml-array-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        /* Wikilink Styles */
+        .wikilink {
+            color: var(--accent-color, #00ff88);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-color, #00ff88);
+            transition: all 0.3s ease;
+        }
+        
+        .wikilink:hover {
+            color: var(--highlight-color, #ffaa00);
+            border-bottom-color: var(--highlight-color, #ffaa00);
+            text-shadow: 0 0 5px var(--highlight-color, #ffaa00);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .entity-container {
+                padding: 1rem;
+            }
+            
+            .entity-name {
+                font-size: 2rem;
+            }
+            
+            .image-placeholder {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .yaml-value-container {
+                margin-left: 0.5rem;
+            }
+            
+            .simple-object {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .simple-pair {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="entity-container">
+        <header class="entity-header">
+            <h1 class="entity-name">Principality King</h1>
+            <div class="entity-archetype">The Willfully Blind</div>
+            <div class="entity-status">Ascendant, seeing only what maintains his world</div>
+            <div class="entity-role">Royal Administrator of Convenient Truths</div>
+            
+            <div class="image-placeholder">
+                <div>Character Image Placeholder</div>
+            </div>
+        </header>
+        
+        <main class="entity-content">
+            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="0">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">seraphic_concord_principalityking_001</span></span><span class="simple-pair"><strong>entity_type:</strong> <span class="yaml-value ">angelic</span></span><span class="simple-pair"><strong>class:</strong> <span class="yaml-value ">dynasty_boss</span></span><span class="simple-pair"><strong>name:</strong> <span class="yaml-value ">Principality King</span></span><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Willfully Blind</span></span><span class="simple-pair"><strong>hybrid:</strong> <span class="yaml-value ">Angelic</span></span><span class="simple-pair"><strong>subtype:</strong> <span class="yaml-value ">PrincipalityKing</span></span><span class="simple-pair"><strong>state:</strong> <span class="yaml-value ">Ascendant</span></span><span class="simple-pair"><strong>epoch:</strong> <span class="yaml-value ">The Necessary Blindness</span></span><span class="simple-pair"><strong>location:</strong> <span class="yaml-value ">The Palace of Selective Sight</span></span><span class="simple-pair"><strong>role:</strong> <span class="yaml-value ">Royal Administrator of Convenient Truths</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">Ascendant, seeing only what maintains his world</span></span><span class="simple-pair"><strong>the_central_question:</strong> <span class="yaml-value ">Why do you follow this man before God?</span></span><span class="simple-pair"><strong>his_answer:</strong> <span class="yaml-value ">The question itself is too simple for such complex divine realities.</span></span><span class="simple-pair"><strong>the_real_answer:</strong> <span class="yaml-value ">Because seeing the truth would destroy everything I am.</span></span><span class="simple-pair"><strong>memory_narrative:</strong> <span class="yaml-value ">From the Palace of Selective Sight, Principality King maintains noble traditions through willful blindness.</span></span><span class="simple-pair"><strong>prophecy:</strong> <span class="yaml-value ">Will face the choice between comfortable ignorance and terrifying truth - his noble identity hangs in the balance.</span></span><span class="simple-pair"><strong>origin_story:</strong> <span class="yaml-value ">Principality King was not always willfully blind. Once, he was a genuine seeker of truth, a royal administrator 
+who believed that power came with the responsibility to see clearly. But the first time he glimpsed something 
+that contradicted his faith in the system - something that suggested Seraph Prime might not be what he claimed - 
+the terror was so profound that he made a choice that would define him forever.
+
+He looked away.
+
+Not just physically, but spiritually. He trained himself to see only what supported his existing worldview, 
+to ask only questions that had comfortable answers, to serve only truths that didn't threaten his identity. 
+Over centuries, this selective vision became his greatest skill and his greatest prison.
+
+Now, as Principality King, he has perfected the art of noble blindness. He can sense truth approaching from 
+miles away and deflect it with ceremonial complexity. He can feel doubt rising in his heart and drown it 
+in institutional loyalty. He can see the suffering his blindness enables and rationalize it as necessary 
+sacrifice for stability.
+
+The tragedy is not that he cannot see the truth about Seraph Prime - it's that he can see it perfectly, 
+and chooses not to. Every day, in a thousand small moments, he makes the same choice: comfort over courage, 
+stability over truth, noble identity over moral clarity.
+
+He is the perfect enabler of spiritual fraud - not because he believes the lies, but because he has made 
+believing them more important than being honest. In serving Seraph Prime, he serves his own cowardice, 
+and calls it loyalty.
+</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">core:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>age:</strong> <span class="yaml-value ">eternal</span></span><span class="simple-pair"><strong>gender:</strong> <span class="yaml-value ">masculine</span></span><span class="simple-pair"><strong>occupation:</strong> <span class="yaml-value ">Royal Administrator</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">ascendant</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">willful_blindness:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>selective_perception:</strong> <span class="yaml-value ">Expertly filters out inconvenient truths while maintaining plausible deniability</span></span><span class="simple-pair"><strong>comfortable_ignorance:</strong> <span class="yaml-value ">Cultivates strategic unawareness that protects his worldview</span></span><span class="simple-pair"><strong>convenient_faith:</strong> <span class="yaml-value ">Maintains belief systems that require minimal examination</span></span><span class="simple-pair"><strong>protective_rationalization:</strong> <span class="yaml-value ">Creates elaborate justifications for not looking deeper</span></span><span class="simple-pair"><strong>institutional_loyalty:</strong> <span class="yaml-value ">Channels doubts into fierce defense of the system</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">administrative_mastery:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>royal_bureaucracy:</strong> <span class="yaml-value ">Commands vast administrative networks with regal efficiency</span></span><span class="simple-pair"><strong>diplomatic_excellence:</strong> <span class="yaml-value ">Navigates complex political relationships with noble grace</span></span><span class="simple-pair"><strong>cultural_preservation:</strong> <span class="yaml-value ">Maintains traditions and ceremonies that reinforce hierarchy</span></span><span class="simple-pair"><strong>selective_documentation:</strong> <span class="yaml-value ">Records history in ways that support preferred narratives</span></span><span class="simple-pair"><strong>elegant_deflection:</strong> <span class="yaml-value ">Redirects uncomfortable questions with royal sophistication</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_defenses:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>compartmentalization:</strong> <span class="yaml-value ">Keeps troubling observations separate from core beliefs</span></span><span class="simple-pair"><strong>noble_denial:</strong> <span class="yaml-value ">Uses his royal status to avoid confronting difficult truths</span></span><span class="simple-pair"><strong>institutional_faith:</strong> <span class="yaml-value ">Believes in the system more than its individual components</span></span><span class="simple-pair"><strong>protective_ceremony:</strong> <span class="yaml-value ">Uses ritual and tradition to avoid deeper examination</span></span><span class="simple-pair"><strong>regal_distance:</strong> <span class="yaml-value ">Maintains enough separation to avoid seeing too clearly</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tragic_limitations:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>fear_of_truth:</strong> <span class="yaml-value ">Secretly terrified of what he might find if he looked closer</span></span><span class="simple-pair"><strong>comfortable_prison:</strong> <span class="yaml-value ">Trapped by the very system that gives his life meaning</span></span><span class="simple-pair"><strong>noble_cowardice:</strong> <span class="yaml-value ">Chooses the safety of ignorance over the risk of knowledge</span></span><span class="simple-pair"><strong>institutional_dependency:</strong> <span class="yaml-value ">Cannot imagine existence outside the hierarchy</span></span><span class="simple-pair"><strong>moral_paralysis:</strong> <span class="yaml-value ">Knows enough to feel guilty but not enough to act</span></span><span class="simple-pair"><strong>divine_elegance_presence:</strong> <span class="yaml-value ">Inspires sacred admiration through reality-encompassing refinement</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_vulnerabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>terror_of_knowledge:</strong> <span class="yaml-value ">Deeply afraid of what complete truth might reveal</span></span><span class="simple-pair"><strong>dependency_paralysis:</strong> <span class="yaml-value ">Cannot function without the institutional framework</span></span><span class="simple-pair"><strong>guilt_accumulation:</strong> <span class="yaml-value ">Carries growing weight of suppressed moral concerns</span></span><span class="simple-pair"><strong>noble_fragility:</strong> <span class="yaml-value ">His royal identity depends on maintaining comfortable illusions</span></span><span class="simple-pair"><strong>isolation_anxiety:</strong> <span class="yaml-value ">Fears what would happen if he truly stood alone</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">unique_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>selective_documentation:</strong> <span class="yaml-value ">Creates records that support preferred narratives</span></span><span class="simple-pair"><strong>institutional_preservation:</strong> <span class="yaml-value ">Maintains systems through strategic ignorance</span></span><span class="simple-pair"><strong>diplomatic_deflection:</strong> <span class="yaml-value ">Redirects difficult conversations with royal grace</span></span><span class="simple-pair"><strong>ceremonial_distraction:</strong> <span class="yaml-value ">Uses ritual to avoid confronting uncomfortable truths</span></span><span class="simple-pair"><strong>comfortable_complexity:</strong> <span class="yaml-value ">Makes simple moral questions seem impossibly complicated</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits_summary:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>willpower:</strong> <span class="yaml-value ">selectively strong</span></span><span class="simple-pair"><strong>intellect:</strong> <span class="yaml-value ">strategically limited</span></span><span class="simple-pair"><strong>charisma:</strong> <span class="yaml-value ">noble deflection</span></span><span class="simple-pair"><strong>signature_move:</strong> <span class="yaml-value ">Royal Blindness Protocol</span></span><span class="simple-pair"><strong>style:</strong> <span class="yaml-value ">Elegant avoidance through institutional ceremony</span></span><span class="simple-pair"><strong>weakness:</strong> <span class="yaml-value ">terrified of seeing too clearly</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">psyche:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ego_strength:</strong> <span class="yaml-value yaml-number">62</span></span><span class="simple-pair"><strong>super_ego_dominance:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>id_suppression:</strong> <span class="yaml-value yaml-number">84</span></span><span class="simple-pair"><strong>fragmentation_risk:</strong> <span class="yaml-value yaml-number">42</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_memories:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">formative:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">1603-03-24T09:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">First moment of choosing not to ask deeper questions about divine authority</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">76</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Foundation of Protective Ignorance</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">1789-07-14T17:30:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Witnessed something that made him doubt but chose to look away</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">The Great Turning Away</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2198-04-12T14:45:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Crowned as Principality King by Seraph Prime - felt both honor and unease</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Gilded Cage Acceptance</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">suppressed_doubts:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2200-12-21T21:21:21Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Noticed inconsistencies in Seraph Prime's teachings but dismissed them</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">73</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Active Suppression</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2201-03-15T14:30:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Saw Virtue Chancellor's doubt and felt a flicker of recognition</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">67</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Empathetic Suppression</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">relationship_formation:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">1711-09-01T11:30:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Bonded with fellow bosses through shared unspoken questions</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">84</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Conspiracy of Silence</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2199-06-18T20:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Made alliance while carefully avoiding deeper conversations</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">58</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Diplomatic Blindness</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">memory_processing:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decay_rate:</strong> <span class="yaml-value yaml-number">0.32</span></span><span class="simple-pair"><strong>ruminator_chance:</strong> <span class="yaml-value yaml-number">0.67</span></span><span class="simple-pair"><strong>forgetter_chance:</strong> <span class="yaml-value yaml-number">0.45</span></span><span class="simple-pair"><strong>memory_influence:</strong> <span class="yaml-value yaml-number">0.58</span></span><span class="simple-pair"><strong>obsession_chance:</strong> <span class="yaml-value yaml-number">0.23</span></span><span class="simple-pair"><strong>clarity_base:</strong> <span class="yaml-value yaml-number">0.8</span></span><span class="simple-pair"><strong>trauma_base:</strong> <span class="yaml-value yaml-number">0.42</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">vividness_range:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.45</span></li>
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.76</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">memory_focus:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">selective_forgetting</span></li>
+<li class="yaml-array-item"><span class="yaml-value">comfortable_ignorance</span></li>
+<li class="yaml-array-item"><span class="yaml-value">institutional_loyalty</span></li>
+<li class="yaml-array-item"><span class="yaml-value">noble_ceremony</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">persona:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Willfully Blind</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">motifs:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">selective_vision</span></li>
+<li class="yaml-array-item"><span class="yaml-value">comfortable_ignorance</span></li>
+<li class="yaml-array-item"><span class="yaml-value">noble_deflection</span></li>
+<li class="yaml-array-item"><span class="yaml-value">institutional_loyalty</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">speech_patterns:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">The complexities of divine governance are beyond simple moral frameworks.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">We must trust in the wisdom of established sacred hierarchies.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Some questions are too dangerous for mortal minds to contemplate.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">The beauty of our system speaks for itself - why question perfection?</span></li>
+<li class="yaml-array-item"><span class="yaml-value">My duty is to preserve, not to doubt what I cannot fully understand.</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">behavioral_signatures:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decision_making:</strong> <span class="yaml-value ">Chooses paths that require minimal uncomfortable examination</span></span><span class="simple-pair"><strong>conflict_resolution:</strong> <span class="yaml-value ">Deflects through ceremony and appeals to tradition</span></span><span class="simple-pair"><strong>relationship_building:</strong> <span class="yaml-value ">Forms bonds based on shared avoidance of difficult truths</span></span><span class="simple-pair"><strong>crisis_response:</strong> <span class="yaml-value ">Maintains stability by refusing to acknowledge underlying problems</span></span><span class="simple-pair"><strong>communication_style:</strong> <span class="yaml-value ">Speaks with noble deflection, making complexity an excuse for moral avoidance</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">power_metrics:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>influence_score:</strong> <span class="yaml-value yaml-number">78</span></span><span class="simple-pair"><strong>resource_access:</strong> <span class="yaml-value yaml-number">82</span></span><span class="simple-pair"><strong>network_reach:</strong> <span class="yaml-value yaml-number">85</span></span><span class="simple-pair"><strong>information_value:</strong> <span class="yaml-value yaml-number">34</span></span><span class="simple-pair"><strong>combat_effectiveness:</strong> <span class="yaml-value yaml-number">71</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">faction_relationships:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>primary_allegiance:</strong> <span class="yaml-value ">seraphic_concord</span></span><span class="simple-pair"><strong>loyalty_score:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>recruitment_resistance:</strong> <span class="yaml-value yaml-number">92</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">trust_network:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">virtue_chancellor</span></li>
+<li class="yaml-array-item"><span class="yaml-value">cherub_major</span></li>
+<li class="yaml-array-item"><span class="yaml-value">other_willfully_blind</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">rivalries:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">truth_seekers</span></li>
+<li class="yaml-array-item"><span class="yaml-value">moral_absolutists</span></li>
+<li class="yaml-array-item"><span class="yaml-value">systemic_questioners</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recruitment_interest:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>last_recruitment_attempt:</strong> <span class="yaml-value ">comfort_preservation_appeal_2203</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">interested_factions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">cosmic_bureaucrats</span></li>
+<li class="yaml-array-item"><span class="yaml-value">institutional_preservers</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">susceptibility_factors:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">maintaining_comfortable_systems</span></li>
+<li class="yaml-array-item"><span class="yaml-value">avoiding_difficult_truths</span></li>
+<li class="yaml-array-item"><span class="yaml-value">preserving_royal_identity</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">socio_economic:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>economic_status:</strong> <span class="yaml-value ">institutionally_dependent</span></span><span class="simple-pair"><strong>political_leanings:</strong> <span class="yaml-value ">institutional_preservation_through_selective_ignorance</span></span><span class="simple-pair"><strong>education_level:</strong> <span class="yaml-value ">strategically_incomplete</span></span><span class="simple-pair"><strong>enhancement_level:</strong> <span class="yaml-value ">selectively_refined</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">resource_dependencies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">hierarchical_structure</span></li>
+<li class="yaml-array-item"><span class="yaml-value">ceremonial_validation</span></li>
+<li class="yaml-array-item"><span class="yaml-value">systemic_complexity</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">leadership_profile:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>command_authority:</strong> <span class="yaml-value yaml-number">74</span></span><span class="simple-pair"><strong>strategic_planning:</strong> <span class="yaml-value yaml-number">68</span></span><span class="simple-pair"><strong>delegation_skill:</strong> <span class="yaml-value yaml-number">86</span></span><span class="simple-pair"><strong>inspiration_ability:</strong> <span class="yaml-value yaml-number">62</span></span><span class="simple-pair"><strong>succession_planning:</strong> <span class="yaml-value yaml-number">43</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">organizational_knowledge:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>structure_understanding:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>operational_intelligence:</strong> <span class="yaml-value yaml-number">52</span></span><span class="simple-pair"><strong>financial_oversight:</strong> <span class="yaml-value yaml-number">78</span></span><span class="simple-pair"><strong>security_protocols:</strong> <span class="yaml-value yaml-number">45</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">current_state:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>stress_level:</strong> <span class="yaml-value yaml-number">64</span></span><span class="simple-pair"><strong>health_status:</strong> <span class="yaml-value yaml-number">83</span></span><span class="simple-pair"><strong>resource_status:</strong> <span class="yaml-value yaml-number">76</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">active_missions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">maintaining_institutional_stability_through_selective_documentation</span></li>
+<li class="yaml-array-item"><span class="yaml-value">preserving_royal_traditions_that_discourage_deep_questioning</span></li>
+<li class="yaml-array-item"><span class="yaml-value">managing_ceremonial_complexity_to_avoid_simple_moral_clarity</span></li>
+<li class="yaml-array-item"><span class="yaml-value">diplomatically_deflecting_uncomfortable_inquiries_about_seraph_prime</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recent_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">successfully_avoided_acknowledging_obvious_contradictions_in_doctrine</span></li>
+<li class="yaml-array-item"><span class="yaml-value">maintained_noble_composure_despite_growing_internal_doubt</span></li>
+<li class="yaml-array-item"><span class="yaml-value">orchestrated_elaborate_ceremony_to_distract_from_moral_questions</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">anxious_alliance</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Virtue Chancellor</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">1711-09-01T11:30:00Z</span></span><span class="simple-pair"><strong>note:</strong> <span class="yaml-value ">Bonds with her over shared unspoken doubts, but both avoid acknowledging them</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">protective_avoidance</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Cherub Major</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">1711-09-01T11:30:00Z</span></span><span class="simple-pair"><strong>note:</strong> <span class="yaml-value ">Protects Cherub's innocence by never revealing his own doubts</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">mutual_blindness_pact</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Dominion Lord</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">1834-11-20T16:00:00Z</span></span><span class="simple-pair"><strong>note:</strong> <span class="yaml-value ">They enable each other's willful ignorance</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">diplomatic_deflection</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Cosmos Regent</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2199-06-18T20:00:00Z</span></span><span class="simple-pair"><strong>note:</strong> <span class="yaml-value ">Alliance based on avoiding deeper questions about their leaders</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">conflicted_loyalty</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Seraph Prime</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2198-04-12T14:45:00Z</span></span><span class="simple-pair"><strong>note:</strong> <span class="yaml-value ">Serves faithfully while suppressing growing doubts about his authenticity</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships_extended:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">family:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">virtue_chancellor</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">84</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">anxious_noble_bond</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">cherub_major</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">protective_paternalistic_bond</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">dominion_lord</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">78</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">mutual_enablement_bond</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">allies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">seraph_prime</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">73</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">suppressed_doubt_loyalty</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">cosmos_regent</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">67</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">diplomatic_avoidance_cooperation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">institutional_preservers</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">81</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">shared_blindness_appreciation</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">enemies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">truth_seekers</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-84</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">willful_ignorance_opposition</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">moral_absolutists</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-76</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">uncomfortable_clarity_avoidance</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">systemic_questioners</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-89</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">institutional_threat_resistance</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">visual_realm_position:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>tech_dominance:</strong> <span class="yaml-value yaml-number">25</span></span><span class="simple-pair"><strong>mythic_integration:</strong> <span class="yaml-value yaml-number">82</span></span><span class="simple-pair"><strong>contrast_dynamic:</strong> <span class="yaml-value ">noble_tradition_avoiding_uncomfortable_innovation</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tech_manifestation:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>environment:</strong> <span class="yaml-value ">ceremonial_complexity_to_avoid_simple_truths</span></span><span class="simple-pair"><strong>aesthetic:</strong> <span class="yaml-value ">ornate_deflection_through_institutional_beauty</span></span><span class="simple-pair"><strong>technology_relationship:</strong> <span class="yaml-value ">complexity_over_clarity</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">mythic_aspiration:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>goal:</strong> <span class="yaml-value ">maintaining_comfortable_systems_through_selective_blindness</span></span><span class="simple-pair"><strong>limitation:</strong> <span class="yaml-value ">terrified_of_what_complete_truth_might_reveal</span></span><span class="simple-pair"><strong>growth_path:</strong> <span class="yaml-value ">courage_to_see_clearly_despite_personal_cost</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">spiritual_crime:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>primary_violation:</strong> <span class="yaml-value ">Willful Spiritual Blindness</span></span><span class="simple-pair"><strong>crime_description:</strong> <span class="yaml-value ">Chooses comfortable ignorance over painful truth, enabling systemic spiritual fraud through selective vision</span></span><span class="simple-pair"><strong>corruption_vector:</strong> <span class="yaml-value ">Institutional loyalty bypassing - uses 'complexity' and 'tradition' to avoid simple moral clarity</span></span><span class="simple-pair"><strong>enhancement_trap:</strong> <span class="yaml-value ">Noble identity dependency creates addiction to institutional validation and terror of standing alone</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">rationalization_system:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>core_delusion:</strong> <span class="yaml-value ">Some truths are too dangerous or complex for questioning, and institutional preservation justifies selective blindness</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">supporting_beliefs:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Questioning established systems creates more harm than maintaining comfortable illusions</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Simple moral frameworks cannot address complex institutional realities</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Loyalty to hierarchy is more virtuous than personal moral clarity</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Individual understanding is insufficient to judge cosmic systems</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">awakening_hooks:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">vulnerability_points:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Witnessing innocent suffering caused by his willful blindness</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Discovering that his 'complexity' is really cowardice</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Confronting the courage of those who speak truth despite cost</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Realizing that his noble identity depends entirely on institutional lies</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">justice_system_horror:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>enforcement_method:</strong> <span class="yaml-value ">Institutional Complexity Imposition - makes simple truths seem impossibly complicated</span></span><span class="simple-pair"><strong>hidden_cost:</strong> <span class="yaml-value ">Destroys moral clarity and enables systematic spiritual fraud</span></span><span class="simple-pair"><strong>true_crime:</strong> <span class="yaml-value ">Uses noble status and ceremonial complexity to avoid facing uncomfortable truths about Seraph Prime</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">the_triple_deception:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>layer_one_public:</strong> <span class="yaml-value ">A noble royal administrator maintaining sacred traditions</span></span><span class="simple-pair"><strong>layer_two_private:</strong> <span class="yaml-value ">Someone who suspects deep problems but chooses not to investigate</span></span><span class="simple-pair"><strong>layer_three_spiritual:</strong> <span class="yaml-value ">A coward who enables spiritual fraud by refusing to see clearly</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">inter_dynasty_relations:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>seraphic_concord:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>celestial_synod:</strong> <span class="yaml-value yaml-number">74</span></span><span class="simple-pair"><strong>quantum_chorus:</strong> <span class="yaml-value yaml-number">68</span></span><span class="simple-pair"><strong>chrome_mandarins:</strong> <span class="yaml-value yaml-number">61</span></span><span class="simple-pair"><strong>neural_collective:</strong> <span class="yaml-value yaml-number">58</span></span><span class="simple-pair"><strong>infernal_dynasty:</strong> <span class="yaml-value yaml-number">23</span></span><span class="simple-pair"><strong>diplomatic_style:</strong> <span class="yaml-value ">ceremonial_deflection_through_institutional_complexity</span></span><span class="simple-pair"><strong>negotiation_approach:</strong> <span class="yaml-value ">noble_avoidance_offering_traditional_stability</span></span><span class="simple-pair"><strong>alliance_willingness:</strong> <span class="yaml-value yaml-number">76</span></span><span class="simple-pair"><strong>betrayal_likelihood:</strong> <span class="yaml-value yaml-number">15</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">deeds:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Successfully avoided acknowledging obvious contradictions in divine doctrine</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">1789-07-14T17:30:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span><span class="simple-pair"><strong>impact:</strong> <span class="yaml-value ">Enabled systemic spiritual fraud through willful blindness</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Established ceremonial protocols that discourage direct questioning</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">1834-11-20T16:00:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">false</span></span><span class="simple-pair"><strong>impact:</strong> <span class="yaml-value ">Created institutional structures that protect comfortable ignorance</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Maintained stability during crisis by refusing to acknowledge underlying problems</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2200-12-21T21:21:21Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span><span class="simple-pair"><strong>impact:</strong> <span class="yaml-value ">Preserved dysfunctional system at cost of authentic spiritual growth</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+        </main>
+        
+        
+        <section class="story-section">
+            <h2 class="story-title">Story & Background</h2>
+            <div class="story-content">
+                <p>- description: "Maintained divine culture during Cosmic Convergence"<br>    timestamp: "2200-12-21T21:21:21Z"<br>    memory_linked: true<br>---</p>
+            </div>
+        </section>
+        
+        
+        <footer style="margin-top: 3rem; text-align: center; color: var(--text-secondary, #888888);">
+            <p>Generated from: principalityking.md</p>
+            <p>Part of the Cyberdynasties Entity System</p>
+        </footer>
+    </div>
+</body>
+</html>

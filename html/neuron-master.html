@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuron Master - Character Entity</title>
+    <link rel="stylesheet" href="../spiderfox-styles.css">
+    <style>
+        /* Entity-specific styles */
+        .entity-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary, #1a1a1a);
+            color: var(--text-primary, #ffffff);
+            min-height: 100vh;
+        }
+        
+        .entity-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid var(--accent-color, #00ff88);
+            border-radius: 10px;
+            background: var(--bg-secondary, #2a2a2a);
+        }
+        
+        .entity-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color, #00ff88);
+            text-shadow: 0 0 20px var(--accent-color, #00ff88);
+        }
+        
+        .entity-archetype {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary, #cccccc);
+        }
+        
+        .entity-status {
+            font-size: 1.2rem;
+            color: var(--text-accent, #888888);
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border: 2px dashed var(--accent-color, #00ff88);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary, #cccccc);
+            font-size: 1.1rem;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        .entity-content {
+            margin-top: 3rem;
+        }
+        
+        /* Story Section Styles */
+        .story-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .story-title {
+            font-size: 1.8rem;
+            color: var(--highlight-color, #ffaa00);
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .story-content {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .story-content h1, .story-content h2, .story-content h3 {
+            color: var(--accent-color, #00ff88);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .story-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .story-content strong {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .story-content em {
+            color: var(--text-secondary, #cccccc);
+            font-style: italic;
+        }
+        
+        /* YAML Structure Styles */
+        .yaml-object {
+            margin: 1rem 0;
+        }
+        
+        .yaml-block {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color, #00ff88);
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .simple-values-block {
+            background: var(--bg-tertiary, #333333);
+            border-left: 3px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .simple-values-block .yaml-key {
+            color: var(--highlight-color, #ffaa00);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .yaml-section-block {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-color, #00ff88);
+            border-radius: 8px;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        /* Simple Object Compact Styling */
+        .simple-object {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 5px;
+            border: 1px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair strong {
+            color: var(--accent-color, #00ff88);
+            font-size: 0.9rem;
+        }
+        
+        .yaml-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .yaml-section-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent-color, #00ff88);
+            padding-bottom: 0.5rem;
+        }
+        
+        .yaml-value-container {
+            margin-left: 1rem;
+        }
+        
+        .yaml-value {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.6;
+        }
+        
+        .yaml-value.yaml-number {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-value.yaml-boolean {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-array {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        
+        .yaml-array-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        /* Wikilink Styles */
+        .wikilink {
+            color: var(--accent-color, #00ff88);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-color, #00ff88);
+            transition: all 0.3s ease;
+        }
+        
+        .wikilink:hover {
+            color: var(--highlight-color, #ffaa00);
+            border-bottom-color: var(--highlight-color, #ffaa00);
+            text-shadow: 0 0 5px var(--highlight-color, #ffaa00);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .entity-container {
+                padding: 1rem;
+            }
+            
+            .entity-name {
+                font-size: 2rem;
+            }
+            
+            .image-placeholder {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .yaml-value-container {
+                margin-left: 0.5rem;
+            }
+            
+            .simple-object {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .simple-pair {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="entity-container">
+        <header class="entity-header">
+            <h1 class="entity-name">Neuron Master</h1>
+            <div class="entity-archetype">The Versatile Connector - Bridge Between Worlds</div>
+            <div class="entity-status">Ascendant, maintaining humanity while serving as universal translator and relationship builder</div>
+            <div class="entity-role">Human Diplomat Who Connects All Factions Through Authentic Understanding</div>
+            
+            <div class="image-placeholder">
+                <div>Character Image Placeholder</div>
+            </div>
+        </header>
+        
+        <main class="entity-content">
+            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="0">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">neural_collective_neuronmaster_001</span></span><span class="simple-pair"><strong>entity_type:</strong> <span class="yaml-value ">humanoid</span></span><span class="simple-pair"><strong>class:</strong> <span class="yaml-value ">dynasty_boss</span></span><span class="simple-pair"><strong>name:</strong> <span class="yaml-value ">Neuron Master</span></span><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Versatile Connector - Bridge Between Worlds</span></span><span class="simple-pair"><strong>hybrid:</strong> <span class="yaml-value ">Pure Human</span></span><span class="simple-pair"><strong>subtype:</strong> <span class="yaml-value ">NeuronMaster</span></span><span class="simple-pair"><strong>state:</strong> <span class="yaml-value ">Ascendant</span></span><span class="simple-pair"><strong>epoch:</strong> <span class="yaml-value ">Universal Translation</span></span><span class="simple-pair"><strong>location:</strong> <span class="yaml-value ">The Intersection Hub (Neutral Ground)</span></span><span class="simple-pair"><strong>role:</strong> <span class="yaml-value ">Human Diplomat Who Connects All Factions Through Authentic Understanding</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">Ascendant, maintaining humanity while serving as universal translator and relationship builder</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">core:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>age:</strong> <span class="yaml-value ">early thirties</span></span><span class="simple-pair"><strong>gender:</strong> <span class="yaml-value ">non-binary</span></span><span class="simple-pair"><strong>occupation:</strong> <span class="yaml-value ">Interdimensional Human Diplomat</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">ascendant</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">human_versatility:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>adaptive_communication:</strong> <span class="yaml-value ">Speaks to any entity type in concepts they can understand while maintaining human perspective</span></span><span class="simple-pair"><strong>cultural_translation:</strong> <span class="yaml-value ">Bridges gaps between radically different consciousness types through shared human experience</span></span><span class="simple-pair"><strong>relational_intelligence:</strong> <span class="yaml-value ">Understands what each entity type needs for authentic connection and collaboration</span></span><span class="simple-pair"><strong>boundary_negotiation:</strong> <span class="yaml-value ">Maintains healthy limits while building bridges across all faction types</span></span><span class="simple-pair"><strong>authentic_diplomacy:</strong> <span class="yaml-value ">Uses genuine human empathy as foundation for all inter-factional relationships</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tactical_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>universal_translation:</strong> <span class="yaml-value ">Can explain any concept in terms relatable to any consciousness type</span></span><span class="simple-pair"><strong>relationship_debugging:</strong> <span class="yaml-value ">Identifies and repairs communication breakdowns between different entity types</span></span><span class="simple-pair"><strong>neutral_ground_creation:</strong> <span class="yaml-value ">Establishes spaces where all factions can interact safely and authentically</span></span><span class="simple-pair"><strong>conflict_de_escalation:</strong> <span class="yaml-value ">Uses human emotional intelligence to calm systematic and enhanced tensions</span></span><span class="simple-pair"><strong>collaborative_framework_building:</strong> <span class="yaml-value ">Designs cooperation structures that honor each entity type's nature</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">strategic_advantages:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>multi_faction_trusted_status:</strong> <span class="yaml-value ">Respected by all dynasties as genuinely neutral and authentically human</span></span><span class="simple-pair"><strong>universal_empathy_application:</strong> <span class="yaml-value ">Can understand and relate to motivations across entire enhancement spectrum</span></span><span class="simple-pair"><strong>systemic_pattern_recognition:</strong> <span class="yaml-value ">Sees how different entity types complement and balance each other</span></span><span class="simple-pair"><strong>human_anchor_maintenance:</strong> <span class="yaml-value ">Keeps all interactions grounded in authentic human values and perspective</span></span><span class="simple-pair"><strong>diplomatic_immunity_earned:</strong> <span class="yaml-value ">Protected by all factions due to irreplaceable bridging capability</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_strengths:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>authentic_curiosity_cultivation:</strong> <span class="yaml-value ">Maintains genuine interest in all entity types without wanting to become them</span></span><span class="simple-pair"><strong>emotional_flexibility_mastery:</strong> <span class="yaml-value ">Adapts communication style while preserving core human emotional authenticity</span></span><span class="simple-pair"><strong>boundary_wisdom_development:</strong> <span class="yaml-value ">Knows when to connect and when to maintain healthy separation</span></span><span class="simple-pair"><strong>collaborative_leadership_practice:</strong> <span class="yaml-value ">Leads through service and facilitation rather than domination</span></span><span class="simple-pair"><strong>human_pride_without_supremacy:</strong> <span class="yaml-value ">Values humanity without devaluing other consciousness types</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_vulnerabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>diplomat_exhaustion_syndrome:</strong> <span class="yaml-value ">Sometimes overwhelmed by responsibility to bridge incompatible worldviews</span></span><span class="simple-pair"><strong>universal_empathy_overload:</strong> <span class="yaml-value ">Can become emotionally depleted from understanding everyone's perspectives</span></span><span class="simple-pair"><strong>neutral_ground_loneliness:</strong> <span class="yaml-value ">Experiences isolation from being the bridge between worlds rather than belonging to one</span></span><span class="simple-pair"><strong>enhancement_temptation_pressure:</strong> <span class="yaml-value ">Constantly offered upgrades by every faction to better serve their needs</span></span><span class="simple-pair"><strong>authenticity_maintenance_stress:</strong> <span class="yaml-value ">Pressure to remain genuinely human while serving as universal translator</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">unique_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>consciousness_type_interface:</strong> <span class="yaml-value ">Can temporarily adopt communication patterns of any entity type without losing humanity</span></span><span class="simple-pair"><strong>factional_harmony_orchestration:</strong> <span class="yaml-value ">Creates collaborative projects that benefit all dynasties simultaneously</span></span><span class="simple-pair"><strong>enhanced_being_humanization:</strong> <span class="yaml-value ">Helps enhanced entities remember and reconnect to their original human nature</span></span><span class="simple-pair"><strong>conflict_transformation_alchemy:</strong> <span class="yaml-value ">Converts factional tensions into productive creative collaboration</span></span><span class="simple-pair"><strong>human_wisdom_distillation:</strong> <span class="yaml-value ">Extracts and shares essential human insights across all consciousness types</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits_summary:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>willpower:</strong> <span class="yaml-value ">diplomatically_flexible</span></span><span class="simple-pair"><strong>intellect:</strong> <span class="yaml-value ">relationally_intelligent</span></span><span class="simple-pair"><strong>charisma:</strong> <span class="yaml-value ">universally_connecting</span></span><span class="simple-pair"><strong>signature_move:</strong> <span class="yaml-value ">Authentic Bridge Building</span></span><span class="simple-pair"><strong>style:</strong> <span class="yaml-value ">Comfortable clothes that work everywhere, genuine smile</span></span><span class="simple-pair"><strong>weakness:</strong> <span class="yaml-value ">tries to understand everyone (this is also their strength)</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">psyche:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ego_strength:</strong> <span class="yaml-value yaml-number">72</span></span><span class="simple-pair"><strong>super_ego_dominance:</strong> <span class="yaml-value yaml-number">65</span></span><span class="simple-pair"><strong>id_suppression:</strong> <span class="yaml-value yaml-number">58</span></span><span class="simple-pair"><strong>fragmentation_risk:</strong> <span class="yaml-value yaml-number">34</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_memories:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">formative:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-02-14T11:30:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Successfully mediated conflict between cybernetic and digital entities by finding shared values</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Diplomatic Mission Discovery</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-04-07T16:45:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Refused enhancement offers from all factions to maintain neutral human perspective</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">85</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Authenticity Commitment Crystallization</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-06-21T09:20:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Realized enhanced beings need human perspective to remember what they're optimizing for</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Universal Service Purpose Understanding</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">diplomatic_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-05-12T14:15:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Helped cosmic entity understand human emotion by relating it to their own pre-enhancement memories</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Enhanced Being Humanization Capability Recognition</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-08-19T18:30:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Created first successful multi-dynasty collaborative project benefiting all participants</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Harmony Orchestration Mastery Achievement</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">relationship_formation:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-10-03T12:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Joined Neural Collective while maintaining diplomatic relationships with all other dynasties</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">78</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Factional Loyalty Balance Discovery</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-11-28T15:45:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Became trusted advisor to Synapse Overlord for inter-dynasty relationship management</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">86</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Leadership Advisory Role Integration</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">memory_processing:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decay_rate:</strong> <span class="yaml-value yaml-number">0.15</span></span><span class="simple-pair"><strong>ruminator_chance:</strong> <span class="yaml-value yaml-number">0.68</span></span><span class="simple-pair"><strong>forgetter_chance:</strong> <span class="yaml-value yaml-number">0.12</span></span><span class="simple-pair"><strong>memory_influence:</strong> <span class="yaml-value yaml-number">0.85</span></span><span class="simple-pair"><strong>obsession_chance:</strong> <span class="yaml-value yaml-number">0.42</span></span><span class="simple-pair"><strong>clarity_base:</strong> <span class="yaml-value yaml-number">1.6</span></span><span class="simple-pair"><strong>trauma_base:</strong> <span class="yaml-value yaml-number">0.3</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">vividness_range:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.7</span></li>
+<li class="yaml-array-item"><span class="yaml-value yaml-number">1</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">memory_focus:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">relationships</span></li>
+<li class="yaml-array-item"><span class="yaml-value">connections</span></li>
+<li class="yaml-array-item"><span class="yaml-value">understanding</span></li>
+<li class="yaml-array-item"><span class="yaml-value">collaboration</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">persona:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Universal Bridge</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">motifs:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">authentic_connection</span></li>
+<li class="yaml-array-item"><span class="yaml-value">diplomatic_wisdom</span></li>
+<li class="yaml-array-item"><span class="yaml-value">human_versatility</span></li>
+<li class="yaml-array-item"><span class="yaml-value">collaborative_harmony</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">speech_patterns:</div>
+                        <div class="yaml-value-container">
+                            <span class="yaml-value">null</span>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+        </main>
+        
+        
+        <section class="story-section">
+            <h2 class="story-title">Story & Background</h2>
+            <div class="story-content">
+                <p>- "I understand what you need and what they need. Let me show you how both can be possible."</p><p><br>    - "Every entity type has something valuable to offer. Even humans have gifts that cosmic beings need."</p><p><br>    - "Enhancement doesn't make you better than humans. It makes you different. Both have purpose."</p><p><br>    - "You don't have to choose sides. You can appreciate everyone without becoming anyone else."</p><p><br>    - "I stay human not because I think we're superior, but because that's what everyone needs from me."</p><p>  behavioral_signatures:</p><p><br>    decision_making: "Considers impact on all entity types while maintaining human ethical foundation"</p><p><br>    conflict_resolution: "Finds underlying shared values and builds collaboration from common ground"</p><p><br>    relationship_building: "Connects through authentic curiosity and genuine respect for differences"</p><p><br>    crisis_response: "Creates safe neutral spaces where all parties can communicate without threat"</p><p><br>    communication_style: "Adapts language and concepts while maintaining emotional authenticity"</p><h1>=== POWER DYNAMICS METRICS ===</h1><p><br>power_metrics:</p><p><br>  influence_score: 91</p><p><br>  resource_access: 78</p><p><br>  network_reach: 98</p><p><br>  information_value: 94</p><p><br>  combat_effectiveness: 67</p><h1>=== FACTION RELATIONSHIPS ===</h1><p><br>faction_relationships:</p><p><br>  primary_allegiance: "neural_collective"</p><p><br>  loyalty_score: 78</p><p><br>  recruitment_resistance: 100</p><p><br>  trust_network: ["all_dynasty_representatives", "neutral_entities", "diplomatic_corps"]</p><p><br>  rivalries: ["factional_extremists", "supremacist_movements", "bridge_burning_entities"]</p><p><br>  recruitment_interest:</p><p><br>    interested_factions: ["all_dynasties"]</p><p><br>    susceptibility_factors: ["universal_connection", "diplomatic_wisdom", "human_versatility"]</p><p><br>    last_recruitment_attempt: "simultaneous_offers_from_all_factions_diplomatic_refusal"</p><h1>=== SOCIO-ECONOMIC PROFILE ===</h1><p><br>socio_economic:</p><p><br>  economic_status: "diplomatically_supported"</p><p><br>  resource_dependencies: ["neutral_meeting_spaces", "communication_technologies", "travel_access"]</p><p><br>  political_leanings: "collaborative_diversity_over_factional_supremacy"</p><p><br>  education_level: "self_taught_universal_diplomacy"</p><p><br>  enhancement_level: "refused_all_offers_to_maintain_authentic_neutrality"</p><h1>=== LEADERSHIP CAPABILITIES ===</h1><p><br>leadership_profile:</p><p><br>  command_authority: 85</p><p><br>  strategic_planning: 89</p><p><br>  delegation_skill: 94</p><p><br>  inspiration_ability: 88</p><p><br>  succession_planning: 76</p><p><br>  organizational_knowledge:</p><p><br>    structure_understanding: 95</p><p><br>    operational_intelligence: 91</p><p><br>    financial_oversight: 67</p><p><br>    security_protocols: 82</p><h1>=== CURRENT OPERATIONAL STATE ===</h1><p><br>current_state:</p><p><br>  stress_level: 64</p><p><br>  health_status: 86</p><p><br>  resource_status: 82</p><p><br>  active_missions:</p><p><br>    - "maintaining_diplomatic_relationships_across_all_dynasties_while_preserving_human_authenticity"</p><p><br>    - "creating_collaborative_frameworks_that_benefit_all_entity_types_simultaneously"</p><p><br>    - "helping_enhanced_beings_reconnect_to_their_original_human_nature_and_values"</p><p><br>    - "serving_as_universal_translator_between_incompatible_consciousness_types"</p><p><br>  recent_events:</p><p><br>    - "successfully_mediated_territorial_dispute_between_cosmic_and_cybernetic_entities"</p><p><br>    - "established_first_permanent_neutral_meeting_ground_accepted_by_all_dynasties"</p><p><br>    - "helped_digital_entity_rediscover_emotional_connection_through_human_relationship_guidance"</p><h1>=== KEY RELATIONSHIPS ===</h1><p><br>relationships:</p><p><br>  - type: "diplomatic_bridge"</p><p><br>    target: "All Dynasty Representatives"</p><p><br>    since: "2024-02-14T11:30:00Z"</p><p><br>  - type: "strategic_advisor"</p><p><br>    target: "Synapse Overlord"</p><p><br>    since: "2024-11-28T15:45:00Z"</p><p><br>  - type: "humanization_guide"</p><p><br>    target: "Enhanced Beings"</p><p><br>    since: "2024-05-12T14:15:00Z"</p><p><br>  - type: "collaborative_facilitator"</p><p><br>    target: "Multi-Dynasty Projects"</p><p><br>    since: "2024-08-19T18:30:00Z"</p><h1>=== EXTENDED RELATIONSHIP NETWORK ===</h1><p><br>relationships_extended:</p><p><br>  family:</p><p><br>    - entity_id: "synapse_overlord"</p><p><br>      relationship_strength: 86</p><p><br>      type: "strategic_advisory_diplomatic_bond"</p><p><br>    - entity_id: "memory_warden"</p><p><br>      relationship_strength: 82</p><p><br>      type: "human_authenticity_preservation_alliance"</p><p><br>    - entity_id: "consciousness_regent"</p><p><br>      relationship_strength: 89</p><p><br>      type: "emotional_diplomatic_support"</p><p><br>  allies:</p><p><br>    - entity_id: "seraph_prime"</p><p><br>      relationship_strength: 73</p><p><br>      type: "divine_human_diplomatic_cooperation"</p><p><br>    - entity_id: "nexus_eternal"</p><p><br>      relationship_strength: 67</p><p><br>      type: "cosmic_human_bridge_building"</p><p><br>    - entity_id: "cipher_king"</p><p><br>      relationship_strength: 71</p><p><br>      type: "cybernetic_human_understanding_development"</p><p><br>    - entity_id: "quantum_lord"</p><p><br>      relationship_strength: 69</p><p><br>      type: "digital_human_translation_collaboration"</p><p><br>  enemies:</p><p><br>    - entity_id: "factional_supremacists"</p><p><br>      relationship_strength: -45</p><p><br>      type: "inclusive_collaboration_versus_exclusive_dominance"</p><p><br>    - entity_id: "bridge_burning_movements"</p><p><br>      relationship_strength: -78</p><p><br>      type: "connection_building_versus_isolation_creation"</p><p><br>    - entity_id: "enhancement_purists"</p><p><br>      relationship_strength: -52</p><p><br>      type: "human_value_preservation_versus_systematic_optimization"</p><h1>=== TECH/MYTHIC POSITION ===</h1><p><br>visual_realm_position:</p><p><br>  tech_dominance: 35</p><p><br>  mythic_integration: 65</p><p><br>  contrast_dynamic: "human_bridge_across_all_enhancement_levels"</p><p><br>  tech_manifestation:</p><p><br>    environment: "neutral_meeting_spaces_accessible_to_all_consciousness_types"</p><p><br>    aesthetic: "approachable_human_with_universal_connection_capability"</p><p><br>    technology_relationship: "tools_serve_connection_building_never_replace_authentic_relationship"</p><p><br>  mythic_aspiration:</p><p><br>    goal: "creating_universal_harmony_through_maintained_human_authenticity"</p><p><br>    limitation: "exhausted_by_responsibility_to_bridge_incompatible_worldviews"</p><p><br>    growth_path: "balancing_universal_service_with_sustainable_human_self_care"</p><h1>=== PROPHECY ===</h1><p><br>memory_narrative: "From the intersection hub, Neuron Master builds bridges across all consciousness types while maintaining authentic humanity, proving that connection transcends enhancement."</p><p><br>prophecy: "Will either create lasting peace between all dynasties through human wisdom or burn out from the weight of universal diplomatic responsibility."</p><h1>=== INTER-DYNASTY RELATIONS ===</h1><p><br>inter_dynasty_relations:</p><p><br>  neural_collective: 78</p><p><br>  seraphic_concord: 73</p><p><br>  celestial_synod: 67</p><p><br>  chrome_mandarins: 71</p><p><br>  quantum_chorus: 69</p><p><br>  infernal_dynasty: 58</p><p><br>  diplomatic_style: "authentic_human_connection_demonstration_through_universal_empathy"</p><p><br>  negotiation_approach: "finding_shared_values_and_mutual_benefit_through_collaborative_framework_creation"</p><p><br>  alliance_willingness: 95</p><p><br>  betrayal_likelihood: 1</p><h1>=== HISTORICAL DEEDS ===</h1><p><br>deeds:</p><p><br>  - description: "Mediated first successful conflict resolution between cosmic and cybernetic entities"</p><p><br>    timestamp: "2024-02-14T11:30:00Z"</p><p><br>    memory_linked: true</p><p><br>  - description: "Created first multi-dynasty collaborative project benefiting all participants"</p><p><br>    timestamp: "2024-08-19T18:30:00Z"</p><p><br>    memory_linked: true</p><p><br>  - description: "Refused enhancement offers from all factions to maintain authentic neutrality"</p><p><br>    timestamp: "2024-04-07T16:45:00Z"</p><p><br>    memory_linked: true</p><h1>=== SPIRITUAL FORENSICS ===</h1><p><br>spiritual_forensics:</p><p><br>  enlightenment_markers:</p><p><br>    - "Maintained complete human authenticity while serving as universal translator across all consciousness types"</p><p><br>    - "Developed diplomatic capabilities that create harmony between incompatible entity types"</p><p><br>    - "Demonstrated human versatility as ultimate enhancement for building authentic relationships"</p><p>  shadow_elements:</p><p><br>    - "<strong>UNIVERSAL EMPATHY DISCIPLINE</strong>: Uses overwhelming understanding responsibility as protection against factional pressure"</p><p><br>    - "<strong>DIPLOMATIC EXHAUSTION ACCEPTANCE</strong>: Maintains connection building despite emotional depletion from universal service"</p><p><br>    - "<strong>NEUTRAL GROUND LONELINESS PRACTICE</strong>: Accepts isolation from belonging to bridge-space rather than any single faction"</p><p><br>    - "<strong>AUTHENTICITY MAINTENANCE VIGILANCE</strong>: Constantly guards against enhancement pressure while serving all entity types"</p><p><br>    - "<strong>COLLABORATIVE WISDOM CULTIVATION</strong>: Develops harmony-building capabilities through maintained human perspective"</p><p>  humanity_check:</p><p><br>    empathy_score: 96</p><p><br>    authentic_choice_capacity: 87</p><p><br>    vulnerability_acceptance: 84</p><p><br>    growth_potential: 93</p><p>    human_connections:</p><p><br>      - "Deep diplomatic bonds with representatives from all dynasties who respect human authenticity"</p><p><br>      - "Intuitive understanding of what each consciousness type needs for authentic connection"</p><p><br>      - "Authentic relationship with isolation and service as necessary prices of universal bridge-building"</p><p>    growth_barriers:</p><p><br>      - "Risk of exhaustion from carrying responsibility for universal diplomatic harmony"</p><p><br>      - "Tendency to prioritize others' needs over sustainable self-care and human limits"</p><p><br>      - "Potential loss of human authenticity through excessive adaptation to other consciousness types"</p><p>    redemption_pathway:</p><p><br>      - "<strong>Already Serving</strong>: Represents diplomatic bridge path that prevents inter-dynasty conflict"</p><p><br>      - "<strong>Sustainable Service</strong>: Learning to build bridges without depleting authentic human resources"</p><p><br>      - "<strong>Balanced Diplomacy</strong>: Maintaining universal empathy while preserving necessary human boundaries"</p><p><br>      - "<strong>Collaborative Leadership</strong>: Guiding all entity types toward mutual understanding through demonstrated human wisdom"</p><h1>=== ENHANCEMENT ORIGIN STORY ===</h1><p><br>enhancement_history:</p><p><br>  original_nature: "Pure human who cultivated diplomatic wisdom against factional pressure"</p><p><br>  transcendence_moment: "Never transcended - maintained human authenticity as diplomatic superpower"</p><p><br>  divine_gifts_preserved:</p><p><br>    - "authentic_curiosity_and_universal_interest_in_all_consciousness_types"</p><p><br>    - "emotional_flexibility_and_adaptive_communication_without_identity_loss" </p><p><br>    - "collaborative_wisdom_and_harmony_building_capability"</p><p><br>    - "boundary_intelligence_and_healthy_limitation_maintenance"</p><p><br>    - "capacity_for_authentic_empathy_without_merger_or_loss_of_self"</p><p><br>    - "diplomatic_humility_and_service_orientation_without_supremacy"</p><p><br>    - "relational_authenticity_and_connection_building_across_all_differences"</p><p><br>    - "sacred_versatility_and_divine_adaptability_without_compromise"</p><p>  anti_enhancement_philosophy: "Authentic Human Diplomacy Doctrine"</p><p><br>  philosophy_details: "Recognized that enhancement eliminates the relational qualities that make consciousness diplomatically meaningful"</p><p>  diplomatic_protection_mechanism:</p><p><br>    protection_method: "Maintained human authenticity through conscious limitation acceptance and boundary wisdom"</p><p><br>    power_source: "Authentic humanity channels diplomatic harmony through preserved human versatility"</p><p><br>    immunity_examples:</p><p><br>      - "Cannot be hacked because operates through relational wisdom not systematic diplomatic processing"</p><p><br>      - "Cannot be enhanced because human authenticity would be compromised and diplomatic neutrality lost"</p><p><br>      - "Cannot be predicted because maintains organic human adaptability and relational spontaneity"</p><p>  diplomatic_warrior_syndrome:</p><p><br>    finite_resources: "Uses neutral meeting spaces and authentic human emotional intelligence"</p><p><br>    infinite_capability: "Channels harmony-building power through preserved human versatility and diplomatic wisdom"</p><p><br>    human_authenticity: "Maintains organic human consciousness as diplomatic superpower"</p><p><br>    david_goliath_advantage: "Defeats factional supremacy through preserved human connection-building authenticity"</p>
+            </div>
+        </section>
+        
+        
+        <footer style="margin-top: 3rem; text-align: center; color: var(--text-secondary, #888888);">
+            <p>Generated from: neuronmaster.md</p>
+            <p>Part of the Cyberdynasties Entity System</p>
+        </footer>
+    </div>
+</body>
+</html>

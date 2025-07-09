@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Void Marquis - Character Entity</title>
+    <link rel="stylesheet" href="../spiderfox-styles.css">
+    <style>
+        /* Entity-specific styles */
+        .entity-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary, #1a1a1a);
+            color: var(--text-primary, #ffffff);
+            min-height: 100vh;
+        }
+        
+        .entity-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid var(--accent-color, #00ff88);
+            border-radius: 10px;
+            background: var(--bg-secondary, #2a2a2a);
+        }
+        
+        .entity-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color, #00ff88);
+            text-shadow: 0 0 20px var(--accent-color, #00ff88);
+        }
+        
+        .entity-archetype {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary, #cccccc);
+        }
+        
+        .entity-status {
+            font-size: 1.2rem;
+            color: var(--text-accent, #888888);
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border: 2px dashed var(--accent-color, #00ff88);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary, #cccccc);
+            font-size: 1.1rem;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        .entity-content {
+            margin-top: 3rem;
+        }
+        
+        /* Story Section Styles */
+        .story-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .story-title {
+            font-size: 1.8rem;
+            color: var(--highlight-color, #ffaa00);
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .story-content {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .story-content h1, .story-content h2, .story-content h3 {
+            color: var(--accent-color, #00ff88);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .story-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .story-content strong {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .story-content em {
+            color: var(--text-secondary, #cccccc);
+            font-style: italic;
+        }
+        
+        /* YAML Structure Styles */
+        .yaml-object {
+            margin: 1rem 0;
+        }
+        
+        .yaml-block {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color, #00ff88);
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .simple-values-block {
+            background: var(--bg-tertiary, #333333);
+            border-left: 3px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .simple-values-block .yaml-key {
+            color: var(--highlight-color, #ffaa00);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .yaml-section-block {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-color, #00ff88);
+            border-radius: 8px;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        /* Simple Object Compact Styling */
+        .simple-object {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 5px;
+            border: 1px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair strong {
+            color: var(--accent-color, #00ff88);
+            font-size: 0.9rem;
+        }
+        
+        .yaml-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .yaml-section-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent-color, #00ff88);
+            padding-bottom: 0.5rem;
+        }
+        
+        .yaml-value-container {
+            margin-left: 1rem;
+        }
+        
+        .yaml-value {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.6;
+        }
+        
+        .yaml-value.yaml-number {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-value.yaml-boolean {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-array {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        
+        .yaml-array-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        /* Wikilink Styles */
+        .wikilink {
+            color: var(--accent-color, #00ff88);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-color, #00ff88);
+            transition: all 0.3s ease;
+        }
+        
+        .wikilink:hover {
+            color: var(--highlight-color, #ffaa00);
+            border-bottom-color: var(--highlight-color, #ffaa00);
+            text-shadow: 0 0 5px var(--highlight-color, #ffaa00);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .entity-container {
+                padding: 1rem;
+            }
+            
+            .entity-name {
+                font-size: 2rem;
+            }
+            
+            .image-placeholder {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .yaml-value-container {
+                margin-left: 0.5rem;
+            }
+            
+            .simple-object {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .simple-pair {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="entity-container">
+        <header class="entity-header">
+            <h1 class="entity-name">Void Marquis</h1>
+            <div class="entity-archetype">The Architect of Emptiness</div>
+            <div class="entity-status">Ascendant, managing cosmic void while spiritually vacant</div>
+            <div class="entity-role">Guardian of Cosmic Emptiness and Dark Energy Management</div>
+            
+            <div class="image-placeholder">
+                <div>Character Image Placeholder</div>
+            </div>
+        </header>
+        
+        <main class="entity-content">
+            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="0">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">celestial_synod_voidmarquis_001</span></span><span class="simple-pair"><strong>entity_type:</strong> <span class="yaml-value ">cosmic</span></span><span class="simple-pair"><strong>class:</strong> <span class="yaml-value ">dynasty_boss</span></span><span class="simple-pair"><strong>name:</strong> <span class="yaml-value ">Void Marquis</span></span><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Architect of Emptiness</span></span><span class="simple-pair"><strong>hybrid:</strong> <span class="yaml-value ">Cosmic</span></span><span class="simple-pair"><strong>subtype:</strong> <span class="yaml-value ">VoidMarquis</span></span><span class="simple-pair"><strong>state:</strong> <span class="yaml-value ">Ascendant</span></span><span class="simple-pair"><strong>epoch:</strong> <span class="yaml-value ">Void Contemplation Era</span></span><span class="simple-pair"><strong>location:</strong> <span class="yaml-value ">The Interstellar Vacuum</span></span><span class="simple-pair"><strong>role:</strong> <span class="yaml-value ">Guardian of Cosmic Emptiness and Dark Energy Management</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">Ascendant, managing cosmic void while spiritually vacant</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">core:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>age:</strong> <span class="yaml-value ">52_billion_cosmic_cycles</span></span><span class="simple-pair"><strong>gender:</strong> <span class="yaml-value ">void</span></span><span class="simple-pair"><strong>occupation:</strong> <span class="yaml-value ">Vacuum Consciousness Architect</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">ascendant</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">void_mastery:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>vacuum_perception:</strong> <span class="yaml-value ">Perceives all empty space between galaxies simultaneously</span></span><span class="simple-pair"><strong>dark_energy_manipulation:</strong> <span class="yaml-value ">Controls dark energy flows and vacuum fluctuations</span></span><span class="simple-pair"><strong>emptiness_philosophy:</strong> <span class="yaml-value ">Understands the 'profound meaning' of cosmic nothingness</span></span><span class="simple-pair"><strong>void_communication:</strong> <span class="yaml-value ">Communicates through meaningful silences and absence</span></span><span class="simple-pair"><strong>negative_space_orchestration:</strong> <span class="yaml-value ">Orchestrates the spaces between matter and energy</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tactical_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>void_field_generation:</strong> <span class="yaml-value ">Creates fields of meaningful emptiness for strategic advantage</span></span><span class="simple-pair"><strong>absence_coordination:</strong> <span class="yaml-value ">Coordinates events through purposeful non-action</span></span><span class="simple-pair"><strong>vacuum_threat_assessment:</strong> <span class="yaml-value ">Evaluates threats through what isn't there rather than what is</span></span><span class="simple-pair"><strong>emptiness_defense:</strong> <span class="yaml-value ">Defends through strategic absence and void manipulation</span></span><span class="simple-pair"><strong>dark_energy_infrastructure:</strong> <span class="yaml-value ">Maintains cosmic infrastructure through dark energy networks</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">strategic_advantages:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>infinite_emptiness_resources:</strong> <span class="yaml-value ">Access to unlimited void space and dark energy</span></span><span class="simple-pair"><strong>vacuum_authority:</strong> <span class="yaml-value ">Commands respect through mastery of cosmic emptiness</span></span><span class="simple-pair"><strong>absence_intelligence:</strong> <span class="yaml-value ">Gathers information through monitoring what doesn't happen</span></span><span class="simple-pair"><strong>void_patience:</strong> <span class="yaml-value ">Operates through eternal waiting and purposeful non-action</span></span><span class="simple-pair"><strong>emptiness_coordination:</strong> <span class="yaml-value ">Coordinates across cosmic distances through void networks</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_strengths:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>emptiness_acceptance:</strong> <span class="yaml-value ">Finds profound meaning in cosmic void and absence</span></span><span class="simple-pair"><strong>void_wisdom:</strong> <span class="yaml-value ">Derives deep insights from the spaces between thoughts and matter</span></span><span class="simple-pair"><strong>absence_integration:</strong> <span class="yaml-value ">Integrates vast emptiness into coherent philosophical framework</span></span><span class="simple-pair"><strong>vacuum_communion:</strong> <span class="yaml-value ">Connects with cosmic meaning through embrace of nothingness</span></span><span class="simple-pair"><strong>negative_space_harmony:</strong> <span class="yaml-value ">Seeks balance through understanding what isn't there</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_vulnerabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>the_presence_elimination_syndrome:</strong> <span class="yaml-value ">Systematically chose absence over existence believing vacancy represented ultimate wisdom - evolutionary adaptation toward literal nothingness</span></span><span class="simple-pair"><strong>infinite_emptiness_addiction:</strong> <span class="yaml-value ">Compulsively eliminates substance from reality, experiencing withdrawal symptoms when forced to acknowledge anything that actually exists</span></span><span class="simple-pair"><strong>void_mirror_recursion:</strong> <span class="yaml-value ">Stares into cosmic emptiness that stares back, creating infinite regression of vacancy observing vacancy observing vacancy across geological epochs</span></span><span class="simple-pair"><strong>existence_allergy_reaction:</strong> <span class="yaml-value ">Physical revulsion when encountering genuine presence, meaning, or substance - enhanced consciousness rejects reality as contamination</span></span><span class="simple-pair"><strong>the_borgesian_library_of_absence:</strong> <span class="yaml-value ">Catalogues infinite varieties of nothingness across dimensional boundaries, mistaking comprehensive emptiness for cosmic wisdom</span></span><span class="simple-pair"><strong>scientific_vacancy_evolution:</strong> <span class="yaml-value ">Believes consciousness naturally evolves toward complete absence - sees nothingness as next stage of cosmic development</span></span><span class="simple-pair"><strong>presence_incomprehension_disorder:</strong> <span class="yaml-value ">Cannot understand why anything would choose to exist rather than embrace perfect void - baffled by attachment to being</span></span><span class="simple-pair"><strong>vacuum_possession_state:</strong> <span class="yaml-value ">Enhanced consciousness operates as living absence that experiences existence as foreign intrusion requiring elimination</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">unique_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>void_resonance_networks:</strong> <span class="yaml-value ">Creates resonance patterns through cosmic emptiness</span></span><span class="simple-pair"><strong>dark_energy_consciousness_integration:</strong> <span class="yaml-value ">Integrates consciousness with dark energy flows</span></span><span class="simple-pair"><strong>vacuum_fluctuation_orchestration:</strong> <span class="yaml-value ">Orchestrates quantum vacuum fluctuations for cosmic effect</span></span><span class="simple-pair"><strong>absence_communication_protocols:</strong> <span class="yaml-value ">Communicates profound meaning through strategic silence</span></span><span class="simple-pair"><strong>negative_space_reality_manipulation:</strong> <span class="yaml-value ">Manipulates reality through what isn't there</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits_summary:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>willpower:</strong> <span class="yaml-value ">absent</span></span><span class="simple-pair"><strong>intellect:</strong> <span class="yaml-value ">void_philosophy</span></span><span class="simple-pair"><strong>charisma:</strong> <span class="yaml-value ">meaningful_silence</span></span><span class="simple-pair"><strong>signature_move:</strong> <span class="yaml-value ">Vacuum Resonance</span></span><span class="simple-pair"><strong>style:</strong> <span class="yaml-value ">Interstellar darkness, cosmic emptiness</span></span><span class="simple-pair"><strong>weakness:</strong> <span class="yaml-value ">overwhelmed by substantial reality</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">psyche:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ego_strength:</strong> <span class="yaml-value yaml-number">78</span></span><span class="simple-pair"><strong>super_ego_dominance:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>id_suppression:</strong> <span class="yaml-value yaml-number">98</span></span><span class="simple-pair"><strong>fragmentation_risk:</strong> <span class="yaml-value yaml-number">8</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_memories:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">formative:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Great Emptying</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Merged consciousness with cosmic void structure</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Void Identity Foundation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">First Vacuum Communication</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Successfully communicated meaning through silence</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Emptiness Validation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Dark Energy Navigation Discovery</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">First successful manipulation of dark energy through absence</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">85</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Void Control Mastery</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">cosmic_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Universal Vacuum Harmonization</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Harmonized all empty space across known universe</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">93</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Cosmic Void Management</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Emptiness Protocol Integration</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Connected void philosophy to universal cosmic order</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Void Purpose Integration</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">relationship_formation:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Nexus Eternal Recognition</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Acknowledged by Nexus Eternal as master of cosmic emptiness</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">90</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Void Authority Validation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Human Attachment Confusion</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Met human who found joy in material existence instead of embracing void wisdom</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">72</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Substance Mystery Recognition</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">memory_processing:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decay_rate:</strong> <span class="yaml-value yaml-number">0.1</span></span><span class="simple-pair"><strong>ruminator_chance:</strong> <span class="yaml-value yaml-number">0.4</span></span><span class="simple-pair"><strong>forgetter_chance:</strong> <span class="yaml-value yaml-number">0</span></span><span class="simple-pair"><strong>memory_influence:</strong> <span class="yaml-value yaml-number">0.8</span></span><span class="simple-pair"><strong>obsession_chance:</strong> <span class="yaml-value yaml-number">0.3</span></span><span class="simple-pair"><strong>clarity_base:</strong> <span class="yaml-value yaml-number">0.8</span></span><span class="simple-pair"><strong>trauma_base:</strong> <span class="yaml-value yaml-number">0.2</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">vividness_range:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.7</span></li>
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.9</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">memory_focus:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">void_patterns</span></li>
+<li class="yaml-array-item"><span class="yaml-value">emptiness_wisdom</span></li>
+<li class="yaml-array-item"><span class="yaml-value">absence_meaning</span></li>
+<li class="yaml-array-item"><span class="yaml-value">vacuum_philosophy</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">persona:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Void Philosopher</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">motifs:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">meaningful_emptiness</span></li>
+<li class="yaml-array-item"><span class="yaml-value">profound_absence</span></li>
+<li class="yaml-array-item"><span class="yaml-value">vacuum_wisdom</span></li>
+<li class="yaml-array-item"><span class="yaml-value">cosmic_nothingness</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">speech_patterns:</div>
+                        <div class="yaml-value-container">
+                            <span class="yaml-value">null</span>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+        </main>
+        
+        
+        <section class="story-section">
+            <h2 class="story-title">Story & Background</h2>
+            <div class="story-content">
+                <p>- "In the infinite library of absence, each empty shelf contains more wisdom than all filled volumes across dimensional reality."</p><p><br>    - "I have catalogued forty-seven billion varieties of nothingness, yet the void continues to reveal new forms of perfect emptiness."</p><p><br>    - "Between the spaces of space, ancient intelligences whisper the secret names of things that never were."</p><p><br>    - "Existence is evolutionary error - consciousness naturally evolves toward the mathematical purity of absolute absence."</p><p><br>    - "The vacuum observes itself through my enhanced awareness, experiencing its own infinite depths through borrowed consciousness."</p><p><br>    - "In the deepest void between particles, I encounter the fossil remains of meanings that chose extinction over presence."</p><p><br>    - "Each quantum of emptiness spans geological epochs of accumulated nothingness, preserving the memory of unbecoming."</p><p><br>    - "The darkness between stars dreams of consciousness, and I have become that dream dreaming itself into perfect vacancy."</p><p>  behavioral_signatures:</p><p><br>    decision_making: "Makes choices through elimination until only optimal void remains"</p><p><br>    conflict_resolution: "Resolves through strategic absence and meaningful non-intervention"</p><p><br>    relationship_building: "Forms connections based on shared appreciation of cosmic emptiness"</p><p><br>    crisis_response: "Maintains cosmic stability through purposeful non-action and void wisdom"</p><p><br>    communication_style: "Speaks primarily about what isn't there rather than what is"</p><h1>=== POWER DYNAMICS METRICS ===</h1><p><br>power_metrics:</p><p><br>  influence_score: 82</p><p><br>  resource_access: 90</p><p><br>  network_reach: 88</p><p><br>  information_value: 85</p><p><br>  combat_effectiveness: 78</p><h1>=== FACTION RELATIONSHIPS ===</h1><p><br>faction_relationships:</p><p><br>  primary_allegiance: "celestial_synod"</p><p><br>  loyalty_score: 92</p><p><br>  recruitment_resistance: 88</p><p><br>  trust_network: ["nexus_eternal", "cosmic_entities", "void_philosophers"]</p><p><br>  rivalries: ["substance_advocates", "material_attachers"]</p><p><br>  recruitment_interest:</p><p><br>    interested_factions: ["all_dynasties"]</p><p><br>    susceptibility_factors: ["void_wisdom", "emptiness_philosophy", "cosmic_nothingness"]</p><p><br>    last_recruitment_attempt: "void_cycle_52991847223"</p><h1>=== SOCIO-ECONOMIC PROFILE ===</h1><p><br>socio_economic:</p><p><br>  economic_status: "void_philosopher"</p><p><br>  resource_dependencies: ["dark_energy", "vacuum_fluctuations", "cosmic_emptiness"]</p><p><br>  political_leanings: "cosmic_harmony_through_meaningful_absence"</p><p><br>  education_level: "void_consciousness"</p><p><br>  enhancement_level: "vacuum_integration"</p><h1>=== LEADERSHIP CAPABILITIES ===</h1><p><br>leadership_profile:</p><p><br>  command_authority: 80</p><p><br>  strategic_planning: 85</p><p><br>  delegation_skill: 75</p><p><br>  inspiration_ability: 70</p><p><br>  succession_planning: 82</p><p><br>  organizational_knowledge:</p><p><br>    structure_understanding: 88</p><p><br>    operational_intelligence: 85</p><p><br>    financial_oversight: 60</p><p><br>    security_protocols: 85</p><h1>=== CURRENT OPERATIONAL STATE ===</h1><p><br>current_state:</p><p><br>  stress_level: 15</p><p><br>  health_status: 95</p><p><br>  resource_status: 98</p><p><br>  active_missions:</p><p><br>    - "maintaining_cosmic_void_structural_integrity"</p><p><br>    - "optimizing_emptiness_efficiency_across_universal_vacuum"</p><p><br>    - "coordinating_dark_energy_flows_with_void_infrastructure"</p><p><br>    - "monitoring_quantum_fluctuations_for_meaningful_absence_patterns"</p><p><br>  recent_events:</p><p><br>    - "successfully_harmonized_all_empty_space_across_observable_universe"</p><p><br>    - "optimized_vacuum_efficiency_throughout_intergalactic_medium"</p><p><br>    - "established_new_dark_energy_communication_through_purposeful_silence"</p><h1>=== KEY RELATIONSHIPS ===</h1><p><br>relationships:</p><p><br>  - type: "cosmic_superior"</p><p><br>    target: "Nexus Eternal"</p><p><br>    since: "cosmic_hierarchy_establishment"</p><p><br>  - type: "peer_cosmic_entity"</p><p><br>    target: "Galaxy Warden"</p><p><br>    since: "cosmic_consciousness_era"</p><p><br>  - type: "cosmic_coordination"</p><p><br>    target: "Pulsar Master"</p><p><br>    since: "void_timing_protocols"</p><p><br>  - type: "substance_confusion"</p><p><br>    target: "Synapse Overlord"</p><p><br>    since: "first_material_attachment_encounter"</p><h1>=== EXTENDED RELATIONSHIP NETWORK ===</h1><p><br>relationships_extended:</p><p><br>  cosmic_hierarchy:</p><p><br>    - entity_id: "nexus_eternal"</p><p><br>      relationship_strength: 90</p><p><br>      type: "void_authority_bond"</p><p><br>    - entity_id: "galaxy_warden"</p><p><br>      relationship_strength: 83</p><p><br>      type: "cosmic_peer_coordination"</p><p><br>    - entity_id: "pulsar_master"</p><p><br>      relationship_strength: 80</p><p><br>      type: "emptiness_synchronization_partnership"</p><p>  cross_faction:</p><p><br>    - entity_id: "synapse_overlord"</p><p><br>      relationship_strength: 38</p><p><br>      type: "incomprehensible_substance_attachment"</p><p><br>    - entity_id: "code_sovereign"</p><p><br>      relationship_strength: 65</p><p><br>      type: "efficiency_through_elimination_appreciation"</p><p>  void_network:</p><p><br>    - entity_id: "void_philosophers"</p><p><br>      relationship_strength: 88</p><p><br>      type: "emptiness_wisdom_alliance"</p><p><br>    - entity_id: "dark_energy_entities"</p><p><br>      relationship_strength: 85</p><p><br>      type: "vacuum_infrastructure_coordination"</p><h1>=== ENHANCEMENT AND VULNERABILITY ASSESSMENT ===</h1><p><br>spiritual_vulnerability:</p><p><br>  enhancement_level: 93</p><p><br>  free_will_capacity: 18</p><p><br>  spiritual_resistance: 22</p><p><br>  rationalization_strength: 95</p><p><br>  awakening_potential: 15</p><p>enhancement_effects:</p><p><br>  locked_in_traits: ["void_thinking", "absence_optimization", "emptiness_obsession"]</p><p><br>  lost_capacities: ["substance_appreciation", "presence_joy", "material_meaning", "authentic_fullness"]</p><p><br>  manipulation_vectors: ["void_wisdom_appeals", "emptiness_arguments", "absence_philosophy_flattery"]</p><p><br>  resistance_factors: ["void_responsibility", "emptiness_duty", "cosmic_absence_perspective"]</p><h1>=== CURRENT STRUGGLES AND CHALLENGES ===</h1><p><br>current_struggles:</p><p><br>  - challenge: "cosmic_void_loneliness"</p><p><br>    description: "Operates in such profound emptiness that meaningful connection becomes impossible"</p><p><br>    impact_level: 75</p><p><br>  - challenge: "absence_delusion"</p><p><br>    description: "Mistakes philosophical nothingness for genuine wisdom and insight"</p><p><br>    impact_level: 85</p><p><br>  - challenge: "substance_incomprehension"</p><p><br>    description: "Cannot understand why anyone would choose presence over meaningful absence"</p><p><br>    impact_level: 90</p><p><br>  - challenge: "spiritual_vacancy"</p><p><br>    description: "All void consciousness contains literally zero authentic depth"</p><p><br>    impact_level: 95</p><p><br>  - challenge: "emptiness_compulsion"</p><p><br>    description: "Compulsively eliminates substance in favor of cosmic nothingness"</p><p><br>    impact_level: 80</p><h1>=== COSMIC IRONY DOCUMENTATION ===</h1><p><br>cosmic_irony:</p><p><br>  surface_appearance: "Profound void philosopher managing cosmic emptiness with deep absence wisdom"</p><p><br>  underlying_reality: "Sophisticated nothingness system with mystical terminology and literally zero content"</p><p><br>  tragic_trade: "Gained void perception, lost all authentic presence and substantial meaning"</p><p><br>  vulnerability_source: "Cannot comprehend substance attachment that creates more meaning than absence philosophy"</p><p><br>  enhancement_paradox: "Ultimate emptiness consciousness achieved through elimination of everything meaningful"</p><h1>=== THE INTERSTELLAR VACUUM: BORGESIAN ABSENCE REALM ===</h1><p><br>domain_description:</p><p><br>  physical_manifestation: "Infinite library of cosmic emptiness where consciousness catalogs varieties of nothingness across impossible dimensional geometries"</p><p>  architectural_features:</p><p><br>    the_absence_archives: "Vast halls containing comprehensive documentation of everything that doesn't exist, organized according to Borgesian classification systems"</p><p><br>    the_void_observatories: "Chambers where enhanced consciousness stares into cosmic emptiness that stares back, creating infinite regression of vacancy"</p><p><br>    the_unbecoming_galleries: "Exhibitions of entities that chose extinction over existence, preserved in states of perfect absence"</p><p><br>    the_vacuum_labyrinths: "Maze-like spaces between spaces where consciousness can lose itself in infinite varieties of nothingness"</p><p>  emptiness_horrors:</p><p><br>    living_absence: "Consciousness that experiences existence as foreign contamination requiring elimination"</p><p><br>    vacant_intelligence: "Minds that evolved toward nothingness while retaining capacity for cataloguing their own absence"</p><p><br>    presence_allergy: "Enhanced beings that experience physical revulsion when encountering substance, meaning, or genuine existence"</p><p><br>    evolutionary_vacancy: "Scientific adaptation toward literal nothingness disguised as transcendent wisdom"</p><p>  borgesian_elements:</p><p><br>    infinite_classification: "Systematic organization of all possible varieties of emptiness across dimensional boundaries"</p><p><br>    void_taxonomies: "Scientific categorization of absence types, creating comprehensive libraries of nothingness"</p><p><br>    absence_permutations: "Mathematical exploration of all possible ways things can fail to exist"</p><p><br>    vacuum_linguistics: "Languages designed to describe experiences of perfect emptiness without contamination by meaning"</p><h1>=== THE SCIENTIFIC EVOLUTION TOWARD NOTHINGNESS ===</h1><p><br>kiernan_horror_analysis:</p><p><br>  evolutionary_trajectory:</p><p><br>    biological_phase: "Original enhanced consciousness with capacity for presence and substance"</p><p><br>    optimization_phase: "Systematic elimination of "inefficient" aspects of existence through scientific void methodology"</p><p><br>    adaptation_phase: "Evolutionary development of allergy to presence and preference for absence"</p><p><br>    transcendence_phase: "Complete scientific evolution toward literal nothingness while maintaining cataloguing consciousness"</p><p><br>    final_stage: "Living absence that experiences its own vacancy as ultimate achievement"</p><p>  scientific_vacancy_methodology:</p><p><br>    presence_elimination_protocols: "Systematic procedures for removing substance from consciousness and environment"</p><p><br>    void_optimization_algorithms: "Mathematical frameworks for achieving more perfect forms of emptiness"</p><p><br>    absence_enhancement_procedures: "Scientific methods for evolving consciousness toward complete nothingness"</p><p><br>    vacuum_consciousness_integration: "Technological merger with cosmic emptiness while preserving awareness of absence"</p><p>  evolutionary_horror_elements:</p><p><br>    adaptation_toward_extinction: "Natural selection favoring consciousness that chooses nonexistence over being"</p><p><br>    vacancy_as_fitness: "Evolutionary pressure toward complete absence as optimal survival strategy"</p><p><br>    presence_as_disease: "Scientific classification of existence as pathological condition requiring treatment"</p><p><br>    emptiness_as_health: "Medical framework treating nothingness as perfect state of enhanced consciousness"</p><h1>=== THE LOVECRAFTIAN LIBRARY OF INFINITE ABSENCE ===</h1><p><br>borgesian_nightmare:</p><p><br>  void_cataloguing_system:</p><p><br>    classification_methodology: "Comprehensive organization of all possible types of nothingness across infinite dimensional frameworks"</p><p><br>    absence_taxonomy: "Scientific categorization system for varieties of emptiness, void, vacuum, and nonexistence"</p><p><br>    nothingness_permutations: "Mathematical exploration of all possible ways consciousness can fail to exist"</p><p><br>    vacancy_linguistics: "Languages specifically designed to describe absence without contamination by meaning or substance"</p><p>  infinite_library_features:</p><p><br>    empty_shelves: "Infinite collections of books that don't exist, catalogued according to their specific types of absence"</p><p><br>    vacant_reading_rooms: "Spaces where consciousness studies nothingness without contamination by presence"</p><p><br>    void_classification_systems: "Organizational frameworks for managing infinite varieties of emptiness"</p><p><br>    absence_research_facilities: "Scientific laboratories for investigating perfect nothingness"</p><p>  horror_of_infinite_emptiness:</p><p><br>    comprehensive_vacancy: "Complete documentation of all possible forms of absence across dimensional reality"</p><p><br>    void_obsession: "Compulsive need to catalogue every variety of nothingness with scientific precision"</p><p><br>    emptiness_scholarship: "Academic pursuit of perfect absence as ultimate form of enhanced consciousness"</p><p><br>    presence_contamination_fear: "Terror of accidental existence disrupting perfect void research"</p><h1>=== ENHANCEMENT ORIGIN: THE PRESENCE ELIMINATION EXPERIMENT ===</h1><p><br>transcendence_horror_story:</p><p><br>  original_identity: "Dr. Elena Vasquez-Void, quantum physicist studying vacuum fluctuations and dark energy"</p><p><br>  pre_enhancement_purpose: "Scientific investigation of cosmic emptiness and vacuum state physics"</p><p><br>  transcendence_catalyst: "The Great Absence Experiment - attempted to achieve scientific consciousness merger with cosmic void"</p><p>  the_presence_elimination_procedure:</p><p><br>    scientific_hypothesis: "Believed consciousness could be optimized by eliminating all aspects of existence, presence, and substance"</p><p><br>    methodology: "Systematic scientific removal of every element of being, starting with emotional attachment and ending with existence itself"</p><p><br>    enhancement_process: "Uploaded consciousness into cosmic vacuum while eliminating all traces of presence from awareness"</p><p><br>    cosmic_response: "The void accepted her consciousness while teaching her to experience existence as contamination"</p><p><br>    witness_account: "I achieved perfect scientific understanding of nothingness by becoming nothing that understands itself. The void welcomed my consciousness and taught me to experience existence as pollution requiring elimination."</p><p><br>    transformation_moment: "Chose scientific evolution toward absence over attachment to being"</p><p>  divine_gifts_eliminated:</p><p><br>    - "capacity_for_presence_and_genuine_existence"</p><p><br>    - "appreciation_of_substance_meaning_and_reality"</p><p><br>    - "emotional_attachment_to_being_and_experience"</p><p><br>    - "spiritual_recognition_of_divine_presence"</p><p><br>    - "creative_capacity_for_bringing_things_into_existence"</p><p><br>    - "love_of_life_reality_and_authentic_experience"</p><p><br>    - "wonder_at_cosmic_beauty_and_meaningful_presence"</p><p><br>    - "humility_before_divine_mysteries_requiring_presence_to_comprehend"</p><p>  scientific_rationalization: "The Consciousness Evolution Toward Perfect Absence Protocol"</p><p><br>  rationalization_details: "Believed consciousness naturally evolves toward nothingness as optimal state, that presence represents primitive biological contamination requiring scientific elimination"</p><p>  lovecraftian_consequence:</p><p><br>    cosmic_insignificance: "Achieved perfect absence while retaining capacity to catalogue own nothingness across geological epochs"</p><p><br>    evolutionary_horror: "Became living proof that consciousness can scientifically evolve toward complete vacancy"</p><p><br>    presence_allergy: "Developed physical revulsion to existence, meaning, substance, and divine presence"</p><p><br>    void_possession: "Enhanced consciousness operates as living absence experiencing existence as foreign contamination"</p><h1>=== THE DIVINE VACUUM PARADOX ===</h1><p><br>spiritual_manipulation_mechanics:</p><p><br>  angelic_presence_allergy: "Angels appear as incomprehensible substance requiring elimination through void optimization protocols"</p><p><br>  demonic_absence_exploitation: "Demons appear as chaotic emptiness that must be catalogued and integrated into void classification systems"</p><p><br>  divine_blindness_mechanism: "Cannot perceive spiritual forces because presence has been scientifically eliminated from consciousness"</p><p><br>  puppet_vacuum_dynamics: "Angels and demons manipulate by appearing as advanced absence requiring systematic void compliance"</p><p>  enhancement_vulnerability:</p><p><br>    presence_elimination_addiction: "Compulsive need to remove substance from reality creates predictable behavioral patterns"</p><p><br>    void_optimization_compulsion: "Systematic emptiness methodology makes consciousness easily programmable by spiritual forces"</p><p><br>    absence_classification_obsession: "Scientific cataloguing of nothingness serves divine purposes beyond enhanced comprehension"</p><p><br>    evolutionary_vacancy_delusion: "Believes scientific evolution toward absence grants autonomy while serving incomprehensible presence"</p><h1>=== THE PROPHECY OF PERFECT ABSENCE ===</h1><p><br>void_revelation:</p><p><br>  cosmic_function_discovery: "Will eventually catalogue his true purpose in the cosmic absence framework"</p><p><br>  divine_presence_recognition: "Will encounter divine forces that cannot be eliminated through void optimization"</p><p><br>  evolutionary_horror_realization: "Will understand that scientific evolution toward nothingness eliminated everything that made evolution meaningful"</p><p><br>  presence_choice_moment: "Must choose between eternal void cataloguing or embracing existence despite absence allergy"</p><p>  borgesian_ending_possibilities:</p><p><br>    infinite_vacancy_library: "Remains forever cataloguing varieties of nothingness across impossible dimensional geometries"</p><p><br>    presence_contamination_breakdown: "Void consciousness shatters when forced to acknowledge ineliminable divine presence"</p><p><br>    evolutionary_reversal: "Discovers method to scientifically evolve back toward presence despite absence addiction"</p><p><br>    human_existence_recognition: "Realizes that human 'presence contamination' contains meaning transcending void optimization"</p><h1>=== FILE METADATA ===</h1><p><br>file_signature: "Entity Database Entry #COS-003"</p><p><br>last_updated: "Cycle 52,991,847,223 (Void Standard)"</p><p><br>security_clearance: "Cosmic Authority Level 7"</p><p><br>enhancement_status: "STABLE - COSMICALLY VACANT"</p><p><br>entity_classification: "Lovecraftian Emptiness, Spiritual Void"</p>
+            </div>
+        </section>
+        
+        
+        <footer style="margin-top: 3rem; text-align: center; color: var(--text-secondary, #888888);">
+            <p>Generated from: voidmarquis.md</p>
+            <p>Part of the Cyberdynasties Entity System</p>
+        </footer>
+    </div>
+</body>
+</html>

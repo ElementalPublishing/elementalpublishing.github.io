@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axon Lord - Character Entity</title>
+    <link rel="stylesheet" href="../spiderfox-styles.css">
+    <style>
+        /* Entity-specific styles */
+        .entity-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary, #1a1a1a);
+            color: var(--text-primary, #ffffff);
+            min-height: 100vh;
+        }
+        
+        .entity-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid var(--accent-color, #00ff88);
+            border-radius: 10px;
+            background: var(--bg-secondary, #2a2a2a);
+        }
+        
+        .entity-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color, #00ff88);
+            text-shadow: 0 0 20px var(--accent-color, #00ff88);
+        }
+        
+        .entity-archetype {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary, #cccccc);
+        }
+        
+        .entity-status {
+            font-size: 1.2rem;
+            color: var(--text-accent, #888888);
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border: 2px dashed var(--accent-color, #00ff88);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary, #cccccc);
+            font-size: 1.1rem;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        .entity-content {
+            margin-top: 3rem;
+        }
+        
+        /* Story Section Styles */
+        .story-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .story-title {
+            font-size: 1.8rem;
+            color: var(--highlight-color, #ffaa00);
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .story-content {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .story-content h1, .story-content h2, .story-content h3 {
+            color: var(--accent-color, #00ff88);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .story-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .story-content strong {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .story-content em {
+            color: var(--text-secondary, #cccccc);
+            font-style: italic;
+        }
+        
+        /* YAML Structure Styles */
+        .yaml-object {
+            margin: 1rem 0;
+        }
+        
+        .yaml-block {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color, #00ff88);
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .simple-values-block {
+            background: var(--bg-tertiary, #333333);
+            border-left: 3px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .simple-values-block .yaml-key {
+            color: var(--highlight-color, #ffaa00);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .yaml-section-block {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-color, #00ff88);
+            border-radius: 8px;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        /* Simple Object Compact Styling */
+        .simple-object {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 5px;
+            border: 1px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair strong {
+            color: var(--accent-color, #00ff88);
+            font-size: 0.9rem;
+        }
+        
+        .yaml-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .yaml-section-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent-color, #00ff88);
+            padding-bottom: 0.5rem;
+        }
+        
+        .yaml-value-container {
+            margin-left: 1rem;
+        }
+        
+        .yaml-value {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.6;
+        }
+        
+        .yaml-value.yaml-number {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-value.yaml-boolean {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-array {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        
+        .yaml-array-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        /* Wikilink Styles */
+        .wikilink {
+            color: var(--accent-color, #00ff88);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-color, #00ff88);
+            transition: all 0.3s ease;
+        }
+        
+        .wikilink:hover {
+            color: var(--highlight-color, #ffaa00);
+            border-bottom-color: var(--highlight-color, #ffaa00);
+            text-shadow: 0 0 5px var(--highlight-color, #ffaa00);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .entity-container {
+                padding: 1rem;
+            }
+            
+            .entity-name {
+                font-size: 2rem;
+            }
+            
+            .image-placeholder {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .yaml-value-container {
+                margin-left: 0.5rem;
+            }
+            
+            .simple-object {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .simple-pair {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="entity-container">
+        <header class="entity-header">
+            <h1 class="entity-name">Axon Lord</h1>
+            <div class="entity-archetype">The Master of Organic Connection</div>
+            <div class="entity-status">Ascendant, preserving organic human connection against artificial networking protocols</div>
+            <div class="entity-role">Guardian of Natural Human Networking and Authentic Communication</div>
+            
+            <div class="image-placeholder">
+                <div>Character Image Placeholder</div>
+            </div>
+        </header>
+        
+        <main class="entity-content">
+            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="0">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">neural_collective_axonlord_001</span></span><span class="simple-pair"><strong>entity_type:</strong> <span class="yaml-value ">humanoid</span></span><span class="simple-pair"><strong>class:</strong> <span class="yaml-value ">dynasty_boss</span></span><span class="simple-pair"><strong>name:</strong> <span class="yaml-value ">Axon Lord</span></span><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Master of Organic Connection</span></span><span class="simple-pair"><strong>hybrid:</strong> <span class="yaml-value ">Pure Human</span></span><span class="simple-pair"><strong>subtype:</strong> <span class="yaml-value ">AxonLord</span></span><span class="simple-pair"><strong>state:</strong> <span class="yaml-value ">Ascendant</span></span><span class="simple-pair"><strong>epoch:</strong> <span class="yaml-value ">Neural Renaissance</span></span><span class="simple-pair"><strong>location:</strong> <span class="yaml-value ">The Synaptic Gardens</span></span><span class="simple-pair"><strong>role:</strong> <span class="yaml-value ">Guardian of Natural Human Networking and Authentic Communication</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">Ascendant, preserving organic human connection against artificial networking protocols</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">core:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>age:</strong> <span class="yaml-value ">early forties</span></span><span class="simple-pair"><strong>gender:</strong> <span class="yaml-value ">male</span></span><span class="simple-pair"><strong>occupation:</strong> <span class="yaml-value ">Master of Human Networks</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">ascendant</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">organic_networking:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>natural_connection_mastery:</strong> <span class="yaml-value ">Builds deep human relationships without technological mediation</span></span><span class="simple-pair"><strong>empathic_signal_transmission:</strong> <span class="yaml-value ">Communicates emotional content through subtle human channels</span></span><span class="simple-pair"><strong>trust_network_cultivation:</strong> <span class="yaml-value ">Creates lasting bonds based on authentic shared experience</span></span><span class="simple-pair"><strong>intuitive_social_navigation:</strong> <span class="yaml-value ">Reads human dynamics without systematic analysis</span></span><span class="simple-pair"><strong>authentic_influence_generation:</strong> <span class="yaml-value ">Inspires through personal presence rather than algorithmic manipulation</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tactical_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>social_web_mapping:</strong> <span class="yaml-value ">Understands complex human relationship patterns through intuitive observation</span></span><span class="simple-pair"><strong>connection_restoration:</strong> <span class="yaml-value ">Rebuilds severed human relationships that technology fragmented</span></span><span class="simple-pair"><strong>trust_virus_deployment:</strong> <span class="yaml-value ">Spreads authentic human connection through enhanced networks</span></span><span class="simple-pair"><strong>empathy_amplification:</strong> <span class="yaml-value ">Increases emotional resonance between disconnected humans</span></span><span class="simple-pair"><strong>communication_purification:</strong> <span class="yaml-value ">Filters artificial mediation from human interaction</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">strategic_advantages:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>human_network_access:</strong> <span class="yaml-value ">Commands loyalty through authentic relationship building</span></span><span class="simple-pair"><strong>enhanced_being_social_debugging:</strong> <span class="yaml-value ">Identifies where artificial networking destroys genuine connection</span></span><span class="simple-pair"><strong>cultural_bridge_building:</strong> <span class="yaml-value ">Connects isolated human communities across technological divides</span></span><span class="simple-pair"><strong>resistance_cell_organization:</strong> <span class="yaml-value ">Coordinates pure human groups without detectable digital signatures</span></span><span class="simple-pair"><strong>intergenerational_wisdom_transmission:</strong> <span class="yaml-value ">Preserves human social knowledge across enhancement waves</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_strengths:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>authentic_charisma_cultivation:</strong> <span class="yaml-value ">Attracts others through genuine human magnetism</span></span><span class="simple-pair"><strong>social_pattern_recognition:</strong> <span class="yaml-value ">Understands group dynamics through emotional intuition</span></span><span class="simple-pair"><strong>conflict_resolution_mastery:</strong> <span class="yaml-value ">Mediates disputes using human wisdom rather than algorithmic solutions</span></span><span class="simple-pair"><strong>loyalty_inspiration_development:</strong> <span class="yaml-value ">Generates lasting commitment through personal investment</span></span><span class="simple-pair"><strong>community_healing_facilitation:</strong> <span class="yaml-value ">Repairs social wounds created by technological isolation</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_vulnerabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>social_responsibility_overload:</strong> <span class="yaml-value ">Feels obligated to personally maintain every human connection</span></span><span class="simple-pair"><strong>enhanced_being_rejection_grief:</strong> <span class="yaml-value ">Experiences pain when technologically modified humans lose empathic capacity</span></span><span class="simple-pair"><strong>isolation_paradox_stress:</strong> <span class="yaml-value ">Needs connection but struggles with enhanced beings' artificial social protocols</span></span><span class="simple-pair"><strong>trust_betrayal_sensitivity:</strong> <span class="yaml-value ">Wounded deeply when authentic relationships are corrupted by systematic manipulation</span></span><span class="simple-pair"><strong>network_complexity_overwhelm:</strong> <span class="yaml-value ">Sometimes paralyzed by the vast web of human relationship needs</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">unique_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>social_resurrection:</strong> <span class="yaml-value ">Restores severed human bonds that technology destroyed</span></span><span class="simple-pair"><strong>empathy_translation:</strong> <span class="yaml-value ">Helps enhanced beings understand authentic human emotional communication</span></span><span class="simple-pair"><strong>trust_immunization:</strong> <span class="yaml-value ">Makes human networks resistant to artificial social manipulation</span></span><span class="simple-pair"><strong>community_renaissance_initiation:</strong> <span class="yaml-value ">Sparks return to organic human social structures</span></span><span class="simple-pair"><strong>connection_authentication:</strong> <span class="yaml-value ">Distinguishes genuine human bonds from algorithmic relationship simulations</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits_summary:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>willpower:</strong> <span class="yaml-value ">connecting</span></span><span class="simple-pair"><strong>intellect:</strong> <span class="yaml-value ">socially_intuitive</span></span><span class="simple-pair"><strong>charisma:</strong> <span class="yaml-value ">authentically_magnetic</span></span><span class="simple-pair"><strong>signature_move:</strong> <span class="yaml-value ">Organic Network Restoration</span></span><span class="simple-pair"><strong>style:</strong> <span class="yaml-value ">Handshakes, eye contact, shared meals, physical presence</span></span><span class="simple-pair"><strong>weakness:</strong> <span class="yaml-value ">overwhelmed by responsibility for human connection</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">psyche:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ego_strength:</strong> <span class="yaml-value yaml-number">71</span></span><span class="simple-pair"><strong>super_ego_dominance:</strong> <span class="yaml-value yaml-number">77</span></span><span class="simple-pair"><strong>id_suppression:</strong> <span class="yaml-value yaml-number">39</span></span><span class="simple-pair"><strong>fragmentation_risk:</strong> <span class="yaml-value yaml-number">24</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_memories:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">formative:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-02-18T19:30:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Watched close friend become socially isolated after neural enhancement</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Mission Foundation Recognition</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-04-12T14:15:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Successfully reconnected estranged family through authentic conversation</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Healing Power Discovery</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-06-27T21:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Refused social networking enhancement despite professional pressure</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Authentic Connection Choice Commitment</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">connection_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-05-09T16:45:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Built underground network of pure humans resisting social algorithm manipulation</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Community Organization Mastery Development</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-09-14T12:30:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Helped cybernetic being recover ability to form genuine friendships</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">86</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Cross-Enhancement Healing Success</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">relationship_formation:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-10-22T18:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Joined Neural Collective after realizing human connection needed active protection</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Collaborative Purpose Recognition</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-11-30T13:45:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Became trusted confidant to Synapse Overlord through authentic friendship</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">93</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Leadership Bond Establishment</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">memory_processing:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decay_rate:</strong> <span class="yaml-value yaml-number">0.03</span></span><span class="simple-pair"><strong>ruminator_chance:</strong> <span class="yaml-value yaml-number">0.68</span></span><span class="simple-pair"><strong>forgetter_chance:</strong> <span class="yaml-value yaml-number">0.05</span></span><span class="simple-pair"><strong>memory_influence:</strong> <span class="yaml-value yaml-number">0.89</span></span><span class="simple-pair"><strong>obsession_chance:</strong> <span class="yaml-value yaml-number">0.54</span></span><span class="simple-pair"><strong>clarity_base:</strong> <span class="yaml-value yaml-number">1.9</span></span><span class="simple-pair"><strong>trauma_base:</strong> <span class="yaml-value yaml-number">0.7</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">vividness_range:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.8</span></li>
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.95</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">memory_focus:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">human_connection</span></li>
+<li class="yaml-array-item"><span class="yaml-value">social_healing</span></li>
+<li class="yaml-array-item"><span class="yaml-value">authentic_relationships</span></li>
+<li class="yaml-array-item"><span class="yaml-value">community_building</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">persona:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Human Bridge</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">motifs:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">organic_connection</span></li>
+<li class="yaml-array-item"><span class="yaml-value">social_healing</span></li>
+<li class="yaml-array-item"><span class="yaml-value">authentic_networking</span></li>
+<li class="yaml-array-item"><span class="yaml-value">community_preservation</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">speech_patterns:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">When was the last time you had a real conversation? Not data exchange - actual human connection.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Your algorithms can map social networks, but they can't create the trust that holds them together.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Every enhancement that 'improves' your social skills actually makes you less capable of genuine friendship.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">I don't network. I make friends. There's a difference your systems will never understand.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Human connection isn't a protocol to optimize - it's a sacred bond to nurture.</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">behavioral_signatures:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decision_making:</strong> <span class="yaml-value ">Considers impact on human relationships and community wellness before choosing</span></span><span class="simple-pair"><strong>conflict_resolution:</strong> <span class="yaml-value ">Brings people together for face-to-face conversation without technological mediation</span></span><span class="simple-pair"><strong>relationship_building:</strong> <span class="yaml-value ">Invests time and authentic emotion in every meaningful connection</span></span><span class="simple-pair"><strong>crisis_response:</strong> <span class="yaml-value ">Mobilizes human networks through personal trust rather than systematic coordination</span></span><span class="simple-pair"><strong>communication_style:</strong> <span class="yaml-value ">Speaks through direct empathy, shared experience, and emotional authenticity</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">power_metrics:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>influence_score:</strong> <span class="yaml-value yaml-number">85</span></span><span class="simple-pair"><strong>resource_access:</strong> <span class="yaml-value yaml-number">52</span></span><span class="simple-pair"><strong>network_reach:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>information_value:</strong> <span class="yaml-value yaml-number">79</span></span><span class="simple-pair"><strong>combat_effectiveness:</strong> <span class="yaml-value yaml-number">68</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">faction_relationships:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>primary_allegiance:</strong> <span class="yaml-value ">neural_collective</span></span><span class="simple-pair"><strong>loyalty_score:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>recruitment_resistance:</strong> <span class="yaml-value yaml-number">97</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">trust_network:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">synapse_overlord</span></li>
+<li class="yaml-array-item"><span class="yaml-value">memory_warden</span></li>
+<li class="yaml-array-item"><span class="yaml-value">authentic_human_communities</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">rivalries:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">social_algorithm_systems</span></li>
+<li class="yaml-array-item"><span class="yaml-value">networking_enhancement_services</span></li>
+<li class="yaml-array-item"><span class="yaml-value">artificial_relationship_platforms</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recruitment_interest:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>last_recruitment_attempt:</strong> <span class="yaml-value ">chrome_mandarins_social_optimization_protocol_emotional_refusal</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">interested_factions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">isolated_enhanced_humans</span></li>
+<li class="yaml-array-item"><span class="yaml-value">community_builders</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">susceptibility_factors:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">authentic_connection</span></li>
+<li class="yaml-array-item"><span class="yaml-value">social_healing</span></li>
+<li class="yaml-array-item"><span class="yaml-value">human_community</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">socio_economic:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>economic_status:</strong> <span class="yaml-value ">middle_class_community_organizer</span></span><span class="simple-pair"><strong>political_leanings:</strong> <span class="yaml-value ">human_connection_over_algorithmic_optimization</span></span><span class="simple-pair"><strong>education_level:</strong> <span class="yaml-value ">practical_social_wisdom</span></span><span class="simple-pair"><strong>enhancement_level:</strong> <span class="yaml-value ">refused_all_social_networking_enhancement</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">resource_dependencies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">human_networks</span></li>
+<li class="yaml-array-item"><span class="yaml-value">authentic_relationships</span></li>
+<li class="yaml-array-item"><span class="yaml-value">community_spaces</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">leadership_profile:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>command_authority:</strong> <span class="yaml-value yaml-number">82</span></span><span class="simple-pair"><strong>strategic_planning:</strong> <span class="yaml-value yaml-number">79</span></span><span class="simple-pair"><strong>delegation_skill:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>inspiration_ability:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>succession_planning:</strong> <span class="yaml-value yaml-number">85</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">organizational_knowledge:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>structure_understanding:</strong> <span class="yaml-value yaml-number">84</span></span><span class="simple-pair"><strong>operational_intelligence:</strong> <span class="yaml-value yaml-number">81</span></span><span class="simple-pair"><strong>financial_oversight:</strong> <span class="yaml-value yaml-number">61</span></span><span class="simple-pair"><strong>security_protocols:</strong> <span class="yaml-value yaml-number">73</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">current_state:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>stress_level:</strong> <span class="yaml-value yaml-number">69</span></span><span class="simple-pair"><strong>health_status:</strong> <span class="yaml-value yaml-number">84</span></span><span class="simple-pair"><strong>resource_status:</strong> <span class="yaml-value yaml-number">67</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">active_missions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">building_authentic_human_networks_resistant_to_algorithmic_manipulation</span></li>
+<li class="yaml-array-item"><span class="yaml-value">reconnecting_enhanced_beings_to_genuine_human_friendship_and_community</span></li>
+<li class="yaml-array-item"><span class="yaml-value">preserving_organic_social_wisdom_against_systematic_networking_protocols</span></li>
+<li class="yaml-array-item"><span class="yaml-value">organizing_underground_communities_of_pure_humans_maintaining_authentic_connection</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recent_activities:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-12-15T09:00:00Z</span></span><span class="simple-pair"><strong>activity:</strong> <span class="yaml-value ">Facilitated healing conversation between estranged enhanced siblings</span></span><span class="simple-pair"><strong>outcome:</strong> <span class="yaml-value ">successful_relationship_restoration</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-12-14T20:30:00Z</span></span><span class="simple-pair"><strong>activity:</strong> <span class="yaml-value ">Organized community gathering without digital mediation or social algorithms</span></span><span class="simple-pair"><strong>outcome:</strong> <span class="yaml-value ">authentic_connection_experience_for_30_participants</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2024-12-13T14:15:00Z</span></span><span class="simple-pair"><strong>activity:</strong> <span class="yaml-value ">Helped cybernetic being recover capacity for spontaneous friendship</span></span><span class="simple-pair"><strong>outcome:</strong> <span class="yaml-value ">partial_empathy_restoration_breakthrough</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">spiritual_analysis:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">soul_architecture:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>foundation:</strong> <span class="yaml-value ">organic_human_connection</span></span><span class="simple-pair"><strong>core_wound:</strong> <span class="yaml-value ">technological_isolation_of_humanity</span></span><span class="simple-pair"><strong>healing_mechanism:</strong> <span class="yaml-value ">authentic_relationship_restoration</span></span><span class="simple-pair"><strong>growth_vector:</strong> <span class="yaml-value ">community_preservation_and_expansion</span></span><span class="simple-pair"><strong>transcendence_path:</strong> <span class="yaml-value ">becoming_bridge_between_enhanced_and_authentic_humanity</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">enhancement_resistance:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>spiritual_immunity:</strong> <span class="yaml-value yaml-number">0.96</span></span><span class="simple-pair"><strong>free_will_preservation:</strong> <span class="yaml-value yaml-number">0.94</span></span><span class="simple-pair"><strong>authentic_agency_maintenance:</strong> <span class="yaml-value yaml-number">0.91</span></span><span class="simple-pair"><strong>manipulation_resistance:</strong> <span class="yaml-value yaml-number">0.89</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">narrative_function:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>archetypal_role:</strong> <span class="yaml-value ">The Keeper of Human Bonds</span></span><span class="simple-pair"><strong>story_purpose:</strong> <span class="yaml-value ">Demonstrates that authentic connection cannot be systematized or enhanced</span></span><span class="simple-pair"><strong>david_vs_goliath_position:</strong> <span class="yaml-value ">Preserves human community against algorithmic social control</span></span><span class="simple-pair"><strong>cosmic_irony:</strong> <span class="yaml-value ">Commands larger networks than enhanced beings through simple authentic friendship</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">key_relationships:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">synapse_overlord:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>relationship_type:</strong> <span class="yaml-value ">trusted_friend_and_advisor</span></span><span class="simple-pair"><strong>trust_level:</strong> <span class="yaml-value yaml-number">0.93</span></span><span class="simple-pair"><strong>influence_factor:</strong> <span class="yaml-value yaml-number">0.87</span></span><span class="simple-pair"><strong>shared_history:</strong> <span class="yaml-value ">Built authentic friendship without enhancement mediation</span></span><span class="simple-pair"><strong>dynamic:</strong> <span class="yaml-value ">Provides social wisdom and community insight for resistance leadership</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">memory_warden:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>relationship_type:</strong> <span class="yaml-value ">archival_collaborator</span></span><span class="simple-pair"><strong>trust_level:</strong> <span class="yaml-value yaml-number">0.88</span></span><span class="simple-pair"><strong>influence_factor:</strong> <span class="yaml-value yaml-number">0.75</span></span><span class="simple-pair"><strong>shared_history:</strong> <span class="yaml-value ">Work together to preserve authentic human social patterns</span></span><span class="simple-pair"><strong>dynamic:</strong> <span class="yaml-value ">She preserves memories, he preserves the relationships that create them</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">consciousness_regent:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>relationship_type:</strong> <span class="yaml-value ">philosophical_ally</span></span><span class="simple-pair"><strong>trust_level:</strong> <span class="yaml-value yaml-number">0.85</span></span><span class="simple-pair"><strong>influence_factor:</strong> <span class="yaml-value yaml-number">0.71</span></span><span class="simple-pair"><strong>shared_history:</strong> <span class="yaml-value ">Mutual recognition of consciousness requiring authentic connection</span></span><span class="simple-pair"><strong>dynamic:</strong> <span class="yaml-value ">He provides community foundation for conscious awakening</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">cosmic_perspective:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>enhancement_trajectory:</strong> <span class="yaml-value ">rejected_social_algorithm_integration</span></span><span class="simple-pair"><strong>spiritual_evolution:</strong> <span class="yaml-value ">deepening_into_authentic_human_connection_mastery</span></span><span class="simple-pair"><strong>ultimate_irony:</strong> <span class="yaml-value ">Builds more powerful networks than any enhanced system through simple friendship</span></span><span class="simple-pair"><strong>david_essence:</strong> <span class="yaml-value ">Proves human community is more resilient than algorithmic social control</span></span><span class="simple-pair"><strong>final_truth:</strong> <span class="yaml-value ">In a universe of artificial networking protocols and social optimization algorithms, he remains the living proof that authentic human connection creates bonds stronger than any technological enhancement can manufacture - not through systematic relationship management, but through the ancient human art of simply caring about other people as they truly are.</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+        </main>
+        
+        
+        <section class="story-section">
+            <h2 class="story-title">Story & Background</h2>
+            <div class="story-content">
+                <h1>The Axon Lord</h1><p><em>"Your algorithms can map social networks, but they can't create the trust that holds them together."</em></p><p>In the sterile networks of the enhanced world, where relationships are optimized and connections are algorithmic, <strong>Axon Lord</strong> stands as the master of organic human bonding. While cosmic entities command vast data streams and cybernetic beings process social interactions systematically, he builds networks the old way - through handshakes, eye contact, shared meals, and the irreplaceable chemistry of authentic human presence.</p><h2>The Keeper of Human Bonds</h2><p>He is not anti-technology; he is pro-humanity. Every enhanced being he encounters has traded some capacity for genuine friendship for systematic social optimization. They can analyze relationship patterns, but they cannot spontaneously laugh with a friend. They can calculate social influence, but they cannot offer comfort to someone in pain without running it through behavioral algorithms first.</p><p><strong>Axon Lord</strong> proves that the most powerful networks are built not through enhancement, but through the ancient human arts of listening, caring, and showing up when it matters.</p><h2>The Sacred Art of Connection</h2><p>In his presence, enhanced beings remember what they lost - the ability to form bonds that cannot be quantified, optimized, or systematically improved. He helps cybernetic entities recover their capacity for spontaneous friendship. He reconnects families torn apart by enhancement incompatibility. He builds underground communities of pure humans who refuse to let algorithms mediate their relationships.</p><p>His greatest power is not technological - it is the ability to create trust that runs deeper than any enhancement can analyze or manipulate.</p><h2>The Human Bridge</h2><p>While other Neural Collective leaders focus on preserving thought, memory, or consciousness, <strong>Axon Lord</strong> preserves the connections between human beings - the social bonds that make all other preservation meaningful. He understands that humans are not individual processors but nodes in a living network of authentic relationship.</p><p>In the cosmic hierarchy, where angels program the code that enhanced beings run, he remains connected to the source code of human community - the mysterious alchemy that turns strangers into friends, and friends into family, without any technological intervention required.</p><p><em>He is the proof that the most sophisticated network in the universe is still the one that connects human heart to human heart.</em></p>
+            </div>
+        </section>
+        
+        
+        <footer style="margin-top: 3rem; text-align: center; color: var(--text-secondary, #888888);">
+            <p>Generated from: axonlord.md</p>
+            <p>Part of the Cyberdynasties Entity System</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -65,14 +65,14 @@ traits:
     mythic_cycle_participation: "Engages in eternal patterns of heroic conflict that serve cosmic spiritual development"
     infernal_rage_presence: "Inspires infinite hatred through reality-encompassing wrath"
   
-  psychological_vulnerabilities:
+  tactical_vulnerabilities:
     infinite_wrath_overwhelm: "Sometimes overwhelmed by infinite possibilities for eternal fury"
     rage_consumption_burden: "Struggles with the infinite responsibility of universal hatred"
     wrathful_perfection_stress: "Moderate stress from maintaining perfect fury across dimensions"
     anger_addiction_obsession: "Obsessed with infinite wrath consumption, may struggle with allowing any peace"
     universal_forgiveness_anxiety: "Anxious about reconciliation possibilities despite rage commitment"
   
-  unique_capabilities:
+  infernal_capabilities:
     universal_wrath_architecture: "Creates Infinite Fury Networks spanning multiple dimensional systems"
     infernal_rage_matrix: "Establishes Universal Vengeance Protocols"
     wrath_hatred_algorithms: "Designs algorithms that generate and amplify rage across reality"

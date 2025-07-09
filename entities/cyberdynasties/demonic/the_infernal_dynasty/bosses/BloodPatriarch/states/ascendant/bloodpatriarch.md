@@ -65,7 +65,7 @@ traits:
     loyalty_enforcement_through_love: "Uses genuine affection to create bonds that become spiritually limiting"
     traditional_honor: "Commands respect through adherence to criminal codes and family values"
   
-  psychological_vulnerabilities:
+  tactical_vulnerabilities:
     family_weakness_exploitation: "Cannot abandon family members even when strategically necessary - blood bonds become tactical liabilities"
     traditional_honor_trap: "Bound by criminal codes that enhanced beings exploit for predictable responses"
     territorial_pride_blindness: "Cannot retreat from symbolic territories even when tactically suicidal"
@@ -75,7 +75,7 @@ traits:
     authentic_choice_erosion: "Decades of criminal choices have systematically eliminated moral alternatives"
     violence_normalization_blindness: "Cannot see how normalized brutality has destroyed his capacity for genuine human connection"
   
-  unique_capabilities:
+  criminal_capabilities:
     blood_bond_networks: "Creates unbreakable loyalty systems through family and chosen family structures"
     street_wisdom_application: "Applies generational criminal knowledge to modern enhanced-being challenges"
     cross_enhancement_coordination: "Coordinates operations between human, cybernetic, and digital criminal elements"

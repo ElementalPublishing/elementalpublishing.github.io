@@ -100,8 +100,6 @@ psyche:
         experience: "Attempted to document every form of governmental failure across nine dimensional territories simultaneously"
         emotional_weight: 91
         integration_status: "Systematic Political Documentation"
-        emotional_weight: 91
-        integration_status: "Systematic Political Documentation"
       - timestamp: "The Revolution That Never Ended"
         experience: "Created perpetual revolutionary state where governance exists in permanent transition between failed systems"
         emotional_weight: 89

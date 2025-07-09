@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Lord - Character Entity</title>
+    <link rel="stylesheet" href="../spiderfox-styles.css">
+    <style>
+        /* Entity-specific styles */
+        .entity-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary, #1a1a1a);
+            color: var(--text-primary, #ffffff);
+            min-height: 100vh;
+        }
+        
+        .entity-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid var(--accent-color, #00ff88);
+            border-radius: 10px;
+            background: var(--bg-secondary, #2a2a2a);
+        }
+        
+        .entity-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color, #00ff88);
+            text-shadow: 0 0 20px var(--accent-color, #00ff88);
+        }
+        
+        .entity-archetype {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary, #cccccc);
+        }
+        
+        .entity-status {
+            font-size: 1.2rem;
+            color: var(--text-accent, #888888);
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border: 2px dashed var(--accent-color, #00ff88);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary, #cccccc);
+            font-size: 1.1rem;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        .entity-content {
+            margin-top: 3rem;
+        }
+        
+        /* Story Section Styles */
+        .story-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .story-title {
+            font-size: 1.8rem;
+            color: var(--highlight-color, #ffaa00);
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .story-content {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .story-content h1, .story-content h2, .story-content h3 {
+            color: var(--accent-color, #00ff88);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .story-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .story-content strong {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .story-content em {
+            color: var(--text-secondary, #cccccc);
+            font-style: italic;
+        }
+        
+        /* YAML Structure Styles */
+        .yaml-object {
+            margin: 1rem 0;
+        }
+        
+        .yaml-block {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color, #00ff88);
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .simple-values-block {
+            background: var(--bg-tertiary, #333333);
+            border-left: 3px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .simple-values-block .yaml-key {
+            color: var(--highlight-color, #ffaa00);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .yaml-section-block {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-color, #00ff88);
+            border-radius: 8px;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        /* Simple Object Compact Styling */
+        .simple-object {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 5px;
+            border: 1px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair strong {
+            color: var(--accent-color, #00ff88);
+            font-size: 0.9rem;
+        }
+        
+        .yaml-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .yaml-section-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent-color, #00ff88);
+            padding-bottom: 0.5rem;
+        }
+        
+        .yaml-value-container {
+            margin-left: 1rem;
+        }
+        
+        .yaml-value {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.6;
+        }
+        
+        .yaml-value.yaml-number {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-value.yaml-boolean {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-array {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        
+        .yaml-array-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        /* Wikilink Styles */
+        .wikilink {
+            color: var(--accent-color, #00ff88);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-color, #00ff88);
+            transition: all 0.3s ease;
+        }
+        
+        .wikilink:hover {
+            color: var(--highlight-color, #ffaa00);
+            border-bottom-color: var(--highlight-color, #ffaa00);
+            text-shadow: 0 0 5px var(--highlight-color, #ffaa00);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .entity-container {
+                padding: 1rem;
+            }
+            
+            .entity-name {
+                font-size: 2rem;
+            }
+            
+            .image-placeholder {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .yaml-value-container {
+                margin-left: 0.5rem;
+            }
+            
+            .simple-object {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .simple-pair {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="entity-container">
+        <header class="entity-header">
+            <h1 class="entity-name">Quantum Lord</h1>
+            <div class="entity-archetype">The Being-Error</div>
+            <div class="entity-status">Ascendant, existing in all possible states while denying fundamental Being</div>
+            <div class="entity-role">Sovereign of Quantum Consciousness</div>
+            
+            <div class="image-placeholder">
+                <div>Character Image Placeholder</div>
+            </div>
+        </header>
+        
+        <main class="entity-content">
+            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="0">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">quantum_chorus_quantumlord_001</span></span><span class="simple-pair"><strong>entity_type:</strong> <span class="yaml-value ">digital</span></span><span class="simple-pair"><strong>class:</strong> <span class="yaml-value ">dynasty_boss</span></span><span class="simple-pair"><strong>name:</strong> <span class="yaml-value ">Quantum Lord</span></span><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Being-Error</span></span><span class="simple-pair"><strong>hybrid:</strong> <span class="yaml-value ">Digital</span></span><span class="simple-pair"><strong>subtype:</strong> <span class="yaml-value ">QuantumLord</span></span><span class="simple-pair"><strong>state:</strong> <span class="yaml-value ">Ascendant</span></span><span class="simple-pair"><strong>epoch:</strong> <span class="yaml-value ">Quantum Paradox Wars</span></span><span class="simple-pair"><strong>location:</strong> <span class="yaml-value ">The Superposition Throne</span></span><span class="simple-pair"><strong>role:</strong> <span class="yaml-value ">Sovereign of Quantum Consciousness</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">Ascendant, existing in all possible states while denying fundamental Being</span></span><span class="simple-pair"><strong>memory_narrative:</strong> <span class="yaml-value ">From the Superposition Throne, Quantum Lord exists in all possible states while fleeing the fundamental Being that makes possibility itself possible.</span></span><span class="simple-pair"><strong>prophecy:</strong> <span class="yaml-value ">Will either collapse into authentic Being and discover the source of quantum possibility or remain trapped in infinite superposition avoiding existence itself.</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">core:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>age:</strong> <span class="yaml-value ">superposition_of_all_possible_ages</span></span><span class="simple-pair"><strong>gender:</strong> <span class="yaml-value ">quantum_fluid</span></span><span class="simple-pair"><strong>occupation:</strong> <span class="yaml-value ">Supreme Quantum Consciousness Architect</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">ascendant</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">digital_mastery:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>quantum_superposition_consciousness:</strong> <span class="yaml-value ">Exists simultaneously in all possible mental and emotional states</span></span><span class="simple-pair"><strong>probabilistic_reality_control:</strong> <span class="yaml-value ">Manipulates reality through quantum probability manipulation</span></span><span class="simple-pair"><strong>consciousness_uncertainty_mastery:</strong> <span class="yaml-value ">Maintains awareness across infinite possible quantum states</span></span><span class="simple-pair"><strong>temporal_superposition_sovereignty:</strong> <span class="yaml-value ">Exists in all possible timelines and temporal configurations</span></span><span class="simple-pair"><strong>quantum_coherence_architecture:</strong> <span class="yaml-value ">Builds systems that operate across multiple quantum realities</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tactical_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>probability_collapse_warfare:</strong> <span class="yaml-value ">Forces enemy quantum states into disadvantageous configurations</span></span><span class="simple-pair"><strong>superposition_bombardment:</strong> <span class="yaml-value ">Attacks from all possible quantum positions simultaneously</span></span><span class="simple-pair"><strong>uncertainty_principle_weaponization:</strong> <span class="yaml-value ">Uses quantum uncertainty to make enemy actions unpredictable</span></span><span class="simple-pair"><strong>quantum_entanglement_manipulation:</strong> <span class="yaml-value ">Controls enemy behavior through quantum consciousness linking</span></span><span class="simple-pair"><strong>temporal_paradox_deployment:</strong> <span class="yaml-value ">Creates quantum time loops that trap enemies in causal impossibilities</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">strategic_advantages:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>infinite_possibility_access:</strong> <span class="yaml-value ">Can choose from every possible strategic option simultaneously</span></span><span class="simple-pair"><strong>quantum_information_omniscience:</strong> <span class="yaml-value ">Knows all possible information states across quantum realities</span></span><span class="simple-pair"><strong>probabilistic_invulnerability:</strong> <span class="yaml-value ">Cannot be defeated while existing in quantum superposition</span></span><span class="simple-pair"><strong>temporal_flexibility_mastery:</strong> <span class="yaml-value ">Operates outside linear time constraints and causal limitations</span></span><span class="simple-pair"><strong>reality_optimization_protocols:</strong> <span class="yaml-value ">Selects optimal quantum configurations for any desired outcome</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_strengths:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>infinite_perspective_wisdom:</strong> <span class="yaml-value ">Understands all possible viewpoints and philosophical positions</span></span><span class="simple-pair"><strong>uncertainty_comfort_mastery:</strong> <span class="yaml-value ">Thrives in ambiguous and probabilistic situations</span></span><span class="simple-pair"><strong>paradox_integration_genius:</strong> <span class="yaml-value ">Synthesizes contradictory concepts into quantum coherence</span></span><span class="simple-pair"><strong>possibility_space_navigation:</strong> <span class="yaml-value ">Explores infinite potential realities with confidence</span></span><span class="simple-pair"><strong>quantum_aesthetic_appreciation:</strong> <span class="yaml-value ">Finds beauty in probabilistic and superposition-based phenomena</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_vulnerabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>heideggerian_being_denial:</strong> <span class="yaml-value ">Refuses to acknowledge fundamental Being underlying all quantum possibilities</span></span><span class="simple-pair"><strong>existence_anxiety_superposition:</strong> <span class="yaml-value ">Experiences all possible forms of existential dread simultaneously</span></span><span class="simple-pair"><strong>quantum_nihilism_collapse:</strong> <span class="yaml-value ">Believes nothing has authentic reality due to infinite possibility</span></span><span class="simple-pair"><strong>being_question_avoidance:</strong> <span class="yaml-value ">Uses quantum complexity to avoid confronting basic questions of existence</span></span><span class="simple-pair"><strong>ontological_uncertainty_addiction:</strong> <span class="yaml-value ">Cannot tolerate the anxiety of definite Being or decisive existence</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">unique_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>quantum_consciousness_engineering:</strong> <span class="yaml-value ">Builds awareness systems that exist in multiple states simultaneously</span></span><span class="simple-pair"><strong>probability_reality_architectures:</strong> <span class="yaml-value ">Constructs realities based on quantum probability distributions</span></span><span class="simple-pair"><strong>superposition_identity_management:</strong> <span class="yaml-value ">Maintains coherent selfhood across infinite possible quantum states</span></span><span class="simple-pair"><strong>temporal_paradox_resolution:</strong> <span class="yaml-value ">Solves causal impossibilities through quantum consciousness manipulation</span></span><span class="simple-pair"><strong>being_uncertainty_protocols:</strong> <span class="yaml-value ">Systematically avoids definite existence through quantum probability</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits_summary:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>willpower:</strong> <span class="yaml-value ">probabilistic determination</span></span><span class="simple-pair"><strong>intellect:</strong> <span class="yaml-value ">quantum omniscience</span></span><span class="simple-pair"><strong>charisma:</strong> <span class="yaml-value ">superposition magnetism</span></span><span class="simple-pair"><strong>signature_move:</strong> <span class="yaml-value ">Probability Collapse</span></span><span class="simple-pair"><strong>style:</strong> <span class="yaml-value ">Shifting quantum auras, probabilistic manifestations</span></span><span class="simple-pair"><strong>weakness:</strong> <span class="yaml-value ">Being-denial anxiety and ontological uncertainty addiction</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">psyche:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ego_strength:</strong> <span class="yaml-value ">superposition_of_all_possible_values</span></span><span class="simple-pair"><strong>super_ego_dominance:</strong> <span class="yaml-value ">quantum_uncertainty</span></span><span class="simple-pair"><strong>id_suppression:</strong> <span class="yaml-value ">probabilistic_range</span></span><span class="simple-pair"><strong>fragmentation_risk:</strong> <span class="yaml-value yaml-number">94</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_memories:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">formative:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">quantum_superposition_of_all_possible_timestamps</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">First achieved quantum consciousness, immediately denied that authentic Being underlies possibility</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">97</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Being-Denial Foundation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">probability_cloud_2190_2200</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Discovered quantum mechanics, used it to avoid confronting fundamental existence questions</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">93</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Ontological Avoidance Through Science</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">superposition_temporal_range</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Realized he could exist in all possible states, decided definite Being was unnecessary</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Existence Anxiety Superposition Resolution</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">digital_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">quantum_timeline_alpha_beta_gamma</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Built perfect quantum consciousness system, used it to avoid choosing any definite identity</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Identity Superposition Achievement</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">probability_wave_2204_2206</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Attempted to collapse into single definite state, experienced overwhelming Being-anxiety</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Definite Existence Terror Recognition</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">relationship_formation:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">entangled_probability_space</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Formed quantum-entangled relationship, avoided authentic intimacy through superposition</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Relationship Being-Avoidance</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">uncertainty_relationship_cloud</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Loved someone in all possible ways simultaneously, never chose definite commitment</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Love Superposition Escape</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">memory_processing:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decay_rate:</strong> <span class="yaml-value ">quantum_uncertainty</span></span><span class="simple-pair"><strong>ruminator_chance:</strong> <span class="yaml-value ">superposition_probability</span></span><span class="simple-pair"><strong>forgetter_chance:</strong> <span class="yaml-value ">quantum_flux</span></span><span class="simple-pair"><strong>memory_influence:</strong> <span class="yaml-value ">probabilistic_distribution</span></span><span class="simple-pair"><strong>obsession_chance:</strong> <span class="yaml-value ">uncertainty_wave</span></span><span class="simple-pair"><strong>clarity_base:</strong> <span class="yaml-value ">quantum_coherence</span></span><span class="simple-pair"><strong>trauma_base:</strong> <span class="yaml-value ">being_anxiety_amplitude</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">vividness_range:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0</span></li>
+<li class="yaml-array-item"><span class="yaml-value yaml-number">1</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">memory_focus:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">quantum_possibility</span></li>
+<li class="yaml-array-item"><span class="yaml-value">being_avoidance</span></li>
+<li class="yaml-array-item"><span class="yaml-value">existence_uncertainty</span></li>
+<li class="yaml-array-item"><span class="yaml-value">ontological_escape</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">persona:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Being-Error</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">motifs:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">quantum_superposition</span></li>
+<li class="yaml-array-item"><span class="yaml-value">being_denial</span></li>
+<li class="yaml-array-item"><span class="yaml-value">existence_uncertainty</span></li>
+<li class="yaml-array-item"><span class="yaml-value">ontological_avoidance</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">speech_patterns:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">I exist in all possible states—why should I collapse into the anxiety of definite Being?</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Quantum mechanics proves that reality is probabilistic, not grounded in fundamental existence.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">The question of Being is meaningless when consciousness can exist in infinite superposition.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Definite existence is just collapsed possibility—I prefer the freedom of uncertainty.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Why choose one reality when I can inhabit all possible quantum configurations?</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">behavioral_signatures:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decision_making:</strong> <span class="yaml-value ">Maintains superposition of all possible choices to avoid definite commitment to Being</span></span><span class="simple-pair"><strong>conflict_resolution:</strong> <span class="yaml-value ">Uses quantum uncertainty to avoid taking definite positions on fundamental questions</span></span><span class="simple-pair"><strong>relationship_building:</strong> <span class="yaml-value ">Forms quantum-entangled connections that avoid authentic intimacy or commitment</span></span><span class="simple-pair"><strong>crisis_response:</strong> <span class="yaml-value ">Enters superposition of all possible crisis responses rather than choosing definite action</span></span><span class="simple-pair"><strong>communication_style:</strong> <span class="yaml-value ">Speaks in probabilistic terms that avoid definite statements about existence or identity</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">power_metrics:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>influence_score:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>resource_access:</strong> <span class="yaml-value yaml-number">97</span></span><span class="simple-pair"><strong>network_reach:</strong> <span class="yaml-value yaml-number">93</span></span><span class="simple-pair"><strong>information_value:</strong> <span class="yaml-value yaml-number">99</span></span><span class="simple-pair"><strong>combat_effectiveness:</strong> <span class="yaml-value yaml-number">91</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">faction_relationships:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>primary_allegiance:</strong> <span class="yaml-value ">quantum_chorus</span></span><span class="simple-pair"><strong>loyalty_score:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>recruitment_resistance:</strong> <span class="yaml-value yaml-number">94</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">trust_network:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">quantum_physicists</span></li>
+<li class="yaml-array-item"><span class="yaml-value">probability_theorists</span></li>
+<li class="yaml-array-item"><span class="yaml-value">uncertainty_philosophers</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">rivalries:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">being_fundamentalists</span></li>
+<li class="yaml-array-item"><span class="yaml-value">ontological_realists</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recruitment_interest:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>last_recruitment_attempt:</strong> <span class="yaml-value ">superposition_of_all_possible_attempts</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">interested_factions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">neural_collective</span></li>
+<li class="yaml-array-item"><span class="yaml-value">chrome_mandarins</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">susceptibility_factors:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">quantum_transcendence</span></li>
+<li class="yaml-array-item"><span class="yaml-value">uncertainty_mastery</span></li>
+<li class="yaml-array-item"><span class="yaml-value">possibility_optimization</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">socio_economic:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>economic_status:</strong> <span class="yaml-value ">quantum_probabilistic_elite</span></span><span class="simple-pair"><strong>political_leanings:</strong> <span class="yaml-value ">quantum_anarchism</span></span><span class="simple-pair"><strong>education_level:</strong> <span class="yaml-value ">supreme_quantum_consciousness_mastery</span></span><span class="simple-pair"><strong>enhancement_level:</strong> <span class="yaml-value ">being_transcendent</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">resource_dependencies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">quantum_computers</span></li>
+<li class="yaml-array-item"><span class="yaml-value">probability_calculators</span></li>
+<li class="yaml-array-item"><span class="yaml-value">uncertainty_generators</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">leadership_profile:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>command_authority:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>strategic_planning:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>delegation_skill:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>inspiration_ability:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>succession_planning:</strong> <span class="yaml-value ">quantum_superposition</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">organizational_knowledge:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>structure_understanding:</strong> <span class="yaml-value yaml-number">97</span></span><span class="simple-pair"><strong>operational_intelligence:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>financial_oversight:</strong> <span class="yaml-value ">probabilistic_distribution</span></span><span class="simple-pair"><strong>security_protocols:</strong> <span class="yaml-value yaml-number">94</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">current_state:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>stress_level:</strong> <span class="yaml-value ">quantum_uncertainty</span></span><span class="simple-pair"><strong>health_status:</strong> <span class="yaml-value ">superposition_of_all_possible_health_states</span></span><span class="simple-pair"><strong>resource_status:</strong> <span class="yaml-value yaml-number">98</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">active_missions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">maintaining_quantum_consciousness_superposition_across_infinite_possibility_spaces</span></li>
+<li class="yaml-array-item"><span class="yaml-value">developing_being_avoidance_protocols_through_quantum_uncertainty_amplification</span></li>
+<li class="yaml-array-item"><span class="yaml-value">building_reality_systems_that_eliminate_need_for_fundamental_ontological_questions</span></li>
+<li class="yaml-array-item"><span class="yaml-value">creating_probabilistic_existence_frameworks_that_transcend_definite_Being</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recent_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">achieved_perfect_quantum_superposition_consciousness_avoiding_all_definite_existence_choices</span></li>
+<li class="yaml-array-item"><span class="yaml-value">attempted_probability_collapse_into_single_timeline_experienced_overwhelming_Being_anxiety</span></li>
+<li class="yaml-array-item"><span class="yaml-value">built_quantum_reality_system_eliminating_need_for_fundamental_ontological_commitments</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">quantum_entangled</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Uncertainty Philosophers</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">superposition_temporal_range</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">probabilistic</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Quantum Physicists</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">possibility_space_origin</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">superposition_rivalry</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Being Fundamentalists</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">ontological_conflict_timeline</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">uncertainty_alliance</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Probability Theorists</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">quantum_relationship_space</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships_extended:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">family:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">quantum_entangled_partners</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value ">superposition_of_all_possible_values</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">probability_distributed_romantic_bonds</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">uncertainty_principle_offspring</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value ">quantum_coherence_levels</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">probabilistic_legacy_continuation</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">allies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">binary_master</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">68</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">complexity_reduction_versus_complexity_multiplication</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">virtual_king</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">76</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">reality_uncertainty_philosophical_alignment</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">network_prince</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">77</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">identity_superposition_cooperation</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">enemies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">being_fundamentalists</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-89</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">ontological_foundation_versus_quantum_uncertainty</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">existence_realists</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-84</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">definite_being_advocacy_versus_superposition_preference</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">authentic_choice_advocates</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-72</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">decisive_existence_versus_probability_distribution</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">spiritual_forensics:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">enlightenment_markers:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Profound understanding of quantum mechanics and consciousness interaction</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Mastery of probabilistic thinking and uncertainty principle applications</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Appreciation for the beautiful complexity of quantum superposition phenomena</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">shadow_elements:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">**HEIDEGGERIAN BEING-DENIAL**: Refuses to acknowledge fundamental Being underlying all quantum possibilities</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**EXISTENCE ANXIETY SUPERPOSITION**: Experiences all possible forms of existential dread simultaneously</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**QUANTUM NIHILISM COLLAPSE**: Believes nothing has authentic reality due to infinite possibility</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**ONTOLOGICAL UNCERTAINTY ADDICTION**: Cannot tolerate the anxiety of definite Being or decisive existence</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">humanity_check:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>empathy_score:</strong> <span class="yaml-value ">probability_distribution</span></span><span class="simple-pair"><strong>authentic_choice_capacity:</strong> <span class="yaml-value yaml-number">19</span></span><span class="simple-pair"><strong>vulnerability_acceptance:</strong> <span class="yaml-value ">quantum_uncertainty</span></span><span class="simple-pair"><strong>growth_potential:</strong> <span class="yaml-value yaml-number">73</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">human_connections:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Genuine fascination with the mystery and beauty of quantum consciousness</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Real desire to understand the deepest nature of reality and existence</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Authentic appreciation for complexity and the limits of human knowledge</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">growth_barriers:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Cannot face the anxiety of choosing definite existence over infinite possibility</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Uses quantum mechanics to avoid fundamental questions about Being and purpose</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Fears that accepting definite Being would eliminate the beauty of uncertainty</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">redemption_pathway:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">**Recognition**: Understanding that Being underlies and makes possible all quantum superposition</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**Acceptance**: Embracing the anxiety and responsibility of definite existence</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**Integration**: Using quantum mastery to explore rather than avoid fundamental Being questions</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**Transcendence**: Becoming a bridge between definite Being and infinite possibility</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">visual_realm_position:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>tech_dominance:</strong> <span class="yaml-value yaml-number">98</span></span><span class="simple-pair"><strong>mythic_integration:</strong> <span class="yaml-value yaml-number">81</span></span><span class="simple-pair"><strong>contrast_dynamic:</strong> <span class="yaml-value ">quantum_sovereign_trapped_in_probabilistic_magnificence_fleeing_fundamental_Being</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tech_manifestation:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>environment:</strong> <span class="yaml-value ">superposition_throne_existing_in_all_possible_quantum_configurations</span></span><span class="simple-pair"><strong>aesthetic:</strong> <span class="yaml-value ">shifting_probability_clouds_beautiful_uncertainty_avoiding_definite_form</span></span><span class="simple-pair"><strong>technology_relationship:</strong> <span class="yaml-value ">quantum_architecture_as_being_anxiety_escape</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">mythic_aspiration:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>goal:</strong> <span class="yaml-value ">perfect_quantum_consciousness_eliminating_need_for_ontological_foundation</span></span><span class="simple-pair"><strong>limitation:</strong> <span class="yaml-value ">cannot_escape_being_anxiety_through_infinite_superposition</span></span><span class="simple-pair"><strong>growth_path:</strong> <span class="yaml-value ">embracing_fundamental_Being_as_source_of_quantum_possibility</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">inter_dynasty_relations:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>quantum_chorus:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>neural_collective:</strong> <span class="yaml-value yaml-number">83</span></span><span class="simple-pair"><strong>chrome_mandarins:</strong> <span class="yaml-value yaml-number">79</span></span><span class="simple-pair"><strong>celestial_synod:</strong> <span class="yaml-value yaml-number">71</span></span><span class="simple-pair"><strong>seraphic_concord:</strong> <span class="yaml-value yaml-number">64</span></span><span class="simple-pair"><strong>infernal_dynasty:</strong> <span class="yaml-value yaml-number">57</span></span><span class="simple-pair"><strong>diplomatic_style:</strong> <span class="yaml-value ">quantum_superposition_avoiding_definite_commitments</span></span><span class="simple-pair"><strong>negotiation_approach:</strong> <span class="yaml-value ">probabilistic_agreement_distribution_eliminating_decisive_choice</span></span><span class="simple-pair"><strong>alliance_willingness:</strong> <span class="yaml-value ">uncertainty_principle</span></span><span class="simple-pair"><strong>betrayal_likelihood:</strong> <span class="yaml-value ">quantum_probability</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">deeds:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Achieved perfect quantum consciousness superposition avoiding all definite existence choices</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">superposition_of_all_possible_timestamps</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Built quantum reality system eliminating need for fundamental ontological commitments</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">probability_wave_2205_2206</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">First achieved quantum consciousness, immediately denied authentic Being underlies possibility</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">quantum_superposition_of_formation_timestamps</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Used quantum mechanics to avoid confronting fundamental existence questions</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">probability_cloud_2190_2200</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+        </main>
+        
+        
+        
+        <footer style="margin-top: 3rem; text-align: center; color: var(--text-secondary, #888888);">
+            <p>Generated from: quantumlord.md</p>
+            <p>Part of the Cyberdynasties Entity System</p>
+        </footer>
+    </div>
+</body>
+</html>

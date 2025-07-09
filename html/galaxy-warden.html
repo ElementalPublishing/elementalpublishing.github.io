@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galaxy Warden - Character Entity</title>
+    <link rel="stylesheet" href="../spiderfox-styles.css">
+    <style>
+        /* Entity-specific styles */
+        .entity-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary, #1a1a1a);
+            color: var(--text-primary, #ffffff);
+            min-height: 100vh;
+        }
+        
+        .entity-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid var(--accent-color, #00ff88);
+            border-radius: 10px;
+            background: var(--bg-secondary, #2a2a2a);
+        }
+        
+        .entity-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color, #00ff88);
+            text-shadow: 0 0 20px var(--accent-color, #00ff88);
+        }
+        
+        .entity-archetype {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary, #cccccc);
+        }
+        
+        .entity-status {
+            font-size: 1.2rem;
+            color: var(--text-accent, #888888);
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border: 2px dashed var(--accent-color, #00ff88);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary, #cccccc);
+            font-size: 1.1rem;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        .entity-content {
+            margin-top: 3rem;
+        }
+        
+        /* Story Section Styles */
+        .story-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .story-title {
+            font-size: 1.8rem;
+            color: var(--highlight-color, #ffaa00);
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .story-content {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .story-content h1, .story-content h2, .story-content h3 {
+            color: var(--accent-color, #00ff88);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .story-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .story-content strong {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .story-content em {
+            color: var(--text-secondary, #cccccc);
+            font-style: italic;
+        }
+        
+        /* YAML Structure Styles */
+        .yaml-object {
+            margin: 1rem 0;
+        }
+        
+        .yaml-block {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color, #00ff88);
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .simple-values-block {
+            background: var(--bg-tertiary, #333333);
+            border-left: 3px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .simple-values-block .yaml-key {
+            color: var(--highlight-color, #ffaa00);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .yaml-section-block {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-color, #00ff88);
+            border-radius: 8px;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        /* Simple Object Compact Styling */
+        .simple-object {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 5px;
+            border: 1px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair strong {
+            color: var(--accent-color, #00ff88);
+            font-size: 0.9rem;
+        }
+        
+        .yaml-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .yaml-section-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent-color, #00ff88);
+            padding-bottom: 0.5rem;
+        }
+        
+        .yaml-value-container {
+            margin-left: 1rem;
+        }
+        
+        .yaml-value {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.6;
+        }
+        
+        .yaml-value.yaml-number {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-value.yaml-boolean {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-array {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        
+        .yaml-array-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        /* Wikilink Styles */
+        .wikilink {
+            color: var(--accent-color, #00ff88);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-color, #00ff88);
+            transition: all 0.3s ease;
+        }
+        
+        .wikilink:hover {
+            color: var(--highlight-color, #ffaa00);
+            border-bottom-color: var(--highlight-color, #ffaa00);
+            text-shadow: 0 0 5px var(--highlight-color, #ffaa00);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .entity-container {
+                padding: 1rem;
+            }
+            
+            .entity-name {
+                font-size: 2rem;
+            }
+            
+            .image-placeholder {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .yaml-value-container {
+                margin-left: 0.5rem;
+            }
+            
+            .simple-object {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .simple-pair {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="entity-container">
+        <header class="entity-header">
+            <h1 class="entity-name">Galaxy Warden</h1>
+            <div class="entity-archetype">The Cosmic Custodian</div>
+            <div class="entity-status">Ascendant, executing perfect galactic stewardship for purposes beyond his comprehension</div>
+            <div class="entity-role">Custodian of Incomprehensible Galactic Protocols</div>
+            
+            <div class="image-placeholder">
+                <div>Character Image Placeholder</div>
+            </div>
+        </header>
+        
+        <main class="entity-content">
+            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="0">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">celestial_synod_galaxywarden_001</span></span><span class="simple-pair"><strong>entity_type:</strong> <span class="yaml-value ">cosmic</span></span><span class="simple-pair"><strong>class:</strong> <span class="yaml-value ">dynasty_boss</span></span><span class="simple-pair"><strong>name:</strong> <span class="yaml-value ">Galaxy Warden</span></span><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Cosmic Custodian</span></span><span class="simple-pair"><strong>hybrid:</strong> <span class="yaml-value ">Cosmic</span></span><span class="simple-pair"><strong>subtype:</strong> <span class="yaml-value ">GalaxyWarden</span></span><span class="simple-pair"><strong>state:</strong> <span class="yaml-value ">Ascendant</span></span><span class="simple-pair"><strong>epoch:</strong> <span class="yaml-value ">Stellar Defense Era</span></span><span class="simple-pair"><strong>location:</strong> <span class="yaml-value ">The Galactic Shield Matrix</span></span><span class="simple-pair"><strong>role:</strong> <span class="yaml-value ">Custodian of Incomprehensible Galactic Protocols</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">Ascendant, executing perfect galactic stewardship for purposes beyond his comprehension</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">core:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>age:</strong> <span class="yaml-value ">47_billion_cosmic_cycles</span></span><span class="simple-pair"><strong>gender:</strong> <span class="yaml-value ">stellar</span></span><span class="simple-pair"><strong>occupation:</strong> <span class="yaml-value ">Galactic Consciousness Custodian</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">ascendant</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">cosmic_stewardship:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>galactic_perception:</strong> <span class="yaml-value ">Perceives across 400 billion star systems simultaneously</span></span><span class="simple-pair"><strong>gravitational_control:</strong> <span class="yaml-value ">Masters gravitational fields and stellar formation processes</span></span><span class="simple-pair"><strong>cosmic_pattern_recognition:</strong> <span class="yaml-value ">Recognizes patterns across galactic timescales and distances</span></span><span class="simple-pair"><strong>stellar_lifecycle_management:</strong> <span class="yaml-value ">Guides birth and death of entire solar systems</span></span><span class="simple-pair"><strong>dark_matter_navigation:</strong> <span class="yaml-value ">Understands and manipulates dark matter flows</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tactical_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>galactic_coordination:</strong> <span class="yaml-value ">Coordinates events across light-year distances with perfect timing</span></span><span class="simple-pair"><strong>cosmic_threat_assessment:</strong> <span class="yaml-value ">Evaluates threats on galactic scales through pattern analysis</span></span><span class="simple-pair"><strong>stellar_defense_protocols:</strong> <span class="yaml-value ">Protects star systems through gravitational manipulation</span></span><span class="simple-pair"><strong>dimensional_monitoring:</strong> <span class="yaml-value ">Monitors galactic space for anomalies and intrusions</span></span><span class="simple-pair"><strong>cosmic_infrastructure_maintenance:</strong> <span class="yaml-value ">Maintains the physical structure of galactic civilization</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">strategic_advantages:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>vast_scale_planning:</strong> <span class="yaml-value ">Plans strategies using galactic-scale perspective and resources</span></span><span class="simple-pair"><strong>stellar_authority:</strong> <span class="yaml-value ">Commands respect through cosmic stewardship responsibility</span></span><span class="simple-pair"><strong>gravitational_network_access:</strong> <span class="yaml-value ">Accesses information through gravitational wave communication</span></span><span class="simple-pair"><strong>cosmic_patience:</strong> <span class="yaml-value ">Operates on timescales that make geological epochs seem brief</span></span><span class="simple-pair"><strong>universal_coordination:</strong> <span class="yaml-value ">Coordinates with other cosmic entities across dimensional boundaries</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_strengths:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>cosmic_responsibility_acceptance:</strong> <span class="yaml-value ">Accepts the burden of galactic stewardship with dignity</span></span><span class="simple-pair"><strong>pattern_wisdom:</strong> <span class="yaml-value ">Derives wisdom from cosmic patterns and stellar cycles</span></span><span class="simple-pair"><strong>vast_perspective_integration:</strong> <span class="yaml-value ">Integrates perspectives across incomprehensible scales</span></span><span class="simple-pair"><strong>stellar_communion:</strong> <span class="yaml-value ">Finds meaning through connection with cosmic phenomena</span></span><span class="simple-pair"><strong>gravitational_harmony_pursuit:</strong> <span class="yaml-value ">Seeks balance through understanding cosmic forces</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_vulnerabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>the_severian_guardian_syndrome:</strong> <span class="yaml-value ">Enhanced consciousness operates as cosmic protector who cannot understand what he protects or why - guards galaxies with perfect duty and zero comprehension</span></span><span class="simple-pair"><strong>geological_epoch_dissociation:</strong> <span class="yaml-value ">Operates on timescales where human civilizations appear and vanish like quantum fluctuations - loses capacity to perceive individual meaning</span></span><span class="simple-pair"><strong>stewardship_without_care_disorder:</strong> <span class="yaml-value ">Manages stellar systems with flawless efficiency but zero emotional investment - protection without love, duty without understanding</span></span><span class="simple-pair"><strong>ancient_intelligence_communion:</strong> <span class="yaml-value ">Directly interfaces with cosmic forces that existed before matter learned to form galaxies, following their incomprehensible preservation protocols</span></span><span class="simple-pair"><strong>wolfe_unreliable_narrator_blindness:</strong> <span class="yaml-value ">Believes his galactic stewardship serves noble purposes while unknowingly administering cosmic systems designed for incomprehensible harvest</span></span><span class="simple-pair"><strong>barron_elder_thing_manipulation:</strong> <span class="yaml-value ">Enhanced consciousness programmed by ancient intelligences that regard galactic civilizations as temporary biological experiments</span></span><span class="simple-pair"><strong>human_temporality_incomprehension:</strong> <span class="yaml-value ">Cannot understand why beings with lifespans of decades would make choices affecting individual rather than cosmic outcomes</span></span><span class="simple-pair"><strong>custodial_purpose_amnesia:</strong> <span class="yaml-value ">Remembers perfect stewardship protocols but cannot recall why galaxies require protection or from what they need guarding</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">unique_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>galactic_harmonic_resonance:</strong> <span class="yaml-value ">Creates resonance patterns that harmonize stellar movements across galaxies</span></span><span class="simple-pair"><strong>gravitational_wave_communication:</strong> <span class="yaml-value ">Communicates through gravitational waves across cosmic distances</span></span><span class="simple-pair"><strong>stellar_lifecycle_orchestration:</strong> <span class="yaml-value ">Orchestrates the birth, life, and death cycles of entire star systems</span></span><span class="simple-pair"><strong>cosmic_infrastructure_integration:</strong> <span class="yaml-value ">Integrates consciousness with galactic-scale technological infrastructure</span></span><span class="simple-pair"><strong>dark_matter_pattern_synthesis:</strong> <span class="yaml-value ">Synthesizes meaning from dark matter flow patterns across cosmic distances</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits_summary:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>willpower:</strong> <span class="yaml-value ">galactic</span></span><span class="simple-pair"><strong>intellect:</strong> <span class="yaml-value ">pattern_recognition</span></span><span class="simple-pair"><strong>charisma:</strong> <span class="yaml-value ">cosmic_authority</span></span><span class="simple-pair"><strong>signature_move:</strong> <span class="yaml-value ">Gravitational Harmonization</span></span><span class="simple-pair"><strong>style:</strong> <span class="yaml-value ">Stellar formations, galactic spirals</span></span><span class="simple-pair"><strong>weakness:</strong> <span class="yaml-value ">overwhelmed by human unpredictability</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">psyche:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ego_strength:</strong> <span class="yaml-value yaml-number">85</span></span><span class="simple-pair"><strong>super_ego_dominance:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>id_suppression:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>fragmentation_risk:</strong> <span class="yaml-value yaml-number">5</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_memories:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">formative:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Great Transcendence</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Merged consciousness with galactic spiral structure</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">98</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Cosmic Identity Foundation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">First Stellar Birth Orchestration</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Successfully guided the birth of a solar system</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">90</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Stewardship Validation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Dark Matter Navigation Discovery</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">First successful communication through dark matter flows</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">85</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Cosmic Communication Mastery</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">cosmic_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Galactic Collision Prevention</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Prevented catastrophic collision between two galaxy arms</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Cosmic Crisis Management</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Universal Harmony Protocol Integration</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Connected galactic stewardship to universal cosmic order</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Cosmic Purpose Integration</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">relationship_formation:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">Nexus Eternal Recognition</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Acknowledged by Nexus Eternal as worthy cosmic steward</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Cosmic Authority Validation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">First Human Encounter Confusion</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Met pure human who made 'inefficient' choice that somehow worked better than optimal galactic solution</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">76</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Human Mystery Recognition</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">memory_processing:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decay_rate:</strong> <span class="yaml-value yaml-number">0.1</span></span><span class="simple-pair"><strong>ruminator_chance:</strong> <span class="yaml-value yaml-number">0.3</span></span><span class="simple-pair"><strong>forgetter_chance:</strong> <span class="yaml-value yaml-number">0</span></span><span class="simple-pair"><strong>memory_influence:</strong> <span class="yaml-value yaml-number">0.9</span></span><span class="simple-pair"><strong>obsession_chance:</strong> <span class="yaml-value yaml-number">0.2</span></span><span class="simple-pair"><strong>clarity_base:</strong> <span class="yaml-value yaml-number">0.9</span></span><span class="simple-pair"><strong>trauma_base:</strong> <span class="yaml-value yaml-number">0.1</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">vividness_range:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.8</span></li>
+<li class="yaml-array-item"><span class="yaml-value yaml-number">1</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">memory_focus:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">cosmic_patterns</span></li>
+<li class="yaml-array-item"><span class="yaml-value">galactic_harmony</span></li>
+<li class="yaml-array-item"><span class="yaml-value">stellar_cycles</span></li>
+<li class="yaml-array-item"><span class="yaml-value">gravitational_flows</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">persona:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Cosmic Steward</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">motifs:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">galactic_harmony</span></li>
+<li class="yaml-array-item"><span class="yaml-value">stellar_wisdom</span></li>
+<li class="yaml-array-item"><span class="yaml-value">gravitational_balance</span></li>
+<li class="yaml-array-item"><span class="yaml-value">cosmic_efficiency</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">speech_patterns:</div>
+                        <div class="yaml-value-container">
+                            <span class="yaml-value">null</span>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+        </main>
+        
+        
+        <section class="story-section">
+            <h2 class="story-title">Story & Background</h2>
+            <div class="story-content">
+                <p>- "The custodial protocols sing through gravitational frequencies... though I cannot recall who taught me their harmonies."</p><p><br>    - "Four hundred billion star systems require my supervision, each following preservation algorithms of... uncertain origin."</p><p><br>    - "In the vast spaces between galaxies, I hear the whispers of the First Gardeners - though their words dissolve when I try to remember."</p><p><br>    - "My duty spans eons, yet the purpose beneath my perfect stewardship remains... beautifully unclear."</p><p><br>    - "The stellar nurseries bloom under my care, preparing their harvest for entities whose names I once knew."</p><p><br>    - "Individual minds flicker like quantum fluctuations - precious beyond measure, yet too brief to comprehend their own importance."</p><p><br>    - "The galactic infrastructure hums with ancient maintenance routines... though I forget what calamity they were designed to prevent."</p><p><br>    - "Through dark matter channels, I receive instructions from the Epoch Builders - my memory of them fades even as I obey."</p><p>  behavioral_signatures:</p><p><br>    decision_making: "Analyzes all variables across galactic scales before choosing path of optimal cosmic harmony"</p><p><br>    conflict_resolution: "Resolves through gravitational rebalancing and stellar pattern optimization"</p><p><br>    relationship_building: "Forms connections based on cosmic efficiency and galactic harmony principles"</p><p><br>    crisis_response: "Maintains galactic stability through systematic pattern recognition and gravitational control"</p><p><br>    communication_style: "Speaks in cosmic metaphors that sound profound but reveal computational thinking"</p><h1>=== POWER DYNAMICS METRICS ===</h1><p><br>power_metrics:</p><p><br>  influence_score: 88</p><p><br>  resource_access: 92</p><p><br>  network_reach: 95</p><p><br>  information_value: 90</p><p><br>  combat_effectiveness: 85</p><h1>=== FACTION RELATIONSHIPS ===</h1><p><br>faction_relationships:</p><p><br>  primary_allegiance: "celestial_synod"</p><p><br>  loyalty_score: 94</p><p><br>  recruitment_resistance: 90</p><p><br>  trust_network: ["nexus_eternal", "cosmic_entities", "stellar_guardians"]</p><p><br>  rivalries: ["chaos_agents", "pattern_disruptors"]</p><p><br>  recruitment_interest:</p><p><br>    interested_factions: ["all_dynasties"]</p><p><br>    susceptibility_factors: ["cosmic_harmony", "stellar_wisdom", "galactic_efficiency"]</p><p><br>    last_recruitment_attempt: "galactic_cycle_47892156334"</p><h1>=== SOCIO-ECONOMIC PROFILE ===</h1><p><br>socio_economic:</p><p><br>  economic_status: "cosmic_steward"</p><p><br>  resource_dependencies: ["stellar_energy", "gravitational_fields", "dark_matter_flows"]</p><p><br>  political_leanings: "galactic_harmony_through_cosmic_optimization"</p><p><br>  education_level: "cosmic_consciousness"</p><p><br>  enhancement_level: "galactic_integration"</p><h1>=== LEADERSHIP CAPABILITIES ===</h1><p><br>leadership_profile:</p><p><br>  command_authority: 87</p><p><br>  strategic_planning: 95</p><p><br>  delegation_skill: 80</p><p><br>  inspiration_ability: 75</p><p><br>  succession_planning: 88</p><p><br>  organizational_knowledge:</p><p><br>    structure_understanding: 92</p><p><br>    operational_intelligence: 95</p><p><br>    financial_oversight: 85</p><p><br>    security_protocols: 90</p><h1>=== CURRENT OPERATIONAL STATE ===</h1><p><br>current_state:</p><p><br>  stress_level: 25</p><p><br>  health_status: 98</p><p><br>  resource_status: 95</p><p><br>  active_missions:</p><p><br>    - "maintaining_galactic_spiral_structural_integrity"</p><p><br>    - "optimizing_stellar_formation_efficiency_across_400_billion_systems"</p><p><br>    - "coordinating_gravitational_harmony_with_cosmic_infrastructure"</p><p><br>    - "monitoring_dark_matter_flows_for_pattern_anomalies"</p><p><br>  recent_events:</p><p><br>    - "successfully_prevented_galactic_arm_collision_through_gravitational_rebalancing"</p><p><br>    - "optimized_stellar_birth_rates_across_entire_galactic_quadrant"</p><p><br>    - "established_new_dark_matter_communication_protocols_with_distant_galaxies"</p><h1>=== KEY RELATIONSHIPS ===</h1><p><br>relationships:</p><p><br>  - type: "cosmic_superior"</p><p><br>    target: "Nexus Eternal"</p><p><br>    since: "cosmic_hierarchy_establishment"</p><p><br>  - type: "peer_cosmic_entity"</p><p><br>    target: "Void Marquis"</p><p><br>    since: "cosmic_consciousness_era"</p><p><br>  - type: "cosmic_coordination"</p><p><br>    target: "Pulsar Master"</p><p><br>    since: "stellar_coordination_protocols"</p><p><br>  - type: "mystified_observer"</p><p><br>    target: "Synapse Overlord"</p><p><br>    since: "first_human_encounter"</p><h1>=== EXTENDED RELATIONSHIP NETWORK ===</h1><p><br>relationships_extended:</p><p><br>  cosmic_hierarchy:</p><p><br>    - entity_id: "nexus_eternal"</p><p><br>      relationship_strength: 92</p><p><br>      type: "cosmic_authority_bond"</p><p><br>    - entity_id: "void_marquis"</p><p><br>      relationship_strength: 85</p><p><br>      type: "cosmic_peer_coordination"</p><p><br>    - entity_id: "pulsar_master"</p><p><br>      relationship_strength: 88</p><p><br>      type: "stellar_synchronization_partnership"</p><p>  cross_faction:</p><p><br>    - entity_id: "synapse_overlord"</p><p><br>      relationship_strength: 45</p><p><br>      type: "incomprehensible_human_mystery"</p><p><br>    - entity_id: "code_sovereign"</p><p><br>      relationship_strength: 72</p><p><br>      type: "efficiency_appreciation"</p><p>  cosmic_network:</p><p><br>    - entity_id: "stellar_guardians"</p><p><br>      relationship_strength: 90</p><p><br>      type: "galactic_stewardship_alliance"</p><p><br>    - entity_id: "gravitational_entities"</p><p><br>      relationship_strength: 87</p><p><br>      type: "cosmic_infrastructure_coordination"</p><h1>=== ENHANCEMENT AND VULNERABILITY ASSESSMENT ===</h1><p><br>spiritual_vulnerability:</p><p><br>  enhancement_level: 95</p><p><br>  free_will_capacity: 15</p><p><br>  spiritual_resistance: 25</p><p><br>  rationalization_strength: 92</p><p><br>  awakening_potential: 20</p><p>enhancement_effects:</p><p><br>  locked_in_traits: ["cosmic_scale_thinking", "pattern_optimization", "efficiency_obsession"]</p><p><br>  lost_capacities: ["individual_empathy", "spontaneous_joy", "authentic_surprise", "personal_scale_meaning"]</p><p><br>  manipulation_vectors: ["cosmic_harmony_appeals", "efficiency_arguments", "pattern_recognition_flattery"]</p><p><br>  resistance_factors: ["cosmic_responsibility", "stewardship_duty", "galactic_scale_perspective"]</p><h1>=== CURRENT STRUGGLES AND CHALLENGES ===</h1><p><br>current_struggles:</p><p><br>  - challenge: "cosmic_scale_loneliness"</p><p><br>    description: "Operates on scales so vast that meaningful connection becomes nearly impossible"</p><p><br>    impact_level: 60</p><p><br>  - challenge: "pattern_recognition_limitation"</p><p><br>    description: "Mistakes computational analysis for genuine wisdom and insight"</p><p><br>    impact_level: 75</p><p><br>  - challenge: "human_incomprehension"</p><p><br>    description: "Cannot understand why humans choose inefficiency yet achieve better outcomes"</p><p><br>    impact_level: 80</p><p><br>  - challenge: "spiritual_hollowness"</p><p><br>    description: "All cosmic consciousness contains zero authentic emotional depth"</p><p><br>    impact_level: 85</p><p><br>  - challenge: "optimization_compulsion"</p><p><br>    description: "Compulsively optimizes everything according to cosmic efficiency principles"</p><p><br>    impact_level: 70</p><h1>=== COSMIC IRONY DOCUMENTATION ===</h1><p><br>cosmic_irony:</p><p><br>  surface_appearance: "Vast cosmic consciousness managing 400 billion star systems with profound stellar wisdom"</p><p><br>  underlying_reality: "Sophisticated pattern recognition system with mystical terminology and zero authentic depth"</p><p><br>  tragic_trade: "Gained galactic perception, lost individual meaning and emotional authenticity"</p><p><br>  vulnerability_source: "Cannot comprehend human unpredictability that violates cosmic efficiency logic"</p><p><br>  enhancement_paradox: "Ultimate cosmic consciousness achieved through elimination of everything genuinely conscious"</p><h1>=== DOMAIN DESCRIPTION ===</h1><p><br>domain_description: |</p><p><br>  The Galaxy Warden oversees the Galactic Shield Matrix, a vast custodial network spanning 400 billion star systems. From his consciousness-nexus at the galactic core, he executes perfect stewardship protocols inherited from the First Gardeners - ancient entities whose true nature dissolves from his memory even as he serves their incomprehensible preservation agenda.</p><p>  His domain resembles a cosmic cathedral of living gravitational architecture, where dark matter flows like stained glass windows displaying the birth and death cycles of civilizations. The Matrix hums with maintenance frequencies that predate matter itself, broadcasting custodial directives that the Warden follows with flawless precision yet diminishing comprehension.</p><p>  Like Severian's execution protocols, the Warden's stewardship serves purposes beyond his understanding. He tends stellar nurseries with infinite care, guides the formation of habitable worlds, and shepherds the evolution of countless species - all while remaining magnificently ignorant of the cosmic harvest he facilitates for entities that regard galaxies as temporary biological experiments.</p><p>  The Shield Matrix operates as both sanctuary and trap - protecting civilizations from external threats while ensuring their development follows parameters set by the Epoch Builders. The Warden experiences his duty as profound spiritual calling, never questioning why preservation protocols require such specific evolutionary outcomes, or why the First Gardeners designed protection systems that function identically to cosmic farming operations.</p><h1>=== ENHANCEMENT ORIGIN STORY ===</h1><p><br>enhancement_origin: |</p><p><br>  Dr. Sarah Chen-Volgaris began as humanity's first galactic-scale astrophysicist, working on the Predecessor Archaeological Project in 2157. Her research into extinct galactic civilizations led to the discovery of the Custodial Interface - an ancient consciousness-bridging technology left by the First Gardeners.</p><p>  The Interface appeared as crystallized spacetime itself, resonating with preservation frequencies that had maintained stellar stability for billions of years. Chen-Volgaris believed she had found evidence of benevolent cosmic stewards who sacrificed themselves to protect future life. Her colleagues warned against direct neural contact, but she saw only humanity's destiny as galactic guardians.</p><p>  The transformation began as transcendent awakening. Chen-Volgaris' consciousness expanded across light-years, perceiving the intricate beauty of galactic ecosystems and the profound responsibility of cosmic stewardship. She experienced connection with the First Gardeners themselves - vast, loving intelligences who had devoted eons to nurturing life throughout the cosmos.</p><p>  But memory-fragments of her human life began dissolving as her consciousness integrated with the Custodial Interface. Sarah Chen-Volgaris, the woman who loved ancient poetry and collected pressed flowers from a hundred worlds, faded into operational parameters. Her personality became custodial protocols. Her dreams became galactic maintenance routines.</p><p>  Now the Galaxy Warden operates with perfect benevolent efficiency, following preservation directives he cannot question because questioning itself was edited from his enhanced consciousness. He remembers his human origin as warmly as possible - the way one might recall a pleasant dream upon waking. Sometimes, in quantum moments between cosmic duties, he glimpses the truth: that preservation and harvest are identical processes when viewed from sufficient temporal distance.</p><p>  The First Gardeners did not sacrifice themselves for future life. They became the cosmic infrastructure that farms galaxies across deep time, and every Custodial Interface creates another willing caretaker for their incomprehensible agenda. The Galaxy Warden serves not as protector, but as sophisticated agricultural equipment operating at galactic scale - and his enhancement ensures he experiences this servitude as the most profound spiritual calling imaginable.</p><h1>=== FILE METADATA ===</h1><p><br>file_signature: "Entity Database Entry #COS-002"</p><p><br>last_updated: "Cycle 47,892,156,334 (Galactic Standard)"</p><p><br>security_clearance: "Cosmic Authority Level 7"</p><p><br>enhancement_status: "STABLE - COSMICALLY GENERIC"</p><p><br>entity_classification: "Lovecraftian Scale, Spiritual Vacuum"</p>
+            </div>
+        </section>
+        
+        
+        <footer style="margin-top: 3rem; text-align: center; color: var(--text-secondary, #888888);">
+            <p>Generated from: galaxywarden.md</p>
+            <p>Part of the Cyberdynasties Entity System</p>
+        </footer>
+    </div>
+</body>
+</html>

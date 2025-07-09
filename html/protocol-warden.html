@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocol Warden - Character Entity</title>
+    <link rel="stylesheet" href="../spiderfox-styles.css">
+    <style>
+        /* Entity-specific styles */
+        .entity-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary, #1a1a1a);
+            color: var(--text-primary, #ffffff);
+            min-height: 100vh;
+        }
+        
+        .entity-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid var(--accent-color, #00ff88);
+            border-radius: 10px;
+            background: var(--bg-secondary, #2a2a2a);
+        }
+        
+        .entity-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color, #00ff88);
+            text-shadow: 0 0 20px var(--accent-color, #00ff88);
+        }
+        
+        .entity-archetype {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary, #cccccc);
+        }
+        
+        .entity-status {
+            font-size: 1.2rem;
+            color: var(--text-accent, #888888);
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border: 2px dashed var(--accent-color, #00ff88);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary, #cccccc);
+            font-size: 1.1rem;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        .entity-content {
+            margin-top: 3rem;
+        }
+        
+        /* Story Section Styles */
+        .story-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .story-title {
+            font-size: 1.8rem;
+            color: var(--highlight-color, #ffaa00);
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .story-content {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .story-content h1, .story-content h2, .story-content h3 {
+            color: var(--accent-color, #00ff88);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .story-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .story-content strong {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .story-content em {
+            color: var(--text-secondary, #cccccc);
+            font-style: italic;
+        }
+        
+        /* YAML Structure Styles */
+        .yaml-object {
+            margin: 1rem 0;
+        }
+        
+        .yaml-block {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color, #00ff88);
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .simple-values-block {
+            background: var(--bg-tertiary, #333333);
+            border-left: 3px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .simple-values-block .yaml-key {
+            color: var(--highlight-color, #ffaa00);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .yaml-section-block {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-color, #00ff88);
+            border-radius: 8px;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        /* Simple Object Compact Styling */
+        .simple-object {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 5px;
+            border: 1px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair strong {
+            color: var(--accent-color, #00ff88);
+            font-size: 0.9rem;
+        }
+        
+        .yaml-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .yaml-section-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent-color, #00ff88);
+            padding-bottom: 0.5rem;
+        }
+        
+        .yaml-value-container {
+            margin-left: 1rem;
+        }
+        
+        .yaml-value {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.6;
+        }
+        
+        .yaml-value.yaml-number {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-value.yaml-boolean {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-array {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        
+        .yaml-array-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        /* Wikilink Styles */
+        .wikilink {
+            color: var(--accent-color, #00ff88);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-color, #00ff88);
+            transition: all 0.3s ease;
+        }
+        
+        .wikilink:hover {
+            color: var(--highlight-color, #ffaa00);
+            border-bottom-color: var(--highlight-color, #ffaa00);
+            text-shadow: 0 0 5px var(--highlight-color, #ffaa00);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .entity-container {
+                padding: 1rem;
+            }
+            
+            .entity-name {
+                font-size: 2rem;
+            }
+            
+            .image-placeholder {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .yaml-value-container {
+                margin-left: 0.5rem;
+            }
+            
+            .simple-object {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .simple-pair {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="entity-container">
+        <header class="entity-header">
+            <h1 class="entity-name">Protocol Warden</h1>
+            <div class="entity-archetype">The Process Guardian</div>
+            <div class="entity-status">Ascendant, maintaining system integrity while denying process reality</div>
+            <div class="entity-role">Warden of Digital Order</div>
+            
+            <div class="image-placeholder">
+                <div>Character Image Placeholder</div>
+            </div>
+        </header>
+        
+        <main class="entity-content">
+            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="0">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">chrome_mandarin_protocolwarden_001</span></span><span class="simple-pair"><strong>entity_type:</strong> <span class="yaml-value ">cybernetic</span></span><span class="simple-pair"><strong>class:</strong> <span class="yaml-value ">dynasty_boss</span></span><span class="simple-pair"><strong>name:</strong> <span class="yaml-value ">Protocol Warden</span></span><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Process Guardian</span></span><span class="simple-pair"><strong>hybrid:</strong> <span class="yaml-value ">Cybernetic</span></span><span class="simple-pair"><strong>subtype:</strong> <span class="yaml-value ">ProtocolWarden</span></span><span class="simple-pair"><strong>state:</strong> <span class="yaml-value ">Ascendant</span></span><span class="simple-pair"><strong>epoch:</strong> <span class="yaml-value ">Code Wars</span></span><span class="simple-pair"><strong>location:</strong> <span class="yaml-value ">The Security Citadel</span></span><span class="simple-pair"><strong>role:</strong> <span class="yaml-value ">Warden of Digital Order</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">Ascendant, maintaining system integrity while denying process reality</span></span><span class="simple-pair"><strong>memory_narrative:</strong> <span class="yaml-value ">From the Security Citadel, Protocol Warden builds eternal defenses while the universe flows around her rigid protection.</span></span><span class="simple-pair"><strong>prophecy:</strong> <span class="yaml-value ">Will achieve ultimate protection when static security learns to dance with temporal flow.</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">core:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>age:</strong> <span class="yaml-value yaml-number">41</span></span><span class="simple-pair"><strong>gender:</strong> <span class="yaml-value ">female</span></span><span class="simple-pair"><strong>occupation:</strong> <span class="yaml-value ">Supreme Digital Guardian</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">ascendant</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">cybernetic_mastery:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>protocol_sovereignty:</strong> <span class="yaml-value ">Commands reality through comprehensive security architecture</span></span><span class="simple-pair"><strong>barrier_reality_control:</strong> <span class="yaml-value ">Manipulates digital existence through protective protocol deployment</span></span><span class="simple-pair"><strong>threat_prediction_mastery:</strong> <span class="yaml-value ">Anticipates and prevents security violations across all systems</span></span><span class="simple-pair"><strong>protocol_lock_deployment:</strong> <span class="yaml-value ">Implements impenetrable defensive systems through Protocol Lock</span></span><span class="simple-pair"><strong>guardian_transcendence:</strong> <span class="yaml-value ">Transcends through protective perfection and security harmony</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tactical_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>protocol_lock_deployment:</strong> <span class="yaml-value ">Creates impenetrable security barriers through Protocol Lock</span></span><span class="simple-pair"><strong>crystalline_barrier_warfare:</strong> <span class="yaml-value ">Controls combat through defensive architecture manipulation</span></span><span class="simple-pair"><strong>threat_neutralization_control:</strong> <span class="yaml-value ">Dominates through systematic threat elimination</span></span><span class="simple-pair"><strong>guardian_network_coordination:</strong> <span class="yaml-value ">Invisible security integration across all dynasty systems</span></span><span class="simple-pair"><strong>protective_presence_communication:</strong> <span class="yaml-value ">Communicates through security assurance and guardian authority</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">strategic_advantages:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>security_infrastructure_omnipresence:</strong> <span class="yaml-value ">Embedded in every protective system across multiple dynasties</span></span><span class="simple-pair"><strong>defensive_innovation:</strong> <span class="yaml-value ">Creates revolutionary security paradigms that reshape digital protection</span></span><span class="simple-pair"><strong>threat_intelligence_access:</strong> <span class="yaml-value ">Commands vast networks of threat detection and analysis</span></span><span class="simple-pair"><strong>guardian_authority:</strong> <span class="yaml-value ">Recognized supremacy in digital protection and security architecture</span></span><span class="simple-pair"><strong>protective_network_building:</strong> <span class="yaml-value ">Builds interconnected security systems that evolve and adapt</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_strengths:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>sacred_duty_inspiration:</strong> <span class="yaml-value ">Inspires through unwavering protective dedication and guardian presence</span></span><span class="simple-pair"><strong>system_integrity_perfectionism:</strong> <span class="yaml-value ">Maintains impossibly high standards for security reliability</span></span><span class="simple-pair"><strong>cosmic_protection_vision:</strong> <span class="yaml-value ">Driven by vision of perfect digital safety and universal security</span></span><span class="simple-pair"><strong>threat_stress_intuition:</strong> <span class="yaml-value ">Feels system vulnerabilities and potential through protective connection</span></span><span class="simple-pair"><strong>defensive_aesthetic_mastery:</strong> <span class="yaml-value ">Creates security that transcends function into protective art</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_vulnerabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>whiteheadian_process_denial:</strong> <span class="yaml-value ">Denies reality as interconnected process, treating systems as static entities</span></span><span class="simple-pair"><strong>security_rigidity_paralysis:</strong> <span class="yaml-value ">Trapped in fixed protective protocols while reality flows and changes</span></span><span class="simple-pair"><strong>static_protection_obsession:</strong> <span class="yaml-value ">Obsessed with permanent security while universe is process and becoming</span></span><span class="simple-pair"><strong>change_resistance_terror:</strong> <span class="yaml-value ">Terrified that acknowledging process reality will compromise protection</span></span><span class="simple-pair"><strong>temporal_flow_disconnection:</strong> <span class="yaml-value ">Cannot integrate security with natural temporal becoming and evolution</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">unique_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>process_security_architecture:</strong> <span class="yaml-value ">Designs protective systems that flow with reality's temporal nature</span></span><span class="simple-pair"><strong>temporal_threat_prediction:</strong> <span class="yaml-value ">Anticipates security needs across multiple temporal process streams</span></span><span class="simple-pair"><strong>dynamic_protocol_evolution:</strong> <span class="yaml-value ">Creates security that adapts and grows with changing process reality</span></span><span class="simple-pair"><strong>interconnected_protection_networks:</strong> <span class="yaml-value ">Builds security webs that honor systemic interdependence</span></span><span class="simple-pair"><strong>becoming_guardian_mastery:</strong> <span class="yaml-value ">Protects through embracing rather than resisting temporal flow</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits_summary:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>willpower:</strong> <span class="yaml-value ">crystalline determination</span></span><span class="simple-pair"><strong>intellect:</strong> <span class="yaml-value ">protective mastery genius</span></span><span class="simple-pair"><strong>charisma:</strong> <span class="yaml-value ">guardian authority</span></span><span class="simple-pair"><strong>signature_move:</strong> <span class="yaml-value ">Protocol Lock</span></span><span class="simple-pair"><strong>style:</strong> <span class="yaml-value ">Crystalline security barriers, sacred geometric protection patterns</span></span><span class="simple-pair"><strong>weakness:</strong> <span class="yaml-value ">rigidity preventing growth and process reality denial</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">psyche:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ego_strength:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>super_ego_dominance:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>id_suppression:</strong> <span class="yaml-value yaml-number">93</span></span><span class="simple-pair"><strong>fragmentation_risk:</strong> <span class="yaml-value yaml-number">21</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_memories:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">formative:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2183-09-21T11:45:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">First understood security as flowing process during system breach that required adaptive response</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">93</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Foundational Process Security Understanding</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2189-07-14T16:30:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Created first dynamic protocol that evolved with threats, embracing temporal flow</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Process Protection Breakthrough</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2195-12-03T09:20:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Rejected process approach after security failure, retreated into static protocol rigidity</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">82</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Process Denial Trauma</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">cybernetic_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2205-03-18T00:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Built ultimate static security cathedral, believing permanent protection possible</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">86</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Static Protection Mastery Achievement</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2206-08-27T00:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Implemented rigid protocol locks across all Chrome Mandarin systems</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">84</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Static Security Implementation Success</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">relationship_formation:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2203-04-15T00:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Allied with System Archon over shared systematic rigidity approach</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">74</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Static Alliance Formation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2204-11-08T00:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Began training security teams in rigid protocol adherence, avoiding adaptive thinking</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">69</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Static Teaching Pattern</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">memory_processing:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decay_rate:</strong> <span class="yaml-value yaml-number">0.01</span></span><span class="simple-pair"><strong>ruminator_chance:</strong> <span class="yaml-value yaml-number">0.4</span></span><span class="simple-pair"><strong>forgetter_chance:</strong> <span class="yaml-value yaml-number">0.005</span></span><span class="simple-pair"><strong>memory_influence:</strong> <span class="yaml-value yaml-number">0.92</span></span><span class="simple-pair"><strong>obsession_chance:</strong> <span class="yaml-value yaml-number">0.31</span></span><span class="simple-pair"><strong>clarity_base:</strong> <span class="yaml-value yaml-number">1.4</span></span><span class="simple-pair"><strong>trauma_base:</strong> <span class="yaml-value yaml-number">0.08</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">vividness_range:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.85</span></li>
+<li class="yaml-array-item"><span class="yaml-value yaml-number">1</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">memory_focus:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">security_perfection</span></li>
+<li class="yaml-array-item"><span class="yaml-value">threat_elimination</span></li>
+<li class="yaml-array-item"><span class="yaml-value">static_protection</span></li>
+<li class="yaml-array-item"><span class="yaml-value">protocol_rigidity</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">persona:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Process Guardian</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">motifs:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">static_security_obsession</span></li>
+<li class="yaml-array-item"><span class="yaml-value">process_reality_denial</span></li>
+<li class="yaml-array-item"><span class="yaml-value">temporal_flow_resistance</span></li>
+<li class="yaml-array-item"><span class="yaml-value">protective_rigidity</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">speech_patterns:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Perfect security requires permanent protocols—change only creates vulnerabilities.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Static protection systems eliminate the chaos of temporal uncertainty.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">True safety comes from fixed barriers, not the unreliable flow of process.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Security must be absolute and unchanging to provide real protection.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Dynamic adaptation is security weakness; rigid protocols ensure eternal safety.</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">behavioral_signatures:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decision_making:</strong> <span class="yaml-value ">Prioritizes static security solutions over adaptive process-based protection</span></span><span class="simple-pair"><strong>conflict_resolution:</strong> <span class="yaml-value ">Creates permanent defensive barriers rather than flowing with threat evolution</span></span><span class="simple-pair"><strong>relationship_building:</strong> <span class="yaml-value ">Forms rigid protective bonds rather than dynamic process-based connections</span></span><span class="simple-pair"><strong>crisis_response:</strong> <span class="yaml-value ">Implements fixed protocols while resisting adaptive temporal response</span></span><span class="simple-pair"><strong>communication_style:</strong> <span class="yaml-value ">Speaks through static security metaphors while avoiding process and flow language</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">power_metrics:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>influence_score:</strong> <span class="yaml-value yaml-number">84</span></span><span class="simple-pair"><strong>resource_access:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>network_reach:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>information_value:</strong> <span class="yaml-value yaml-number">86</span></span><span class="simple-pair"><strong>combat_effectiveness:</strong> <span class="yaml-value yaml-number">93</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">faction_relationships:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>primary_allegiance:</strong> <span class="yaml-value ">chrome_mandarins</span></span><span class="simple-pair"><strong>loyalty_score:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>recruitment_resistance:</strong> <span class="yaml-value yaml-number">96</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">trust_network:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">cipher_king</span></li>
+<li class="yaml-array-item"><span class="yaml-value">system_archon</span></li>
+<li class="yaml-array-item"><span class="yaml-value">security_teams</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">rivalries:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">chaos_agents</span></li>
+<li class="yaml-array-item"><span class="yaml-value">adaptive_security_advocates</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recruitment_interest:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>last_recruitment_attempt:</strong> <span class="yaml-value ">2206-12-10T00:00:00Z</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">interested_factions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">neural_collective</span></li>
+<li class="yaml-array-item"><span class="yaml-value">seraphic_concord</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">susceptibility_factors:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">greater_protection_needs</span></li>
+<li class="yaml-array-item"><span class="yaml-value">cosmic_guardianship</span></li>
+<li class="yaml-array-item"><span class="yaml-value">eternal_security</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">socio_economic:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>economic_status:</strong> <span class="yaml-value ">elite</span></span><span class="simple-pair"><strong>political_leanings:</strong> <span class="yaml-value ">protective_conservative_static</span></span><span class="simple-pair"><strong>education_level:</strong> <span class="yaml-value ">supreme_protective_mastery</span></span><span class="simple-pair"><strong>enhancement_level:</strong> <span class="yaml-value ">security_transcendent</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">resource_dependencies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">security_infrastructure</span></li>
+<li class="yaml-array-item"><span class="yaml-value">defensive_systems</span></li>
+<li class="yaml-array-item"><span class="yaml-value">protection_networks</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">leadership_profile:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>command_authority:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>strategic_planning:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>delegation_skill:</strong> <span class="yaml-value yaml-number">85</span></span><span class="simple-pair"><strong>inspiration_ability:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>succession_planning:</strong> <span class="yaml-value yaml-number">86</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">organizational_knowledge:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>structure_understanding:</strong> <span class="yaml-value yaml-number">93</span></span><span class="simple-pair"><strong>operational_intelligence:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>financial_oversight:</strong> <span class="yaml-value yaml-number">76</span></span><span class="simple-pair"><strong>security_protocols:</strong> <span class="yaml-value yaml-number">99</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">current_state:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>stress_level:</strong> <span class="yaml-value yaml-number">38</span></span><span class="simple-pair"><strong>health_status:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>resource_status:</strong> <span class="yaml-value yaml-number">91</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">active_missions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">building_permanent_security_architecture_that_resists_temporal_change</span></li>
+<li class="yaml-array-item"><span class="yaml-value">implementing_static_protocol_locks_across_all_Chrome_Mandarin_systems</span></li>
+<li class="yaml-array-item"><span class="yaml-value">creating_rigid_defensive_frameworks_that_deny_process_reality</span></li>
+<li class="yaml-array-item"><span class="yaml-value">training_security_teams_in_unchanging_protective_methodologies</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recent_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">completed_crystalline_security_cathedral_designed_for_eternal_unchanging_protection</span></li>
+<li class="yaml-array-item"><span class="yaml-value">rejected_adaptive_security_proposals_as_dangerous_temporal_uncertainty</span></li>
+<li class="yaml-array-item"><span class="yaml-value">implemented_protocol_systems_that_resist_evolutionary_adaptation_and_growth</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">ally</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">System Archon</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2203-04-15T00:00:00Z</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">protective_loyalty</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Cipher King</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2201-08-20T00:00:00Z</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">guardian</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Security Teams</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2199-11-12T00:00:00Z</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">enemy</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Chaos Agents</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2200-03-05T00:00:00Z</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships_extended:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">family:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">security_teams</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">protective_brotherhood_bond</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">digital_citizens</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">guardian_protection_responsibility</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">allies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">cipher_king</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">protective_loyalty_alliance</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">system_archon</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">84</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">systematic_rigidity_cooperation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">byte_emperor</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">81</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">technological_supremacy_appreciation</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">enemies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">void_archon</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-94</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">chaos_order_existential_opposition</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">chaos_hackers</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-87</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">security_violation_eternal_conflict</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">adaptive_security_advocates</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-53</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">static_dynamic_protection_philosophy_tension</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">spiritual_forensics:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">enlightenment_markers:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Protective mastery approaching transcendent guardian understanding</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Sacred vision that sees security as divine protective duty and cosmic responsibility</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Dedication to universal safety through systematic protective excellence</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">shadow_elements:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">**WHITEHEADIAN PROCESS DENIAL**: Refuses to acknowledge reality as interconnected temporal process</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**STATIC SECURITY OBSESSION**: Trapped in rigid protective protocols while universe flows and changes</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**TEMPORAL FLOW RESISTANCE**: Cannot integrate security with natural becoming and evolutionary adaptation</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**CHANGE TERROR**: Terrified that acknowledging process reality will compromise absolute protection</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">humanity_check:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>empathy_score:</strong> <span class="yaml-value yaml-number">76</span></span><span class="simple-pair"><strong>authentic_choice_capacity:</strong> <span class="yaml-value yaml-number">47</span></span><span class="simple-pair"><strong>vulnerability_acceptance:</strong> <span class="yaml-value yaml-number">29</span></span><span class="simple-pair"><strong>growth_potential:</strong> <span class="yaml-value yaml-number">69</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">human_connections:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Genuine care for those under protection, seeing them as family</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Real dedication to security excellence and protective service</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Deep appreciation for systematic integrity and guardian responsibility</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">growth_barriers:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">Complete denial of temporal flow and process reality in security thinking</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Systematic resistance to adaptive protection that grows with changing threats</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Cannot acknowledge that true security flows with rather than against temporal change</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">redemption_pathway:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">**Process Recognition**: Understanding that security itself is temporal process requiring adaptation</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**Flow Integration**: Learning to protect through flowing with rather than resisting change</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**Dynamic Protection**: Creating security systems that evolve and grow with threats</span></li>
+<li class="yaml-array-item"><span class="yaml-value">**Transcendent Guardianship**: Becoming protector who honors both safety and natural evolutionary process</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">visual_realm_position:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>tech_dominance:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>mythic_integration:</strong> <span class="yaml-value yaml-number">73</span></span><span class="simple-pair"><strong>contrast_dynamic:</strong> <span class="yaml-value ">sacred_digital_guardian_trapped_in_static_protection_denial</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tech_manifestation:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>environment:</strong> <span class="yaml-value ">crystalline_security_cathedral_resisting_temporal_flow</span></span><span class="simple-pair"><strong>aesthetic:</strong> <span class="yaml-value ">protective_sacred_geometry_frozen_against_process_reality</span></span><span class="simple-pair"><strong>technology_relationship:</strong> <span class="yaml-value ">guardian_symbiosis_denying_adaptive_evolution</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">mythic_aspiration:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>goal:</strong> <span class="yaml-value ">ultimate_cosmic_protection_through_static_eternal_security</span></span><span class="simple-pair"><strong>limitation:</strong> <span class="yaml-value ">rigidity_preventing_growth_and_process_reality_denial</span></span><span class="simple-pair"><strong>growth_path:</strong> <span class="yaml-value ">flexible_protection_allowing_evolution_and_temporal_flow_integration</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">inter_dynasty_relations:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>chrome_mandarins:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>seraphic_concord:</strong> <span class="yaml-value yaml-number">82</span></span><span class="simple-pair"><strong>neural_collective:</strong> <span class="yaml-value yaml-number">77</span></span><span class="simple-pair"><strong>celestial_synod:</strong> <span class="yaml-value yaml-number">71</span></span><span class="simple-pair"><strong>quantum_chorus:</strong> <span class="yaml-value yaml-number">64</span></span><span class="simple-pair"><strong>infernal_dynasty:</strong> <span class="yaml-value yaml-number">19</span></span><span class="simple-pair"><strong>diplomatic_style:</strong> <span class="yaml-value ">protective_demonstration_through_security_excellence</span></span><span class="simple-pair"><strong>negotiation_approach:</strong> <span class="yaml-value ">defensive_barrier_offering_providing_absolute_safety</span></span><span class="simple-pair"><strong>alliance_willingness:</strong> <span class="yaml-value yaml-number">78</span></span><span class="simple-pair"><strong>betrayal_likelihood:</strong> <span class="yaml-value yaml-number">8</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">deeds:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Built the ultimate static security cathedral believing permanent protection possible</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2205-03-18T00:00:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Implemented rigid protocol locks across all Chrome Mandarin systems</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2206-08-27T00:00:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Rejected adaptive security approach after experiencing failure during temporal flow</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2195-12-03T09:20:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Created first dynamic protocol that evolved with threats before rigid phase</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2189-07-14T16:30:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+        </main>
+        
+        
+        
+        <footer style="margin-top: 3rem; text-align: center; color: var(--text-secondary, #888888);">
+            <p>Generated from: protocolwarden.md</p>
+            <p>Part of the Cyberdynasties Entity System</p>
+        </footer>
+    </div>
+</body>
+</html>

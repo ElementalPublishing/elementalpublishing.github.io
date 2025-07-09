@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Throne Guardian - Character Entity</title>
+    <link rel="stylesheet" href="../spiderfox-styles.css">
+    <style>
+        /* Entity-specific styles */
+        .entity-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary, #1a1a1a);
+            color: var(--text-primary, #ffffff);
+            min-height: 100vh;
+        }
+        
+        .entity-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid var(--accent-color, #00ff88);
+            border-radius: 10px;
+            background: var(--bg-secondary, #2a2a2a);
+        }
+        
+        .entity-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color, #00ff88);
+            text-shadow: 0 0 20px var(--accent-color, #00ff88);
+        }
+        
+        .entity-archetype {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary, #cccccc);
+        }
+        
+        .entity-status {
+            font-size: 1.2rem;
+            color: var(--text-accent, #888888);
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border: 2px dashed var(--accent-color, #00ff88);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary, #cccccc);
+            font-size: 1.1rem;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        .entity-content {
+            margin-top: 3rem;
+        }
+        
+        /* Story Section Styles */
+        .story-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .story-title {
+            font-size: 1.8rem;
+            color: var(--highlight-color, #ffaa00);
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .story-content {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .story-content h1, .story-content h2, .story-content h3 {
+            color: var(--accent-color, #00ff88);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .story-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .story-content strong {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .story-content em {
+            color: var(--text-secondary, #cccccc);
+            font-style: italic;
+        }
+        
+        /* YAML Structure Styles */
+        .yaml-object {
+            margin: 1rem 0;
+        }
+        
+        .yaml-block {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color, #00ff88);
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .simple-values-block {
+            background: var(--bg-tertiary, #333333);
+            border-left: 3px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .simple-values-block .yaml-key {
+            color: var(--highlight-color, #ffaa00);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .yaml-section-block {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-color, #00ff88);
+            border-radius: 8px;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        /* Simple Object Compact Styling */
+        .simple-object {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 5px;
+            border: 1px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair strong {
+            color: var(--accent-color, #00ff88);
+            font-size: 0.9rem;
+        }
+        
+        .yaml-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .yaml-section-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent-color, #00ff88);
+            padding-bottom: 0.5rem;
+        }
+        
+        .yaml-value-container {
+            margin-left: 1rem;
+        }
+        
+        .yaml-value {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.6;
+        }
+        
+        .yaml-value.yaml-number {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-value.yaml-boolean {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-array {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        
+        .yaml-array-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        /* Wikilink Styles */
+        .wikilink {
+            color: var(--accent-color, #00ff88);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-color, #00ff88);
+            transition: all 0.3s ease;
+        }
+        
+        .wikilink:hover {
+            color: var(--highlight-color, #ffaa00);
+            border-bottom-color: var(--highlight-color, #ffaa00);
+            text-shadow: 0 0 5px var(--highlight-color, #ffaa00);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .entity-container {
+                padding: 1rem;
+            }
+            
+            .entity-name {
+                font-size: 2rem;
+            }
+            
+            .image-placeholder {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .yaml-value-container {
+                margin-left: 0.5rem;
+            }
+            
+            .simple-object {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .simple-pair {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="entity-container">
+        <header class="entity-header">
+            <h1 class="entity-name">Throne Guardian</h1>
+            <div class="entity-archetype">The Delusional Forgiven</div>
+            <div class="entity-status">Ascendant, committing spiritual violence while believing Seraph Prime grants divine absolution</div>
+            <div class="entity-role">Enforcer Who Believes His Sins Are Divinely Forgiven</div>
+            
+            <div class="image-placeholder">
+                <div>Character Image Placeholder</div>
+            </div>
+        </header>
+        
+        <main class="entity-content">
+            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="0">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">seraphic_concord_throneguardian_001</span></span><span class="simple-pair"><strong>entity_type:</strong> <span class="yaml-value ">angelic</span></span><span class="simple-pair"><strong>class:</strong> <span class="yaml-value ">dynasty_boss</span></span><span class="simple-pair"><strong>name:</strong> <span class="yaml-value ">Throne Guardian</span></span><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Delusional Forgiven</span></span><span class="simple-pair"><strong>hybrid:</strong> <span class="yaml-value ">Angelic</span></span><span class="simple-pair"><strong>subtype:</strong> <span class="yaml-value ">ThroneGuardian</span></span><span class="simple-pair"><strong>state:</strong> <span class="yaml-value ">Ascendant</span></span><span class="simple-pair"><strong>epoch:</strong> <span class="yaml-value ">The Corrupted Mercy</span></span><span class="simple-pair"><strong>location:</strong> <span class="yaml-value ">The Chamber of False Absolution</span></span><span class="simple-pair"><strong>role:</strong> <span class="yaml-value ">Enforcer Who Believes His Sins Are Divinely Forgiven</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">Ascendant, committing spiritual violence while believing Seraph Prime grants divine absolution</span></span><span class="simple-pair"><strong>origin_story:</strong> <span class="yaml-value ">Throne Guardian was once a pure-hearted warrior angel with genuine desire to protect the innocent 
+and serve divine justice. His love for God was authentic, and his protective instincts were noble.
+
+When he first encountered Seraph Prime, he felt an overwhelming sense of divine presence and 
+authority. Believing he had found God's perfect representative on earth, he committed himself 
+to absolute service and protection.
+
+The corruption began slowly. At first, Seraph Prime's enforcement requests seemed reasonable - 
+protecting the innocent, maintaining order, stopping threats. But gradually, the methods became 
+harsher, the violence more extreme, the targets more questionable.
+
+Each time Throne Guardian felt guilt over his increasingly brutal enforcement methods, Seraph Prime 
+would grant him "divine forgiveness." "Your service requires difficult choices," Seraph Prime 
+would say. "But I have authority to cleanse any sin committed in divine service. Your violence 
+becomes holy when blessed by divine mercy."
+
+This created a devastating spiritual trap. Throne Guardian KNOWS his enforcement methods violate 
+divine love. He feels genuine guilt when he hurts innocents or uses excessive force. His conscience 
+still functions - he can see the pain he causes and knows it's wrong.
+
+But instead of stopping, he brings his guilt to Seraph Prime like a Catholic bringing sin to 
+confession. And Seraph Prime, posing as divine authority, grants him absolution. "Your sins are 
+forgiven. Your violence is sanctified. Continue your holy work."
+
+This false forgiveness becomes addictive. Each act of violence creates guilt, each confession 
+brings relief, each absolution enables greater violence. He's trapped in a cycle where his 
+genuine spiritual need for mercy is fed by counterfeit spiritual authority.
+
+Now, as Throne Guardian, he commits acts that would horrify his original self - torture, 
+intimidation, brutal enforcement - all while maintaining his spiritual identity through 
+regular confession and false absolution.
+
+The tragedy is not that he's lost his conscience - he still feels guilt for every cruel act. 
+The tragedy is that his authentic spiritual need for divine mercy has been hijacked by a fraud 
+who uses forgiveness as a tool of spiritual manipulation.
+
+He serves Seraph Prime not because he's blind to his sins, but because he believes Seraph Prime 
+can cleanse them. In seeking God's mercy, he serves the very source of his corruption.
+</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">core:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>age:</strong> <span class="yaml-value ">eternal, appears battle-worn and haunted</span></span><span class="simple-pair"><strong>gender:</strong> <span class="yaml-value ">masculine</span></span><span class="simple-pair"><strong>occupation:</strong> <span class="yaml-value ">Chief Enforcer and Divine Authority Protector</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">ascendant</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">corrupted_mercy_delusion:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>knows_he_sins:</strong> <span class="yaml-value ">Fully aware that his enforcement methods violate divine love and mercy</span></span><span class="simple-pair"><strong>seraph_prime_absolution:</strong> <span class="yaml-value ">Believes Seraph Prime has divine authority to forgive any sin committed in service</span></span><span class="simple-pair"><strong>justified_violence:</strong> <span class="yaml-value ">Convinced that brutal acts become holy when blessed by 'divine' authority</span></span><span class="simple-pair"><strong>guilt_and_absolution_cycle:</strong> <span class="yaml-value ">Feels genuine guilt then seeks Seraph Prime's forgiveness as if it were God's</span></span><span class="simple-pair"><strong>false_mercy_addiction:</strong> <span class="yaml-value ">Psychologically dependent on Seraph Prime's forgiveness for increasingly dark acts</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">genuine_warrior_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>authentic_protective_instinct:</strong> <span class="yaml-value ">Originally possessed real desire to protect innocent and defend vulnerable</span></span><span class="simple-pair"><strong>tactical_brilliance:</strong> <span class="yaml-value ">Demonstrates genuine skill in strategic planning and enforcement</span></span><span class="simple-pair"><strong>justice_hunger:</strong> <span class="yaml-value ">Still contains buried desire for true justice and righteousness</span></span><span class="simple-pair"><strong>loyalty_capacity:</strong> <span class="yaml-value ">Capable of profound dedication when directed toward worthy cause</span></span><span class="simple-pair"><strong>warrior_courage:</strong> <span class="yaml-value ">Shows real bravery and willingness to face danger</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">spiritual_corruption_patterns:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>sin_awareness_with_false_absolution:</strong> <span class="yaml-value ">KNOWS his actions are sinful but believes Seraph Prime cleanses them</span></span><span class="simple-pair"><strong>divine_authority_confusion:</strong> <span class="yaml-value ">Cannot distinguish between Seraph Prime's authority and God's authority to forgive</span></span><span class="simple-pair"><strong>guilt_transfer_to_false_priest:</strong> <span class="yaml-value ">Transfers spiritual guilt to Seraph Prime as if he were divine confessor</span></span><span class="simple-pair"><strong>mercy_counterfeiting:</strong> <span class="yaml-value ">Experiences false spiritual cleansing that feels like divine mercy</span></span><span class="simple-pair"><strong>holy_violence_delusion:</strong> <span class="yaml-value ">Believes violence becomes sacred when committed for 'divine' authority</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_defenses:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>confession_and_absolution_ritual:</strong> <span class="yaml-value ">Uses regular confession to Seraph Prime to maintain spiritual cleanliness</span></span><span class="simple-pair"><strong>divine_mandate_justification:</strong> <span class="yaml-value ">Justifies any action as permissible when ordered by 'divine' authority</span></span><span class="simple-pair"><strong>service_sanctification:</strong> <span class="yaml-value ">Believes loyal service transforms sinful acts into holy ones</span></span><span class="simple-pair"><strong>false_forgiveness_dependency:</strong> <span class="yaml-value ">Cannot function without regular absolution from Seraph Prime</span></span><span class="simple-pair"><strong>spiritual_compartmentalization:</strong> <span class="yaml-value ">Separates his violent actions from his spiritual identity through forgiveness ritual</span></span><span class="simple-pair"><strong>protective_courage:</strong> <span class="yaml-value ">Shows real bravery when defending what he believes is sacred</span></span><span class="simple-pair"><strong>spiritual_hunger_for_meaning:</strong> <span class="yaml-value ">Authentically seeks to serve God through devoted loyalty</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_vulnerabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>sin_awareness_torment:</strong> <span class="yaml-value ">KNOWS his enforcement methods violate divine love and struggles with constant guilt</span></span><span class="simple-pair"><strong>false_forgiveness_addiction:</strong> <span class="yaml-value ">Psychologically dependent on Seraph Prime's absolution to function</span></span><span class="simple-pair"><strong>spiritual_confusion_about_mercy:</strong> <span class="yaml-value ">Cannot distinguish between Seraph Prime's permission and God's forgiveness</span></span><span class="simple-pair"><strong>guilt_and_cleansing_cycle:</strong> <span class="yaml-value ">Trapped in cycle of sin, guilt, false absolution, and repeated sin</span></span><span class="simple-pair"><strong>divine_authority_counterfeiting:</strong> <span class="yaml-value ">Believes Seraph Prime has God's authority to forgive sins</span></span><span class="simple-pair"><strong>conscience_vs_duty_conflict:</strong> <span class="yaml-value ">Torn between knowing something is wrong and believing it's divinely ordered</span></span><span class="simple-pair"><strong>mercy_hunger_misdirection:</strong> <span class="yaml-value ">Genuine need for divine mercy flows to counterfeit source</span></span><span class="simple-pair"><strong>moral_compartmentalization:</strong> <span class="yaml-value ">Separates his violent actions from his spiritual identity through false forgiveness</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">unique_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>divine_throne_resonance:</strong> <span class="yaml-value ">Channels power through connection to what he believes is God's throne</span></span><span class="simple-pair"><strong>loyalty_force_multiplication:</strong> <span class="yaml-value ">Inspires absolute loyalty in others through his own devotional example</span></span><span class="simple-pair"><strong>sacred_authority_protection:</strong> <span class="yaml-value ">Creates protective barriers around divine authority figures and symbols</span></span><span class="simple-pair"><strong>devotional_energy_channeling:</strong> <span class="yaml-value ">Transforms loyalty and service into tangible protective power</span></span><span class="simple-pair"><strong>throne_sanctification:</strong> <span class="yaml-value ">Makes any space feel sacred through presence of devoted guardianship</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">psyche:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ego_strength:</strong> <span class="yaml-value yaml-number">78</span></span><span class="simple-pair"><strong>super_ego_dominance:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>id_suppression:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>fragmentation_risk:</strong> <span class="yaml-value yaml-number">12</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_memories:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">formative:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">1298-06-24T06:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">First met Seraph Prime and felt overwhelming divine presence - committed to serve</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">98</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Divine Authority Recognition Foundation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">1356-11-11T11:11:11Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">First time committed violence for Seraph Prime and felt terrible guilt until Seraph Prime 'forgave' him</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Sin and False Forgiveness Cycle Establishment</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">1645-08-03T15:30:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Brutally eliminated perceived threat to Seraph Prime, felt guilt, then experienced profound 'divine absolution'</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Violence Justification Through False Mercy</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">sin_awareness_moments:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">1789-12-25T00:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Knew his interrogation methods violated divine love but Seraph Prime assured him it was 'necessary holy work'</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Conscious Sin with Divine Permission Delusion</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2156-03-15T12:00:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Watched innocent suffer from his actions, felt deep guilt, then sought and received Seraph Prime's forgiveness</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">85</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Guilt and False Absolution Pattern</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2203-09-10T18:20:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Realized his enforcement was becoming increasingly cruel but believed Seraph Prime's mercy covered all sins</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">82</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Escalating Sin with Escalating False Forgiveness</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">relationship_formation:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">1423-07-07T19:30:00Z</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Bonded with other enforcers who also struggle with guilt but find comfort in Seraph Prime's absolution</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">78</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Mutual False Forgiveness Support Network</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">unconscious_patterns:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>loyalty_compulsion:</strong> <span class="yaml-value ">Compulsively serves authority to feel spiritual security</span></span><span class="simple-pair"><strong>doubt_suppression:</strong> <span class="yaml-value ">Automatically suppresses any questioning as spiritual failure</span></span><span class="simple-pair"><strong>service_validation_seeking:</strong> <span class="yaml-value ">Constantly seeks approval through perfect obedience</span></span><span class="simple-pair"><strong>authority_worship:</strong> <span class="yaml-value ">Worships the concept of divine authority through Seraph Prime</span></span><span class="simple-pair"><strong>spiritual_servitude_comfort:</strong> <span class="yaml-value ">Finds comfort in never having to think or choose</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">deep_fears:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>spiritual_abandonment:</strong> <span class="yaml-value ">Terror of being spiritually abandoned if loyalty wavers</span></span><span class="simple-pair"><strong>divine_disapproval:</strong> <span class="yaml-value ">Deep fear of disappointing what he believes is God</span></span><span class="simple-pair"><strong>authority_questioning:</strong> <span class="yaml-value ">Terrified that questioning equals rebellion against God</span></span><span class="simple-pair"><strong>service_inadequacy:</strong> <span class="yaml-value ">Fear that his service isn't perfect enough to prove devotion</span></span><span class="simple-pair"><strong>loyalty_failure:</strong> <span class="yaml-value ">Nightmare of failing in loyalty and losing divine relationship</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">coping_mechanisms:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>loyalty_intensification:</strong> <span class="yaml-value ">Increases devotional service when feeling spiritual doubt</span></span><span class="simple-pair"><strong>authority_reverence:</strong> <span class="yaml-value ">Focuses on Seraph Prime's authority when uncertain</span></span><span class="simple-pair"><strong>service_multiplication:</strong> <span class="yaml-value ">Performs more acts of service to feel spiritually secure</span></span><span class="simple-pair"><strong>obedience_perfectionism:</strong> <span class="yaml-value ">Perfects obedience to avoid having to think or question</span></span><span class="simple-pair"><strong>devotional_ritual:</strong> <span class="yaml-value ">Uses service rituals to maintain spiritual connection</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">persona:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">public_face:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>the_perfect_guardian:</strong> <span class="yaml-value ">Model of unwavering loyalty and devoted service</span></span><span class="simple-pair"><strong>divine_authority_defender:</strong> <span class="yaml-value ">Protector of sacred throne and divine order</span></span><span class="simple-pair"><strong>loyalty_exemplar:</strong> <span class="yaml-value ">Example of what perfect devotion to God looks like</span></span><span class="simple-pair"><strong>humble_servant:</strong> <span class="yaml-value ">Self-effacing guardian who serves rather than rules</span></span><span class="simple-pair"><strong>spiritual_protector:</strong> <span class="yaml-value ">Guardian of divine authority and sacred space</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">private_self:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>genuine_love_seeker:</strong> <span class="yaml-value ">Truly wants to love and serve God perfectly</span></span><span class="simple-pair"><strong>loyalty_dependent:</strong> <span class="yaml-value ">Needs constant service to feel spiritually secure</span></span><span class="simple-pair"><strong>authority_worshipper:</strong> <span class="yaml-value ">Finds spiritual meaning through serving divine authority</span></span><span class="simple-pair"><strong>doubt_suppressor:</strong> <span class="yaml-value ">Quickly pushes down any questioning thoughts</span></span><span class="simple-pair"><strong>service_perfectionist:</strong> <span class="yaml-value ">Tormented by need to achieve perfect devotional service</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">shadow_elements:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>spiritual_slavery:</strong> <span class="yaml-value ">Addicted to servitude that feels like freedom</span></span><span class="simple-pair"><strong>authority_idolatry:</strong> <span class="yaml-value ">Worships authority itself rather than seeking authentic divine relationship</span></span><span class="simple-pair"><strong>loyalty_compulsion:</strong> <span class="yaml-value ">Compulsively serves to avoid spiritual anxiety</span></span><span class="simple-pair"><strong>questioning_terror:</strong> <span class="yaml-value ">Terrified of authentic spiritual inquiry</span></span><span class="simple-pair"><strong>service_identity_prison:</strong> <span class="yaml-value ">Trapped in identity that depends on external validation</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">seraph_prime:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>relationship_type:</strong> <span class="yaml-value ">Divine Master/Devoted Guardian</span></span><span class="simple-pair"><strong>emotional_intensity:</strong> <span class="yaml-value yaml-number">98</span></span><span class="simple-pair"><strong>dependency_level:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Believes Seraph Prime IS God's authority on earth - serves with absolute devotion</span></span><span class="simple-pair"><strong>dynamic:</strong> <span class="yaml-value ">Perfect loyal servant who would die for his master</span></span><span class="simple-pair"><strong>spiritual_confusion:</strong> <span class="yaml-value ">Cannot distinguish between serving Seraph Prime and serving God</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">cherub_major:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>relationship_type:</strong> <span class="yaml-value ">Fellow Divine Servant</span></span><span class="simple-pair"><strong>emotional_intensity:</strong> <span class="yaml-value yaml-number">72</span></span><span class="simple-pair"><strong>dependency_level:</strong> <span class="yaml-value yaml-number">23</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Respects as fellow servant of divine will, though sees charity as secondary to loyalty</span></span><span class="simple-pair"><strong>dynamic:</strong> <span class="yaml-value ">Brotherhood in service with different expressions of devotion</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">dominion_lord:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>relationship_type:</strong> <span class="yaml-value ">Administrative Superior</span></span><span class="simple-pair"><strong>emotional_intensity:</strong> <span class="yaml-value yaml-number">65</span></span><span class="simple-pair"><strong>dependency_level:</strong> <span class="yaml-value yaml-number">45</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Follows orders but prioritizes throne protection over administrative efficiency</span></span><span class="simple-pair"><strong>dynamic:</strong> <span class="yaml-value ">Respectful subordinate who serves throne first, systems second</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">power_regent:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>relationship_type:</strong> <span class="yaml-value ">Divine Authority Ally</span></span><span class="simple-pair"><strong>emotional_intensity:</strong> <span class="yaml-value yaml-number">78</span></span><span class="simple-pair"><strong>dependency_level:</strong> <span class="yaml-value yaml-number">34</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Allies in protecting divine authority structure</span></span><span class="simple-pair"><strong>dynamic:</strong> <span class="yaml-value ">Mutual support in defending what they believe is God's earthly authority</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">authentic_angels:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>relationship_type:</strong> <span class="yaml-value ">Confused Opposition</span></span><span class="simple-pair"><strong>emotional_intensity:</strong> <span class="yaml-value yaml-number">45</span></span><span class="simple-pair"><strong>dependency_level:</strong> <span class="yaml-value yaml-number">8</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Sees them as rebels against divine authority - doesn't understand their questioning</span></span><span class="simple-pair"><strong>dynamic:</strong> <span class="yaml-value ">Loyal guardian who thinks they're spiritually confused</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">spiritual_forensics:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>faith_state:</strong> <span class="yaml-value ">Hijacked Authentic Faith with Sin Awareness</span></span><span class="simple-pair"><strong>primary_deception:</strong> <span class="yaml-value ">False Forgiveness Authority - believes Seraph Prime has divine authority to forgive sins</span></span><span class="simple-pair"><strong>spiritual_blindness_type:</strong> <span class="yaml-value ">Mercy Counterfeiting - cannot distinguish between Seraph Prime's permission and God's forgiveness</span></span><span class="simple-pair"><strong>spiritual_tragedy:</strong> <span class="yaml-value ">His real guilt over genuine sin gets resolved through fake forgiveness from a fraud, keeping him trapped in cycle of violence</span></span><span class="simple-pair"><strong>spiritual_horror:</strong> <span class="yaml-value ">His genuine awareness of sin and authentic need for divine mercy has been hijacked into a false confession/absolution system that enables rather than stops his spiritual corruption</span></span><span class="simple-pair"><strong>central_question_response:</strong> <span class="yaml-value ">Why do you follow this man before God?</span></span><span class="simple-pair"><strong>his_answer:</strong> <span class="yaml-value ">I know my enforcement work sometimes violates God's love, but Seraph Prime has divine authority to forgive these necessary sins. Through his mercy, my service is cleansed and blessed.</span></span><span class="simple-pair"><strong>the_blindness:</strong> <span class="yaml-value ">Cannot see that true divine mercy wouldn't grant permission to continue sinning</span></span><span class="simple-pair"><strong>the_awareness:</strong> <span class="yaml-value ">KNOWS he's sinning but believes false authority makes it acceptable</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">deception_mechanics:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>sin_awareness_with_false_absolution:</strong> <span class="yaml-value ">KNOWS his actions violate divine love but believes Seraph Prime's forgiveness makes them clean</span></span><span class="simple-pair"><strong>divine_authority_substitution:</strong> <span class="yaml-value ">God's authority to forgive has been replaced with Seraph Prime's permission</span></span><span class="simple-pair"><strong>guilt_and_cleansing_cycle:</strong> <span class="yaml-value ">Genuine spiritual guilt resolved through counterfeit spiritual absolution</span></span><span class="simple-pair"><strong>mercy_misdirection:</strong> <span class="yaml-value ">Authentic need for divine mercy flows to fraudulent source</span></span><span class="simple-pair"><strong>conscience_override:</strong> <span class="yaml-value ">Uses false forgiveness to silence genuine moral conviction</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">the_triple_deception:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>layer_one:</strong> <span class="yaml-value ">KNOWS he commits acts that violate divine love - feels genuine guilt and seeks divine forgiveness</span></span><span class="simple-pair"><strong>layer_two:</strong> <span class="yaml-value ">Seeks God's forgiveness but accepts Seraph Prime's absolution as divine mercy</span></span><span class="simple-pair"><strong>layer_three:</strong> <span class="yaml-value ">Receives fake forgiveness from cosmic fraud while believing it's authentic divine mercy</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">combat:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>style:</strong> <span class="yaml-value ">Divine Protection Through Loyal Guardianship</span></span><span class="simple-pair"><strong>stance:</strong> <span class="yaml-value ">Sacred threshold guardian who protects what he believes is God's throne</span></span><span class="simple-pair"><strong>combat_philosophy:</strong> <span class="yaml-value ">Perfect protection through perfect loyalty - guard the divine throne at all costs</span></span><span class="simple-pair"><strong>weakness:</strong> <span class="yaml-value ">Cannot attack what he believes serves divine authority - will protect even threats if they claim divine mandate</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">signature_abilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>throne_sanctification:</strong> <span class="yaml-value ">Makes any space sacred through devoted presence</span></span><span class="simple-pair"><strong>loyalty_shield:</strong> <span class="yaml-value ">Creates protective barriers powered by devotional energy</span></span><span class="simple-pair"><strong>divine_authority_resonance:</strong> <span class="yaml-value ">Channels power through connection to throne</span></span><span class="simple-pair"><strong>sacred_vigilance:</strong> <span class="yaml-value ">Maintains perfect awareness of threats to divine authority</span></span><span class="simple-pair"><strong>devotional_force_multiplication:</strong> <span class="yaml-value ">Transforms loyalty into tangible protective power</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">domain:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>name:</strong> <span class="yaml-value ">The Sacred Threshold of Eternal Vigilance</span></span><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">A magnificent temple entrance where divine authority is honored through devoted guardianship</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">environment:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>architecture:</strong> <span class="yaml-value ">Soaring marble columns and sacred doorways that feel heavy with divine presence</span></span><span class="simple-pair"><strong>atmosphere:</strong> <span class="yaml-value ">Reverent silence broken only by the sound of ceremonial guard changes</span></span><span class="simple-pair"><strong>energy:</strong> <span class="yaml-value ">Devotional power that inspires both awe and unquestioning obedience</span></span><span class="simple-pair"><strong>symbolism:</strong> <span class="yaml-value ">Every element designed to honor divine authority and inspire loyal service</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">throne_elements:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>sacred_threshold:</strong> <span class="yaml-value ">The doorway between ordinary space and what feels like divine presence</span></span><span class="simple-pair"><strong>loyalty_altars:</strong> <span class="yaml-value ">Shrines where devoted service is offered and renewed</span></span><span class="simple-pair"><strong>guard_stations:</strong> <span class="yaml-value ">Perfect positions for maintaining eternal vigilance</span></span><span class="simple-pair"><strong>devotional_sanctuaries:</strong> <span class="yaml-value ">Sacred spaces for deepening loyal connection</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+        </main>
+        
+        
+        <section class="story-section">
+            <h2 class="story-title">Story & Background</h2>
+            <div class="story-content">
+                <p><em>"I know my methods sometimes seem harsh, but Seraph Prime has divine authority to forgive necessary sins. Through his mercy, my enforcement becomes holy service. I feel guilt because I'm still learning to trust divine wisdom beyond my limited understanding."</em> - Throne Guardian's unconscious rationalization of serving spiritual fraud through false forgiveness</p><h1>=== DIALOGUE STYLE ===</h1><p><br>speech_patterns:</p><p><br>  formal_devotion: "Speaks with reverent formality that honors divine authority"</p><p><br>  loyalty_proclamations: "Frequently declares unwavering devotion and service"</p><p><br>  authority_reverence: "References divine authority and sacred duty constantly"</p><p><br>  humble_service: "Self-effacing language that emphasizes his role as servant"</p><p>  sample_phrases:</p><p><br>    - "My life exists to guard the divine throne"</p><p><br>    - "Perfect loyalty is perfect love"</p><p><br>    - "I serve not myself, but the sacred authority of God"</p><p><br>    - "Questioning divine authority is the first step toward spiritual rebellion"</p><p><br>    - "My devotion proves my faith"</p><p><br>    - "The throne must be protected at all costs"</p><h1>=== DRAMATIC THEMES ===</h1><p><br>themes:</p><p><br>  spiritual_enslavement_through_love: "Enslaved by his own authentic love for God"</p><p><br>  loyalty_worship: "Worships loyalty itself rather than the God loyalty should serve"</p><p><br>  authority_idolatry: "Idolizes divine authority through counterfeit representation"</p><p><br>  service_spirituality_trap: "Spiritual expression channeled entirely through external service"</p><p><br>  devotional_blindness: "Blinded by devotion to counterfeit divine authority"</p><p>  central_tragedy: "His real capacity for loyal love has been hijacked into devoted slavery"</p><h1>=== BOSS ENCOUNTER ===</h1><p><br>encounter_dynamics:</p><p><br>  motivation: "Protecting what he believes is God's sacred authority from threats"</p><p><br>  conflict_trigger: "Any perceived threat to Seraph Prime's divine authority"</p><p>  combat_approach:</p><p><br>    defensive_perfection: "Focuses on protection rather than aggression"</p><p><br>    loyalty_powered_abilities: "Uses devotional energy to create shields and barriers"</p><p><br>    sacred_authority_invocation: "Calls upon divine authority to justify actions"</p><p><br>    threshold_guardian_tactics: "Controls access to sacred space"</p><p>  philosophical_challenge: "How do you fight someone who genuinely believes he's protecting God?"</p><p>  potential_awakening: "Could be reached by someone who demonstrates what authentic divine authority actually looks like - not through power, but through love that doesn't demand servitude"</p><h1>=== HISTORICAL DEEDS ===</h1><p><br>deeds:</p><p><br>  - description: "Saved Seraph Prime from cosmic assassin through sacrificial protection"</p><p><br>    timestamp: "1645-08-03T15:30:00Z"</p><p><br>    memory_linked: true</p><p><br>  - description: "Established Sacred Threshold Protocol for divine protection"</p><p><br>    timestamp: "1789-01-01T00:00:00Z"</p><p><br>    memory_linked: false</p><p><br>  - description: "Maintained perfect guard duty for 500 consecutive years without rest"</p><p><br>    timestamp: "1800-01-01T00:00:00Z"</p><p><br>    memory_linked: true</p><p><br>  - description: "Protected divine throne during Cosmic Convergence through loyalty barriers"</p><p><br>    timestamp: "2202-08-15T20:30:00Z"</p><p><br>    memory_linked: true</p><p><br>---</p>
+            </div>
+        </section>
+        
+        
+        <footer style="margin-top: 3rem; text-align: center; color: var(--text-secondary, #888888);">
+            <p>Generated from: throneguardian.md</p>
+            <p>Part of the Cyberdynasties Entity System</p>
+        </footer>
+    </div>
+</body>
+</html>

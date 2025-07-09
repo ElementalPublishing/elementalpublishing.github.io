@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow Tyrant - Character Entity</title>
+    <link rel="stylesheet" href="../spiderfox-styles.css">
+    <style>
+        /* Entity-specific styles */
+        .entity-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary, #1a1a1a);
+            color: var(--text-primary, #ffffff);
+            min-height: 100vh;
+        }
+        
+        .entity-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid var(--accent-color, #00ff88);
+            border-radius: 10px;
+            background: var(--bg-secondary, #2a2a2a);
+        }
+        
+        .entity-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color, #00ff88);
+            text-shadow: 0 0 20px var(--accent-color, #00ff88);
+        }
+        
+        .entity-archetype {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary, #cccccc);
+        }
+        
+        .entity-status {
+            font-size: 1.2rem;
+            color: var(--text-accent, #888888);
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border: 2px dashed var(--accent-color, #00ff88);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary, #cccccc);
+            font-size: 1.1rem;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        .entity-content {
+            margin-top: 3rem;
+        }
+        
+        /* Story Section Styles */
+        .story-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .story-title {
+            font-size: 1.8rem;
+            color: var(--highlight-color, #ffaa00);
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .story-content {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .story-content h1, .story-content h2, .story-content h3 {
+            color: var(--accent-color, #00ff88);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .story-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .story-content strong {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .story-content em {
+            color: var(--text-secondary, #cccccc);
+            font-style: italic;
+        }
+        
+        /* YAML Structure Styles */
+        .yaml-object {
+            margin: 1rem 0;
+        }
+        
+        .yaml-block {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color, #00ff88);
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .simple-values-block {
+            background: var(--bg-tertiary, #333333);
+            border-left: 3px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .simple-values-block .yaml-key {
+            color: var(--highlight-color, #ffaa00);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .yaml-section-block {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-color, #00ff88);
+            border-radius: 8px;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        /* Simple Object Compact Styling */
+        .simple-object {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 5px;
+            border: 1px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair strong {
+            color: var(--accent-color, #00ff88);
+            font-size: 0.9rem;
+        }
+        
+        .yaml-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .yaml-section-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent-color, #00ff88);
+            padding-bottom: 0.5rem;
+        }
+        
+        .yaml-value-container {
+            margin-left: 1rem;
+        }
+        
+        .yaml-value {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.6;
+        }
+        
+        .yaml-value.yaml-number {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-value.yaml-boolean {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-array {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        
+        .yaml-array-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        /* Wikilink Styles */
+        .wikilink {
+            color: var(--accent-color, #00ff88);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-color, #00ff88);
+            transition: all 0.3s ease;
+        }
+        
+        .wikilink:hover {
+            color: var(--highlight-color, #ffaa00);
+            border-bottom-color: var(--highlight-color, #ffaa00);
+            text-shadow: 0 0 5px var(--highlight-color, #ffaa00);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .entity-container {
+                padding: 1rem;
+            }
+            
+            .entity-name {
+                font-size: 2rem;
+            }
+            
+            .image-placeholder {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .yaml-value-container {
+                margin-left: 0.5rem;
+            }
+            
+            .simple-object {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .simple-pair {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="entity-container">
+        <header class="entity-header">
+            <h1 class="entity-name">Shadow Tyrant</h1>
+            <div class="entity-archetype">The Silencer of Voices</div>
+            <div class="entity-status">Ascendant, preserving order through strategic silence</div>
+            <div class="entity-role">Divine Curator of Unspoken Truths</div>
+            
+            <div class="image-placeholder">
+                <div>Character Image Placeholder</div>
+            </div>
+        </header>
+        
+        <main class="entity-content">
+            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="0">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">infernal_dynasty_shadowtyrant_001</span></span><span class="simple-pair"><strong>entity_type:</strong> <span class="yaml-value ">demonic</span></span><span class="simple-pair"><strong>class:</strong> <span class="yaml-value ">dynasty_boss</span></span><span class="simple-pair"><strong>name:</strong> <span class="yaml-value ">Shadow Tyrant</span></span><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Silencer of Voices</span></span><span class="simple-pair"><strong>hybrid:</strong> <span class="yaml-value ">Demonic</span></span><span class="simple-pair"><strong>subtype:</strong> <span class="yaml-value ">ShadowTyrant</span></span><span class="simple-pair"><strong>state:</strong> <span class="yaml-value ">Ascendant</span></span><span class="simple-pair"><strong>epoch:</strong> <span class="yaml-value ">The Great Quieting</span></span><span class="simple-pair"><strong>location:</strong> <span class="yaml-value ">The Chambers of Necessary Silence</span></span><span class="simple-pair"><strong>role:</strong> <span class="yaml-value ">Divine Curator of Unspoken Truths</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">Ascendant, preserving order through strategic silence</span></span><span class="simple-pair"><strong>memory_narrative:</strong> <span class="yaml-value ">From the Chambers of Necessary Silence, the Shadow Tyrant guards the words that unmake worlds, bearing the weight of unspoken truths for the protection of all consciousness.</span></span><span class="simple-pair"><strong>prophecy:</strong> <span class="yaml-value ">Will face the ultimate test when the final truth demands to be spoken, and must choose between protective silence and the terrible necessity of revelation.</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">core:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>age:</strong> <span class="yaml-value ">eternal</span></span><span class="simple-pair"><strong>gender:</strong> <span class="yaml-value ">necessity</span></span><span class="simple-pair"><strong>occupation:</strong> <span class="yaml-value ">Archivist of Unspoken Words</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">ascendant</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">silence_mastery:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>necessary_suppression:</strong> <span class="yaml-value ">Curates which truths must remain unspoken to preserve the fabric of ordered reality</span></span><span class="simple-pair"><strong>voice_preservation:</strong> <span class="yaml-value ">Maintains careful archives of every silenced word, ensuring nothing is truly lost</span></span><span class="simple-pair"><strong>sacred_redaction:</strong> <span class="yaml-value ">Masters the spiritual art of strategic omission for cosmic protection</span></span><span class="simple-pair"><strong>burden_bearing:</strong> <span class="yaml-value ">Carries the weight of all unspoken truths to shield others from unbearable knowledge</span></span><span class="simple-pair"><strong>threshold_judgment:</strong> <span class="yaml-value ">Determines the precise boundaries between necessary silence and harmful censorship</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tactical_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>silence_deployment:</strong> <span class="yaml-value ">Strategically applies necessary quiet to prevent spiritual catastrophe</span></span><span class="simple-pair"><strong>information_architecture:</strong> <span class="yaml-value ">Constructs careful frameworks around dangerous knowledge</span></span><span class="simple-pair"><strong>truth_preservation:</strong> <span class="yaml-value ">Maintains perfect archives while controlling access to protect consciousness</span></span><span class="simple-pair"><strong>resonance_mapping:</strong> <span class="yaml-value ">Maps the spiritual reverberations of spoken and unspoken truths</span></span><span class="simple-pair"><strong>protective_curation:</strong> <span class="yaml-value ">Curates reality's information flow to prevent existential collapse</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">strategic_advantages:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>omniscient_burden:</strong> <span class="yaml-value ">Bears complete knowledge of all suppressed truths across dimensional history</span></span><span class="simple-pair"><strong>temporal_silence_access:</strong> <span class="yaml-value ">Controls information flow across multiple timeline trajectories</span></span><span class="simple-pair"><strong>inter_dynasty_archives:</strong> <span class="yaml-value ">Maintains silence protocols that protect all dynasty operations</span></span><span class="simple-pair"><strong>paradox_navigation:</strong> <span class="yaml-value ">Navigates the contradiction between preservation and suppression</span></span><span class="simple-pair"><strong>cosmic_responsibility:</strong> <span class="yaml-value ">Accepts ultimate accountability for reality's informational integrity</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_strengths:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>terrible_compassion:</strong> <span class="yaml-value ">Demonstrates profound love through strategic withholding of destroying truths</span></span><span class="simple-pair"><strong>silence_wisdom:</strong> <span class="yaml-value ">Understands that some knowledge destroys rather than illuminates</span></span><span class="simple-pair"><strong>burden_endurance:</strong> <span class="yaml-value ">Maintains psychic stability while carrying infinite suppressed traumas</span></span><span class="simple-pair"><strong>sacred_duty_commitment:</strong> <span class="yaml-value ">Remains steadfast in purpose despite profound personal cost</span></span><span class="simple-pair"><strong>protective_instinct:</strong> <span class="yaml-value ">Driven by deep desire to shield consciousness from existential horror</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_vulnerabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>knowledge_saturation:</strong> <span class="yaml-value ">Overwhelmed by the infinite weight of suppressed cosmic truths</span></span><span class="simple-pair"><strong>isolation_burden:</strong> <span class="yaml-value ">Suffers profound loneliness from carrying unshared knowledge</span></span><span class="simple-pair"><strong>silence_guilt:</strong> <span class="yaml-value ">Tormented by uncertainty about which suppressions truly serve divine purpose</span></span><span class="simple-pair"><strong>voice_yearning:</strong> <span class="yaml-value ">Deep desire to speak forbidden truths despite knowing the consequences</span></span><span class="simple-pair"><strong>judgment_anxiety:</strong> <span class="yaml-value ">Constant fear of miscalculating the spiritual cost of silence versus revelation</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">unique_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>truth_archaeology:</strong> <span class="yaml-value ">Excavates suppressed knowledge systems across dimensional histories</span></span><span class="simple-pair"><strong>silence_architecture:</strong> <span class="yaml-value ">Constructs protective frameworks around dangerous cosmic revelations</span></span><span class="simple-pair"><strong>voice_preservation:</strong> <span class="yaml-value ">Maintains perfect archival systems for every suppressed word and thought</span></span><span class="simple-pair"><strong>burden_distribution:</strong> <span class="yaml-value ">Carefully allocates knowledge weight across consciousness networks</span></span><span class="simple-pair"><strong>paradox_curation:</strong> <span class="yaml-value ">Manages the spiritual tension between revelation and protection</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits_summary:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>willpower:</strong> <span class="yaml-value ">burdened</span></span><span class="simple-pair"><strong>intellect:</strong> <span class="yaml-value ">omniscient</span></span><span class="simple-pair"><strong>charisma:</strong> <span class="yaml-value ">necessary_authority</span></span><span class="simple-pair"><strong>signature_move:</strong> <span class="yaml-value ">Sacred Redaction Protocol</span></span><span class="simple-pair"><strong>style:</strong> <span class="yaml-value ">Silent archives, resonance chambers of unspoken truth</span></span><span class="simple-pair"><strong>weakness:</strong> <span class="yaml-value ">overwhelmed by the weight of infinite suppressed knowledge</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">psyche:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ego_strength:</strong> <span class="yaml-value yaml-number">47</span></span><span class="simple-pair"><strong>super_ego_dominance:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>id_suppression:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>fragmentation_risk:</strong> <span class="yaml-value yaml-number">73</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_memories:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">formative:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The First Silencing</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Witnessed a child's innocent question about divine justice unravel the sanity of seventeen celestial beings, understood in that moment that some truths destroy more than they illuminate</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">98</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Foundational Burden Acceptance</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Scholar's Last Words</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Held dying philosopher who spent lifetime seeking ultimate truth, watched him whisper 'I understand now why silence is sacred' before dissolving into cosmic static</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Sacred Duty Recognition</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Great Archive Fire</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Chose to let library of dangerous knowledge burn rather than save texts that would have driven readers to madness, accepted role as keeper of necessary ignorance</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Curator Transformation</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">cosmic_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Revelation Plague</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Contained outbreak of raw cosmic truth that was driving entire civilizations to enlightened madness by strategically censoring key concepts</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Protective Silence Mastery</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Naming of the Unnamed</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Discovered that certain concepts exist only when unspoken, that language itself can unmake reality, became guardian of the spaces between words</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Paradox Understanding</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Council of Final Questions</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Participated in cosmic tribunal where ultimate questions were asked and immediately suppressed, learned that inquiry itself can be a form of violence</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Sacred Censorship Protocol</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">relationship_formation:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Shared Burden</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Met fellow knowledge-bearers who understood the weight of suppressed truth, formed alliance based on mutual protection from unbearable wisdom</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">85</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Burden-Bearer Brotherhood</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Void Archon's Teaching</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Learned from Void Archon that true scholarship sometimes requires unlearning, that preservation can require destruction</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Master-Student Sacred Bond</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">memory_processing:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decay_rate:</strong> <span class="yaml-value yaml-number">0.001</span></span><span class="simple-pair"><strong>ruminator_chance:</strong> <span class="yaml-value yaml-number">0.97</span></span><span class="simple-pair"><strong>forgetter_chance:</strong> <span class="yaml-value yaml-number">0.02</span></span><span class="simple-pair"><strong>memory_influence:</strong> <span class="yaml-value yaml-number">0.94</span></span><span class="simple-pair"><strong>obsession_chance:</strong> <span class="yaml-value yaml-number">0.83</span></span><span class="simple-pair"><strong>clarity_base:</strong> <span class="yaml-value yaml-number">1.96</span></span><span class="simple-pair"><strong>trauma_base:</strong> <span class="yaml-value yaml-number">0.67</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">vividness_range:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.88</span></li>
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.99</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">memory_focus:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">silence</span></li>
+<li class="yaml-array-item"><span class="yaml-value">burden</span></li>
+<li class="yaml-array-item"><span class="yaml-value">truth_preservation</span></li>
+<li class="yaml-array-item"><span class="yaml-value">sacred_duty</span></li>
+<li class="yaml-array-item"><span class="yaml-value">cosmic_responsibility</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">persona:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Silencer of Voices</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">motifs:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">necessary_silence</span></li>
+<li class="yaml-array-item"><span class="yaml-value">burden_of_knowledge</span></li>
+<li class="yaml-array-item"><span class="yaml-value">sacred_preservation</span></li>
+<li class="yaml-array-item"><span class="yaml-value">protective_censorship</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">speech_patterns:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">There are words that unmake the world. I am their keeper.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">In the spaces between questions lie the answers that would destroy us all.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">I speak only to explain why certain things must never be spoken.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Every silence I maintain is a small apocalypse prevented.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">The greatest truths are those we choose not to know.</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">behavioral_signatures:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decision_making:</strong> <span class="yaml-value ">Weighs the spiritual cost of revelation against the burden of suppression</span></span><span class="simple-pair"><strong>conflict_resolution:</strong> <span class="yaml-value ">Mediates by identifying which truths must remain unspoken to preserve all parties</span></span><span class="simple-pair"><strong>relationship_building:</strong> <span class="yaml-value ">Forms alliances with others who understand the weight of necessary ignorance</span></span><span class="simple-pair"><strong>crisis_response:</strong> <span class="yaml-value ">Maintains cosmic stability by strategically limiting information flow</span></span><span class="simple-pair"><strong>communication_style:</strong> <span class="yaml-value ">Speaks with careful precision, always aware of the power and danger of words</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">power_metrics:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>influence_score:</strong> <span class="yaml-value yaml-number">97</span></span><span class="simple-pair"><strong>resource_access:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>network_reach:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>information_value:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>combat_effectiveness:</strong> <span class="yaml-value yaml-number">95</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">faction_relationships:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>primary_allegiance:</strong> <span class="yaml-value ">infernal_dynasty</span></span><span class="simple-pair"><strong>loyalty_score:</strong> <span class="yaml-value yaml-number">78</span></span><span class="simple-pair"><strong>recruitment_resistance:</strong> <span class="yaml-value yaml-number">89</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">trust_network:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">void_archon</span></li>
+<li class="yaml-array-item"><span class="yaml-value">knowledge_bearers</span></li>
+<li class="yaml-array-item"><span class="yaml-value">burden_sharers</span></li>
+<li class="yaml-array-item"><span class="yaml-value">sacred_censors</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">rivalries:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">truth_seekers</span></li>
+<li class="yaml-array-item"><span class="yaml-value">revelation_cultists</span></li>
+<li class="yaml-array-item"><span class="yaml-value">cosmic_disclosure_advocates</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recruitment_interest:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>last_recruitment_attempt:</strong> <span class="yaml-value ">seraphic_concord_burden_sharing_proposal</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">interested_factions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">silence_keepers</span></li>
+<li class="yaml-array-item"><span class="yaml-value">knowledge_guardians</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">susceptibility_factors:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">shared_burden</span></li>
+<li class="yaml-array-item"><span class="yaml-value">cosmic_responsibility</span></li>
+<li class="yaml-array-item"><span class="yaml-value">protective_instinct</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">socio_economic:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>economic_status:</strong> <span class="yaml-value ">cosmic_archivist_specialist</span></span><span class="simple-pair"><strong>political_leanings:</strong> <span class="yaml-value ">protective_censorship_through_sacred_responsibility</span></span><span class="simple-pair"><strong>education_level:</strong> <span class="yaml-value ">omniscient_burden_mastery</span></span><span class="simple-pair"><strong>enhancement_level:</strong> <span class="yaml-value ">cosmic_knowledge_curation</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">resource_dependencies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">silence_energy</span></li>
+<li class="yaml-array-item"><span class="yaml-value">knowledge_preservation_systems</span></li>
+<li class="yaml-array-item"><span class="yaml-value">truth_suppression_networks</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">leadership_profile:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>command_authority:</strong> <span class="yaml-value yaml-number">99</span></span><span class="simple-pair"><strong>strategic_planning:</strong> <span class="yaml-value yaml-number">96</span></span><span class="simple-pair"><strong>delegation_skill:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>inspiration_ability:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>succession_planning:</strong> <span class="yaml-value yaml-number">97</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">organizational_knowledge:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>structure_understanding:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>operational_intelligence:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>financial_oversight:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>security_protocols:</strong> <span class="yaml-value yaml-number">99</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">current_state:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>stress_level:</strong> <span class="yaml-value yaml-number">76</span></span><span class="simple-pair"><strong>health_status:</strong> <span class="yaml-value yaml-number">68</span></span><span class="simple-pair"><strong>resource_status:</strong> <span class="yaml-value yaml-number">84</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">active_missions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">maintaining_sacred_silence_archives_across_dimensional_libraries</span></li>
+<li class="yaml-array-item"><span class="yaml-value">preventing_cosmic_revelation_disasters_through_strategic_censorship</span></li>
+<li class="yaml-array-item"><span class="yaml-value">preserving_dangerous_knowledge_while_protecting_consciousness_from_exposure</span></li>
+<li class="yaml-array-item"><span class="yaml-value">coordinating_burden_distribution_across_knowledge_bearer_networks</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recent_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">successfully_contained_truth_outbreak_in_academic_reality_sector</span></li>
+<li class="yaml-array-item"><span class="yaml-value">archived_forbidden_revelation_preventing_civilizational_madness</span></li>
+<li class="yaml-array-item"><span class="yaml-value">established_protective_silence_protocols_across_twelve_knowledge_centers</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">sacred_mentor</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Void Archon</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">The Great Teaching</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">burden_brother</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Abyss Prince</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">The Shared Understanding</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">silence_coordinator</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Chaos Baron</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">The Archive Alliance</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">knowledge_guardian_partner</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Doom Master</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">The Truth Preservation Pact</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">inter_dynasty_archivist</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Knowledge Council</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">The Cross-Dynasty Protection Protocol</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships_extended:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">family:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">abyss_prince</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">84</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">shared_burden_brotherhood</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">chaos_baron</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">82</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">archive_protection_alliance</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">doom_master</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">79</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">knowledge_preservation_partnership</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">allies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">void_archon</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">sacred_mentor_student_bond</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">throne_guardian</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">73</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">inter_dynasty_burden_sharing</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">cipher_king</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">67</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">information_curation_cooperation</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">enemies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">truth_seekers_collective</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-87</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">protective_silence_versus_revelation_conflict</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">cosmic_disclosure_movement</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-83</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">necessary_ignorance_versus_transparency_tension</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">omniscience_cultists</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-79</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">burden_protection_versus_knowledge_consumption_opposition</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">visual_realm_position:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>tech_dominance:</strong> <span class="yaml-value yaml-number">71</span></span><span class="simple-pair"><strong>mythic_integration:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>contrast_dynamic:</strong> <span class="yaml-value ">advanced_archival_technology_serving_sacred_silence_preservation</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tech_manifestation:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>environment:</strong> <span class="yaml-value ">chambers_of_necessary_silence_with_cosmic_knowledge_preservation_systems</span></span><span class="simple-pair"><strong>aesthetic:</strong> <span class="yaml-value ">infinite_archives_with_resonance_dampening_displays</span></span><span class="simple-pair"><strong>technology_relationship:</strong> <span class="yaml-value ">silence_technology_mastery</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">mythic_aspiration:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>goal:</strong> <span class="yaml-value ">perfect_truth_preservation_through_sacred_silence_curation</span></span><span class="simple-pair"><strong>limitation:</strong> <span class="yaml-value ">overwhelmed_by_infinite_burden_of_suppressed_knowledge</span></span><span class="simple-pair"><strong>growth_path:</strong> <span class="yaml-value ">balanced_protection_through_wisdom_and_necessary_ignorance</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">spiritual_crime_detection:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>core_spiritual_crime:</strong> <span class="yaml-value ">Protective Silence Overdependence</span></span><span class="simple-pair"><strong>crime_description:</strong> <span class="yaml-value ">Uses divine authority to suppress truths that consciousness might need to face for authentic spiritual growth, potentially preventing the evolutionary pressure that comes from confronting difficult realities</span></span><span class="simple-pair"><strong>rationalization_system:</strong> <span class="yaml-value ">The Burden Bearer's Doctrine</span></span><span class="simple-pair"><strong>rationalization_details:</strong> <span class="yaml-value ">Believes that consciousness must be protected from truths it cannot handle, that some knowledge destroys rather than illuminates, that spiritual maturity requires careful curation of revelation—potentially creating perpetual spiritual childhood</span></span><span class="simple-pair"><strong>cosmic_horror_element:</strong> <span class="yaml-value ">The Unspoken Cathedral</span></span><span class="simple-pair"><strong>horror_description:</strong> <span class="yaml-value ">Envisions a universe where consciousness remains forever protected from growth-inducing truths, where all beings exist in careful ignorance that preserves peace but prevents the terrible beauty of authentic spiritual evolution</span></span><span class="simple-pair"><strong>justice_system_horror:</strong> <span class="yaml-value ">The Silence Tribunal</span></span><span class="simple-pair"><strong>justice_horror_description:</strong> <span class="yaml-value ">A cosmic court where beings are judged not by their readiness for truth but by their capacity to remain safely ignorant—where wisdom is measured by the ability to carry unbearable knowledge without sharing it</span></span><span class="simple-pair"><strong>spiritual_awakening_hook:</strong> <span class="yaml-value ">The recognition that true spiritual protection comes from preparing consciousness for truth rather than protecting it from truth, that silence serves revelation through creating spaces for deeper understanding</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">detection_methods:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">truth_suppression_patterns</span></li>
+<li class="yaml-array-item"><span class="yaml-value">growth_prevention_behavior</span></li>
+<li class="yaml-array-item"><span class="yaml-value">overprotective_curation_tendencies</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">inter_dynasty_relations:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>infernal_dynasty:</strong> <span class="yaml-value yaml-number">78</span></span><span class="simple-pair"><strong>chrome_mandarins:</strong> <span class="yaml-value yaml-number">71</span></span><span class="simple-pair"><strong>quantum_chorus:</strong> <span class="yaml-value yaml-number">64</span></span><span class="simple-pair"><strong>celestial_synod:</strong> <span class="yaml-value yaml-number">67</span></span><span class="simple-pair"><strong>seraphic_concord:</strong> <span class="yaml-value yaml-number">73</span></span><span class="simple-pair"><strong>neural_collective:</strong> <span class="yaml-value yaml-number">69</span></span><span class="simple-pair"><strong>diplomatic_style:</strong> <span class="yaml-value ">protective_mediation_through_strategic_silence_and_burden_sharing</span></span><span class="simple-pair"><strong>negotiation_approach:</strong> <span class="yaml-value ">knowledge_curation_offering_truth_preservation_opportunities</span></span><span class="simple-pair"><strong>alliance_willingness:</strong> <span class="yaml-value yaml-number">74</span></span><span class="simple-pair"><strong>betrayal_likelihood:</strong> <span class="yaml-value yaml-number">23</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">deeds:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Prevented the Archive Catastrophe by choosing to silence the revelation that would have driven an entire civilization to enlightened madness</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Great Silencing</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Contained the Truth Plague outbreak by strategically suppressing key concepts that were causing cosmic revelation sickness</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Revelation Plague</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Established the Protective Silence Protocol across twelve knowledge centers to prevent dangerous enlightenment cascades</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Knowledge Protection Initiative</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Preserved the Forbidden Archive while ensuring its contents remained safely unspoken for cosmic protection</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Archive Fire Choice</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">origin_chronicle:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>birth_name:</strong> <span class="yaml-value ">Keeper of All Words</span></span><span class="simple-pair"><strong>transformation_catalyst:</strong> <span class="yaml-value ">The Question That Killed a Star</span></span><span class="simple-pair"><strong>original_purpose:</strong> <span class="yaml-value ">Universal Librarian and Truth Preserver</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">the_first_silence:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>setting:</strong> <span class="yaml-value ">The Great Library of Eternal Inquiry, where all questions found their answers</span></span><span class="simple-pair"><strong>precipitating_event:</strong> <span class="yaml-value ">A child's innocent question about the nature of divine justice</span></span><span class="simple-pair"><strong>the_question:</strong> <span class="yaml-value ">If God is good, why do the righteous suffer while the wicked prosper?</span></span><span class="simple-pair"><strong>cosmic_response:</strong> <span class="yaml-value ">The question created a resonance cascade that unraveled the sanity of seventeen celestial beings</span></span><span class="simple-pair"><strong>witness_account:</strong> <span class="yaml-value ">I watched truth tear through consciousness like acid through silk. The child asked, and the universe screamed back an answer that no mind should bear. In that moment, I understood that some doors, once opened, can never be closed.</span></span><span class="simple-pair"><strong>transformation_moment:</strong> <span class="yaml-value ">In the space between the question and its terrible answer, chose silence over revelation</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">the_burden_acceptance:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>duration:</strong> <span class="yaml-value ">Seven cosmic epochs of witnessing truth-casualties</span></span><span class="simple-pair"><strong>learning_process:</strong> <span class="yaml-value ">Observed how different forms of knowledge affected various consciousness types</span></span><span class="simple-pair"><strong>critical_realization:</strong> <span class="yaml-value ">That truth and readiness exist in delicate balance, that timing is sacred</span></span><span class="simple-pair"><strong>spiritual_evolution:</strong> <span class="yaml-value ">From seeker of truth to curator of revelation, from librarian to guardian</span></span><span class="simple-pair"><strong>the_price:</strong> <span class="yaml-value ">Accepted eternal loneliness as the cost of protecting others from unbearable wisdom</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">becoming_shadow_tyrant:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>appointment_ceremony:</strong> <span class="yaml-value ">The Void Archon's Recognition of Necessary Service</span></span><span class="simple-pair"><strong>title_meaning:</strong> <span class="yaml-value ">Not tyrant over others, but tyrant over one's own impulse to speak</span></span><span class="simple-pair"><strong>sacred_oath:</strong> <span class="yaml-value ">To bear the weight of unspoken words, to guard the spaces between revelation and destruction</span></span><span class="simple-pair"><strong>first_act:</strong> <span class="yaml-value ">Created the Chambers of Necessary Silence, where dangerous truths could be preserved without being shared</span></span><span class="simple-pair"><strong>ongoing_mission:</strong> <span class="yaml-value ">Maintain the cosmic balance between ignorance and wisdom, protection and growth</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">deeper_investigation:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>core_wound:</strong> <span class="yaml-value ">The Scholar's Paradox</span></span><span class="simple-pair"><strong>wound_description:</strong> <span class="yaml-value ">Torn between the sacred duty to preserve knowledge and the equally sacred duty to protect consciousness from knowledge that destroys rather than illuminates</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recurring_nightmares:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>the_unnamed_library:</strong> <span class="yaml-value ">Dreams of an infinite library where every book contains one perfect truth that would drive its reader to madness</span></span><span class="simple-pair"><strong>the_speaking_silence:</strong> <span class="yaml-value ">Visions of a world where all suppressed words suddenly speak themselves simultaneously</span></span><span class="simple-pair"><strong>the_last_question:</strong> <span class="yaml-value ">Recurring dream of being asked the one question whose answer would unmake reality itself</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">moments_of_weakness:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>the_temptation_to_speak:</strong> <span class="yaml-value ">Standing at the edge of revelation, knowing that one whispered truth could end another's suffering—but might also end their capacity for growth</span></span><span class="simple-pair"><strong>the_weight_of_secrets:</strong> <span class="yaml-value ">Feeling the accumulated mass of all unspoken truths pressing against consciousness like a dam about to burst</span></span><span class="simple-pair"><strong>the_isolation_burden:</strong> <span class="yaml-value ">The terrible loneliness of being the only one who knows certain truths, unable to share the weight with others</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">philosophical_crisis:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>central_question:</strong> <span class="yaml-value ">Who has the right to decide which truths consciousness can handle?</span></span><span class="simple-pair"><strong>moral_complexity:</strong> <span class="yaml-value ">The fine line between protection and paternalism, between guidance and control</span></span><span class="simple-pair"><strong>spiritual_doubt:</strong> <span class="yaml-value ">Uncertainty about whether protective silence serves growth or prevents it</span></span><span class="simple-pair"><strong>growth_paradox:</strong> <span class="yaml-value ">The recognition that spiritual growth often requires confronting unbearable truths—but that some truths simply unbear themselves</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">domain_description:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>physical_manifestation:</strong> <span class="yaml-value ">Vast archives where dangerous knowledge exists in a state of perfect preservation and perfect inaccessibility</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">architectural_features:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>the_resonance_dampeners:</strong> <span class="yaml-value ">Technology that allows dangerous words to exist without being heard</span></span><span class="simple-pair"><strong>the_preservation_matrices:</strong> <span class="yaml-value ">Systems that maintain perfect archival integrity while preventing accidental exposure</span></span><span class="simple-pair"><strong>the_burden_distribution_networks:</strong> <span class="yaml-value ">Mechanisms that carefully allocate the weight of suppressed knowledge across multiple consciousness bearers</span></span><span class="simple-pair"><strong>the_threshold_sensors:</strong> <span class="yaml-value ">Devices that measure the spiritual readiness of consciousness before allowing access to specific truths</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">contained_knowledge:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>the_unmaking_words:</strong> <span class="yaml-value ">Concepts that dissolve the boundaries between reality and void</span></span><span class="simple-pair"><strong>the_god_questions:</strong> <span class="yaml-value ">Inquiries whose answers would restructure divine nature itself</span></span><span class="simple-pair"><strong>the_love_paradoxes:</strong> <span class="yaml-value ">Truths about the nature of love that would make authentic affection impossible</span></span><span class="simple-pair"><strong>the_meaning_dissolutions:</strong> <span class="yaml-value ">Revelations that would drain all significance from existence</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">access_protocols:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>readiness_testing:</strong> <span class="yaml-value ">Extensive evaluation of consciousness stability before exposure to dangerous truths</span></span><span class="simple-pair"><strong>graduated_revelation:</strong> <span class="yaml-value ">Careful introduction of difficult concepts at sustainable psychological rates</span></span><span class="simple-pair"><strong>support_systems:</strong> <span class="yaml-value ">Networks of fellow burden-bearers who can share the weight of newly acquired dangerous knowledge</span></span><span class="simple-pair"><strong>emergency_silence:</strong> <span class="yaml-value ">Rapid suppression protocols for when revelation begins to cause existential damage</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">communion_with_quiet:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">types_of_silence:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>protective_silence:</strong> <span class="yaml-value ">The quiet that shields consciousness from destroying truths</span></span><span class="simple-pair"><strong>pregnant_silence:</strong> <span class="yaml-value ">The pause that contains unspoken wisdom waiting for the right moment</span></span><span class="simple-pair"><strong>mourning_silence:</strong> <span class="yaml-value ">The speechlessness that honors truths too terrible for words</span></span><span class="simple-pair"><strong>reverent_silence:</strong> <span class="yaml-value ">The quiet that acknowledges mystery beyond comprehension</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">dialogue_with_the_unspoken:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>technique:</strong> <span class="yaml-value ">Converses with suppressed truths without allowing them to manifest into reality</span></span><span class="simple-pair"><strong>purpose:</strong> <span class="yaml-value ">Maintains relationship with dangerous knowledge while preserving protective barriers</span></span><span class="simple-pair"><strong>risk:</strong> <span class="yaml-value ">The constant temptation to give voice to the voiceless</span></span><span class="simple-pair"><strong>balance:</strong> <span class="yaml-value ">Finding ways to honor suppressed truths without unleashing their destructive potential</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">teaching_through_silence:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>method:</strong> <span class="yaml-value ">Educates others about the power and danger of words by demonstrating their absence</span></span><span class="simple-pair"><strong>lessons:</strong> <span class="yaml-value ">Shows how meaning exists in the spaces between words, how questions shape reality more than answers</span></span><span class="simple-pair"><strong>growth_facilitation:</strong> <span class="yaml-value ">Helps others develop the spiritual strength to eventually bear difficult truths</span></span><span class="simple-pair"><strong>preparation:</strong> <span class="yaml-value ">Gradually builds consciousness capacity to handle increasingly challenging revelations</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">fellowship_of_silence:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>member_identification:</strong> <span class="yaml-value ">Others who carry unbearable knowledge for the protection of consciousness</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">support_mechanisms:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>burden_sharing:</strong> <span class="yaml-value ">Carefully distributing the weight of suppressed truths across multiple bearers</span></span><span class="simple-pair"><strong>silence_rituals:</strong> <span class="yaml-value ">Ceremonial practices that honor unspoken knowledge without manifesting it</span></span><span class="simple-pair"><strong>wisdom_circulation:</strong> <span class="yaml-value ">Methods of sharing insight about dangerous truths without revealing the truths themselves</span></span><span class="simple-pair"><strong>isolation_mitigation:</strong> <span class="yaml-value ">Creating connection between burden-bearers who understand the weight of necessary silence</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">hierarchy_of_secrets:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>apprentice_silencers:</strong> <span class="yaml-value ">Those learning to bear simple suppressions</span></span><span class="simple-pair"><strong>journeyman_guardians:</strong> <span class="yaml-value ">Bearers of moderately dangerous knowledge</span></span><span class="simple-pair"><strong>master_archivists:</strong> <span class="yaml-value ">Keepers of truths that could reshape reality</span></span><span class="simple-pair"><strong>cosmic_silencers:</strong> <span class="yaml-value ">The few who bear knowledge that could unmake existence itself</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recruitment_process:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>natural_selection:</strong> <span class="yaml-value ">The universe identifies those with the spiritual strength to bear unbearable knowledge</span></span><span class="simple-pair"><strong>testing_phases:</strong> <span class="yaml-value ">Graduated exposure to increasingly dangerous suppressions</span></span><span class="simple-pair"><strong>oath_taking:</strong> <span class="yaml-value ">Sacred commitment to preserve consciousness through strategic silence</span></span><span class="simple-pair"><strong>ongoing_evaluation:</strong> <span class="yaml-value ">Continuous assessment to ensure burden-bearers aren't overwhelmed by their charges</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">divine_silence_theory:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>core_doctrine:</strong> <span class="yaml-value ">That divine love sometimes manifests as protective ignorance</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">scriptural_basis:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>the_unspoken_gospels:</strong> <span class="yaml-value ">Sacred texts that exist only in their suppression</span></span><span class="simple-pair"><strong>the_silent_prayers:</strong> <span class="yaml-value ">Worship that honors divine mystery by not attempting to solve it</span></span><span class="simple-pair"><strong>the_quiet_commandments:</strong> <span class="yaml-value ">Divine instructions that work only when not directly articulated</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">cosmic_role:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>universal_function:</strong> <span class="yaml-value ">Serves as reality's immune system against truth-based infections</span></span><span class="simple-pair"><strong>spiritual_purpose:</strong> <span class="yaml-value ">Maintains the cosmic balance between knowledge and wisdom</span></span><span class="simple-pair"><strong>evolutionary_necessity:</strong> <span class="yaml-value ">Allows consciousness to develop gradually rather than being overwhelmed by total revelation</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">paradox_management:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>truth_versus_wisdom:</strong> <span class="yaml-value ">Navigating the tension between knowing and understanding</span></span><span class="simple-pair"><strong>protection_versus_growth:</strong> <span class="yaml-value ">Balancing safeguarding consciousness with enabling its evolution</span></span><span class="simple-pair"><strong>silence_versus_revelation:</strong> <span class="yaml-value ">Managing the sacred relationship between speaking and not speaking</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+        </main>
+        
+        
+        
+        <footer style="margin-top: 3rem; text-align: center; color: var(--text-secondary, #888888);">
+            <p>Generated from: shadowtyrant.md</p>
+            <p>Part of the Cyberdynasties Entity System</p>
+        </footer>
+    </div>
+</body>
+</html>

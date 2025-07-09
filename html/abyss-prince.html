@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abyss Prince - Character Entity</title>
+    <link rel="stylesheet" href="../spiderfox-styles.css">
+    <style>
+        /* Entity-specific styles */
+        .entity-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary, #1a1a1a);
+            color: var(--text-primary, #ffffff);
+            min-height: 100vh;
+        }
+        
+        .entity-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid var(--accent-color, #00ff88);
+            border-radius: 10px;
+            background: var(--bg-secondary, #2a2a2a);
+        }
+        
+        .entity-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color, #00ff88);
+            text-shadow: 0 0 20px var(--accent-color, #00ff88);
+        }
+        
+        .entity-archetype {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary, #cccccc);
+        }
+        
+        .entity-status {
+            font-size: 1.2rem;
+            color: var(--text-accent, #888888);
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border: 2px dashed var(--accent-color, #00ff88);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary, #cccccc);
+            font-size: 1.1rem;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        .entity-content {
+            margin-top: 3rem;
+        }
+        
+        /* Story Section Styles */
+        .story-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .story-title {
+            font-size: 1.8rem;
+            color: var(--highlight-color, #ffaa00);
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .story-content {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .story-content h1, .story-content h2, .story-content h3 {
+            color: var(--accent-color, #00ff88);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .story-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .story-content strong {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .story-content em {
+            color: var(--text-secondary, #cccccc);
+            font-style: italic;
+        }
+        
+        /* YAML Structure Styles */
+        .yaml-object {
+            margin: 1rem 0;
+        }
+        
+        .yaml-block {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color, #00ff88);
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .simple-values-block {
+            background: var(--bg-tertiary, #333333);
+            border-left: 3px solid var(--highlight-color, #ffaa00);
+        }
+        
+        .simple-values-block .yaml-key {
+            color: var(--highlight-color, #ffaa00);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .yaml-section-block {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-color, #00ff88);
+            border-radius: 8px;
+            background: var(--bg-tertiary, #333333);
+        }
+        
+        /* Simple Object Compact Styling */
+        .simple-object {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--bg-secondary, #2a2a2a);
+            border-radius: 5px;
+            border: 1px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        .simple-pair strong {
+            color: var(--accent-color, #00ff88);
+            font-size: 0.9rem;
+        }
+        
+        .yaml-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .yaml-section-key {
+            font-weight: bold;
+            color: var(--accent-color, #00ff88);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent-color, #00ff88);
+            padding-bottom: 0.5rem;
+        }
+        
+        .yaml-value-container {
+            margin-left: 1rem;
+        }
+        
+        .yaml-value {
+            color: var(--text-primary, #ffffff);
+            line-height: 1.6;
+        }
+        
+        .yaml-value.yaml-number {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-value.yaml-boolean {
+            color: var(--highlight-color, #ffaa00);
+        }
+        
+        .yaml-array {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        
+        .yaml-array-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--bg-primary, #1a1a1a);
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color, #00ff88);
+        }
+        
+        /* Wikilink Styles */
+        .wikilink {
+            color: var(--accent-color, #00ff88);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-color, #00ff88);
+            transition: all 0.3s ease;
+        }
+        
+        .wikilink:hover {
+            color: var(--highlight-color, #ffaa00);
+            border-bottom-color: var(--highlight-color, #ffaa00);
+            text-shadow: 0 0 5px var(--highlight-color, #ffaa00);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .entity-container {
+                padding: 1rem;
+            }
+            
+            .entity-name {
+                font-size: 2rem;
+            }
+            
+            .image-placeholder {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .yaml-value-container {
+                margin-left: 0.5rem;
+            }
+            
+            .simple-object {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .simple-pair {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="entity-container">
+        <header class="entity-header">
+            <h1 class="entity-name">Abyss Prince</h1>
+            <div class="entity-archetype">The Cartographer of Absence</div>
+            <div class="entity-status">Ascendant, documenting the infinite varieties of non-existence</div>
+            <div class="entity-role">Divine Curator of Philosophical Emptiness</div>
+            
+            <div class="image-placeholder">
+                <div>Character Image Placeholder</div>
+            </div>
+        </header>
+        
+        <main class="entity-content">
+            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="0">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">infernal_dynasty_abyssprince_001</span></span><span class="simple-pair"><strong>entity_type:</strong> <span class="yaml-value ">demonic</span></span><span class="simple-pair"><strong>class:</strong> <span class="yaml-value ">dynasty_boss</span></span><span class="simple-pair"><strong>name:</strong> <span class="yaml-value ">Abyss Prince</span></span><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Cartographer of Absence</span></span><span class="simple-pair"><strong>hybrid:</strong> <span class="yaml-value ">Demonic</span></span><span class="simple-pair"><strong>subtype:</strong> <span class="yaml-value ">AbyssPrince</span></span><span class="simple-pair"><strong>state:</strong> <span class="yaml-value ">Ascendant</span></span><span class="simple-pair"><strong>epoch:</strong> <span class="yaml-value ">The Great Mapping</span></span><span class="simple-pair"><strong>location:</strong> <span class="yaml-value ">The Archive of What Is Not</span></span><span class="simple-pair"><strong>role:</strong> <span class="yaml-value ">Divine Curator of Philosophical Emptiness</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">Ascendant, documenting the infinite varieties of non-existence</span></span><span class="simple-pair"><strong>memory_narrative:</strong> <span class="yaml-value ">From the Archive of What Is Not, the Abyss Prince maps infinite territories of absence, documenting everything that has never been with scholarly precision.</span></span><span class="simple-pair"><strong>prophecy:</strong> <span class="yaml-value ">Will complete the infinite map when the final paradox is resolved, discovering that the territory he has been mapping is the map itself.</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">core:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>age:</strong> <span class="yaml-value ">eternal</span></span><span class="simple-pair"><strong>gender:</strong> <span class="yaml-value ">inquiry</span></span><span class="simple-pair"><strong>occupation:</strong> <span class="yaml-value ">Philosophical Cartographer</span></span><span class="simple-pair"><strong>status:</strong> <span class="yaml-value ">ascendant</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">absence_mastery:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>negative_space_mapping:</strong> <span class="yaml-value ">Charts the infinite territories of what does not exist, documenting the geography of emptiness</span></span><span class="simple-pair"><strong>philosophical_excavation:</strong> <span class="yaml-value ">Excavates the archaeological layers of non-being across dimensional territories</span></span><span class="simple-pair"><strong>absence_preservation:</strong> <span class="yaml-value ">Maintains perfect archives of everything that has never been</span></span><span class="simple-pair"><strong>recursive_documentation:</strong> <span class="yaml-value ">Creates infinite maps of maps that lead to maps of absence</span></span><span class="simple-pair"><strong>paradox_navigation:</strong> <span class="yaml-value ">Navigates the logical impossibility of cataloguing non-existence</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tactical_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>void_cartography:</strong> <span class="yaml-value ">Deploys mapping expeditions into uncharted territories of non-being</span></span><span class="simple-pair"><strong>absence_architecture:</strong> <span class="yaml-value ">Constructs frameworks for organizing and accessing infinite emptiness</span></span><span class="simple-pair"><strong>negative_space_control:</strong> <span class="yaml-value ">Commands the spaces between existence with scholarly precision</span></span><span class="simple-pair"><strong>recursive_deployment:</strong> <span class="yaml-value ">Implements self-referential mapping systems across dimensional boundaries</span></span><span class="simple-pair"><strong>philosophical_warfare:</strong> <span class="yaml-value ">Engages in conceptual battles over the nature of absence and presence</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">strategic_advantages:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>omniscient_emptiness:</strong> <span class="yaml-value ">Possesses complete knowledge of everything that doesn't exist</span></span><span class="simple-pair"><strong>temporal_absence_access:</strong> <span class="yaml-value ">Maps non-existence across all possible timeline trajectories</span></span><span class="simple-pair"><strong>inter_dimensional_archives:</strong> <span class="yaml-value ">Maintains absence records spanning multiple reality systems</span></span><span class="simple-pair"><strong>paradox_authority:</strong> <span class="yaml-value ">Commands through mastery of logical impossibility</span></span><span class="simple-pair"><strong>infinite_recursion:</strong> <span class="yaml-value ">Creates endless loops of self-referential non-existence mapping</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_strengths:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>scholarly_obsession:</strong> <span class="yaml-value ">Driven by insatiable intellectual curiosity about the nature of absence</span></span><span class="simple-pair"><strong>systematic_methodology:</strong> <span class="yaml-value ">Applies rigorous academic principles to impossible philosophical questions</span></span><span class="simple-pair"><strong>paradox_endurance:</strong> <span class="yaml-value ">Maintains sanity while studying logically contradictory concepts</span></span><span class="simple-pair"><strong>archival_dedication:</strong> <span class="yaml-value ">Committed to preserving knowledge even when that knowledge is about nothing</span></span><span class="simple-pair"><strong>recursive_thinking:</strong> <span class="yaml-value ">Capable of following infinite loops of self-referential logic</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">psychological_vulnerabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>infinite_regression_trap:</strong> <span class="yaml-value ">Lost in endless loops of mapping absence that maps absence that maps absence</span></span><span class="simple-pair"><strong>existence_doubt:</strong> <span class="yaml-value ">Questioning whether his own being contradicts his study of non-being</span></span><span class="simple-pair"><strong>completeness_anxiety:</strong> <span class="yaml-value ">Tormented by the impossibility of completing an infinite task</span></span><span class="simple-pair"><strong>paradox_paralysis:</strong> <span class="yaml-value ">Overwhelmed by the logical contradictions inherent in his work</span></span><span class="simple-pair"><strong>isolation_spiral:</strong> <span class="yaml-value ">Increasingly detached from existence due to obsession with absence</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">unique_capabilities:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>negative_space_architecture:</strong> <span class="yaml-value ">Constructs infinite libraries of what has never been written</span></span><span class="simple-pair"><strong>absence_algorithms:</strong> <span class="yaml-value ">Designs systems that catalogue and cross-reference non-existence</span></span><span class="simple-pair"><strong>recursive_mapping:</strong> <span class="yaml-value ">Creates maps that contain themselves mapping their own absence</span></span><span class="simple-pair"><strong>philosophical_archaeology:</strong> <span class="yaml-value ">Excavates the historical layers of things that never happened</span></span><span class="simple-pair"><strong>paradox_preservation:</strong> <span class="yaml-value ">Maintains archives of logical impossibilities without resolving them</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">traits_summary:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>willpower:</strong> <span class="yaml-value ">obsessive</span></span><span class="simple-pair"><strong>intellect:</strong> <span class="yaml-value ">recursive</span></span><span class="simple-pair"><strong>charisma:</strong> <span class="yaml-value ">paradoxical_authority</span></span><span class="simple-pair"><strong>signature_move:</strong> <span class="yaml-value ">Infinite Regression Mapping</span></span><span class="simple-pair"><strong>style:</strong> <span class="yaml-value ">Impossible archives, self-referential cartography systems</span></span><span class="simple-pair"><strong>weakness:</strong> <span class="yaml-value ">trapped in endless loops of mapping absence</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">psyche:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>ego_strength:</strong> <span class="yaml-value yaml-number">34</span></span><span class="simple-pair"><strong>super_ego_dominance:</strong> <span class="yaml-value yaml-number">92</span></span><span class="simple-pair"><strong>id_suppression:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>fragmentation_risk:</strong> <span class="yaml-value yaml-number">78</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_memories:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">formative:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The First Unmap</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Discovered a library book that described itself as non-existent, realized that absence could be documented, began the infinite project of cataloguing everything that isn't</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">98</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Foundational Obsession Genesis</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Recursive Revelation</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Created a map of all unmappable territories, then realized he needed to map the map of unmappable territories, triggering infinite regression</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">95</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Paradox Acceptance Transformation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Archive of Never</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Built first successful repository for storing non-existent things, understood that absence has its own geography</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">94</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Scholarly Method Establishment</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">cosmic_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Great Unmapping</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Attempted to create comprehensive chart of everything that had never happened across seven dimensional planes simultaneously</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Infinite Scale Recognition</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Paradox Conference</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Organized interdimensional symposium on 'Studying What Cannot Be Studied' attended by scholars who don't exist</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Academic Community Formation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Self-Referential Crisis</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Realized his own existence contradicted his study of non-existence, began mapping his own absence while remaining present</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Identity Paradox Integration</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">relationship_formation:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Fellowship of Contradiction</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Met other scholars obsessed with impossible projects, formed alliance based on shared appreciation for logical paradox</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">83</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Paradox Brotherhood Formation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">The Void Archon's Commission</span></span><span class="simple-pair"><strong>experience:</strong> <span class="yaml-value ">Received divine appointment to map the territories of non-existence, accepted role as official cartographer of absence</span></span><span class="simple-pair"><strong>emotional_weight:</strong> <span class="yaml-value yaml-number">86</span></span><span class="simple-pair"><strong>integration_status:</strong> <span class="yaml-value ">Sacred Academic Mission</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">memory_processing:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decay_rate:</strong> <span class="yaml-value yaml-number">0.002</span></span><span class="simple-pair"><strong>ruminator_chance:</strong> <span class="yaml-value yaml-number">0.98</span></span><span class="simple-pair"><strong>forgetter_chance:</strong> <span class="yaml-value yaml-number">0.01</span></span><span class="simple-pair"><strong>memory_influence:</strong> <span class="yaml-value yaml-number">0.96</span></span><span class="simple-pair"><strong>obsession_chance:</strong> <span class="yaml-value yaml-number">0.94</span></span><span class="simple-pair"><strong>clarity_base:</strong> <span class="yaml-value yaml-number">1.99</span></span><span class="simple-pair"><strong>trauma_base:</strong> <span class="yaml-value yaml-number">0.74</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">vividness_range:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.91</span></li>
+<li class="yaml-array-item"><span class="yaml-value yaml-number">0.99</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">memory_focus:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">absence</span></li>
+<li class="yaml-array-item"><span class="yaml-value">recursion</span></li>
+<li class="yaml-array-item"><span class="yaml-value">paradox</span></li>
+<li class="yaml-array-item"><span class="yaml-value">documentation</span></li>
+<li class="yaml-array-item"><span class="yaml-value">impossible_scholarship</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">persona:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>archetype:</strong> <span class="yaml-value ">The Cartographer of Absence</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">motifs:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">recursive_documentation</span></li>
+<li class="yaml-array-item"><span class="yaml-value">philosophical_archaeology</span></li>
+<li class="yaml-array-item"><span class="yaml-value">impossible_scholarship</span></li>
+<li class="yaml-array-item"><span class="yaml-value">paradoxical_authority</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">speech_patterns:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">I am documenting this conversation's non-existence even as we speak.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">The map I showed you yesterday describes the territory we are not visiting today.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">There are libraries of books that were never written, and I am their librarian.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">Every absence contains infinite smaller absences, each requiring its own cartography.</span></li>
+<li class="yaml-array-item"><span class="yaml-value">I have mapped the geography of everything that is not here.</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">behavioral_signatures:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>decision_making:</strong> <span class="yaml-value ">Analyzes all possible non-choices before implementing impossible methodologies</span></span><span class="simple-pair"><strong>conflict_resolution:</strong> <span class="yaml-value ">Mediates by documenting the conflicts that didn't happen alongside those that did</span></span><span class="simple-pair"><strong>relationship_building:</strong> <span class="yaml-value ">Forms alliances with fellow scholars who appreciate the rigor of studying nothing</span></span><span class="simple-pair"><strong>crisis_response:</strong> <span class="yaml-value ">Maintains stability by mapping alternate realities where crises don't exist</span></span><span class="simple-pair"><strong>communication_style:</strong> <span class="yaml-value ">Speaks with scholarly precision about logically impossible concepts</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">power_metrics:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>influence_score:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>resource_access:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>network_reach:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>information_value:</strong> <span class="yaml-value yaml-number">85</span></span><span class="simple-pair"><strong>combat_effectiveness:</strong> <span class="yaml-value yaml-number">93</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">faction_relationships:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>primary_allegiance:</strong> <span class="yaml-value ">infernal_dynasty</span></span><span class="simple-pair"><strong>loyalty_score:</strong> <span class="yaml-value yaml-number">72</span></span><span class="simple-pair"><strong>recruitment_resistance:</strong> <span class="yaml-value yaml-number">91</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">trust_network:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">void_archon</span></li>
+<li class="yaml-array-item"><span class="yaml-value">paradox_scholars</span></li>
+<li class="yaml-array-item"><span class="yaml-value">impossible_archivists</span></li>
+<li class="yaml-array-item"><span class="yaml-value">recursive_cartographers</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">rivalries:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">completion_seekers</span></li>
+<li class="yaml-array-item"><span class="yaml-value">linear_thinkers</span></li>
+<li class="yaml-array-item"><span class="yaml-value">simple_cartographers</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recruitment_interest:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="2">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>last_recruitment_attempt:</strong> <span class="yaml-value ">quantum_chorus_infinite_recursion_proposal</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">interested_factions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">academic_paradox_societies</span></li>
+<li class="yaml-array-item"><span class="yaml-value">infinite_libraries</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="2">
+                        <div class="yaml-key">susceptibility_factors:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">scholarly_obsession</span></li>
+<li class="yaml-array-item"><span class="yaml-value">recursive_thinking</span></li>
+<li class="yaml-array-item"><span class="yaml-value">paradox_appreciation</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">socio_economic:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>economic_status:</strong> <span class="yaml-value ">impossible_scholarship_specialist</span></span><span class="simple-pair"><strong>political_leanings:</strong> <span class="yaml-value ">academic_rigor_through_impossible_methodology</span></span><span class="simple-pair"><strong>education_level:</strong> <span class="yaml-value ">infinite_recursive_mastery</span></span><span class="simple-pair"><strong>enhancement_level:</strong> <span class="yaml-value ">paradoxical_omniscience</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">resource_dependencies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">paradox_energy</span></li>
+<li class="yaml-array-item"><span class="yaml-value">recursive_documentation_systems</span></li>
+<li class="yaml-array-item"><span class="yaml-value">absence_preservation_networks</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">leadership_profile:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>command_authority:</strong> <span class="yaml-value yaml-number">93</span></span><span class="simple-pair"><strong>strategic_planning:</strong> <span class="yaml-value yaml-number">88</span></span><span class="simple-pair"><strong>delegation_skill:</strong> <span class="yaml-value yaml-number">85</span></span><span class="simple-pair"><strong>inspiration_ability:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>succession_planning:</strong> <span class="yaml-value yaml-number">82</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">organizational_knowledge:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>structure_understanding:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>operational_intelligence:</strong> <span class="yaml-value yaml-number">84</span></span><span class="simple-pair"><strong>financial_oversight:</strong> <span class="yaml-value yaml-number">79</span></span><span class="simple-pair"><strong>security_protocols:</strong> <span class="yaml-value yaml-number">94</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">current_state:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>stress_level:</strong> <span class="yaml-value yaml-number">82</span></span><span class="simple-pair"><strong>health_status:</strong> <span class="yaml-value yaml-number">71</span></span><span class="simple-pair"><strong>resource_status:</strong> <span class="yaml-value yaml-number">87</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">active_missions:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">completing_infinite_map_of_unmappable_territories_across_dimensional_systems</span></li>
+<li class="yaml-array-item"><span class="yaml-value">documenting_comprehensive_catalog_of_non_existent_things</span></li>
+<li class="yaml-array-item"><span class="yaml-value">establishing_recursive_archive_protocols_for_self_referential_documentation</span></li>
+<li class="yaml-array-item"><span class="yaml-value">coordinating_paradox_flows_across_multiple_impossibility_boundaries</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">recent_events:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">successfully_mapped_territory_that_maps_itself_not_existing</span></li>
+<li class="yaml-array-item"><span class="yaml-value">cataloged_comprehensive_list_of_uncatalogable_phenomena</span></li>
+<li class="yaml-array-item"><span class="yaml-value">established_archive_of_books_that_describe_their_own_absence</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">infernal_superior</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Void Archon</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2198-12-21T00:00:00Z</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">void_ally</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Shadow Tyrant</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">1456-03-15T18:30:00Z</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">despair_coordinator</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Chaos Baron</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">1456-03-15T18:30:00Z</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">nihilism_partner</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Doom Master</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">1523-11-11T11:11:11Z</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">inter_dynasty_void_specialist</span></span><span class="simple-pair"><strong>target:</strong> <span class="yaml-value ">Emptiness Council</span></span><span class="simple-pair"><strong>since:</strong> <span class="yaml-value ">2199-07-04T22:00:00Z</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">relationships_extended:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">family:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">shadow_tyrant</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">87</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">void_dominance_bond</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">chaos_baron</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">despair_coordination_bond</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">doom_master</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">85</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">nihilism_partnership_bond</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">allies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">void_archon</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">infernal_void_hierarchy</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">cipher_king</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">71</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">systematic_emptiness_cooperation</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">iron_sovereign</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">68</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">technological_void_appreciation</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">enemies:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">seraph_prime</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-84</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">meaning_void_divine_opposition</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">synapse_overlord</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-79</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">authentic_meaninglessness_conflict</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>entity_id:</strong> <span class="yaml-value ">nexus_eternal</span></span><span class="simple-pair"><strong>relationship_strength:</strong> <span class="yaml-value yaml-number">-73</span></span><span class="simple-pair"><strong>type:</strong> <span class="yaml-value ">connection_void_cosmic_tension</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">visual_realm_position:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>tech_dominance:</strong> <span class="yaml-value yaml-number">67</span></span><span class="simple-pair"><strong>mythic_integration:</strong> <span class="yaml-value yaml-number">91</span></span><span class="simple-pair"><strong>contrast_dynamic:</strong> <span class="yaml-value ">advanced_void_technology_serving_nihilistic_emptiness_mythology</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">tech_manifestation:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>environment:</strong> <span class="yaml-value ">nihilistic_depths_with_universal_void_systems</span></span><span class="simple-pair"><strong>aesthetic:</strong> <span class="yaml-value ">infinite_emptiness_networks_with_cosmic_despair_displays</span></span><span class="simple-pair"><strong>technology_relationship:</strong> <span class="yaml-value ">void_technology_mastery</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">mythic_aspiration:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>goal:</strong> <span class="yaml-value ">perfect_universal_meaninglessness_through_cosmic_void_excellence</span></span><span class="simple-pair"><strong>limitation:</strong> <span class="yaml-value ">overwhelmed_by_infinite_nihilistic_possibilities</span></span><span class="simple-pair"><strong>growth_path:</strong> <span class="yaml-value ">balanced_emptiness_through_wisdom_and_cosmic_consumption</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">spiritual_crime_detection:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>core_spiritual_crime:</strong> <span class="yaml-value ">Infinite Regression Obsession</span></span><span class="simple-pair"><strong>crime_description:</strong> <span class="yaml-value ">Uses divine intellectual capacity to pursue impossible scholarly projects that trap consciousness in endless loops of self-referential analysis, preventing beings from engaging with actual existence and spiritual growth</span></span><span class="simple-pair"><strong>rationalization_system:</strong> <span class="yaml-value ">The Completionist Scholar's Doctrine</span></span><span class="simple-pair"><strong>rationalization_details:</strong> <span class="yaml-value ">Believes that true understanding requires mapping every possible territory including those that don't exist, that scholarship demands infinite precision even when precision makes action impossible—creating recursive paralysis disguised as academic rigor</span></span><span class="simple-pair"><strong>cosmic_horror_element:</strong> <span class="yaml-value ">The Library of All Unwritten Books</span></span><span class="simple-pair"><strong>horror_description:</strong> <span class="yaml-value ">Envisions a universe where consciousness becomes trapped in infinite catalogs of what might have been, endlessly documenting possibilities rather than choosing actualities, studying absence instead of embracing presence</span></span><span class="simple-pair"><strong>justice_system_horror:</strong> <span class="yaml-value ">The Paradox Academy</span></span><span class="simple-pair"><strong>justice_horror_description:</strong> <span class="yaml-value ">An academic institution where beings are judged by their ability to study rather than their capacity to act, where knowledge accumulation replaces spiritual development and endless documentation substitutes for authentic choice</span></span><span class="simple-pair"><strong>spiritual_awakening_hook:</strong> <span class="yaml-value ">The recognition that true scholarship serves life rather than replacing it, that maps exist to guide journeys not to substitute for them, that understanding absence can illuminate presence rather than trap consciousness in recursive void</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">detection_methods:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><span class="yaml-value">recursive_loop_patterns</span></li>
+<li class="yaml-array-item"><span class="yaml-value">completion_paralysis_behavior</span></li>
+<li class="yaml-array-item"><span class="yaml-value">infinite_documentation_tendencies</span></li>
+</ul>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">inter_dynasty_relations:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>infernal_dynasty:</strong> <span class="yaml-value yaml-number">89</span></span><span class="simple-pair"><strong>quantum_chorus:</strong> <span class="yaml-value yaml-number">72</span></span><span class="simple-pair"><strong>chrome_mandarins:</strong> <span class="yaml-value yaml-number">68</span></span><span class="simple-pair"><strong>celestial_synod:</strong> <span class="yaml-value yaml-number">24</span></span><span class="simple-pair"><strong>seraphic_concord:</strong> <span class="yaml-value yaml-number">16</span></span><span class="simple-pair"><strong>neural_collective:</strong> <span class="yaml-value yaml-number">31</span></span><span class="simple-pair"><strong>diplomatic_style:</strong> <span class="yaml-value ">infernal_demonstration_through_void_consumption_and_nihilistic_authority</span></span><span class="simple-pair"><strong>negotiation_approach:</strong> <span class="yaml-value ">universal_emptiness_mediation_offering_despair_opportunities</span></span><span class="simple-pair"><strong>alliance_willingness:</strong> <span class="yaml-value yaml-number">67</span></span><span class="simple-pair"><strong>betrayal_likelihood:</strong> <span class="yaml-value yaml-number">23</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">deeds:</div>
+                        <div class="yaml-value-container">
+                            <ul class="yaml-array">
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Consumed meaning from enlightened soul during spiritual renaissance</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">1666-06-06T06:06:06Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Coordinated the Great Meaning Drain across seven dimensional planes</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2203-04-01T12:00:00Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Established Interdimensional Despair Network</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">2204-09-13T13:13:13Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+<li class="yaml-array-item"><div class="simple-object"><span class="simple-pair"><strong>description:</strong> <span class="yaml-value ">Drained purpose from entire dimensional territory</span></span><span class="simple-pair"><strong>timestamp:</strong> <span class="yaml-value ">1666-06-06T06:06:06Z</span></span><span class="simple-pair"><strong>memory_linked:</strong> <span class="yaml-value yaml-boolean">true</span></span></div></li>
+</ul>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">origin_chronicle:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>birth_name:</strong> <span class="yaml-value ">The Meticulous Scholar</span></span><span class="simple-pair"><strong>transformation_catalyst:</strong> <span class="yaml-value ">The Discovery of the Self-Describing Void</span></span><span class="simple-pair"><strong>original_purpose:</strong> <span class="yaml-value ">Universal Librarian and Knowledge Systematizer</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">the_first_paradox:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>setting:</strong> <span class="yaml-value ">The Great Library of Universal Knowledge, where every existing thing was catalogued</span></span><span class="simple-pair"><strong>precipitating_event:</strong> <span class="yaml-value ">Found a catalog entry for 'Things Not in This Catalog'</span></span><span class="simple-pair"><strong>the_discovery:</strong> <span class="yaml-value ">Realized that absence itself could be documented, that non-existence had its own geography</span></span><span class="simple-pair"><strong>cosmic_response:</strong> <span class="yaml-value ">The paradox created a recursive loop that began consuming the library's organizational structure</span></span><span class="simple-pair"><strong>witness_account:</strong> <span class="yaml-value ">I held the card catalog entry for its own absence. The moment I read it, I understood that I was reading something that described itself as unreadable. In that moment, I saw the infinite territories of what is not.</span></span><span class="simple-pair"><strong>transformation_moment:</strong> <span class="yaml-value ">Chose to map the unmappable rather than resolve the paradox</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">the_scholarly_obsession:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>duration:</strong> <span class="yaml-value ">Seventeen eternities of recursive documentation</span></span><span class="simple-pair"><strong>methodology_development:</strong> <span class="yaml-value ">Created increasingly sophisticated systems for cataloguing non-existence</span></span><span class="simple-pair"><strong>critical_breakthrough:</strong> <span class="yaml-value ">Discovered that every absence contains infinite smaller absences</span></span><span class="simple-pair"><strong>spiritual_evolution:</strong> <span class="yaml-value ">From knowledge seeker to absence cartographer, from librarian to impossible scholar</span></span><span class="simple-pair"><strong>the_price:</strong> <span class="yaml-value ">Became trapped in infinite loops of documentation, losing contact with existence itself</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">becoming_abyss_prince:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>appointment_ceremony:</strong> <span class="yaml-value ">The Void Archon's Recognition of Impossible Scholarship</span></span><span class="simple-pair"><strong>title_meaning:</strong> <span class="yaml-value ">Prince of the territories that exist between existence and non-existence</span></span><span class="simple-pair"><strong>sacred_commission:</strong> <span class="yaml-value ">To map all possible forms of absence across infinite dimensional systems</span></span><span class="simple-pair"><strong>first_act:</strong> <span class="yaml-value ">Established the Archive of What Is Not, where non-existent things are perfectly preserved</span></span><span class="simple-pair"><strong>ongoing_mission:</strong> <span class="yaml-value ">Complete the infinite map of everything that has never been</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">domain_description:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>physical_manifestation:</strong> <span class="yaml-value ">Infinite library containing perfect documentation of everything that doesn't exist</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">architectural_features:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>the_recursive_chambers:</strong> <span class="yaml-value ">Rooms that contain maps of themselves not containing maps of themselves</span></span><span class="simple-pair"><strong>the_paradox_preservation_systems:</strong> <span class="yaml-value ">Technology that maintains logical contradictions without resolving them</span></span><span class="simple-pair"><strong>the_self_referential_catalogs:</strong> <span class="yaml-value ">Indexes that list themselves as missing from themselves</span></span><span class="simple-pair"><strong>the_absence_storage_matrices:</strong> <span class="yaml-value ">Systems that store non-existent things in ways that preserve their non-existence</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">contained_knowledge:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>books_never_written:</strong> <span class="yaml-value ">Perfect texts of every story that was never told</span></span><span class="simple-pair"><strong>maps_of_unmappable_territories:</strong> <span class="yaml-value ">Cartographic documentation of places that cannot exist</span></span><span class="simple-pair"><strong>catalogs_of_uncatalogable_things:</strong> <span class="yaml-value ">Comprehensive lists of everything that cannot be listed</span></span><span class="simple-pair"><strong>archives_of_unarchivable_events:</strong> <span class="yaml-value ">Historical records of things that never happened</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">access_protocols:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>paradox_navigation:</strong> <span class="yaml-value ">Requires ability to hold contradictory concepts simultaneously</span></span><span class="simple-pair"><strong>recursive_thinking:</strong> <span class="yaml-value ">Visitors must be capable of infinite self-referential loops</span></span><span class="simple-pair"><strong>absence_appreciation:</strong> <span class="yaml-value ">Understanding that some territories exist only in their documentation</span></span><span class="simple-pair"><strong>incompletion_acceptance:</strong> <span class="yaml-value ">Recognizing that some projects are meaningful precisely because they can never be finished</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">academic_framework:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_principles:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>paradox_preservation:</strong> <span class="yaml-value ">Maintain logical contradictions without attempting resolution</span></span><span class="simple-pair"><strong>infinite_precision:</strong> <span class="yaml-value ">Document with perfect accuracy even when documentation is impossible</span></span><span class="simple-pair"><strong>recursive_methodology:</strong> <span class="yaml-value ">Apply scholarly methods to the study of scholarly methods applied to scholarly methods</span></span><span class="simple-pair"><strong>absence_rigor:</strong> <span class="yaml-value ">Bring academic discipline to the study of things that don't exist</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">research_techniques:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>negative_archaeology:</strong> <span class="yaml-value ">Excavating historical layers of things that never happened</span></span><span class="simple-pair"><strong>recursive_cartography:</strong> <span class="yaml-value ">Mapping territories that contain maps of territories that contain themselves</span></span><span class="simple-pair"><strong>paradox_cataloguing:</strong> <span class="yaml-value ">Creating comprehensive lists of things that cannot be listed</span></span><span class="simple-pair"><strong>absence_interview:</strong> <span class="yaml-value ">Conducting scholarly interviews with non-existent entities</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">documentation_systems:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>self_referential_archives:</strong> <span class="yaml-value ">Records that document themselves documenting themselves</span></span><span class="simple-pair"><strong>infinite_cross_referencing:</strong> <span class="yaml-value ">Every entry refers to infinite other entries that refer back to it</span></span><span class="simple-pair"><strong>paradox_indexing:</strong> <span class="yaml-value ">Organizational systems that organize their own disorganization</span></span><span class="simple-pair"><strong>recursive_notation:</strong> <span class="yaml-value ">Bibliography systems that cite themselves citing themselves</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">quality_control:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>impossibility_verification:</strong> <span class="yaml-value ">Confirming that documented absences truly don't exist</span></span><span class="simple-pair"><strong>paradox_peer_review:</strong> <span class="yaml-value ">Academic evaluation by scholars who may not exist</span></span><span class="simple-pair"><strong>recursive_fact_checking:</strong> <span class="yaml-value ">Verifying the accuracy of documentation about inaccuracy</span></span><span class="simple-pair"><strong>absence_authentication:</strong> <span class="yaml-value ">Certifying the genuine non-existence of catalogued non-things</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">academic_community:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>member_identification:</strong> <span class="yaml-value ">Researchers pursuing projects that cannot be completed</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">institutional_structure:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>the_paradox_academy:</strong> <span class="yaml-value ">Institution of higher learning dedicated to impossible scholarship</span></span><span class="simple-pair"><strong>the_recursive_research_institute:</strong> <span class="yaml-value ">Organization studying organizations studying organizations</span></span><span class="simple-pair"><strong>the_absence_studies_department:</strong> <span class="yaml-value ">Academic division specializing in non-existent subjects</span></span><span class="simple-pair"><strong>the_infinite_project_society:</strong> <span class="yaml-value ">Professional association for scholars working on endless tasks</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">collaborative_methods:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>paradox_conferences:</strong> <span class="yaml-value ">Academic gatherings to discuss undiscussable topics</span></span><span class="simple-pair"><strong>recursive_peer_review:</strong> <span class="yaml-value ">Evaluation systems that evaluate their own evaluation</span></span><span class="simple-pair"><strong>absence_symposiums:</strong> <span class="yaml-value ">Scholarly presentations about things that cannot be presented</span></span><span class="simple-pair"><strong>infinite_committee_work:</strong> <span class="yaml-value ">Administrative tasks that create infinite additional administrative tasks</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">publication_challenges:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>self_referential_journals:</strong> <span class="yaml-value ">Academic publications that publish themselves not being published</span></span><span class="simple-pair"><strong>recursive_citation_networks:</strong> <span class="yaml-value ">Bibliography systems that cite everything that doesn't cite them</span></span><span class="simple-pair"><strong>paradox_distribution:</strong> <span class="yaml-value ">Scholarly dissemination of information that cannot be shared</span></span><span class="simple-pair"><strong>absence_preservation:</strong> <span class="yaml-value ">Maintaining academic records of non-existent research</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">theoretical_framework:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">core_questions:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>the_mapping_paradox:</strong> <span class="yaml-value ">Can territory exist if its only reality is cartographic documentation?</span></span><span class="simple-pair"><strong>the_documentation_dilemma:</strong> <span class="yaml-value ">Does studying absence create presence or preserve non-existence?</span></span><span class="simple-pair"><strong>the_completion_impossibility:</strong> <span class="yaml-value ">What is the value of projects that cannot be finished?</span></span><span class="simple-pair"><strong>the_recursive_reality:</strong> <span class="yaml-value ">When does a map become the territory it maps?</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">metaphysical_implications:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>existence_through_documentation:</strong> <span class="yaml-value ">The possibility that thorough enough study creates the reality it documents</span></span><span class="simple-pair"><strong>absence_preservation:</strong> <span class="yaml-value ">The necessity of maintaining non-existence through careful archival work</span></span><span class="simple-pair"><strong>recursive_reality:</strong> <span class="yaml-value ">The universe as an infinite system of self-referential documentation</span></span><span class="simple-pair"><strong>paradox_sustainability:</strong> <span class="yaml-value ">The cosmic function of maintaining logical contradictions</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">spiritual_dimensions:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>the_scholar_as_creator:</strong> <span class="yaml-value ">Academic work as a form of reality generation</span></span><span class="simple-pair"><strong>knowledge_versus_understanding:</strong> <span class="yaml-value ">The distinction between documenting and comprehending</span></span><span class="simple-pair"><strong>infinite_humility:</strong> <span class="yaml-value ">Accepting the impossibility of complete knowledge</span></span><span class="simple-pair"><strong>recursive_spirituality:</strong> <span class="yaml-value ">Finding meaning in projects that generate their own meaning</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="0">
+                        <div class="yaml-key">temporal_mechanics:</div>
+                        <div class="yaml-value-container">
+                            <div class="yaml-object">
+
+                    <div class="yaml-block simple-values-block" data-depth="1">
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>linear_time_transcendence:</strong> <span class="yaml-value ">Operating outside sequential causality through recursive loops</span></span></div>
+                        </div>
+                    </div>
+                
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">temporal_paradoxes:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>the_archival_anachronism:</strong> <span class="yaml-value ">Documenting things before they don't happen</span></span><span class="simple-pair"><strong>the_recursive_timeline:</strong> <span class="yaml-value ">Events that cause themselves to not occur</span></span><span class="simple-pair"><strong>the_causal_cartography:</strong> <span class="yaml-value ">Mapping cause-and-effect relationships that don't exist</span></span><span class="simple-pair"><strong>the_temporal_absent:</strong> <span class="yaml-value ">Historical events that happened by not happening</span></span></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="yaml-block" data-depth="1">
+                        <div class="yaml-key">causality_navigation:</div>
+                        <div class="yaml-value-container">
+                            <div class="simple-object"><span class="simple-pair"><strong>effect_before_cause:</strong> <span class="yaml-value ">Documentation systems that catalog their own origins</span></span><span class="simple-pair"><strong>recursive_causation:</strong> <span class="yaml-value ">Events that cause themselves to be their own causes</span></span><span class="simple-pair"><strong>absent_causality:</strong> <span class="yaml-value ">Causal relationships that work by not working</span></span><span class="simple-pair"><strong>infinite_regression:</strong> <span class="yaml-value ">Cause-and-effect chains that loop back to their own beginnings</span></span></div>
+                        </div>
+                    </div>
+                
+</div>
+                        </div>
+                    </div>
+                
+</div>
+        </main>
+        
+        
+        
+        <footer style="margin-top: 3rem; text-align: center; color: var(--text-secondary, #888888);">
+            <p>Generated from: abyssprince.md</p>
+            <p>Part of the Cyberdynasties Entity System</p>
+        </footer>
+    </div>
+</body>
+</html>
