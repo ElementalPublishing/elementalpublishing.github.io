@@ -295,21 +295,22 @@
                     </div>
                 </div>
 
-                <!-- More Entities Coming Soon -->
-                <div class="character-card coming-soon">
+                <!-- More Entities - Now Clickable! -->
+                <div class="character-card coming-soon" onclick="exploreCharacter('more-entities')" style="cursor: pointer;">
                     <div class="character-avatar">
-                        <div class="avatar-placeholder">?</div>
+                        <div class="avatar-placeholder">52</div>
                     </div>
                     <div class="character-info">
-                        <h3>More Entities</h3>
-                        <p class="character-title">Coming Soon</p>
+                        <h3>All 52 Entities</h3>
+                        <p class="character-title">Complete Universe Index</p>
                         <p class="character-description">
-                            The universe is vast and growing. More entities 
-                            will be revealed as the story unfolds.
+                            Explore the complete roster of all boss entities across 
+                            every cyber dynasty. The full universe awaits your discovery.
                         </p>
                         <div class="character-stats">
-                            <span class="stat-badge">Status: Hidden</span>
+                            <span class="stat-badge">Status: Ready to Explore</span>
                         </div>
+                        <button class="explore-btn" onclick="event.stopPropagation(); exploreCharacter('more-entities')">Explore All Entities</button>
                     </div>
                 </div>
             </div>
@@ -505,34 +506,39 @@
                 'seraph-prime': 'Seraph Prime',
                 'iron-sovereign': 'Iron Sovereign',
                 'nexus-eternal': 'Nexus Eternal',
-                'void-archon': 'Void Archon'
+                'void-archon': 'Void Archon',
+                'more-entities': 'Entity Index'
             };
             
             const characterName = characterNames[characterId] || 'Unknown Character';
             trackCharacterExploration(characterName);
             
-            // Antifragile character explorer - each interaction strengthens the universe
+            // Antifragile character explorer - navigate to actual entity pages!
             switch(characterId) {
                 case 'cipher-king':
-                    alert('Cipher King: Supreme Ruler who grows stronger through systematic challenges. Master of protocol overwrite, where each attack reveals new defensive adaptations.');
+                    window.location.href = 'html/cipher-king.html';
                     break;
                 case 'synapse-overlord':
-                    alert('Synapse Overlord: The antifragile prophet whose humanity becomes more divine under enhancement pressure. Reality hacker protected by sacred inefficiency.');
+                    window.location.href = 'html/synapse-overlord.html';
                     break;
                 case 'seraph-prime':
-                    alert('Seraph Prime: The perfect leader whose spiritual networks strengthen through chaos and community challenge. Commands through earned transcendence.');
+                    window.location.href = 'html/seraph-prime.html';
                     break;
                 case 'iron-sovereign':
-                    alert('Iron Sovereign: The returned ruler whose exile transformed weakness into antifragile wisdom. Commands through demonstrated resilience and growth.');
+                    window.location.href = 'html/iron-sovereign.html';
                     break;
                 case 'nexus-eternal':
-                    alert('Nexus Eternal: Cosmic tech entity whose reality manipulation grows more sophisticated through dimensional stress-testing and paradox navigation.');
+                    window.location.href = 'html/nexus-eternal.html';
                     break;
                 case 'void-archon':
-                    alert('Void Archon: Keeper of forbidden knowledge whose understanding deepens through every attempt to suppress or challenge the archives.');
+                    window.location.href = 'html/void-archon.html';
+                    break;
+                case 'more-entities':
+                    window.location.href = 'entity-index.html';
                     break;
                 default:
-                    alert('Character profile evolving through community interaction - your curiosity strengthens the universe!');
+                    // Fallback for any future entities
+                    window.location.href = 'entity-index.html';
             }
         }
 

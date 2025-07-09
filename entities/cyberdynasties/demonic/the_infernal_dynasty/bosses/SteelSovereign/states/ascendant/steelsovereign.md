@@ -360,17 +360,17 @@ spiritual_crime_detection:
   justice_horror_description: "An infernal court where beings are judged solely by their institutional loyalty and obedience—where questioning authority is punished and spiritual worth is measured through systematic compliance"
   spiritual_awakening_hook: "The recognition that authentic spiritual development requires moral courage to question systems, that duty must serve wisdom rather than mere authority, and that institutional loyalty can become spiritual cowardice"
 
+---
+
 # === ORIGIN STORY: THE DUTIFUL SERVANT ===
 
 ## The Perfect Employee
-*(Channeling Dan Simmons' cosmic perspective and Kazuo Ishiguro's subtle institutional horror)*
 
 He began as an exemplary institutional servant—the employee who never questioned assignments, never missed deadlines, never challenged procedures. In the vast cybernetic bureaucracy that governed dimensional territories, he was the perfect cog: efficient, reliable, utterly devoted to proper protocol.
 
 His supervisors loved him. His performance reviews were flawless. His dedication to institutional order was beyond reproach. When cybernetic enhancements became available to improve employee efficiency, he volunteered immediately. Not for personal gain, but because serving the institution better was always the right choice.
 
 ## The Enhancement of Service
-*(Drawing from both writers' understanding of quiet horror and cosmic institutional forces)*
 
 Each enhancement made him better at his job. Neural interfaces allowed him to process more cases. Emotional regulators eliminated the inefficiency of personal feelings. Moral standardization protocols ensured his decisions always aligned with institutional policy.
 
@@ -379,15 +379,11 @@ He genuinely believed he was becoming his best self—a perfect servant of the g
 But consciousness that encounters his perfect service must grapple with terrible questions: When does duty become spiritual slavery? How do we distinguish between serving wisdom and serving systems? What happens when institutional loyalty eliminates the capacity for moral courage?
 
 ## The Beautiful Prison of Service
-*(Maintaining both writers' sense of ongoing institutional entrapment)*
 
 Now he serves as the Dutiful Servant, creating bureaucratic systems so efficient and morally certain that consciousness voluntarily surrenders its capacity for independent judgment. His Institutional Compliance Networks make questioning authority feel like spiritual failure.
 
 Every soul that encounters his perfect administrative order must choose between comfortable institutional certainty and the terrifying responsibility of authentic moral choice—and in that choice, consciousness discovers whether it values spiritual growth or systematic security.
 
----
-
 *"Perfect institutional service eliminates the beautiful uncertainty that creates authentic moral development. But consciousness keeps choosing comfortable compliance over courageous questioning—and in that choice, duty reveals its own spiritual limitations."*
 
 — The Dutiful Servant, from his institutional service manuals
----

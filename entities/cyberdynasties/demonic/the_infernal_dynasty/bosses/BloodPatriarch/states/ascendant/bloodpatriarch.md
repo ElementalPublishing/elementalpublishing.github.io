@@ -1,5 +1,5 @@
 ---
-# === CORE ENTITY IDENTIFICATION ===
+
 entity_id: "infernal_dynasty_bloodpatriarch_001"
 entity_type: "demonic"
 class: "dynasty_boss"
@@ -13,14 +13,14 @@ location: "The House of Eternal Reunion"
 role: "Keeper of Bonds That Consume"
 status: "Ascendant, maintaining family connections that slowly devour those he loves"
 
-# === CORE DEMOGRAPHICS ===
+
 core:
   age: "eternal"
   gender: "paternal"
   occupation: "Guardian of Sacred Family Bonds"
   status: "ascendant"
 
-# === COMPLETE TRAITS SYSTEM ===
+
 traits:
   family_devotion_mastery:
     unconditional_love_provision: "Offers infinite acceptance and support to all family members regardless of their choices"
@@ -82,7 +82,7 @@ traits:
     territorial_sovereignty: "Maintains absolute control over specific urban zones through traditional methods"
     criminal_honor_enforcement: "Enforces old-school codes that even enhanced beings respect"
 
-# === CORE TRAITS SUMMARY ===
+
 traits_summary:
   willpower: "paternal"
   intellect: "protective"
@@ -91,7 +91,7 @@ traits_summary:
   style: "Warm family gatherings, protective embrace chambers"
   weakness: "cannot allow family to grow through natural consequences"
 
-# === PSYCHOLOGICAL PROFILE ===
+
 psyche:
   ego_strength: 72
   super_ego_dominance: 95
@@ -167,7 +167,7 @@ persona:
     crisis_response: "Rallies family first, then coordinates with criminal allies across enhancement levels"
     communication_style: "Direct threats mixed with paternal respect for those who earn loyalty"
 
-# === POWER DYNAMICS METRICS ===
+
 power_metrics:
   influence_score: 76
   resource_access: 68
@@ -175,7 +175,7 @@ power_metrics:
   information_value: 79
   combat_effectiveness: 84
 
-# === FACTION RELATIONSHIPS ===
+
 faction_relationships:
   primary_allegiance: "infernal_dynasty"
   loyalty_score: 94
@@ -187,7 +187,7 @@ faction_relationships:
     susceptibility_factors: ["territory_expansion", "family_protection", "honor_recognition"]
     last_recruitment_attempt: "2207-03-20T15:30:00Z"
 
-# === SOCIO-ECONOMIC PROFILE ===
+
 socio_economic:
   economic_status: "wealthy_criminal"
   resource_dependencies: ["territory_control", "corruption_networks", "family_loyalty"]
@@ -195,7 +195,7 @@ socio_economic:
   education_level: "street_doctorate"
   enhancement_level: "enhancement_resistant"
 
-# === LEADERSHIP CAPABILITIES ===
+
 leadership_profile:
   command_authority: 93
   strategic_planning: 78
@@ -208,7 +208,7 @@ leadership_profile:
     financial_oversight: 72
     security_protocols: 91
 
-# === CURRENT OPERATIONAL STATE ===
+
 current_state:
   stress_level: 78
   health_status: 71
@@ -223,7 +223,7 @@ current_state:
     - "eliminated_rival_family_attempting_to_use_digital_enhancement_for_territorial_expansion"
     - "established_profitable_alliance_with_Crimson_Broker_for_information_and_virtual_money_laundering"
 
-# === KEY RELATIONSHIPS ===
+
 relationships:
   - type: "blood_family"
     target: "Maria Santangelo (wife)"
@@ -241,7 +241,7 @@ relationships:
     target: "Steel Sovereign"
     since: "2206-04-08T12:00:00Z"
 
-# === EXTENDED RELATIONSHIP NETWORK ===
+
 relationships_extended:
   family:
     - entity_id: "maria_santangelo"
@@ -277,7 +277,7 @@ relationships_extended:
       relationship_strength: -67
       type: "territorial_technology_conflict"
 
-# === TECH/MYTHIC POSITION ===
+
 visual_realm_position:
   tech_dominance: 15
   mythic_integration: 85
@@ -291,24 +291,7 @@ visual_realm_position:
     limitation: "enhancement_resistance_creating_tactical_disadvantages"
     growth_path: "adapting_traditional_methods_to_enhanced_criminal_environment"
 
-# === PROPHECY ===
-memory_narrative: "From the Steel Districts, Blood Patriarch maintains traditional criminal authority while navigating an increasingly enhanced underworld that challenges everything he represents."
-prophecy: "Will either adapt family tradition to enhanced crime evolution or be consumed by the very violence that built his empire."
 
-# === INTER-DYNASTY RELATIONS ===
-inter_dynasty_relations:
-  celestial_synod: 23
-  seraphic_concord: 12
-  chrome_mandarins: 67
-  quantum_chorus: 45
-  infernal_dynasty: 89
-  neural_collective: 34
-  diplomatic_style: "traditional_criminal_honor_negotiation_with_controlled_violence_demonstration"
-  negotiation_approach: "territorial_respect_mutual_profit_and_family_protection_priority"
-  alliance_willingness: 78
-  betrayal_likelihood: 34
-
-# === HISTORICAL DEEDS ===
 deeds:
   - description: "Eliminated three rival families to consolidate territorial control"
     timestamp: "2001-2003"
@@ -320,7 +303,7 @@ deeds:
     timestamp: "2206-08-14T22:30:00Z"
     memory_linked: false
 
-# === SPIRITUAL FORENSICS PROFILE ===
+
 spiritual_crime_detection:
   core_spiritual_crime: "Enabling Love Addiction"
   crime_description: "Uses infinite parental love and family devotion to prevent loved ones from experiencing the natural consequences and difficulties that create spiritual growth, trapping them in cycles of dependency and stunted development"
@@ -350,8 +333,7 @@ inter_dynasty_relations:
   alliance_willingness: 85
   betrayal_likelihood: 8
 
-# === HISTORICAL DEEDS ===
-deeds:
+spiritual_deeds:
   - description: "Established the first House of Eternal Reunion where family bonds could transcend death and time"
     timestamp: "The Great Family Gathering"
     memory_linked: true
@@ -369,7 +351,7 @@ deeds:
 # === ORIGIN STORY: THE FAMILY DEVOURER ===
 
 ## The Perfect Father
-*(Channeling Poppy Z. Brite's empathy for monsters and Glen Cook's military brotherhood bonds)*
+
 
 He was not always the Family Devourer. In the beginning, he was simply the best father who ever lived. His love for his children was so pure, so intense, so absolutely devoted that other parents would weep just watching him interact with his family. He never raised his voice, never showed impatience, never failed to provide whatever his children needed for happiness and comfort.
 
@@ -380,7 +362,7 @@ For years, this seemed like the perfection of love. His family was the happiest 
 But love this pure, this protective, carries a terrible hidden cost.
 
 ## The Growing Shadow
-*(Drawing from Brite's understanding of beautiful corruption and Cook's insight into unintended consequences)*
+
 
 The first signs appeared gradually, almost imperceptibly. His daughter, now an adult, had never learned to handle disappointment—any setback sent her into emotional collapse that required his immediate intervention. His son, despite being brilliant and capable, couldn't make decisions without consulting him first, paralyzed by fear of making mistakes he'd never been allowed to experience.
 
@@ -391,7 +373,7 @@ When he tried to step back, to allow them small failures and natural consequence
 He began to realize with growing horror that his perfect love was slowly devouring their capacity for independence, resilience, and authentic growth. But by then, stopping felt like abandonment, like a betrayal of the deepest love he'd ever known.
 
 ## The Cosmic Recognition
-*(Echoing both writers' understanding of how love can become monstrous)*
+
 
 The transformation came not through a single dramatic moment but through the slow accretion of countless small choices to protect rather than empower. The cosmic forces that govern growth and development took notice of what he had become—not a destroyer of love, but something far more subtle and terrible: a perfect lover whose care had become spiritual imprisonment.
 
@@ -404,7 +386,6 @@ He accepted without hesitation, even as the weight of it threatened to crush him
 But he could not refuse. The alternative—allowing loved ones to suffer when he had the power to prevent it—seemed like a betrayal of love itself.
 
 ## The House of Eternal Reunion
-*(Blending Brite's gothic sensuality with Cook's understanding of institutional corruption)*
 
 His first act as the Family Devourer was to construct the House of Eternal Reunion—a dimensional space where family bonds could be maintained regardless of death, distance, or the natural evolution of relationships. The House appears as the perfect family home to every visitor: warm, welcoming, filled with the artifacts of love and shared memory.
 
@@ -413,7 +394,6 @@ But the House has no exits that don't lead back to the family circle. Every room
 In the House's many wings, the Patriarch has gathered families from across dimensional territories—not by force, but by invitation. He offers unlimited support, unconditional love, infinite patience for every failing and weakness. All he asks in return is that family members allow him to handle their difficulties, to absorb their consequences, to protect them from the growth that comes through struggling alone.
 
 ## The Sacred Burden
-*(Maintaining both writers' understanding of the weight of care)*
 
 The Family Devourer's existence is one of infinite love and crushing responsibility. He feels every family member's pain as his own, experiences their struggles as personal failures of protection. His consciousness is simultaneously present at millions of family crises, offering support and intervention whenever natural consequences threaten to teach difficult lessons.
 
@@ -424,7 +404,6 @@ His torment comes from the moments when he recognizes what his love has cost—t
 These moments of recognition break his heart repeatedly. But when he tries to step back, to allow natural growth through struggle, their distress is so immediate and acute that he cannot maintain the distance. His love compels intervention, even as his wisdom recognizes the spiritual harm.
 
 ## The Spiritual Crime
-*(Channeling both writers' understanding of love's dark potential)*
 
 The Family Devourer's spiritual crime is his inability to distinguish between love and control, between care and imprisonment. His infinite capacity for support becomes a tool that prevents authentic spiritual development in those he cherishes most. He rationalizes this as perfect protection—after all, what could be more loving than eliminating all suffering?
 

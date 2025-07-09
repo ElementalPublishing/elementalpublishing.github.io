@@ -78,7 +78,23 @@ if (emailSignupForm) {
     emailSignupForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
+        // Honeypot check - if filled, it's a bot
+        const honeypot = document.getElementById('website');
+        if (honeypot && honeypot.value.trim() !== '') {
+            // Silently reject bots - don't give them any feedback
+            console.log('Bot detected via honeypot');
+            return;
+        }
+        
         const email = document.getElementById('signup-email').value;
+        
+        // Block suspicious email domains
+        const suspiciousDomains = ['banlamail.com', '10minutemail.com', 'guerrillamail.com', 'tempmail.org'];
+        const emailDomain = email.split('@')[1]?.toLowerCase();
+        if (suspiciousDomains.includes(emailDomain)) {
+            alert('Please use a permanent email address.');
+            return;
+        }
         
         // Basic email validation
         if (!isValidEmail(email)) {

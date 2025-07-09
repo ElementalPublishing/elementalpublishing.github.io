@@ -2,14 +2,14 @@
 
 ## Step 1: Create EmailJS Account
 1. Go to https://www.emailjs.com/
-2. Sign up with your email (houser2388@gmail.com)
+2. Sign up with your email (use your business email for professional appearance)
 3. Verify your email account
 
 ## Step 2: Add Email Service
 1. Go to **Email Services** in dashboard
 2. Click **Add New Service**
 3. Choose **Gmail** (recommended)
-4. Connect your Gmail account (houser2388@gmail.com)
+4. Connect your Gmail account (the one that forwards to your business email)
 5. Copy the **Service ID** (something like `service_abc123`)
 
 ## Step 3: Create Email Template
@@ -47,7 +47,7 @@ Thanks for buying direct!
 - Elemental Publishing
 
 🎵 More music: https://elementalpublishing.github.io/website
-📧 Contact: houser2388@gmail.com
+📧 Contact: wesleyalexander@elementalpublishing.org
 ```
 
 5. Save template and copy the **Template ID** (something like `template_xyz789`)

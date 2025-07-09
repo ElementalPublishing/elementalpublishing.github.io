@@ -298,6 +298,8 @@
             <div class="email-signup-content">
                 <p>Join the mailing list!</p>
                 <form class="email-form" id="emailSignupForm">
+                    <!-- Honeypot field - hidden from humans, visible to bots -->
+                    <input type="text" name="website" id="website" style="display: none;" tabindex="-1" autocomplete="off">
                     <div class="form-group">
                         <input type="email" name="email" id="signup-email" placeholder="Enter your email address" required>
                         <button type="submit" class="btn btn-primary">Join List</button>
@@ -339,7 +341,7 @@
             <div class="contact-content">
                 <div class="contact-info">
                     <h3>Direct Contact</h3>
-                    <p>Email: houser2388@gmail.com</p>
+                    <p>Email: wesleyalexander@elementalpublishing.org</p>
                     <p>Response time: Usually within 24 hours</p>
                     
                     <h3>Follow</h3>

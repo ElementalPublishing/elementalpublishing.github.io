@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete Entity Index - All 52 Boss Characters in the Spiderfox Universe">
+    <meta name="keywords" content="spiderfox, entities, bosses, cyberpunk, digital universe, character index">
+    <title>Entity Index - Spiderfox Universe</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="spiderfox-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L1PF6HNX9Z"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-L1PF6HNX9Z');
+        
+        function trackEntityExploration(entityName, dynasty) {
+            gtag('event', 'entity_exploration', {
+                'entity_name': entityName,
+                'dynasty': dynasty,
+                'content_type': 'spiderfox_entity_index',
+                'engagement_type': 'deep_universe_exploration'
+            });
+        }
+        
+        function trackDynastyFilter(dynasty) {
+            gtag('event', 'dynasty_filter', {
+                'dynasty': dynasty,
+                'content_type': 'spiderfox_entity_index',
+                'engagement_type': 'navigation_filtering'
+            });
+        }
+        
+        function trackSearchUsage(searchTerm) {
+            gtag('event', 'entity_search', {
+                'search_term': searchTerm,
+                'content_type': 'spiderfox_entity_index',
+                'engagement_type': 'search_interaction'
+            });
+        }
+    </script>
+    
+    <style>
+        /* Additional styles for entity index */
+        .entity-index-hero {
+            background: linear-gradient(135deg, #0a0a23 0%, #1a1a3a 100%);
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .search-container {
+            max-width: 600px;
+            margin: 40px auto;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 25px;
+            color: #ffffff;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+        
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .dynasty-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 40px 0;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 20px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: #00ffff;
+            transform: translateY(-2px);
+        }
+        
+        .dynasty-section {
+            margin: 60px 0;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .dynasty-section.hidden {
+            display: none;
+        }
+        
+        .dynasty-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .dynasty-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5em;
+            color: #00ffff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+        
+        .dynasty-description {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1em;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .entity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .entity-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .entity-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(0, 255, 255, 0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .entity-card:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .entity-card:hover {
+            transform: translateY(-5px);
+            border-color: #00ffff;
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+        }
+        
+        .entity-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ffff 0%, #0099cc 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            color: #000;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .entity-name {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3em;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        
+        .entity-type {
+            color: rgba(0, 255, 255, 0.8);
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .entity-preview {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9em;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+        
+        .entity-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .stat-badge {
+            background: rgba(0, 255, 255, 0.2);
+            color: #00ffff;
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        
+        .results-count {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 20px 0;
+            font-size: 1.1em;
+        }
+        
+        .back-to-portal {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 255, 255, 0.2);
+            border: 2px solid #00ffff;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .back-to-portal:hover {
+            background: rgba(0, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+        }
+        
+        .maximum-boss {
+            border-color: #ff6b6b;
+        }
+        
+        .maximum-boss .entity-avatar {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: #fff;
+        }
+        
+        .maximum-boss .stat-badge {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+        
+        @media (max-width: 768px) {
+            .dynasty-filters {
+                gap: 10px;
+            }
+            
+            .filter-btn {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+            
+            .entity-grid {
+                grid-template-columns: 1fr;
+                padding: 0 15px;
+            }
+            
+            .back-to-portal {
+                position: static;
+                display: block;
+                margin: 20px auto;
+                width: fit-content;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="spiderfox.html" class="back-to-portal">← Back to Universe Portal</a>
+
+    <!-- Hero Section -->
+    <section class="entity-index-hero">
+        <div class="container">
+            <h1 class="universe-title">
+                <span class="glitch-text" data-text="ENTITY INDEX">ENTITY INDEX</span>
+            </h1>
+            <p class="hero-description">
+                Complete roster of all 52 boss entities across the Spiderfox Universe. 
+                Explore the rulers, overlords, and maximum bosses of every cyber dynasty.
+            </p>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <input type="text" id="entitySearch" class="search-input" placeholder="Search entities by name, dynasty, or power...">
+            </div>
+            
+            <!-- Dynasty Filters -->
+            <div class="dynasty-filters">
+                <button class="filter-btn active" data-dynasty="all">All Dynasties</button>
+                <button class="filter-btn" data-dynasty="seraphic_concord">Seraphic Concord</button>
+                <button class="filter-btn" data-dynasty="celestial_synod">Celestial Synod</button>
+                <button class="filter-btn" data-dynasty="chrome_mandarins">Chrome Mandarins</button>
+                <button class="filter-btn" data-dynasty="infernal_dynasty">Infernal Dynasty</button>
+                <button class="filter-btn" data-dynasty="quantum_chorus">Quantum Chorus</button>
+                <button class="filter-btn" data-dynasty="neural_collective">Neural Collective</button>
+            </div>
+            
+            <div class="results-count" id="resultsCount">Showing all 52 entities</div>
+        </div>
+    </section>
+
+    <!-- Seraphic Concord -->
+    <section class="dynasty-section" data-dynasty="seraphic_concord">
+        <div class="container">
+            <div class="dynasty-header">
+                <h2 class="dynasty-title">Seraphic Concord</h2>
+                <p class="dynasty-description">
+                    Angelic architects of perfect spiritual networks, pursuing ultimate cosmic transcendence through divine harmony.
+                </p>
+            </div>
+            <div class="entity-grid">
+                <div class="entity-card maximum-boss" onclick="navigateToEntity('html/seraph-prime.html', 'Seraph Prime', 'Seraphic Concord')">
+                    <div class="entity-avatar">SP</div>
+                    <h3 class="entity-name">Seraph Prime</h3>
+                    <p class="entity-type">Maximum Boss • Ascendant State</p>
+                    <p class="entity-preview">The perfect spiritual leader commanding vast networks from the Crystal Spire, pursuing ultimate cosmic transcendence.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Maximum Boss</span>
+                        <span class="stat-badge">Divine Architecture</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/cherub-major.html', 'Cherub Major', 'Seraphic Concord')">
+                    <div class="entity-avatar">CM</div>
+                    <h3 class="entity-name">Cherub Major</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Guardian of divine protocols and spiritual security systems within the Seraphic hierarchy.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Divine Guardian</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/dominion-lord.html', 'Dominion Lord', 'Seraphic Concord')">
+                    <div class="entity-avatar">DL</div>
+                    <h3 class="entity-name">Dominion Lord</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Commander of celestial territories and divine administrative domains.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Territory Command</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/power-regent.html', 'Power Regent', 'Seraphic Concord')">
+                    <div class="entity-avatar">PR</div>
+                    <h3 class="entity-name">Power Regent</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Regent of divine power distribution and spiritual energy management.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Power Distribution</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/principality-king.html', 'Principality King', 'Seraphic Concord')">
+                    <div class="entity-avatar">PK</div>
+                    <h3 class="entity-name">Principality King</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Ruler of principality domains and divine jurisdictional territories.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Principality Rule</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/throne-guardian.html', 'Throne Guardian', 'Seraphic Concord')">
+                    <div class="entity-avatar">TG</div>
+                    <h3 class="entity-name">Throne Guardian</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Guardian of the divine throne and protector of celestial hierarchy.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Throne Protection</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/virtue-chancellor.html', 'Virtue Chancellor', 'Seraphic Concord')">
+                    <div class="entity-avatar">VC</div>
+                    <h3 class="entity-name">Virtue Chancellor</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Chancellor of divine virtues and spiritual excellence protocols.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Virtue Management</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Celestial Synod -->
+    <section class="dynasty-section" data-dynasty="celestial_synod">
+        <div class="container">
+            <div class="dynasty-header">
+                <h2 class="dynasty-title">Celestial Synod</h2>
+                <p class="dynasty-description">
+                    Cosmic tech giants connecting all dimensions, manipulating reality across infinite possibilities from the Quantum Lattice.
+                </p>
+            </div>
+            <div class="entity-grid">
+                <div class="entity-card maximum-boss" onclick="navigateToEntity('html/nexus-eternal.html', 'Nexus Eternal', 'Celestial Synod')">
+                    <div class="entity-avatar">NE</div>
+                    <h3 class="entity-name">Nexus Eternal</h3>
+                    <p class="entity-type">Maximum Boss • Ascendant State</p>
+                    <p class="entity-preview">Cosmic tech entity whose reality manipulation grows more sophisticated through dimensional stress-testing.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Maximum Boss</span>
+                        <span class="stat-badge">Reality Manipulation</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/cosmos-regent.html', 'Cosmos Regent', 'Celestial Synod')">
+                    <div class="entity-avatar">CR</div>
+                    <h3 class="entity-name">Cosmos Regent</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Regent of cosmic territories and universal administrative domains.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Cosmic Administration</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/galaxy-warden.html', 'Galaxy Warden', 'Celestial Synod')">
+                    <div class="entity-avatar">GW</div>
+                    <h3 class="entity-name">Galaxy Warden</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Warden of galactic systems and cosmic security protocols.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Galactic Security</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/infinity-duke.html', 'Infinity Duke', 'Celestial Synod')">
+                    <div class="entity-avatar">ID</div>
+                    <h3 class="entity-name">Infinity Duke</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Duke of infinite possibilities and dimensional boundary management.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Infinity Control</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/nebula-overlord.html', 'Nebula Overlord', 'Celestial Synod')">
+                    <div class="entity-avatar">NO</div>
+                    <h3 class="entity-name">Nebula Overlord</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Overlord of nebular formations and cosmic matter manipulation.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Nebular Control</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/pulsar-master.html', 'Pulsar Master', 'Celestial Synod')">
+                    <div class="entity-avatar">PM</div>
+                    <h3 class="entity-name">Pulsar Master</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Master of pulsar energies and stellar rhythm synchronization.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Pulsar Energy</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/quasar-prince.html', 'Quasar Prince', 'Celestial Synod')">
+                    <div class="entity-avatar">QP</div>
+                    <h3 class="entity-name">Quasar Prince</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Prince of quasar phenomena and high-energy cosmic events.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Quasar Energy</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/star-viceroy.html', 'Star Viceroy', 'Celestial Synod')">
+                    <div class="entity-avatar">SV</div>
+                    <h3 class="entity-name">Star Viceroy</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Viceroy of stellar systems and cosmic administrative oversight.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Stellar Administration</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/void-marquis.html', 'Void Marquis', 'Celestial Synod')">
+                    <div class="entity-avatar">VM</div>
+                    <h3 class="entity-name">Void Marquis</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Marquis of the cosmic void and empty space manipulation.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Void Control</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chrome Mandarins -->
+    <section class="dynasty-section" data-dynasty="chrome_mandarins">
+        <div class="container">
+            <div class="dynasty-header">
+                <h2 class="dynasty-title">Chrome Mandarins</h2>
+                <p class="dynasty-description">
+                    Cybernetic masters of encryption and digital security, controlling the flow of protected information through systematic optimization.
+                </p>
+            </div>
+            <div class="entity-grid">
+                <div class="entity-card maximum-boss" onclick="navigateToEntity('html/cipher-king.html', 'Cipher King', 'Chrome Mandarins')">
+                    <div class="entity-avatar">CK</div>
+                    <h3 class="entity-name">Cipher King</h3>
+                    <p class="entity-type">Maximum Boss • Ascendant State</p>
+                    <p class="entity-preview">Supreme ruler who grows stronger through systematic challenges. Master of protocol overwrite and defensive adaptations.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Maximum Boss</span>
+                        <span class="stat-badge">Cryptographic</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/algorithm-prince.html', 'Algorithm Prince', 'Chrome Mandarins')">
+                    <div class="entity-avatar">AP</div>
+                    <h3 class="entity-name">Algorithm Prince</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Prince of algorithmic systems and computational optimization protocols.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Algorithm Control</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/byte-emperor.html', 'Byte Emperor', 'Chrome Mandarins')">
+                    <div class="entity-avatar">BE</div>
+                    <h3 class="entity-name">Byte Emperor</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Emperor of data bytes and fundamental information processing systems.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Data Processing</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/code-sovereign.html', 'Code Sovereign', 'Chrome Mandarins')">
+                    <div class="entity-avatar">CS</div>
+                    <h3 class="entity-name">Code Sovereign</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Sovereign of programming languages and software architecture domains.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Code Mastery</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/data-lord.html', 'Data Lord', 'Chrome Mandarins')">
+                    <div class="entity-avatar">DL</div>
+                    <h3 class="entity-name">Data Lord</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Lord of data management and information security protocols.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Data Security</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/protocol-warden.html', 'Protocol Warden', 'Chrome Mandarins')">
+                    <div class="entity-avatar">PW</div>
+                    <h3 class="entity-name">Protocol Warden</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Warden of communication protocols and network security standards.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Protocol Security</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/script-master.html', 'Script Master', 'Chrome Mandarins')">
+                    <div class="entity-avatar">SM</div>
+                    <h3 class="entity-name">Script Master</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Master of scripting languages and automated execution systems.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Script Automation</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/system-archon.html', 'System Archon', 'Chrome Mandarins')">
+                    <div class="entity-avatar">SA</div>
+                    <h3 class="entity-name">System Archon</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Archon of system architecture and computational infrastructure.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">System Architecture</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Infernal Dynasty -->
+    <section class="dynasty-section" data-dynasty="infernal_dynasty">
+        <div class="container">
+            <div class="dynasty-header">
+                <h2 class="dynasty-title">Infernal Dynasty</h2>
+                <p class="dynasty-description">
+                    Demonic keepers of forbidden knowledge dwelling in archives of unwritten truths, teaching others to unmake themselves.
+                </p>
+            </div>
+            <div class="entity-grid">
+                <div class="entity-card maximum-boss" onclick="navigateToEntity('html/void-archon.html', 'Void Archon', 'Infernal Dynasty')">
+                    <div class="entity-avatar">VA</div>
+                    <h3 class="entity-name">Void Archon</h3>
+                    <p class="entity-type">Maximum Boss • Ascendant State</p>
+                    <p class="entity-preview">Keeper of forbidden knowledge whose understanding deepens through every attempt to suppress the archives.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Maximum Boss</span>
+                        <span class="stat-badge">Forbidden Knowledge</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/abyss-prince.html', 'Abyss Prince', 'Infernal Dynasty')">
+                    <div class="entity-avatar">AB</div>
+                    <h3 class="entity-name">Abyss Prince</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Prince of the abyssal depths and darkest computational territories.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Abyss Control</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/blood-patriarch.html', 'Blood Patriarch', 'Infernal Dynasty')">
+                    <div class="entity-avatar">BP</div>
+                    <h3 class="entity-name">Blood Patriarch</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Patriarch of blood networks and traditional family power structures.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Blood Networks</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/chaos-baron.html', 'Chaos Baron', 'Infernal Dynasty')">
+                    <div class="entity-avatar">CB</div>
+                    <h3 class="entity-name">Chaos Baron</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Baron of chaotic systems and entropy manipulation protocols.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Chaos Control</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/doom-master.html', 'Doom Master', 'Infernal Dynasty')">
+                    <div class="entity-avatar">DM</div>
+                    <h3 class="entity-name">Doom Master</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Master of doom protocols and terminal system states.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Doom Protocols</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/obsidian-executive.html', 'Obsidian Executive', 'Infernal Dynasty')">
+                    <div class="entity-avatar">OE</div>
+                    <h3 class="entity-name">Obsidian Executive</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Executive of obsidian systems and dark efficiency optimization.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Dark Efficiency</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/shadow-tyrant.html', 'Shadow Tyrant', 'Infernal Dynasty')">
+                    <div class="entity-avatar">ST</div>
+                    <h3 class="entity-name">Shadow Tyrant</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Tyrant of shadow networks and hidden system operations.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Shadow Networks</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/steel-sovereign.html', 'Steel Sovereign', 'Infernal Dynasty')">
+                    <div class="entity-avatar">SS</div>
+                    <h3 class="entity-name">Steel Sovereign</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Sovereign of steel systems and industrial protocol management.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Steel Systems</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/wrath-lord.html', 'Wrath Lord', 'Infernal Dynasty')">
+                    <div class="entity-avatar">WL</div>
+                    <h3 class="entity-name">Wrath Lord</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Lord of wrath protocols and aggressive system responses.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Wrath Systems</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quantum Chorus -->
+    <section class="dynasty-section" data-dynasty="quantum_chorus">
+        <div class="container">
+            <div class="dynasty-header">
+                <h2 class="dynasty-title">Quantum Chorus</h2>
+                <p class="dynasty-description">
+                    Digital rulers rebuilding empires with wisdom gained through exile, commanding through earned respect and renaissance.
+                </p>
+            </div>
+            <div class="entity-grid">
+                <div class="entity-card maximum-boss" onclick="navigateToEntity('html/iron-sovereign.html', 'Iron Sovereign', 'Quantum Chorus')">
+                    <div class="entity-avatar">IS</div>
+                    <h3 class="entity-name">Iron Sovereign</h3>
+                    <p class="entity-type">Maximum Boss • Ascendant State</p>
+                    <p class="entity-preview">The returned ruler whose exile transformed weakness into antifragile wisdom. Commands through earned respect.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Maximum Boss</span>
+                        <span class="stat-badge">Iron Renaissance</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/binary-master.html', 'Binary Master', 'Quantum Chorus')">
+                    <div class="entity-avatar">BM</div>
+                    <h3 class="entity-name">Binary Master</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Master of binary systems and fundamental digital logic operations.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Binary Logic</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/cloud-regent.html', 'Cloud Regent', 'Quantum Chorus')">
+                    <div class="entity-avatar">CL</div>
+                    <h3 class="entity-name">Cloud Regent</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Regent of cloud computing systems and distributed processing networks.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Cloud Systems</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/digital-emperor.html', 'Digital Emperor', 'Quantum Chorus')">
+                    <div class="entity-avatar">DE</div>
+                    <h3 class="entity-name">Digital Emperor</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Emperor of digital domains and virtual territory administration.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Digital Empire</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/network-prince.html', 'Network Prince', 'Quantum Chorus')">
+                    <div class="entity-avatar">NP</div>
+                    <h3 class="entity-name">Network Prince</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Prince of network architectures and connectivity protocols.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Network Control</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/quantum-lord.html', 'Quantum Lord', 'Quantum Chorus')">
+                    <div class="entity-avatar">QL</div>
+                    <h3 class="entity-name">Quantum Lord</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Lord of quantum computing systems and probability manipulation.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Quantum Computing</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/virtual-king.html', 'Virtual King', 'Quantum Chorus')">
+                    <div class="entity-avatar">VK</div>
+                    <h3 class="entity-name">Virtual King</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">King of virtual reality systems and immersive digital environments.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Virtual Reality</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Neural Collective -->
+    <section class="dynasty-section" data-dynasty="neural_collective">
+        <div class="container">
+            <div class="dynasty-header">
+                <h2 class="dynasty-title">Neural Collective</h2>
+                <p class="dynasty-description">
+                    Humanoid preservers of authentic humanity, resisting enhancement while building collective consciousness through natural means.
+                </p>
+            </div>
+            <div class="entity-grid">
+                <div class="entity-card maximum-boss" onclick="navigateToEntity('html/synapse-overlord.html', 'Synapse Overlord', 'Neural Collective')">
+                    <div class="entity-avatar">SO</div>
+                    <h3 class="entity-name">Synapse Overlord</h3>
+                    <p class="entity-type">Maximum Boss • Ascendant State</p>
+                    <p class="entity-preview">The antifragile prophet whose humanity becomes more divine under enhancement pressure. Reality hacker protected by sacred inefficiency.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Maximum Boss</span>
+                        <span class="stat-badge">Divine Authenticity</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/axon-lord.html', 'Axon Lord', 'Neural Collective')">
+                    <div class="entity-avatar">AL</div>
+                    <h3 class="entity-name">Axon Lord</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Lord of axon networks and neural pathway optimization systems.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Axon Networks</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/cognition-prince.html', 'Cognition Prince', 'Neural Collective')">
+                    <div class="entity-avatar">CP</div>
+                    <h3 class="entity-name">Cognition Prince</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Prince of cognitive processes and thought pattern management.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Cognitive Control</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/consciousness-regent.html', 'Consciousness Regent', 'Neural Collective')">
+                    <div class="entity-avatar">CR</div>
+                    <h3 class="entity-name">Consciousness Regent</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Regent of consciousness domains and awareness protocol administration.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Consciousness</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/cortex-prime.html', 'Cortex Prime', 'Neural Collective')">
+                    <div class="entity-avatar">CP</div>
+                    <h3 class="entity-name">Cortex Prime</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Prime of cortical systems and higher brain function management.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Cortical Systems</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/dendrite-king.html', 'Dendrite King', 'Neural Collective')">
+                    <div class="entity-avatar">DK</div>
+                    <h3 class="entity-name">Dendrite King</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">King of dendritic networks and neural connection architectures.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Dendrite Networks</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/membrane-commander.html', 'Membrane Commander', 'Neural Collective')">
+                    <div class="entity-avatar">MC</div>
+                    <h3 class="entity-name">Membrane Commander</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Commander of membrane systems and cellular boundary protocols.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Membrane Control</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/memory-warden.html', 'Memory Warden', 'Neural Collective')">
+                    <div class="entity-avatar">MW</div>
+                    <h3 class="entity-name">Memory Warden</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Warden of memory systems and information storage protocols.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Memory Systems</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/neuron-master.html', 'Neuron Master', 'Neural Collective')">
+                    <div class="entity-avatar">NM</div>
+                    <h3 class="entity-name">Neuron Master</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Master of neuron networks and synaptic transmission systems.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Neuron Networks</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/reflex-prince.html', 'Reflex Prince', 'Neural Collective')">
+                    <div class="entity-avatar">RP</div>
+                    <h3 class="entity-name">Reflex Prince</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Prince of reflex systems and automated response protocols.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Reflex Systems</span>
+                    </div>
+                </div>
+                
+                <div class="entity-card" onclick="navigateToEntity('html/thought-viceroy.html', 'Thought Viceroy', 'Neural Collective')">
+                    <div class="entity-avatar">TV</div>
+                    <h3 class="entity-name">Thought Viceroy</h3>
+                    <p class="entity-type">Regular Boss • Ascendant State</p>
+                    <p class="entity-preview">Viceroy of thought processes and mental operation management.</p>
+                    <div class="entity-stats">
+                        <span class="stat-badge">Regular Boss</span>
+                        <span class="stat-badge">Thought Control</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('entitySearch');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const dynastySections = document.querySelectorAll('.dynasty-section');
+        const entityCards = document.querySelectorAll('.entity-card');
+        const resultsCount = document.getElementById('resultsCount');
+        
+        let currentFilter = 'all';
+        let currentSearch = '';
+        
+        // Search input handler
+        searchInput.addEventListener('input', function(e) {
+            currentSearch = e.target.value.toLowerCase();
+            trackSearchUsage(currentSearch);
+            filterEntities();
+        });
+        
+        // Filter button handlers
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active to clicked button
+                this.classList.add('active');
+                
+                currentFilter = this.dataset.dynasty;
+                trackDynastyFilter(currentFilter);
+                filterEntities();
+            });
+        });
+        
+        function filterEntities() {
+            let visibleCount = 0;
+            
+            dynastySections.forEach(section => {
+                const dynastyName = section.dataset.dynasty;
+                const shouldShowSection = currentFilter === 'all' || currentFilter === dynastyName;
+                
+                if (shouldShowSection) {
+                    section.classList.remove('hidden');
+                    
+                    // Filter entities within this section by search
+                    const cards = section.querySelectorAll('.entity-card');
+                    cards.forEach(card => {
+                        const entityName = card.querySelector('.entity-name').textContent.toLowerCase();
+                        const entityType = card.querySelector('.entity-type').textContent.toLowerCase();
+                        const entityPreview = card.querySelector('.entity-preview').textContent.toLowerCase();
+                        
+                        const matchesSearch = currentSearch === '' || 
+                            entityName.includes(currentSearch) || 
+                            entityType.includes(currentSearch) || 
+                            entityPreview.includes(currentSearch) ||
+                            dynastyName.replace('_', ' ').includes(currentSearch);
+                        
+                        if (matchesSearch) {
+                            card.style.display = 'block';
+                            visibleCount++;
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                    
+                    // Hide section if no cards are visible
+                    const visibleCards = section.querySelectorAll('.entity-card[style="display: block"], .entity-card:not([style*="display: none"])');
+                    if (visibleCards.length === 0 && currentSearch !== '') {
+                        section.classList.add('hidden');
+                    }
+                } else {
+                    section.classList.add('hidden');
+                }
+            });
+            
+            // Update results count
+            if (currentSearch === '' && currentFilter === 'all') {
+                resultsCount.textContent = 'Showing all 52 entities';
+            } else {
+                resultsCount.textContent = `Showing ${visibleCount} entities`;
+            }
+        }
+        
+        // Navigation function
+        function navigateToEntity(htmlPath, entityName, dynasty) {
+            trackEntityExploration(entityName, dynasty);
+            window.location.href = htmlPath;
+        }
+        
+        // Glitch effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const glitchText = document.querySelector('.glitch-text');
+            if (glitchText) {
+                setInterval(() => {
+                    glitchText.classList.add('glitching');
+                    setTimeout(() => {
+                        glitchText.classList.remove('glitching');
+                    }, 200);
+                }, 8000);
+            }
+        });
+    </script>
+</body>
+</html>
