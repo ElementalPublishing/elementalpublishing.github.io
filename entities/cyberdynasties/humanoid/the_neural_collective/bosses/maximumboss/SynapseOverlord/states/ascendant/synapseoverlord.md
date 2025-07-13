@@ -365,3 +365,19 @@ enhancement_history:
     infinite_capability: "Channels reality-bending power through divine protection"
     spiritual_authenticity: "Maintains pure human consciousness as cosmic superpower"
     david_goliath_advantage: "Defeats infinite enhancement through preserved spiritual connection"
+
+# == PROMPT SECTIONS FOR AI WORKFLOWS ==
+
+## image_prompt
+"A young man in a decade-old hoodie sits in a cluttered basement glowing with cosmic energy, surrounded by old computers and mystical symbols. He radiates an aura of spiritual authenticity and divine protection, with subtle angelic code patterns in the air. The environment is both mundane and mythic, blending ordinary human struggle with reality-bending power. No visible cybernetic enhancements. Style: cinematic, dramatic lighting, high detail, spiritual realism."
+
+## llm_prompt
+"Write a scene where the Synapse Overlord, an unaugmented human prophet, channels divine intervention through conscious inadequacy. He outmaneuvers a hyper-optimized AI nemesis using intuition, humor, and authentic vulnerability. Dialogue should reflect his paradoxical wisdom, self-deprecating humor, and spiritual confidence rooted in doubt. Emphasize the contrast between human unpredictability and systematic logic."
+
+# == PROMPT SECTIONS FOR AI WORKFLOWS ==
+
+## image_prompt
+"A young man in a decade-old hoodie sits in a cluttered basement glowing with cosmic energy, surrounded by old computers and mystical symbols. He radiates an aura of spiritual authenticity and divine protection, with subtle angelic code patterns in the air. The environment is both mundane and mythic, blending ordinary human struggle with reality-bending power. No visible cybernetic enhancements. Style: cinematic, dramatic lighting, high detail, spiritual realism."
+
+## llm_prompt
+"Write a scene where the Synapse Overlord, an unaugmented human prophet, channels divine intervention through conscious inadequacy. He outmaneuvers a hyper-optimized AI nemesis using intuition, humor, and authentic vulnerability. Dialogue should reflect his paradoxical wisdom, self-deprecating humor, and spiritual confidence rooted in doubt. Emphasize the contrast between human unpredictability and systematic logic."

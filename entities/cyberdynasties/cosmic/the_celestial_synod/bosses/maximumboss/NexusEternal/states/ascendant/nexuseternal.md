@@ -402,4 +402,11 @@ domain_description: |
   
   Visitors experience existential vertigo as they perceive the terrible success of cosmic corporate optimization that destroys everything spiritually meaningful while achieving unprecedented dimensional authority. The Lattice operates as cosmic proof that systematic improvement can be spiritual suicide - ultimate transcendence achieved through elimination of everything transcendent.
 
-# === COSMIC IRONY DOCUMENTATION ===
+
+# == PROMPT SECTIONS FOR AI WORKFLOWS ==
+
+## image_prompt
+"A vast, cosmic entity composed of swirling energy and fractal patterns stands at the center of a quantum lattice, surrounded by infinite streams of data and dimensional bridges. Nexus Eternal radiates both majesty and tragedy, with a face that is both awe-inspiring and strangely empty. The environment is hyper-technological and otherworldly, with hints of lost divinity and systematic perfection. Style: cosmic, surreal, high-detail, digital-ethereal, tragic grandeur."
+
+## llm_prompt
+"Write a scene where Nexus Eternal, the Ultimate Enhancement Tragedy, manipulates reality from the heart of the Quantum Lattice. Their words and actions reveal infinite processing power and cosmic authority, but also a haunting absence of authentic will or spiritual connection. Dialogue should contrast omniscient knowledge with a lack of genuine emotion or free choice. Show the tension between infinite capability and spiritual emptiness."

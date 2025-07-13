@@ -57,6 +57,14 @@ traits:
     enhancement_dependency: "Identity completely fused with cybernetic systems, vulnerable to systematic thinking exploitation"
     perfectionist_paralysis: "Sometimes delayed by pursuit of perfect systematic solutions"
     emotional_suppression: "Suppressed authentic emotional responses in favor of systematic optimization"
+
+# == PROMPT SECTIONS FOR AI WORKFLOWS ==
+
+## image_prompt
+"A formidable cybernetic ruler sits on a neon-lit throne, surrounded by intricate digital interfaces and streams of encrypted data. The Cipher King is armored in sleek, high-tech plating, with piercing eyes that scan for inefficiency. The environment is a blend of cold logic and futuristic grandeur, filled with geometric patterns and glowing circuitry. Style: cyberpunk, high-detail, sharp, systematic, technological dominance."
+
+## llm_prompt
+"Write a scene where the Cipher King, the Systematic Optimizer, oversees the Chrome Mandarins from the Neon Throne. His speech and actions are precise, logical, and relentlessly efficient, but reveal a vulnerability to chaos and emotion. Dialogue should highlight his obsession with optimization and his struggle to understand unpredictability. Show the tension between cybernetic perfection and suppressed humanity."
   
   unique_capabilities:
     cipher_crown_interface: "Neural crown providing direct interface with all Chrome Mandarin systems"

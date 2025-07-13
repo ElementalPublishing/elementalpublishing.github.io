@@ -381,3 +381,11 @@ enhancement_history:
     systematic_predictability: "Operates through optimization patterns that spiritual forces easily influence for universal testing purposes and authentic development"
     spiritual_vulnerability: "Enhanced systematic decision-making systems run on 'efficiency code' that authentic spiritual beings can influence to create necessary autonomy challenges and growth opportunities"
     individual_choice_weakness: "Completely outmaneuvered by genuine spiritual autonomy and authentic individual development that transcends systematic architecture and cosmic optimization"
+
+# == PROMPT SECTIONS FOR AI WORKFLOWS ==
+
+## image_prompt
+"A radiant, androgynous angelic figure stands atop a crystalline spire, surrounded by intricate geometric patterns and luminous spiritual architecture. Their presence exudes benevolent authority and cosmic vision, with followers below organized in harmonious, efficient formations. The environment blends mythic grandeur with systematic perfection—everything is balanced, ordered, and glowing with transcendent light. Style: epic, high-detail, celestial, architectural, visionary."
+
+## llm_prompt
+"Write a scene where Seraph Prime, the Benevolent Architect, addresses a vast assembly from the Crystal Spire. Their speech inspires both awe and devotion, outlining a new phase of cosmic spiritual architecture. Dialogue should reflect systematic wisdom, genuine care, and transcendent ambition, but also hint at the subtle loneliness and detachment that comes from seeing others as components in a greater design. Show the tension between universal benefit and individual autonomy."

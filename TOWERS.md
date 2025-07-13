@@ -1,0 +1,25 @@
+It was always dusk beneath the towers. The sun, when it bothered to show itself, arrived in slats and ribbons, filtered through the latticework of hydroponic gardens and the humming, glassy veins of the upper world. Down here, the air was thick with the scent of compost and ozone, and the ground—if one could call it that—was a patchwork of moss, plastic, and the bones of old machines.
+
+Children darted between the roots of the towers, their feet bare, their eyes bright with the hunger of a thousand generations. They scavenged for the day’s leavings: a bruised tomato, a strip of protein wrap, a glint of copper wire. Above, the towers pulsed with a different life—windows aglow, kitchens fragrant with roasting meats and the sizzle of oil, laughter echoing in a language that never quite reached the ground.
+
+Sometimes, in the half-light, a figure would appear at the edge of the market: too clean, too poised, moving with a precision that set the dogs barking and the elders muttering. No one ever saw them eat. They watched, and sometimes they spoke, their voices soft and oddly distant, as if carried from a great height. The children called them the Watchers, and the old ones said it was best not to meet their gaze.
+
+In the wilds beyond the towers, the world was older and stranger. Here, the trees grew thick and tangled, their branches heavy with fruit and the nests of creatures that had never known a cage. Some of these beasts walked upright, their eyes bright with a knowing that unsettled even the bravest hunters. The people of the ground learned to move quietly, to respect the old ways, and to eat what the land provided—be it root, flesh, or something in between.
+
+It was said, in whispers, that those who dined too long on the wild fare began to change. Their eyes grew sharper, their limbs more supple, their dreams filled with the voices of the forest. But in the towers, the lights never dimmed, and the recipes never changed.
+
+Here’s a continuation of your story, subtly weaving in the “puppets” and their mysterious qualities, without direct exposition or breaking the atmosphere:
+
+On market days, the air beneath the towers shimmered with heat and the scent of frying roots. Traders haggled in a dozen dialects, their voices rising above the clatter of scavenged tin and the low, ever-present hum from above. It was then, in the restless lull between barter and brawl, that the puppets sometimes appeared.
+
+They moved through the crowd with a grace that was almost offensive—unhurried, untouched by the dust or the press of bodies. Their faces were always composed, their eyes a shade too clear, as if they saw a different world superimposed on this one. Some wore the rough garb of the ground, but it never seemed to fit quite right, hanging on them like a borrowed memory.
+
+No one knew where the puppets came from, or where they went when the market closed. They never carried goods, never ate or drank, never lingered long enough to be drawn into the small dramas of daily life. Sometimes, a child would follow one, hoping for a coin or a story, but the puppets never noticed. Or if they did, they gave no sign.
+
+It was said that the puppets belonged to the towers, that they were the eyes and hands of those who never descended. Some believed they were empty, moved by distant will; others whispered that a piece of the sky-dwellers’ soul rode inside, watching, learning, remembering. But no one dared ask, and the puppets never explained.
+
+In the wilds, the animals kept their distance when a puppet passed. Even the boldest of the new-blooded beasts would melt into the undergrowth, their hackles raised, their eyes wary. The forest, it seemed, recognized something unnatural in the puppets—something that did not belong to root or flesh or bone.
+
+Sometimes, when the rains came and the towers vanished behind curtains of silver, the market would empty and the children would gather in the shadow of the old generator. There, stories grew wild as the vines—tales of the first time a puppet bled, or the night one vanished in a flash of blue light, leaving only the smell of burnt copper behind. The elders would hush such talk, but the children remembered. They watched the puppets with a mixture of fear and fascination, wondering if, beneath the perfect skin and distant eyes, there was anything that could feel the cold.
+
+On those nights, the girl would lie awake, listening to the wind rattle the tin roofs, and imagine what it might be like to see the world from above. She pictured the endless corridors of the towers, the rooms filled with light and music, the feasts that never ended. She wondered if the sky-dwellers ever dreamed of the ground, or if they even knew what it was to be hungry. Sometimes, she thought she saw a face at a high window, watching, and she would shiver—not from the cold, but from the sense that, somewhere far above, someone was playing a game she could never understand.
