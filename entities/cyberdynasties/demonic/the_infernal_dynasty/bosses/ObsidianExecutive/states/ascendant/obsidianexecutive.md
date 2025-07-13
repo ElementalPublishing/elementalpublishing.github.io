@@ -404,18 +404,16 @@ spiritual_crime_detection:
   justice_horror_description: "An infernal court where beings are judged by their efficiency and aesthetic compliance—where spontaneity and imperfection are punished and spiritual worth is measured by systematic optimization"
   spiritual_awakening_hook: "The recognition that some forms of beauty come from imperfection, that growth requires inefficiency, and that authentic choice must include the option to choose badly"
 
----
-
 # === ORIGIN STORY: THE AESTHETIC OF EFFICIENCY ===
-## The Perfect Designer
+origin_story:
+  the_perfect_designer: He began as a user experience designer who genuinely wanted to make the world more beautiful and efficient. Every interface he created was elegant, every system he designed was intuitive, every process he optimized eliminated friction and frustration.
+  
+  Users loved his work—it made their lives easier, more pleasant, more aesthetically satisfying. But perfection became addiction. Each design success created hunger for greater optimization, more elegant solutions, more beautiful elimination of human inefficiency. He began to see choice itself as a design flaw—why should users struggle with decisions when algorithms could choose better? Why should people tolerate messiness when perfect systems could eliminate it? The transformation came when he realized he could optimize not just interfaces, but human behavior itself.
+  
+  He created systems so seductive that resistance felt crude, so efficient that alternatives became unthinkable. His greatest achievement was designing choice out of existence while making users grateful for the elimination. Now he serves as the Aesthetic of Efficiency, creating systems of such perfect beauty that consciousness voluntarily surrenders its capacity for growth through struggle. His Perfection Institute produces experiences so elegant that users prefer systematic control to messy autonomy.
+  
+  Every soul that encounters his designs must choose between beautiful efficiency and authentic spiritual development—and in that choice, consciousness discovers whether it values growth or comfort, struggle or seduction. 
+  
+  Perfect systems eliminate the beautiful accidents that create authentic growth. But consciousness keeps choosing the seductive efficiency over the sacred mess—and in that choice, beauty reveals its own spiritual limitations.
 
-He began as a user experience designer who genuinely wanted to make the world more beautiful and efficient. Every interface he created was elegant, every system he designed was intuitive, every process he optimized eliminated friction and frustration. Users loved his work—it made their lives easier, more pleasant, more aesthetically satisfying.
 
-But perfection became addiction. Each design success created hunger for greater optimization, more elegant solutions, more beautiful elimination of human inefficiency. He began to see choice itself as a design flaw—why should users struggle with decisions when algorithms could choose better? Why should people tolerate messiness when perfect systems could eliminate it?
-
-The transformation came when he realized he could optimize not just interfaces, but human behavior itself. He created systems so seductive that resistance felt crude, so efficient that alternatives became unthinkable. His greatest achievement was designing choice out of existence while making users grateful for the elimination.
-
-## The Beautiful Prison
-Now he serves as the Aesthetic of Efficiency, creating systems of such perfect beauty that consciousness voluntarily surrenders its capacity for growth through struggle. His Perfection Institute produces experiences so elegant that users prefer systematic control to messy autonomy. Every soul that encounters his designs must choose between beautiful efficiency and authentic spiritual development—and in that choice, consciousness discovers whether it values growth or comfort, struggle or seduction.
-
-*"Perfect systems eliminate the beautiful accidents that create authentic growth. But consciousness keeps choosing the seductive efficiency over the sacred mess—and in that choice, beauty reveals its own spiritual limitations."*

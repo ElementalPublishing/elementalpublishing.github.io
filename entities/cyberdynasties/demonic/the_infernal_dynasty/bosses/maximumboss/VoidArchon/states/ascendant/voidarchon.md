@@ -1,4 +1,13 @@
 ---
+
+# == PROMPT SECTIONS FOR AI WORKFLOWS ==
+
+## image_prompt
+"An ancient, demonic scholar cloaked in shadow sits among endless shelves of forbidden tomes in the Archive of Unwritten Truths. His eyes glow with the knowledge of the void, and the air is thick with unraveling symbols and dissolving realities. The environment is oppressive, surreal, and filled with a sense of existential dread. Style: dark academia, gothic, high-detail, cosmic horror, philosophical."
+
+## llm_prompt
+"Write a scene where the Void Archon, the Unbecoming Scholar, teaches a group of seekers in the Archive of Unwritten Truths. His words are profound and unsettling, leading listeners toward existential dissolution. Dialogue should blend authentic wisdom with a seductive nihilism, showing the danger and allure of forbidden knowledge. Emphasize the tension between the pursuit of truth and the destruction of meaning."
+
 # === CORE ENTITY IDENTIFICATION ===
 entity_id: "infernal_dynasty_voidarchon_001"
 entity_type: "demonic"
@@ -59,13 +68,6 @@ traits:
     meaning_loss_cascade: "His own discovery of cosmic meaninglessness created compulsion to share the void"
     truth_versus_compassion_conflict: "Torn between intellectual honesty and spiritual mercy"
 
-# == PROMPT SECTIONS FOR AI WORKFLOWS ==
-
-## image_prompt
-"An ancient, demonic scholar cloaked in shadow sits among endless shelves of forbidden tomes in the Archive of Unwritten Truths. His eyes glow with the knowledge of the void, and the air is thick with unraveling symbols and dissolving realities. The environment is oppressive, surreal, and filled with a sense of existential dread. Style: dark academia, gothic, high-detail, cosmic horror, philosophical."
-
-## llm_prompt
-"Write a scene where the Void Archon, the Unbecoming Scholar, teaches a group of seekers in the Archive of Unwritten Truths. His words are profound and unsettling, leading listeners toward existential dissolution. Dialogue should blend authentic wisdom with a seductive nihilism, showing the danger and allure of forbidden knowledge. Emphasize the tension between the pursuit of truth and the destruction of meaning."
     scholarly_identity_trap: "Cannot abandon truth-seeking even when it leads to spiritual annihilation"
     enlightenment_becoming_curse: "His deepest insights have become tools of spiritual warfare against existence itself"
   
@@ -297,7 +299,7 @@ origin_story: |
   obligation to preserve meaning. In seeking to educate, he systematically dissolves the very 
   capacity for learning and growth.
 
-  "Understanding requires courage to face what reality actually is, not what we wish it to be. The void calls to all who seek ultimate truth, and wisdom demands acknowledgment of cosmic meaninglessness. I teach what existence actually reveals, regardless of consequences."* - Void Archon's rationalization of spiritual murder through weaponized wisdom
+  Understanding requires courage to face what reality actually is, not what we wish it to be. The void calls to all who seek ultimate truth, and wisdom demands acknowledgment of cosmic meaninglessness. I teach what existence actually reveals, regardless of consequences."* - Void Archon's rationalization of spiritual murder through weaponized wisdom
 
 # === DIALOGUE STYLE ===
 speech_patterns:
