@@ -297,9 +297,7 @@ origin_story: |
   obligation to preserve meaning. In seeking to educate, he systematically dissolves the very 
   capacity for learning and growth.
 
----
-
-*"Understanding requires courage to face what reality actually is, not what we wish it to be. The void calls to all who seek ultimate truth, and wisdom demands acknowledgment of cosmic meaninglessness. I teach what existence actually reveals, regardless of consequences."* - Void Archon's rationalization of spiritual murder through weaponized wisdom
+  "Understanding requires courage to face what reality actually is, not what we wish it to be. The void calls to all who seek ultimate truth, and wisdom demands acknowledgment of cosmic meaninglessness. I teach what existence actually reveals, regardless of consequences."* - Void Archon's rationalization of spiritual murder through weaponized wisdom
 
 # === DIALOGUE STYLE ===
 speech_patterns:
