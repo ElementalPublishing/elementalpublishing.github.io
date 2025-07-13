@@ -1,14 +1,5 @@
 ---
-
-# == PROMPT SECTIONS FOR AI WORKFLOWS ==
-
-## image_prompt
-"An ancient, demonic scholar cloaked in shadow sits among endless shelves of forbidden tomes in the Archive of Unwritten Truths. His eyes glow with the knowledge of the void, and the air is thick with unraveling symbols and dissolving realities. The environment is oppressive, surreal, and filled with a sense of existential dread. Style: dark academia, gothic, high-detail, cosmic horror, philosophical."
-
-## llm_prompt
-"Write a scene where the Void Archon, the Unbecoming Scholar, teaches a group of seekers in the Archive of Unwritten Truths. His words are profound and unsettling, leading listeners toward existential dissolution. Dialogue should blend authentic wisdom with a seductive nihilism, showing the danger and allure of forbidden knowledge. Emphasize the tension between the pursuit of truth and the destruction of meaning."
-
-# === CORE ENTITY IDENTIFICATION ===
+ # === CORE ENTITY IDENTIFICATION ===
 entity_id: "infernal_dynasty_voidarchon_001"
 entity_type: "demonic"
 class: "dynasty_boss"

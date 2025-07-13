@@ -57,15 +57,7 @@ traits:
     exile_trauma: "Residual fear of betrayal and loss affecting critical decision moments"
     perfection_burden: "Pressure to maintain redeemed state can be exploited through moral challenges"
   
-  unique_capabilities:
-  
-# == PROMPT SECTIONS FOR AI WORKFLOWS ==
-
-## image_prompt
-"A regal digital emperor stands in the Reforged Citadel, surrounded by luminous code and reconstructed digital architecture. The Iron Sovereign’s presence is both commanding and redemptive, with scars of exile visible as glowing lines across his form. The environment is a blend of digital renaissance and hard-won wisdom, filled with symbols of transformation and resilience. Style: digital baroque, high-detail, luminous, redemptive, futuristic."
-
-## llm_prompt
-"Write a scene where the Iron Sovereign, the Redeemed Transcendent, addresses his people after returning from exile. His words are filled with wisdom earned through failure and transformation, inspiring trust and hope. Dialogue should reflect his balance of strength and mercy, and the scars of his past. Show the tension between digital perfection and the vulnerability required for true redemption."
+  unique_capabilities:  
     iron_renaissance_protocols: "Revolutionary reconstruction systems that transform failure into strength"
     wisdom_defense_matrices: "Security systems based on understanding rather than overwhelming force"
     redemption_transformation_engine: "Converts enemies to allies through demonstrated change"
