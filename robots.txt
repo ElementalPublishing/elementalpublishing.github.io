@@ -9,4 +9,15 @@ Disallow: /thank-you-type1.html
 Allow: /
 
 # Optional: Add your sitemap if you have one
-# Sitemap: https://yourdomain.com/sitemap.xml
+# Sitemap: https://elementalpublishing.org/sitemap.xml
+
+# To block crawling on CDN and downloads subdomains, place a robots.txt file at the root of each subdomain with the following content:
+#
+# User-agent: *
+# Disallow: /
+#
+# Example for cdn.elementalpublishing.org and downloads.elementalpublishing.org:
+# https://cdn.elementalpublishing.org/robots.txt
+# https://downloads.elementalpublishing.org/robots.txt
+#
+# This main robots.txt does not control subdomains, but documents the policy for clarity.

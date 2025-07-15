@@ -9,7 +9,6 @@
   <url>
     <loc>https://elementalpublishing.org/entity-index.html</loc>
   </url>
-  <!-- HTML files in /html/ directory -->
   <url>
     <loc>https://elementalpublishing.org/html/abyss-prince.html</loc>
   </url>
@@ -187,5 +186,4 @@
   <url>
     <loc>https://elementalpublishing.org/html/wrath-lord.html</loc>
   </url>
-  <!-- ...repeat for all other html files in /html/ except thank-you and download pages -->
 </urlset>
