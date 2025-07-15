@@ -30,45 +30,31 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Email Form Handling
 const emailForm = document.getElementById('emailForm');
 if (emailForm) {
+    let contactCooldown = false;
     emailForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        
+        if (contactCooldown) {
+            alert('Only one submission per user.');
+            return;
+        }
         const email = document.getElementById('email').value;
-        
         // Basic email validation
         if (!isValidEmail(email)) {
             alert('Please enter a valid email address.');
             return;
         }
-        
         // Here you would typically send the email to your backend service
         // For now, we'll just show a success message
         alert('Thank you for joining our mailing list! You\'ll receive exclusive content soon.');
-        
         // Clear the form
         document.getElementById('email').value = '';
-        
         // In a real implementation, you might redirect to a thank you page
         // or update the UI to show success state
-        
         console.log('Email submitted:', email);
-        
-        // Example of how you might send this to a service like Netlify Forms
-        // or integrate with Mailchimp, ConvertKit, etc.
-        /*
-        fetch('/', {
-            method: 'POST',
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams({
-                'form-name': 'email-signup',
-                'email': email
-            }).toString()
-        }).then(() => {
-            alert('Thank you for subscribing!');
-        }).catch(() => {
-            alert('Error submitting form. Please try again.');
-        });
-        */
+        contactCooldown = true;
+        setTimeout(function() {
+            contactCooldown = false;
+        }, 30000); // 30 seconds
     });
 }
 
@@ -135,8 +121,6 @@ if (emailSignupForm) {
         });
     });
 }
-
-// ...existing code...
 
 // Email validation helper function
 function isValidEmail(email) {
