@@ -102,8 +102,8 @@ if (emailSignupForm) {
             return;
         }
         
-        // Send signup email via EmailJS
-        emailjs.send("service_vmorz5j", "template_tx4flvd", {
+        // Send signup email via EmailJS (use business service)
+        emailjs.send("service_4zxwjam", "template_tx4flvd", {
             to_email: email,
             album_name: "Mailing List Signup",
             download_link: "Welcome to Elemental Publishing!",
