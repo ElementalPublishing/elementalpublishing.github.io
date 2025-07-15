@@ -1,3 +1,66 @@
+/* Self-hosted Inter font */
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/inter/Inter-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/inter/Inter-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/inter/Inter-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/inter/Inter-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Self-hosted Orbitron font */
+@font-face {
+  font-family: 'Orbitron';
+  src: url('assets/fonts/inter/orbitron/Orbitron-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Orbitron';
+  src: url('assets/fonts/inter/orbitron/Orbitron-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Orbitron';
+  src: url('assets/fonts/inter/orbitron/Orbitron-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Orbitron';
+  src: url('assets/fonts/inter/orbitron/Orbitron-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Orbitron';
+  src: url('assets/fonts/inter/orbitron/Orbitron-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Orbitron';
+  src: url('assets/fonts/inter/orbitron/Orbitron-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
 /* Spiderfox Universe Styles */
 * {
     margin: 0;
