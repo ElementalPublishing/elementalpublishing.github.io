@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /download-newmatrix.html
+Disallow: /download-striptape.html
+Disallow: /download-type1.html
+Disallow: /thank-you-newmatrix.html
+Disallow: /thank-you-striptape.html
+Disallow: /thank-you-type1.html
+
+Allow: /
+
+# Optional: Add your sitemap if you have one
+# Sitemap: https://yourdomain.com/sitemap.xml
