@@ -75,9 +75,13 @@ if (emailForm) {
 // Email Signup Form Handling (Main Page)
 const emailSignupForm = document.getElementById('emailSignupForm');
 if (emailSignupForm) {
+    let signupCooldown = false;
     emailSignupForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        
+        if (signupCooldown) {
+            alert('You have already signed up.');
+            return;
+        }
         // Honeypot check - if filled, it's a bot
         const honeypot = document.getElementById('website');
         if (honeypot && honeypot.value.trim() !== '') {
@@ -85,9 +89,7 @@ if (emailSignupForm) {
             console.log('Bot detected via honeypot');
             return;
         }
-        
         const email = document.getElementById('signup-email').value;
-        
         // Block suspicious email domains
         const suspiciousDomains = ['banlamail.com', '10minutemail.com', 'guerrillamail.com', 'tempmail.org'];
         const emailDomain = email.split('@')[1]?.toLowerCase();
@@ -95,13 +97,11 @@ if (emailSignupForm) {
             alert('Please use a permanent email address.');
             return;
         }
-        
         // Basic email validation
         if (!isValidEmail(email)) {
             alert('Please enter a valid email address.');
             return;
         }
-        
         // Send signup email via EmailJS (use business service)
         emailjs.send("service_4zxwjam", "template_tx4flvd", {
             to_email: email,
@@ -116,6 +116,10 @@ if (emailSignupForm) {
             }
             alert('🎵 Welcome to the list! Check your email for exclusive content.');
             document.getElementById('signup-email').value = '';
+            signupCooldown = true;
+            setTimeout(function() {
+                signupCooldown = false;
+            }, 30000); // 30 seconds
         }, function(error) {
             console.log('Signup email failed:', error);
             // Still track the signup attempt
@@ -124,6 +128,10 @@ if (emailSignupForm) {
             }
             alert('Thanks for signing up! You\'re on the list.');
             document.getElementById('signup-email').value = '';
+            signupCooldown = true;
+            setTimeout(function() {
+                signupCooldown = false;
+            }, 30000); // 30 seconds
         });
     });
 }
