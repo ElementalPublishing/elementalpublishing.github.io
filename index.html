@@ -368,6 +368,21 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Send Message</button>
                 </form>
+                <script>
+                document.getElementById('contactForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    emailjs.send('service_4zxwjam', 'template_sz19pi5', {
+                        from_name: document.getElementById('name').value,
+                        from_email: document.getElementById('contact-email').value,
+                        message: document.getElementById('message').value
+                    }).then(function(response) {
+                        alert('Message sent! Thank you.');
+                        document.getElementById('contactForm').reset();
+                    }, function(error) {
+                        alert('Failed to send message. Please try again.');
+                    });
+                });
+                </script>
             </div>
         </div>
     </section>

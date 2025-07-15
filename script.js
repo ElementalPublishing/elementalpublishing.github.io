@@ -128,36 +128,7 @@ if (emailSignupForm) {
     });
 }
 
-// Contact Form Handling
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('contact-email').value;
-        const message = document.getElementById('message').value;
-        
-        // Basic validation
-        if (!name.trim() || !email.trim() || !message.trim()) {
-            alert('Please fill in all fields.');
-            return;
-        }
-        
-        if (!isValidEmail(email)) {
-            alert('Please enter a valid email address.');
-            return;
-        }
-        
-        // Here you would typically send the message to your backend
-        alert('Thank you for your message! I\'ll get back to you within 24 hours.');
-        
-        // Clear the form
-        contactForm.reset();
-        
-        console.log('Contact form submitted:', { name, email, message });
-    });
-}
+// ...existing code...
 
 // Email validation helper function
 function isValidEmail(email) {
