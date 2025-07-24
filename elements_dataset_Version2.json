@@ -1,0 +1,39 @@
+[
+  {
+    "atomic_number": 1,
+    "symbol": "H",
+    "name": "Hydrogen",
+    "atomic_weight": 1.008,
+    "group": 1,
+    "period": 1,
+    "category": "Nonmetal"
+  },
+  {
+    "atomic_number": 2,
+    "symbol": "He",
+    "name": "Helium",
+    "atomic_weight": 4.0026,
+    "group": 18,
+    "period": 1,
+    "category": "Noble Gas"
+  },
+  {
+    "atomic_number": 3,
+    "symbol": "Li",
+    "name": "Lithium",
+    "atomic_weight": 6.94,
+    "group": 1,
+    "period": 2,
+    "category": "Alkali Metal"
+  },
+  {
+    "atomic_number": 4,
+    "symbol": "Be",
+    "name": "Beryllium",
+    "atomic_weight": 9.0122,
+    "group": 2,
+    "period": 2,
+    "category": "Alkaline Earth Metal"
+  }
+  // ... continue for all 118 elements
+]
